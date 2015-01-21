@@ -1,0 +1,11 @@
+--- mathlogic.tex	2015-01-21 19:56:18.373007789 +0300
++++ mathlogic.tex	2015-01-21 19:58:24.236336003 +0300
+@@ -2,6 +2,6 @@
+ \documentclass[11pt]{article}
+-\usepackage[utf8]{inputenc}
+-\usepackage[T1]{fontenc}
++\usepackage{fontspec}
++\setmainfont{Palatino Linotype}
+ \usepackage{fixltx2e}
+ \usepackage{graphicx}
+ \usepackage{longtable}
