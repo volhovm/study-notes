@@ -1,14 +1,17 @@
 mathlogic-conspect
 ============
-There is a problem with whitespaces - I didn't mention sections lines merge 
-into one, so when reading it with github or exporting to latex, some 
-formulas are impossible to understand. Use original org-mode for convinient
-reading\editing.
-Any help will be appreciated. Please contact me if you find any bug there. 
+It is a branch with the XeLaTeX version of the conspect. How to use it:
 
-TODO's:
- 1. Make tex-pdf version
- 2. ?
+```
+emacs mathlogic.org
+C-c C-e l l
+patch -p0 -i change.patch
+xelatex mathlogic.tex
+?????
+PROFIT!
+```
 
--------------
-Volkhov Mykhail 2014-2015
+TODO:
+
+1. Automatize it better
+2. Make it create a better-looking PDF
