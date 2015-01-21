@@ -9,3 +9,6 @@
  \usepackage{fixltx2e}
  \usepackage{graphicx}
  \usepackage{longtable}
+@@ -19,1 +19,1 @@
+-\date{$\backslash$today}
++\date{\today}
