@@ -1,12 +1,6 @@
 % Created 2015-01-21 Ср 21:06
 \documentclass[12pt]{article}
 \usepackage{euler}
-\usepackage{fontspec}
-\setmainfont{Palatino Linotype}
-\newfontfamily\unicodefont{Times New Roman}
-\setmonofont{DejaVu Sans Mono}
-\usepackage{polyglossia}
-\setdefaultlanguage[babelshorthands=true]{russian}
 %\usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage{amssymb}
@@ -17,12 +11,18 @@
 %\usepackage{enumerate}
 %\usepackage{changepage}
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}	
+\usepackage{fontspec}
+\setmainfont{Palatino Linotype}
+\newfontfamily\unicodefont{Times New Roman}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{polyglossia}
+\setdefaultlanguage[babelshorthands=true]{russian}
 
 \hyphenpenalty=5000
 
-\newcommand{\levayahuynya}{{\unicodefont \textopencorner}}
-\newcommand{\pravayahuynya}{{\unicodefont \textcorner}}
-\newcommand{\Godel}[1]{\levayahuynya #1\pravayahuynya}
+\newcommand{\lgodel}{{\unicodefont \textopencorner}}
+\newcommand{\rgodel}{{\unicodefont \textcorner}}
+\newcommand{\Godel}[1]{\lgodel #1\rgodel}
 
 \renewcommand{\le}{\leqslant} % ≤
 \renewcommand{\leq}{\leqslant} % ≤
@@ -30,11 +30,12 @@
 \renewcommand{\geq}{\geqslant} % ≤
 \renewcommand{\phi}{\varphi}
 \renewcommand{\epsilon}{\varepsilon}
+\DeclareMathOperator{\plog}{plog}
+\DeclareMathOperator{\Int}{Int}
+
 \newcommand{\ltemplate}{\langle}
 \newcommand{\rtemplate}{\rangle}
 \newcommand{\template}[1]{\ltemplate #1\rtemplate}
-\DeclareMathOperator{\plog}{plog}
-\DeclareMathOperator{\Int}{Int}
 \newcommand{\s}[1]{\texttt{#1}}
 \newcommand{\xl}{$\lambda$}
 \newcommand{\+}{\lambda}
@@ -58,7 +59,7 @@
 
 \begin{document}
 \theoremstyle{definition}
-\newtheorem*{definition}{Определение}[section]
+\newtheorem*{definition}{Определение}%[section]
 \newtheorem*{example}{Пример}
 %\theoremstyle{theorem}
 \newtheorem{theorem}{Теорема}[section]
