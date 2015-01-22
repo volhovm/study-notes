@@ -1,0 +1,89 @@
+\section{Ticket 5: Логика 2 порядка}
+\subsection{Основные определения}
+Смотрим коснпект ДГ
+\subsection{Теорема о дедукции}
+\begin{theorem}
+Если $\Gamma, \alpha \vdash \beta$, и в доказательстве отсутствуют применения правил для кванторов, использующих свободные переменные  из формулы $\alpha$, то $\Gamma \vdash \alpha \rightarrow \beta$
+\end{theorem}
+\begin{proof}
+Будем рассматривать формулы в порядке сверху вниз. На $i$-ой строке встретили формулу $\delta_{i}$. Тогда докажем, что $\alpha \rightarrow \delta_{i}$. Разберем случаи:
+\begin{enumerate}
+\item $\delta_{i}$ - старая аксиома, совпадает с $\alpha$ или выводится по правилу M.P.\\
+Тогда мы знаем, что делать из Теоремы о дедукции для ИВ
+\item $\delta_{i}$ - новая аксиома\\
+Тогда все то же самое, что и в старой аксиоме, но нужно так же проверить условие.
+\item $\exists x (\psi) \rightarrow \phi$ - новое правило вывода
+\begin{itemize}
+\item Докажем вспомогательную лемму:\\
+\begin{lemma}
+$(\alpha \rightarrow (\beta \rightarrow \gamma)) \rightarrow (\beta \rightarrow (\alpha \rightarrow \gamma))$
+\end{lemma}
+\begin{proof}
+Докажем, что $\alpha \rightarrow (\beta \rightarrow \gamma), \beta, \alpha \vdash \gamma$:\\
+\begin{tabular}{lll}
+(1) & $\alpha \rightarrow \beta \rightarrow \gamma$& Допущение\\
+(2) & $\alpha$& Допущение\\
+(3) & $\beta \rightarrow \gamma$& M.P. 2,1\\
+(4) & $\beta$& Допущение\\
+(5) & $\gamma$& M.P. 4,3\\
+\end{tabular}
+\end{proof}
+\item По индукционному преположению мы знаем, что $\alpha \rightarrow \psi \rightarrow \phi$. Тогда докажем, что $\alpha \rightarrow \psi \rightarrow \phi, (\alpha \rightarrow \psi \rightarrow \phi) \rightarrow (\psi \rightarrow \alpha \rightarrow \phi) \vdash \alpha \rightarrow \exists x (\psi) \rightarrow \phi$:\\
+\begin{tabular}{lll}
+(1) & $(\alpha \rightarrow \psi \rightarrow \phi) \rightarrow (\psi \rightarrow \alpha \rightarrow \phi)$& Допущение\\
+(2) & $\alpha \rightarrow \psi \rightarrow \phi$& Допущение\\
+(3) & $\psi \rightarrow \alpha \rightarrow \phi$& M.P. 2,1\\
+(4) & $\exists x (\psi) \rightarrow \alpha \rightarrow \phi$& Правило вывода 1\\
+(5) & $(\exists x (\psi) \rightarrow \alpha \rightarrow \phi) \rightarrow (\alpha \rightarrow \exists x (\psi) \rightarrow \phi)$& Допущение\\
+(6) & $\alpha \rightarrow \exists x (\psi) \rightarrow \phi$& M.P. 4,5\\
+\end{tabular}
+\end{itemize}
+\item $\phi \rightarrow \forall x (\psi)$ - новое правило вывода
+\begin{itemize}
+\item Докажем вспомогательную лемму 1
+\begin{lemma}
+$(\alpha \& \beta \rightarrow \gamma) \rightarrow (\alpha \rightarrow \beta \rightarrow \gamma)$
+\end{lemma}
+\begin{proof}
+Докажем, что $(\alpha \& \beta \rightarrow \gamma), \alpha, \beta \vdash \gamma$:\\
+\begin{tabular}{lll}
+(1) & $\alpha$& Допущение\\
+(2) & $\beta$& Допущение\\
+(3) & $\alpha \rightarrow \beta \rightarrow \alpha \& \beta$& Сх. акс. 1\\
+(4) & $\beta \rightarrow \alpha \& \beta$ M.P. 1,3\\
+(5) & $\alpha \& \beta$& M.P. 2,4\\
+(6) & $\alpha \& \beta \rightarrow \gamma$& Допущение\\
+(7) & $\gamma$& M.P. 5,6\\
+\end{tabular}
+\end{proof}
+\item Докажем вспомогателньую лемму 2
+\begin{lemma}
+$(\alpha \rightarrow \beta \rightarrow \gamma) \rightarrow (\alpha \& \beta \rightarrow \gamma)$
+\end{lemma}
+\begin{proof}
+Докажем, что $\alpha \rightarrow \beta \rightarrow \gamma, \alpha \& \beta \vdash \gamma$:\\
+\begin{tabular}{lll}
+(1) & $\alpha \& \beta \rightarrow \alpha$& Сх. акс. 4\\
+(2) & $\alpha \& \beta$& Допущение\\
+(3) & $\alpha$& M.P. 2,1\\
+(4) & $\alpha \& \beta \rightarrow \beta$& Сх. акс. 5\\
+(5) & $\beta$& M.P. 2,4\\
+(6) & $\alpha \rightarrow \beta \rightarrow \gamma$& Допущение\\
+(7) & $\beta \rightarrow \gamma$& M.P. 3,6\\
+(8) & $\gamma$& M.P. 5,7\\
+\end{tabular}
+\end{proof}
+\item По индукционному предположению мы знаем, что $\alpha \rightarrow \psi \rightarrow \phi$. Тогда докажем, что $\alpha \rightarrow \psi \rightarrow \phi \vdash \alpha \rightarrow \psi \rightarrow \forall (\phi)$.\\
+\begin{tabular}{lll}
+(1) & $(\alpha \rightarrow \psi \rightarrow \phi) \rightarrow (\alpha \& \psi \rightarrow \phi)$& Вспомогательная лемма 1\\
+(2) & $\alpha \rightarrow \psi \rightarrow \phi$& Допущение\\
+(3) & $\alpha \& \psi \rightarrow \phi$& M.P. 2,1\\
+(4) & $\alpha \& \psi \rightarrow \forall (\phi)$& Правило вывода 2\\
+(5) & $(\alpha \& \psi \rightarrow \forall (\phi)) \rightarrow (\alpha \rightarrow \psi \rightarrow \forall (\phi))$& Вспомогательная лемма 2\\
+(6) & $\alpha \rightarrow \psi \rightarrow \forall (\phi)$& M.P. 4,5\\
+\end{tabular}
+\end{itemize}
+\end{enumerate}
+\end{proof}
+\subsection{Корректность исчисления предикатов}
+Смотрим конспект ДГ

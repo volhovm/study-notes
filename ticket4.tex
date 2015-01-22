@@ -1,0 +1,75 @@
+\section{Ticket 4: ИИВ2}
+\subsection{Модели Крипке}
+$W$ -- множество миров\\
+$V$ -- множество вынужденных переменных\\
+Введем отношение частичного порядка на $W$ - $\leq$ (отношение достижимости). И введем оценку переменной $v: W \times V \rightarrow \lbrace 0, 1 \rbrace$. $v$ должна быть монотонна (Если $v(x, P) = 1$ и $x \leq y$, то $v(y, P) = 1$). Если пременная $x$ истинна в мире $w$, то мы пишем $w \Vdash x$.\\
+\emph{Модель Крипке} -- это $<W, \leq, v>$.\\
+Теперь можно определить истинность любой формулы (в данном мире) индукцией по построению формулы. Правила:
+\begin{itemize}
+\item $w \Vdash A \& B \Leftrightarrow w \Vdash A$ и $w \Vdash B$;
+\item $w \Vdash A \vee B \Leftrightarrow w \Vdash A$ или $w \Vdash B$;
+\item $w \Vdash A \rightarrow B \Leftrightarrow$ в любом мире $u \geq w$, в котором истинна $A$, истинна так же истинна и $B$;
+\item $w \Vdash \neg A \Leftrightarrow$ ни в каком мире $u \geq w$ формула $A$ не является истинной;
+\end{itemize}
+\subsection{Корректность ИИВ относительно моделей Крипке}
+\begin{theorem}
+Если формула выводима в ИИВ, то она истинна в моделях Крипке.
+\end{theorem}
+\begin{proof}
+Проверим M.P. и аксиомы (что они истинны во всех мирах):
+\begin{itemize}
+\item M.P.: по определению импликации в моделях Крипке, если в мире истинно $A, A \rightarrow B$, то истинно и $B$
+\item Аксиомы:
+\begin{enumerate}
+\item $A \rightarrow (B \rightarrow A)$\\
+Пусть где-нибудь истинна $A$, в силу монотонности она истинна во всех б`ольших мирах, так что $B \rightarrow A$ тоже будет истинно.
+\item $(A \rightarrow B) \rightarrow ((A \rightarrow (B \rightarrow C)) \rightarrow (A \rightarrow C))$\\
+Пусть где-нибудь истинно $A \rightarrow B$, тогда необходимо доказать, что истинно и $((A \rightarrow (B \rightarrow C)) \rightarrow (A \rightarrow C))$.
+\begin{itemize}
+\item Пусть истинны $A, B$. Тогда если истинно $A \rightarrow (B \rightarrow C)$, то истинно и $C$ по монотонности $A$ и $B$. $A, B, C$ истинны, значит $A \rightarrow C$ истинно.
+\item Пусть не истинны ни $A$, ни $B$. Тогда $A \rightarrow (B \rightarrow C)$ не истинно и $C$ не истинно. Значит $A \rightarrow C$ не может быть истинно, т.к. ни $A$, ни $B$, ни $C$ не истинны. 
+\end{itemize}
+\item Подобным образом доказываем все аксиомы
+\end{enumerate}
+\end{itemize}
+\end{proof}
+\subsection{Вложение Крипке в Гейтинга}
+Не нужно
+\subsection{Полнота ИИВ в моделях Крипке}
+\begin{theorem}
+ИИВ полно относительно моделей Крипке
+\end{theorem}
+\begin{proof}
+Докажем в несколько шагов
+\begin{enumerate}
+\item \emph{Дизъюнктивное множество} $M$ - такое множество, что если в $M \vdash a \vee b$, то $a \in M$ или $b \in M$. Докажем, что если $M \vdash a$, то $a \in M$:\\
+Пусть это не так. Рассмотрим $a \rightarrow a \vee \neg a$. Раз $M \vdash a$, то $M \vdash a \vee \neg a$. Т.к. $a \not \in M$, то $\neg a \in M$ по определению дизъюнктивности $M$. Но тогда из $M \vdash a$ и $M \vdash \neg a$ мы можем доказать, что $M \vdash a \& \neg a$.
+\item Возьмем множество всех дизъюнктивных множеств с формулами из ИИВ. Мы можем это сделать, т.к. ИИВ дизъюнктивно. Для любого элемента $W_{i} \vdash a, a \in W_{i}$, значит в этом мире $a$ вынуждено. Построим дерево с порядком "быть подмножеством". Докажем, что это множество - модель Крипке. Проверим 5 свойств:
+\begin{enumerate}
+\item $W, x \Vdash P \Leftrightarrow v(x, P) = 1$ если $P \in V$ ($V$ - множество вынужденных переменных). Монотонность выполняется по определению дерева
+\item $W, x \Vdash (A \& B) \Leftrightarrow W, x \Vdash A$ и $W, x \Vdash B$\\
+С помощью аксиомы $A \& B \rightarrow A$ доказываем $W \vdash A$, значит $A \in W$. Аналогично с $B$ 
+\item $W, x \Vdash (A \vee B) \Leftrightarrow W, x \Vdash A$ или $W, x \Vdash B$\\
+Очевидно по определению дизъюнктивности
+\item $W, x \Vdash (A \rightarrow B) \Leftrightarrow \forall y \geq x (W, y \Vdash A \Rightarrow W, y \Vdash B)$\\
+Мы знаем, что $W \vdash A \rightarrow B$. Пусть в $W$ есть $A$, тогда по M.P. докажем, что $B$. Пусть в $W$ есть $B$, тогда мы уже получили $B$.
+\item $W, x \Vdash \neg A \Leftrightarrow \forall y \geq x (W, x \not \Vdash A)$\\
+Если где-то оказалось $A$, то оно доказуемо, а значит мы сможем доказать и $A \& \neg A$ 
+\end{enumerate}
+\item $\Vdash A$, тогда $W_{i} \Vdash A$. Рассмотрим $W_{0} = \lbrace$все тавтологии ИИВ$\rbrace$. $W_{0} \Vdash A$, т.е. $\vdash A$.
+\end{enumerate}
+\end{proof}
+
+\subsection{Нетабличность интуиционистской логики}
+\begin{theorem}
+Не существует полной модели, которая может быть выражена таблицей 
+\end{theorem}
+\begin{proof}
+Докажем от противного. Построим табличную модель и докажем, что она не полна. В ИВ мы обычно пользуемся алгеброй $J_{0}$ Яськовского $V = \lbrace 0, 1 \rbrace,$ $0 \leq 1$.\\
+Пусть имеется $V = \lbrace ... \rbrace$, $\vert V \vert = n$ - множество истиностных значений. Пусть его размер больше 2. Тогда построим формулу $\vee_{(1 \leq j < i \leq n + 1)}(p_{i} \rightarrow p_{j})$ - такая большая дизъюнкция из импликаций
+\begin{enumerate}
+\item Она общезначима, т.к. всего таких импликаций у нас будет $C_{n}^{2} >= n$ (по принципу Дирихле встретятся два одинаковых значения и она будет верна, тогда все выражение будет верно)
+\item Недоказуемость. Построим такую модель Крипке, в которой она будет не общезначима.\\
+$J_{0}$ - алгебра Яськовского. Определим последовательность алгебр $L_{n}$ по следующим правилам: $L_{0} = J_{0}$, $L_{n} = \Gamma(L_{n - 1})$. Таким образом $L_{n}$ - упорядоченное множество $\lbrace 0, w_{1}, w_{2}, ..., 1 \rbrace$. Пусть $f$ - оценка в $L_{n}$, действующая по следующим правилам на нашу формулу: $f(a_{1}) = 0$, $f(a_{n+1}) = 1$, $f(a_{i}) = w_{i}$ при $j < i f(a_{i} \rightarrow a_{j}) = f(a_{i}) \rightarrow f(a_{j}) = f(a_{j})$. Последнее выражение не может являться $1$, так что формула недоказуема. (ИИВ полно относительно алгебры Гейтинга)
+\end{enumerate}
+\end{proof}

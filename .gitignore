@@ -3,8 +3,8 @@
 *#
 *~
 *.swp
-mathlogic.out
-mathlogic.org
-mathlogic.toc
-mathlogic.log
-mathlogic.aux
+*.out
+*.org
+*.toc
+*.log
+*.aux

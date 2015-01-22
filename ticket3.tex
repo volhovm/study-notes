@@ -1,0 +1,282 @@
+\section{Ticket 3: ИИВ}
+\subsection{ИИВ, структура, модель}
+Сигнатура - (R, F, C, r): R - множество символов для предикатов, F - функциональных символов, С - символов констант, r – функция, определяющая арность x $\in$ R $\vee$ F. Интерпретация - это приписывание символам значения и правил действия Структура - это носитель M (множство истинностных значений), сигнатура и интерпретация над носителем. Если все аксиомы верны, то структура корректна. В таком случае она называется моделью. Выкидываем 10 аксиому, добавляем $\alpha \rightarrow \neg \alpha \rightarrow \beta$.\\
+Она доказывается и в ИВ:
+\begin{lemma}
+$\alpha, \alpha \vee \neg \alpha, \neg \alpha \vdash \beta$
+\end{lemma}
+\begin{tabular}{lll}
+(1) & $\alpha$& Допущение\\
+(2) & $\neg \alpha$& Допущение\\
+(3) & $\alpha \rightarrow \neg \beta \rightarrow \alpha$& Сх. акс. 1\\
+(4) & $\neg \beta \rightarrow \alpha$& M.P. 1,3\\
+(5) & $\neg \alpha \rightarrow \neg \beta \rightarrow \neg \alpha$& Сх. акс. 1\\
+(6) & $\neg \beta \rightarrow \neg \alpha$& M.P. 2,5\\
+(7) & $(\neg \beta \rightarrow \alpha) \rightarrow (\neg \beta \rightarrow \neg \alpha) \rightarrow (\neg \neg \beta)$& Сх. акс. 9\\
+(8) & $(\neg \beta \rightarrow \neg \alpha) \rightarrow (\neg \neg \beta)$& M.P. 4,7\\
+(9) & $\neg \neg \beta$& M.P. 6,8\\
+(10) & $\neg \neg \beta \rightarrow \beta$& Сх. акс. 10\\
+(11) & $\beta$& M.P. 9,10\\
+\end{tabular}
+
+
+Таким образом мы умеем доказывать $\alpha \rightarrow \alpha \vee \neg \alpha \rightarrow \neg \alpha \rightarrow \beta$ применив 3 раза теорему о дедукции
+\begin{lemma}
+$\alpha \rightarrow \alpha \vee \neg \alpha \rightarrow \neg \alpha \rightarrow \beta, \alpha \vee \neg \alpha \vdash \alpha \rightarrow \neg \alpha \rightarrow \beta$
+\end{lemma}
+\begin{tabular}{lll}
+(1) & $(\alpha \rightarrow \alpha \vee \neg \alpha) \rightarrow (\alpha \rightarrow \alpha \vee \neg \alpha \rightarrow (\neg \alpha \rightarrow \beta)) \rightarrow (\alpha \rightarrow (\neg \alpha \rightarrow \beta))$& Сх. акс. 2\\
+(2) & $\alpha \vee \neg \alpha \rightarrow \alpha \rightarrow \alpha \vee \neg \alpha$& Сх. акс. 1\\
+(3) & $\alpha \vee \neg \alpha$& Допущение\\
+(4) & $\alpha \rightarrow \alpha \vee \neg \alpha$& M.P. 3,2\\
+(5) & $(\alpha \rightarrow \alpha \vee \neg \alpha \rightarrow (\neg \alpha \rightarrow \beta)) \rightarrow (\alpha \rightarrow (\neg \alpha \rightarrow \beta))$& M.P. 4,1\\
+(6) & $\alpha \rightarrow \alpha \vee \neg \alpha \rightarrow \neg \alpha \rightarrow \beta$& Допущение\\
+(7) & $\alpha \rightarrow \neg \alpha \rightarrow \beta$& M.P. 6,5\\
+\end{tabular}
+
+\subsection{Опровергаемость исключенного третьего}
+Вводим в наше множество \emph{истинностных значений} дополнительный элемент \texttt{Н} (сокращение от слова <<Неизвестно>>). Отождествим \texttt{Н} с $\frac{1}{2}$, так что $\texttt{Л} < \texttt{Н} < \texttt{И}$. Определим операции на этом множестве \emph{истинностных значений}:
+\begin{itemize}
+\item конъюнкция: минимум из двух значений (например $\texttt{И} \& \texttt{Н} = \texttt{Н}$).
+\item дизъюнкция: максимум из двух значений (например $\texttt{И} \vee \texttt{Н} = \texttt{И}$).
+\item импликация: $\texttt{И} \rightarrow \alpha = \alpha$, $\texttt{Л} \rightarrow \alpha = \texttt{И}$, $\texttt{Н} \rightarrow \texttt{Л} = \texttt{Л}$, $\texttt{Н} \rightarrow \texttt{Н} = \texttt{И}$, $\texttt{Н} \rightarrow \texttt{Н} = \texttt{И}$.
+\item отрицание: $\neg \texttt{Н} = \texttt{Л}$, а для остальных элементов все так же.
+\end{itemize}
+
+Назовем формулу \emph{3-тавтологией}, если она принимает значение
+\texttt{И} при любых значениях переменных из множества $\{\texttt{И}, \texttt{Л}\, \texttt{Н}\}$. Теперь нужно всего-лишь проверить, что все аксиомы являются 3-тавтологиями и, что если посылка импликации является тавтологией, то и заключение является тавтологией. Второе очевидно по определению тавтологии, а аксиомы просто проверяются вручную.
+
+Значит любая интуиционистски выводимая формула 3-тавтология. Теперь заметим, что формула $\alpha \vee \neg \alpha$ принимает значение \texttt{Н} при $\alpha = \texttt{Н}$. Следовательно она не 3-тавтология, а значит невыводима.
+\subsection{Решетки}
+
+Просто \emph{решетка} -- это $(L, +, *)$ в алгебраическом смысле и $(L, \leq)$ в порядковом. Решетку можно определить как алгебраическую структуру через аксиомы: 
+\begin{itemize}
+\item Аксиомы идемпотентность\\
+$\alpha + \alpha = \alpha$\\
+$\alpha * \alpha = \alpha$
+\item Аксиомы коммутативности\\
+$\alpha + \beta = \beta + \alpha$\\
+$\alpha * \beta = \beta * \alpha$
+\item Аксиомы ассоциативности\\
+$(\alpha + \beta) + \gamma = \alpha + (\beta + \gamma)$\\
+$(\alpha * \beta) * \gamma = \alpha * (\beta * \gamma)$
+\item Аксиомы поглощения\\
+$\alpha + (\alpha * \beta) = \alpha$\\
+$\alpha * (\alpha + \beta) = \alpha$
+\end{itemize} 
+Также решетку можно определить как упорядоченное множество с частичным порядком на нем. Тогда операции $+, *$ определяются как $sup$ и $inf$ ($sup(\phi) = min \lbrace u \vert u \geq \forall x \in \phi \rbrace$,  $inf(\phi) = max \lbrace u \vert u \leq \forall x \in \phi \rbrace$).\\
+$\alpha + \beta = sup (\lbrace \alpha, \beta \rbrace)$\\
+$\alpha * \beta = inf (\lbrace \alpha, \beta \rbrace)$\\
+Если для любых двух элементов из множества $S$ можно определить эти две операции, то $S$ называется решеткой.
+
+\emph{Дистрибутивная решетка} -- \emph{решетка}, в которой добавляется дистрибутивность:\\
+$\alpha * (\beta + \gamma) = \alpha * \beta + \alpha * \gamma$
+
+\emph{Импликативная решетка} -- \emph{решетка}, в которой для любых двух элементов $\alpha$ и $\beta$ из множества существует псевдодополнение $\alpha$ относительно $\beta$ ($\alpha \rightarrow \beta$), которое определяется так:\\
+$\alpha \rightarrow \beta = max \lbrace \gamma \vert \gamma * \alpha \leq \beta \rbrace$\\
+Свойства \emph{импликативной решетки}:
+\begin{itemize}
+\item Существует максимальный элемент $\alpha \rightarrow \alpha$, обычно обозначаемый как $1$
+\item Всякая \emph{импликативная решетка} дистрибутивна
+\end{itemize}
+
+\subsection{Алгебра Гейтинга, булева алгебра}
+\emph{Булева алгебра} -- $(L, +, *, -, 0, 1)$, с аксиомами:
+\begin{itemize}
+\item Аксиомы коммутативности\\
+$\alpha + \beta = \beta + \alpha$\\
+$\alpha * \beta = \beta * \alpha$
+\item Аксиомы ассоциативности\\
+$(\alpha + \beta) + \gamma = \alpha + (\beta + \gamma)$\\
+$(\alpha * \beta) * \gamma = \alpha * (\beta * \gamma)$
+\item Аксиомы поглощения\\
+$\alpha + (\alpha * \beta) = \alpha$\\
+$\alpha * (\alpha + \beta) = \alpha$
+\item Аксиомы дистрибутивности\\
+$\alpha + (\beta * \gamma) = (\alpha + \beta) * (\alpha + \gamma)$\\
+$\alpha * (\beta + \gamma) = (\alpha * \beta) + (\alpha * \gamma)$
+\item Аксиомы дополнительности\\
+$\alpha * \neg \alpha = 0$\\
+$\alpha + \neg \alpha = 1$
+\end{itemize}
+
+Также \emph{Булеву алгебру} можно определить как импликативную решетку над фундированным множеством. Тогда $1$ в ней будет $\alpha \rightarrow \alpha$, $\neg \alpha = \alpha \rightarrow 0$. Тогда $\alpha * \neg \alpha = 0$ будет уже свойством, а $\alpha + \neg \alpha = 1$ все еще аксиомой.
+
+\emph{Псевдобулева алгебра} (алгебра Гейтинга) -- это импликативная решетка над фундированным множеством с $\neg \alpha = \alpha \rightarrow 0$
+
+\subsection{Алгебра Линденбаума-Тарского}
+Пусть $V$ -- множество формул ИИВ\\
+Порядок для решетки:\\
+$\alpha \leq \beta \Leftrightarrow  \alpha \vdash \beta$\\
+$\alpha \sim \beta \Leftrightarrow \alpha \vdash \beta \& \beta \vdash \alpha$\\
+Определим операции и $0$, $1$:\\
+$0 - \alpha \& \neg \alpha = \perp$\\
+$1 - \alpha \rightarrow \alpha = T$\\
+$\alpha \& \beta = \alpha * \beta$\\
+$\alpha \vee \beta = \alpha + \beta$\\
+$\neg \alpha = -\alpha$\\
+Получившаяся алгебра называется \emph{алгеброй Линденбаума-Тарского} и является алгеброй Гейтинга, т.к. для нее выполняется аксиома $\alpha * \neg \alpha = 0$ (по определению).
+\begin{lemma}
+$\forall \beta \in V \perp \vdash \beta$ (Из лжи следует все)
+\end{lemma}
+\begin{proof}
+$\alpha \& \neg \alpha \vdash \beta$\\
+\begin{tabular}{lll}
+(1) &$\alpha \& \neg \alpha$& Допущение\\
+(2) &$\alpha \& \neg \alpha \rightarrow \alpha$& Сх. акс. 4\\
+(3) &$\alpha \& \neg \alpha \rightarrow \neg \alpha$& Сх. акс. 5\\
+(4) &$\alpha$& M.P. 1,2\\
+(5) &$\neg \alpha$& M.P. 1,3\\
+(6) &$\alpha \rightarrow \neg \alpha \rightarrow \beta$& Сх. акс. 10\\
+(7) & $\neg \alpha \rightarrow \beta$& M.P. 4,6\\
+(8) & $\beta$& M.P. 5,7\\
+\end{tabular}
+\end{proof}
+\subsection{Теорема о полноте ИИВ относительно алгебры Гейтингa}
+Возьмем в качестве алгебры Гейтинга алгебру Линденбаума-Тарского - $\xi$. Она очевидно является моделью. 
+\begin{theorem}
+$\models \alpha \Rightarrow \vdash \alpha$
+\end{theorem}
+\begin{proof}
+$\models \alpha \Rightarrow \llbracket \alpha \rrbracket ^ {\xi} = 1$\\
+$\llbracket \alpha \rrbracket ^ {\xi} = 1 \Rightarrow 1 \leq \llbracket \alpha \rrbracket ^ {\xi}$ (По определению алгебры Л-Т)\\
+$\beta \rightarrow \beta \vdash \alpha$ (По определению $\leq$ в алгебре Л-Т)\\
+Т.к. $\beta \rightarrow \beta$ - тавтология, то и $\alpha$ - тавтология
+\end{proof}
+\subsection{Дизъюнктивность ИИВ}
+Используем алгебру Гёделя $\Gamma(A)$ ($\gamma$ - функция преобразования). Можно преобразовать любую алгебру Гейтинга, возьмем алгебру Л-Т. Алгебра Гёделя использует функцию преобразования: $\gamma(a)=b$ значит, что в алгебре $A$ элементу $a$ соответствует элемент $b$ из алгебры Гёделя. Порядок сохраняется естественным образом. Также добавим еще один элемент $\omega$ ($\gamma(1)=\omega$). Таким образом $\Gamma(A) = A \cup \lbrace \omega \rbrace$. Порядок в $\Gamma(A)$:
+\begin{itemize}
+\item $\forall a \in \Gamma(A) \setminus \lbrace 1 \rbrace$ $a \leq \omega$
+\item $\omega \leq 1$
+\end{itemize}
+\begin{tabular}{lllll}
+\cline{1-3}
+\multicolumn{1}{|l|}{$a+b$}         & \multicolumn{1}{l|}{$b=1$} & \multicolumn{1}{l|}{$b=\gamma(v)$} &  &  \\ \cline{1-3}
+\multicolumn{1}{|l|}{$a=1$}         & \multicolumn{1}{l|}{$1$}   & \multicolumn{1}{l|}{$1$}           &  &  \\ \cline{1-3}
+\multicolumn{1}{|l|}{$a=\gamma(u)$} & \multicolumn{1}{l|}{$1$}   & \multicolumn{1}{l|}{$\gamma(u+v)$} &  &  \\ \cline{1-3}
+                                    &                            &                                    &  & 
+\end{tabular}
+\begin{tabular}{lllll}
+\cline{1-3}
+\multicolumn{1}{|l|}{$a*b$}         & \multicolumn{1}{l|}{$b=1$}         & \multicolumn{1}{l|}{$b=\gamma(v)$} &  &  \\ \cline{1-3}
+\multicolumn{1}{|l|}{$a=1$}         & \multicolumn{1}{l|}{$1$}           & \multicolumn{1}{l|}{$\gamma(a*v)$} &  &  \\ \cline{1-3}
+\multicolumn{1}{|l|}{$a=\gamma(u)$} & \multicolumn{1}{l|}{$\gamma(u*b)$} & \multicolumn{1}{l|}{$\gamma(u*v)$} &  &  \\ \cline{1-3}
+                                    &                                    &                                    &  & 
+\end{tabular}\\
+\begin{tabular}{lllll}
+\cline{1-3}
+\multicolumn{1}{|l|}{$a \rightarrow b$} & \multicolumn{1}{l|}{$b=1$} & \multicolumn{1}{l|}{$b=\gamma(v)$}             &  &  \\ \cline{1-3}
+\multicolumn{1}{|l|}{$a=1$}             & \multicolumn{1}{l|}{$1$}   & \multicolumn{1}{l|}{$\gamma(a \rightarrow v)$} &  &  \\ \cline{1-3}
+\multicolumn{1}{|l|}{$a=\gamma(u)$}     & \multicolumn{1}{l|}{$1$}   & \multicolumn{1}{l|}{$u \rightarrow v$}         &  &  \\ \cline{1-3}
+                                        &                            &                                                &  & 
+\end{tabular}
+\begin{tabular}{lllll}
+\cline{1-2}
+\multicolumn{1}{|l|}{$a$} & \multicolumn{1}{l|}{$\neg a$} &  &  &  \\ \cline{1-2}
+\multicolumn{1}{|l|}{$a=1$} & \multicolumn{1}{l|}{$\gamma(\neg a)$} &  &  &  \\ \cline{1-2}
+\multicolumn{1}{|l|}{$a=\gamma(u)$} & \multicolumn{1}{l|}{$\neg u$} &  &  &  \\ \cline{1-2}
+ &  &  &  & 
+\end{tabular}
+\begin{lemma}
+Гёделева алгебра является Гейтинговой
+\end{lemma}
+\begin{proof}
+Необходимо просто доказать аксиомы коммутативности, ассоциативности и поглощения.
+\end{proof}
+
+\begin{theorem}
+$\vdash \alpha \vee \beta \Rightarrow$ либо $\vdash \alpha$, либо $\vdash \beta$
+\end{theorem}
+\begin{proof}
+Возьмем $A$, построим $\Gamma(A)$. Если $\vdash \alpha \vee \beta$, то $\llbracket \alpha \vee \beta \rrbracket ^ {A} = 1$ и $\llbracket \alpha \vee \beta \rrbracket ^ {\Gamma(A)} = 1$.\\
+Тогда по определению $+$ в алгебре Гёделя, $\llbracket \alpha \rrbracket ^ {\Gamma(A)} = 1$, либо $\llbracket \beta \rrbracket ^ {\Gamma(A)} = 1$. Тогда оно такое же и в алгебре Л-Т, а алгебра Л-Т полна.
+\end{proof}
+\subsection{Теорема Гливенко}
+\begin{theorem}
+Если в ИВ доказуемо $\alpha$, то в ИИВ доказуемо $\neg\neg\alpha$.
+\end{theorem}
+\begin{proof}
+Разберем все втречающиеся в изначальном доказательстве формулы
+\begin{enumerate}
+\item Заметим, что если в ИИВ доказуемо $\alpha$, то $\neg\neg\alpha$ так же доказуемо.\\
+Докажем, что $\alpha \vdash \neg \neg \alpha$\\
+\begin{tabular}{lll}
+(1) &$\alpha$& Допущение\\
+(2) &$\alpha \rightarrow \neg \alpha \rightarrow \alpha$& Сх. акс. 1\\
+(3) &$\neg \alpha \rightarrow \alpha$& M.P. 1,2\\
+(4) & $\neg \alpha \rightarrow (\neg \alpha \rightarrow \neg \alpha)$&Сх. акс. 1\\
+(5) & $(\neg \alpha \rightarrow (\neg \alpha \rightarrow \neg \alpha)) \rightarrow 
+  (\neg \alpha \rightarrow ((\neg \alpha \rightarrow \neg \alpha) \rightarrow \neg \alpha)) \rightarrow
+  (\neg \alpha \rightarrow \neg \alpha)$&Сх. акс. 2\\
+(6) & $(\neg \alpha \rightarrow ((\neg \alpha \rightarrow \neg \alpha) \rightarrow \neg \alpha)) \rightarrow
+  (\neg \alpha \rightarrow \neg \alpha)$&M.P. 4,5\\
+(7) & $(\neg \alpha \rightarrow ((\neg \alpha \rightarrow \neg \alpha) \rightarrow \neg \alpha))$ & Сх. акс. 1\\
+(8) & $\neg \alpha \rightarrow \neg \alpha$ & M.P. 7,6\\
+(9) & $(\neg \alpha \rightarrow \alpha) \rightarrow (\neg \alpha \rightarrow \neg \alpha) \rightarrow \neg \neg \alpha$& Сх. акс. 9\\
+(10) & $(\neg \alpha \rightarrow \neg \alpha) \rightarrow \neg \neg \alpha$& M.P. 3,9\\
+(11) & $\neg \neg \alpha$& M.P. 8,10\\
+\end{tabular}
+Значит, если $\alpha$ - аксиома с 1-ой по 9-ую, то $\neg \neg \alpha$ так же может быть доказано
+\item Пусть $\alpha$ получилось по 10-ой аксиоме $\neg \neg \alpha \rightarrow \alpha$. Докажем, что $\vdash \neg \neg (\neg \neg \alpha \rightarrow \alpha)$\\
+\begin{tabular}{lll}
+(1) &$\alpha \rightarrow \neg \neg \alpha \rightarrow \alpha$& Сх. акс. 1\\
+(2) &$\neg (\neg \neg \alpha \rightarrow \alpha) \rightarrow \neg \alpha$& Контрпозиция\\
+(3) &$\neg \alpha \rightarrow \neg \neg \alpha \rightarrow \alpha$& Сх. акс. 10\\
+(4) &$\neg (\neg \neg \alpha \rightarrow \alpha) \rightarrow \neg \neg \alpha$& Контрпозиция\\
+(5) &$(\neg ( \neg \neg \alpha \rightarrow \alpha) \rightarrow \neg \alpha) \rightarrow (\neg (\neg \neg \alpha \rightarrow \alpha) \rightarrow \neg \neg \alpha) \rightarrow \neg \neg (\neg \neg \alpha \rightarrow \alpha)$& Сх. акс. 9\\
+(6) &$(\neg (\neg \neg \alpha \rightarrow \alpha) \rightarrow \neg \neg \alpha) \rightarrow \neg \neg (\neg \neg \alpha \rightarrow \alpha)$& M.P. 2,5\\
+(7) &$\neg \neg (\neg \neg \alpha \rightarrow \alpha)$& M.P. 4,6\\
+\end{tabular}
+\item Приведем конструктивное доказательство:
+\begin{itemize}
+\item Если $\alpha$ - аксиома, то $\neg \neg \alpha$ доказывается с помощью 1-го и 2-го пунктов
+\item Если был применен M.P., то в изначальном доказтельстве были $\alpha$, $\alpha \rightarrow \beta$, $\beta$. По индукционному предположению мы знаем, что $\neg \neg \alpha$, $\neg \neg (\alpha \rightarrow \beta$. Нужно доказать $\neg \neg \beta$.\\
+Давайте для начала докажем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha, \alpha \rightarrow \beta \vdash \beta$.\\
+\begin{tabular}{lll}
+(1) &$\alpha$& Допущение\\
+(2) &$\alpha \rightarrow \beta$& Допущение\\
+(3) &$\beta$& M.P. 1,2\\
+\end{tabular}\\
+Значит мы знаем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha \vdash (\alpha \rightarrow \beta) \rightarrow \beta$. Теперь докажем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha, (\alpha \rightarrow \beta) \rightarrow \beta \vdash \neg \alpha \rightarrow \beta$.\\
+\begin{tabular}{lll}
+(1) &$((\alpha \rightarrow \beta) \rightarrow \beta) \rightarrow ((\alpha \rightarrow \beta) \rightarrow \neg \beta) \rightarrow \neg(\alpha \rightarrow \beta)$& Сх. акс. 9\\
+(2) &$((\alpha \rightarrow \beta) \rightarrow \beta)$& Допущение\\
+(3) &$\neg \beta \rightarrow (\alpha \rightarrow \beta) \rightarrow \neg \beta$& Сх. акс. 1\\
+(4) &$\neg \beta$& Допущение\\
+(5) &$(\alpha \rightarrow \beta) \rightarrow \neg \beta$& M.P. 4,3\\
+(6) &$((\alpha \rightarrow \beta) \rightarrow \neg \beta) \rightarrow \neg(\alpha \rightarrow \beta)$ M.P. 2,1\\
+(7) &$\neg(\alpha \rightarrow \beta)$ M.P. 5,6\\
+\end{tabular}\\
+Теперь мы знаем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta \vdash \alpha \rightarrow \neg (\alpha \rightarrow \beta)$. Докажем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha \rightarrow \neg (\alpha \rightarrow \beta) \vdash \neg \alpha$.\\
+\begin{tabular}{lll}
+(1) &$(\alpha \rightarrow \neg (\alpha \rightarrow \beta)) \rightarrow (\alpha \rightarrow \neg \neg (\alpha \rightarrow \beta)) \rightarrow \neg \alpha$& Сх. акс. 9\\
+(2) &$\alpha \rightarrow \neg (\alpha \rightarrow \beta)$&Допущение\\
+(3) &$\neg \neg (\alpha \rightarrow \beta) \rightarrow \alpha \rightarrow \neg \neg (\alpha \rightarrow \beta)$& Сх. акс. 1\\
+(4) &$\neg \neg (\alpha \rightarrow \beta)$& Допущение\\
+(5) &$\alpha \rightarrow \neg \neg (\alpha \rightarrow \beta)$& M.P. 4,3\\
+(6) &$(\alpha \rightarrow \neg \neg (\alpha \rightarrow \beta)) \rightarrow \neg \alpha$& M.P. 2,1\\
+(7) &$\neg \alpha$& M.P.5,6\\
+\end{tabular}\\
+Теперь мы знаем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta) \vdash \neg \beta \rightarrow \neg \alpha$. Наконец докажем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta \rightarrow \neg \alpha \vdash \neg \neg \beta$.\\
+\begin{tabular}{lll}
+(1) &$(\neg \beta \rightarrow \neg \alpha) \rightarrow (\neg \beta \rightarrow \neg \neg \alpha) \rightarrow \neg \neg \beta$& Сх. акс. 9\\
+(2) &$\neg \beta \rightarrow \neg \alpha$& Допущение\\
+(3) &$\neg \neg \alpha \rightarrow \neg \beta \rightarrow \neg \neg \alpha$& Сх. акс. 1\\
+(4) &$\neg \neg \alpha$& Допущение\\
+(5) &$\neg \beta \rightarrow \neg \neg \alpha$& M.P. 4,3\\
+(6) &$(\neg \beta \rightarrow \neg \neg \alpha) \rightarrow \neg \neg \beta$& M.P. 2,1\\
+(7) &$\neg \neg \beta$& M.P. 5,6\\
+\end{tabular}
+\end{itemize}
+\end{enumerate}
+\end{proof}
+\subsection{Топологическая интерпретация}
+Булеву алгебру и алгебру Гейтинга можно интерпретировать на множестве $\mathbb R^n$. Тогда заключения о общезначимости формулы можно делать более наглядно. Давайте возьмем в качестве множества алгебры все открытые подмножества $\mathbb R^n$. Определим операции следующим образом:
+\begin{itemize}
+\item $\alpha + \beta = \alpha \cup \beta$
+\item $\alpha * \beta = \alpha \cap \beta$
+\item $\alpha \rightarrow \beta = Int(\alpha^c\cup\beta)$
+\item $-\alpha = Int(\alpha^c)$
+\item $0 = \emptyset$
+\item $1 = \cup \lbrace V \subset L \rbrace$
+\end{itemize}
