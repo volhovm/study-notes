@@ -1,17 +1,22 @@
 % Created 2015-01-21 Ср 21:06
 \documentclass[12pt]{article}
-\author{Daniyar Itegulov, Ignat Lolka Loskutov}
-%\usepackage{tipa}
 \usepackage{fontspec}
 \setmainfont{Palatino Linotype}
-%\setmainfont{Times New Roman}
 \newfontfamily\unicodefont{Times New Roman}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{polyglossia}
+\setdefaultlanguage[spelling=old]{russian}
 \usepackage[normalem]{ulem}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{proof}
 \usepackage{hyperref}
-%\tolerance=1000
+\usepackage{amsthm}
+\usepackage{stmaryrd}
+\usepackage{enumerate}
+\usepackage{changepage}
+\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}	
+
 \newcommand{\levayahuynya}{{\unicodefont \textopencorner}}
 \newcommand{\pravayahuynya}{{\unicodefont \textcorner}}
 \newcommand{\Godel}[1]{\levayahuynya #1\pravayahuynya}
@@ -24,21 +29,10 @@
 \newcommand{\template}[1]{\ltemplate #1\rtemplate}
 \DeclareMathOperator{\plog}{plog}
 \DeclareMathOperator{\Int}{Int}
+
+\author{Daniyar Lolka Itegulov, Ignat Loskutov}
 \date{\today}
 \title{Курс математической логики по Штукенбергу Д.Г.}
-\hypersetup{
-  pdfkeywords={},
-  pdfsubject={},
-  pdfcreator={Emacs 24.4.1 (Org mode 8.2.10)}}
-  
-\usepackage{amsthm}
-\usepackage{stmaryrd}
-\usepackage{enumerate}
-\usepackage{changepage}
-\usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}	
-\usepackage{proof}
-\newcommand{\gq}[1]{t{<<}#1\texttt{>>}}
-\newcommand{\ogq}[1]{\overline{\texttt{<<}#1\texttt{>>}}}
 
 \begin{document}
 \theoremstyle{definition}
