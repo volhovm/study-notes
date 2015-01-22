@@ -53,7 +53,8 @@ $V$ -- множество вынужденных переменных\\
 Очевидно по определению дизъюнктивности
 \item $W, x \Vdash (A \rightarrow B) \Leftrightarrow \forall y \geq x (W, y \Vdash A \Rightarrow W, y \Vdash B)$\\
 Мы знаем, что $W \vdash A \rightarrow B$. Пусть в $W$ есть $A$, тогда по M.P. докажем, что $B$. Пусть в $W$ есть $B$, тогда мы уже получили $B$.
-\item $W, x \Vdash \neg A \Leftrightarrow \forall y \geq x (W, x \not \Vdash A)$\\
+\item $W, x \Vdash \neg A \Leftrightarrow \forall y \geq x (W, x \not \Vdash A)$
+
 Если где-то оказалось $A$, то оно доказуемо, а значит мы сможем доказать и $A \& \neg A$ 
 \end{enumerate}
 \item $\Vdash A$, тогда $W_{i} \Vdash A$. Рассмотрим $W_{0} = \lbrace$все тавтологии ИИВ$\rbrace$. $W_{0} \Vdash A$, т.е. $\vdash A$.
