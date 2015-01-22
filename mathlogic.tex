@@ -18,11 +18,16 @@
 %\usepackage{changepage}
 \usepackage[left=2cm,right=2cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}	
 
+\hyphenpenalty=5000
+
 \newcommand{\levayahuynya}{{\unicodefont \textopencorner}}
 \newcommand{\pravayahuynya}{{\unicodefont \textcorner}}
 \newcommand{\Godel}[1]{\levayahuynya #1\pravayahuynya}
 
 \renewcommand{\le}{\leqslant} % ≤
+\renewcommand{\leq}{\leqslant} % ≤
+\renewcommand{\ge}{\geqslant} % ≤
+\renewcommand{\geq}{\geqslant} % ≤
 \renewcommand{\phi}{\varphi}
 \renewcommand{\epsilon}{\varepsilon}
 \newcommand{\ltemplate}{\langle}
@@ -30,20 +35,6 @@
 \newcommand{\template}[1]{\ltemplate #1\rtemplate}
 \DeclareMathOperator{\plog}{plog}
 \DeclareMathOperator{\Int}{Int}
-
-\author{Daniyar Itegulov, Ignat Huegnat Loskutov}
-\date{\today}
-\title{Курс математической логики по Штукенбергу Д.Г.}
-
-\begin{document}
-\theoremstyle{definition}
-\newtheorem{definition}{Определение}[section]
-\newtheorem*{example}{Пример}
-%\theoremstyle{theorem}
-\newtheorem{theorem}{Теорема}[section]
-\newtheorem{axiom}{Аксиома}[section]
-\newtheorem{lemma}[theorem]{Лемма}
-
 \newcommand{\s}[1]{\texttt{#1}}
 \newcommand{\xl}{$\lambda$}
 \newcommand{\+}{\lambda}
@@ -60,6 +51,20 @@
 \newenvironment{epigraph}% 
 {\begin{list}{}{\setlength{\leftmargin}{0.3\textwidth}}\item[]}% 
 {\end{list}} 
+
+\author{Daniyar Huyaniyar Itegulov, Ignat Loskutov}
+\date{\today}
+\title{Курс математической логики по Штукенбергу Д.Г.}
+
+\begin{document}
+\theoremstyle{definition}
+\newtheorem*{definition}{Определение}[section]
+\newtheorem*{example}{Пример}
+%\theoremstyle{theorem}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{axiom}{Аксиома}[section]
+\newtheorem{lemma}[theorem]{Лемма}
+
 
 \maketitle
 \tableofcontents
@@ -1390,8 +1395,8 @@ Upb(\{∅\}) = \{∅\}
 Это b = a' = a ∪ \{a\}
 \item Предельны ординал
 Ординал, не являющийся ни 0 ни successor'ом.
-\item Недостижимый ординал
-$\epsilon$  - такой ординал, что $\epsilon = w^{\text{\epsilon }}$
+\item Недостижимый ординал\\
+$\epsilon$ - такой ординал, что $\epsilon = w^{\text{\epsilon }}$
 $\epsilon_0$ = Upb(w, w$^{\text{w}}$, w$^{\text{w}}$$^{\text{w}}$, w$^{\text{w}}$$^{\text{w}}$$^{\text{w}}$, \ldots{}) - минимальный из $\epsilon$
 \item Канторова форма - форма вида ∑$(a*w^b+c)$, где $b$ - ординал, последовательность
 строго убывает по $b$. Есть слабая канторова форма, где вместо a (a \in N)
