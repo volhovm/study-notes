@@ -50,6 +50,7 @@ $A(0, 0) = 1, A(1, 0) = A(0, 1) = 2, A(0, 1) = 2$, а все остальное 
 \begin{lemma}
 $A(1, n) = n + 2$
 \end{lemma}
+\label{lemma1a}
 \begin{proof}
 $A(1, n) = A(0, A(1, n - 1))$
 $= A(0, A(0, A(1, n - 2)))$\\
@@ -60,6 +61,7 @@ $= n + 2$ $ ($n$ раз инкрементируем двойку)$\\
 \begin{lemma}
 $A(2, n) = 2n + 3$
 \end{lemma}
+\label{lemma1b}
 \begin{proof}
 $A(2, n)
 = A(1, A(1, \ldots{} A(2, 0)))
@@ -69,6 +71,7 @@ $A(2, n)
 \begin{lemma}
 $A(m, n) \geq n + 1$
 \end{lemma}
+\label{lemma2}
 \begin{proof}
 В первом случае $A \geq n + 1 = n + 1$\\
 Во втором $A$ может перейти в первый случай, который работает
@@ -83,55 +86,60 @@ $A(m, n) \geq n + 1$
 \begin{lemma}
 $A(m, n) < A(m, n + 1)$
 \end{lemma}
+\label{lemma3a}
 \begin{proof}
-индукция по $m$:
+Проведем индукцию по $m$:
 \begin{itemize}
 \item База:\\
 $A(0, n) = n + 1 < n + 2 = A(0, n + 1)$
 \item Переход:\\
 $A(k + 1, m) < A(k + 1, m) + 1$\\
-$\geq A(k, A(k + 1, m))$ (по лемме 2)\\
-$\geq A(k + 1, m + 1)$   (iii)\\
+$\leq A(k, A(k + 1, m))$ (По \ref{lemma2})\\
+$\leq A(k + 1, m + 1)$   (3-е свойства ф-ии Аккермана)
 \end{itemize}
 \end{proof}
 \begin{lemma}
 $A(m, n + 1) \leq A(m + 1, n)$
 \end{lemma}
+\label{lemma3b}
 \begin{proof}
-индукция по $n$:
+Проведем индукцию по $n$:
 \begin{itemize}
-\item база
+\item База:\\
 $A(m, 0 + 1) = A(m, 1) = A(m + 1, 0)$ (ii)
-\item переход, предположение: $A(m, j + 1) \leq A(m + 1, j)$
-по лемме 2 $(j + 1) + 1 \leq A(m, j + 1)$
-$A(m, (j + 1) + 1) \leq A(m, A(m, j + 1))$ (по монотонности)
-$A(m, A(m, j + 1)) \leq A(m, A(m + 1, j))$ (по монотонности + предположение)
-$A(m, (j + 1) + 1) \leq A(m, A(m + 1, j)) = A(m + 1, j + 1)$ (iii)
+\item Переход, предположение: $A(m, j + 1) \leq A(m + 1, j)$ (По \ref{lemma2}\\
+$(j + 1) + 1 \leq A(m, j + 1)$\\
+$A(m, (j + 1) + 1) \leq A(m, A(m, j + 1))$ (По монотонности)\\
+$A(m, A(m, j + 1)) \leq A(m, A(m + 1, j))$ (По монотонности + предположение)\\
+$A(m, (j + 1) + 1) \leq A(m, A(m + 1, j)) = A(m + 1, j + 1)$ (3-е свойства ф-ии Аккермана)
 \end{itemize}
 \end{proof}
 \begin{lemma}
 $A(m, n) < A(m + 1, n)$
 \end{lemma}
+\label{lemma3c}
 \begin{proof}
-$A(m, n) < A(m, n + 1) \leq A(m + 1, n)$ (3а, 3b)
+$A(m, n) < A(m, n + 1) \leq A(m + 1, n)$ (По \ref{lemma3a}, \ref{lemma3b})
 \end{proof}
 \begin{lemma}
 $A(m_1, n) + A(m₂, n) < A(max(m_1, m₂) + 4, n)$
 \end{lemma}
+\label{lemma4}
 \begin{proof}
-$A(m_1, n) + A(m_2, n)
-≤ A(max(m_1, m_2), n) + A(max(m_1, m_2), n)
-= 2 * A(max(m_1, m_2), n)
-< 2 * A(max(m_1, m_2), n) + 3
-= A(2, A(max(m_1, m_2), n))$     лемма 1
-$< A(2, A(max(m_1, m_2) + 3, n))$ строгая монотоннасть по обоим арг.
-$< A(max(m_1, m_2) + 2, A(max(m_1, m_2) + 3, n))$ лемма 3с
-$= A(max(m_1, m_2) + 3, n + 1)$   (iii)
-$≤ A(max(m_1, m_2) + 4, n)$       лемма 3b
+$A(m_1, n) + A(m_2, n)$\\
+$≤ A(max(m_1, m_2), n) + A(max(m_1, m_2), n)$\\
+$= 2 * A(max(m_1, m_2), n)$\\
+$< 2 * A(max(m_1, m_2), n) + 3$\\
+$= A(2, A(max(m_1, m_2), n))$ (По \ref{lemma1a})\\
+$< A(2, A(max(m_1, m_2) + 3, n))$ (Строгая монотоннасть по обоим арг.)\\
+$< A(max(m_1, m_2) + 2, A(max(m_1, m_2) + 3, n))$ (По \ref{lemma3c})\\
+$= A(max(m_1, m_2) + 3, n + 1)$   (3-е свойства ф-ии Аккермана)\\
+$≤ A(max(m_1, m_2) + 4, n)$ (По \ref{lemma3b})\\
 \end{proof}
 \begin{lemma}
 $A(m, n) + n < A(m + 4, n)$
 \end{lemma}
+\label{lemma5}
 \begin{proof}
 $A(m, n) + n
 < A(m, n) + n + 1
