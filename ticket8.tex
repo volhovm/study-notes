@@ -1,0 +1,214 @@
+\section{Ticket 8: рекурс, Аккерман}
+\label{sec-10}
+\subsection{Рекурсивные функции}
+\label{sec-10-1}
+$Z(x) = 0$\\
+$N(x) = x + 1$\\
+$U^n_i(x_1\ldots{}x_n) = x_i$\\
+$S<f, g_1\ldots{}g_n>(x_1\ldots{}x_m) = f(g_1(x_1\ldots{}x_m),\ldots{}g_n(x_1\ldots{}x_m))$\\
+$R<f, g>(x_1\ldots{}x_n, n) = if n = 0
+f(x_1\ldots{}x_n)
+else g(x_1\ldots{}x_n, n, R<f, g>(x_1\ldots{}x_n, n - 1))$\\
+$μ<f>(x_1\ldots{}x_n) - минимальное k, такое что f(x_1\ldots{}x_n, k) = 0$
+
+Пример:
+$a + b = R<U^2_1, S<N, U^3_3>>(a, b)$
+\subsection{Характеристическая функция и рекурсивное отношение}
+\label{sec-10-2}
+\begin{itemize}
+\item \emph{Характеристическая фукнция} от выражения возвращает 1 если
+выражение истинно, 0 иначе.
+\item \emph{Рекурсивное отношение} - отношение, характеристическая функция
+которого рекурсивна.
+\end{itemize}
+\subsection{Аккерман не примитивно-рекурсивен, но рекурсивен (второе)}
+\label{sec-10-3}
+Функция Аккермана это функция, удовлетворяющая следующим правилам:\\
+\begin{itemize}
+\item $A(0, n) = n + 1$
+\item $A(m, 0) = A(m - 1, 1)$
+\item $A(m, n) = A(m - 1, A(m, n - 1))$
+\end{itemize}
+Например:\\
+$A(2, 0) = A(1, 1) = A(0, A(1, 0)) = A(0, 2) = 3$
+\begin{lemma}
+$A(m, n) \geq 1$
+\end{lemma}
+\begin{proof}
+$A(m, n)$ определена только на натуральных числах,
+$A(0, 0) = 1, A(1, 0) = A(0, 1) = 2, A(0, 1) = 2$,
+все остальное еще больше
+\end{proof}
+\begin{lemma}
+$A(1, n) = n + 2$
+\end{lemma}
+\begin{proof}
+$A(1, n)
+= A(0, A(1, n - 1))
+= A(0, A(0, A(1, n - 2)))
+= A(0, A(0, A(0, \ldots{} A(1, 0))))
+= A(0, A(0, A(0, \ldots{} 2)))
+= n + 2$ ($n$ раз инкрементируем двойку)
+\end{proof}
+\begin{lemma}
+$A(2, n) = 2n + 3$
+\end{lemma}
+\begin{proof}
+$A(2, n)
+= A(1, A(1, \ldots{} A(2, 0)))
+= A(1, A(1, \ldots{} 3))
+= 2n + 3$ ($n$ раз к тройке прибавляем $A(0, 1) = 2$)
+\end{proof}
+\begin{lemma}
+$A(m, n) \geq n + 1$
+\end{lemma}
+\begin{proof}
+В первом случае $A \geq n + 1 = n + 1$
+Во втором $A$ может перейти в первый случай, который работает
+хорошо, или в третий.
+В третьем случае мы можем получить $A(0, n)$ если первый аргумент
+был нулем, тогда все ок, можем получить $A(1, 0)$, тогда это второй
+случай, для него условие выполнено.
+Третий ссылается на второй, а второй на третий, но тут
+нет противоречия, потому что мы знаем, что функция Аккермана
+завершается.
+\end{proof}
+\begin{lemma}
+$A(m, n) < A(m, n + 1)$
+\end{lemma}
+\begin{proof}
+индукция по $m$:
+\begin{itemize}
+\item база
+$A(0, n) = n + 1 < n + 2 = A(0, n + 1)$
+\item переход:
+$A(k + 1, m) < A(k + 1, m) + 1$
+$\geq A(k, A(k + 1, m))$ (по лемме 2)
+$\geq A(k + 1, m + 1)$   (iii)
+\end{itemize}
+\end{proof}
+\begin{lemma}
+$A(m, n + 1) \leq A(m + 1, n)$
+\end{lemma}
+\begin{proof}
+индукция по $n$:
+\begin{itemize}
+\item база
+$A(m, 0 + 1) = A(m, 1) = A(m + 1, 0)$ (ii)
+\item переход, предположение: $A(m, j + 1) \leq A(m + 1, j)$
+по лемме 2 $(j + 1) + 1 \leq A(m, j + 1)$
+$A(m, (j + 1) + 1) \leq A(m, A(m, j + 1))$ (по монотонности)
+$A(m, A(m, j + 1)) \leq A(m, A(m + 1, j))$ (по монотонности + предположение)
+$A(m, (j + 1) + 1) \leq A(m, A(m + 1, j)) = A(m + 1, j + 1)$ (iii)
+\end{itemize}
+\end{proof}
+\begin{lemma}
+$A(m, n) < A(m + 1, n)$
+\end{lemma}
+\begin{proof}
+$A(m, n) < A(m, n + 1) \leq A(m + 1, n)$ (3а, 3b)
+\end{proof}
+\begin{lemma}
+$A(m_1, n) + A(m₂, n) < A(max(m_1, m₂) + 4, n)$
+\end{lemma}
+\begin{proof}
+$A(m_1, n) + A(m_2, n)
+≤ A(max(m_1, m_2), n) + A(max(m_1, m_2), n)
+= 2 * A(max(m_1, m_2), n)
+< 2 * A(max(m_1, m_2), n) + 3
+= A(2, A(max(m_1, m_2), n))$     лемма 1
+$< A(2, A(max(m_1, m_2) + 3, n))$ строгая монотоннасть по обоим арг.
+$< A(max(m_1, m_2) + 2, A(max(m_1, m_2) + 3, n))$ лемма 3с
+$= A(max(m_1, m_2) + 3, n + 1)$   (iii)
+$≤ A(max(m_1, m_2) + 4, n)$       лемма 3b
+\end{proof}
+\begin{lemma}
+$A(m, n) + n < A(m + 4, n)$
+\end{lemma}
+\begin{proof}
+$A(m, n) + n
+< A(m, n) + n + 1
+= A(n, m) + A(0, n)
+< A(m + 4, n)$
+\end{proof}
+\begin{theorem}
+Функция аккерманна не притивно-рекурсивна
+\end{theorem}
+\begin{proof}
+TODO
+\end{proof}
+\iffalse
+\subsubsection{Аккерманн не примитивно-рекурсивен}
+\label{sec-10-3-10}
+Пусть f(n_1\ldots{}nₖ) - примитивная рекурсинвная функция, k ≥ 0.
+\exists J:f(n_1\ldots{}nₖ)<A(J, ∑(n_1,\ldots{}nₖ))
+
+]n\textasciitilde{} = (n_1\ldots{}nₖ)
+Индукция по рекурсивным функциям
+\begin{itemize}
+\item База:
+f(n\textasciitilde{}) - N или Z или Uₖⱼ
+\begin{enumerate}
+\item f(n\textasciitilde{}) = N, k = 1; Пусть J=1, по (i) и лемме 3c
+f(n) = N(n) = n + 1 = A(0, n) < A(1, n) = A(J, n) = A(J, ∑(n\textasciitilde{}))
+\item f(n\textasciitilde{}) = Z, k = 1;
+f(n) = 0 < A(J, n) (потому что A ≥ 1) = A(J, ∑(n\textasciitilde{}))
+\item f(n\textasciitilde{}) = Uₖⱼ; k = k; Пусть J=1
+f(n_1\ldots{}nₖ) = Uₖⱼ(n_1\ldots{}nₖ) = nⱼ
+Пусть nⱼ = 0, тогда f(n) = 0 < A(J, ∑(n\textasciitilde{})) для любого нормального J
+Пусть nⱼ > 0, тогда f(n) = (nⱼ - 1) + 1 = A(0, nⱼ - 1) < A(1, n)
+= A(J, ∑(n\textasciitilde{}))
+\end{enumerate}
+\item Переход
+\begin{enumerate}
+\item Предположим, что f(n\textasciitilde{}) = S<h, g_1\ldots{}gₘ>(n\textasciitilde{}) = h(g_1(n\textasciitilde{}),\ldots{}gₘ(n\textasciitilde{}))
+По предположению индукции существует J₀ для h, J_1\ldots{}Jₘ для g_1\ldots{}gₘ.
+f(n\textasciitilde{}) = h(g_1(n\textasciitilde{}),..)
+< A(J₀, ∑\{i=1..m\}(n\textasciitilde{}))            по выбору J₀
+< A(J₀, ∑(A(Jᵢ, ∑(n\textasciitilde{}))))           по выбору Jᵢ и строгой монотонности
+// J* = max(J_1..Jₘ) + 4(m - 1)
+< A(J₀, A(J*, ∑(n\textasciitilde{})))             по лемме 4 примененной m-1 раз
+< A(J₀, A(J*+1, ∑(n\textasciitilde{})))           по монотонности
+≤ A(J₀, A(max(J₀, J*) + 1, ∑(n\textasciitilde{}))) по монотонности
+≤ A(max(J₀, J*) + 1, ∑(n\textasciitilde{}) + 1)   (iii)
+= A(max(J₀, J*) + 2, ∑(n\textasciitilde{}))       по лемме 3b
+Тогда пусть j=max(J₀, J*) + 2
+\item Пусть f(n\textasciitilde{}) = R<h,g>(n\textasciitilde{})
+f(n_1\ldots{}nₖ, 0) = h(n_1\ldots{}nₖ)
+f(n_1\ldots{}nₖ, m+1) = g(n_1\ldots{}nₖ, m, f(n_1\ldots{}nₖ, m))
+По предположению имеем J₀ (h), J_1 (g).
+] J = max(J₀, J_1) + 4
+\begin{enumerate}
+\item f(n\textasciitilde{}, 0)
+≤ f(n\textasciitilde{}, 0) + ∑(n\textasciitilde{})
+= h(n\textasciitilde{}) + ∑(n\textasciitilde{})
+< A(J₀, ∑(n\textasciitilde{})) + ∑(n\textasciitilde{})
+< A(J₀ + 4, ∑(n\textasciitilde{}))                   по лемме 5
+< A(J, ∑(n\textasciitilde{}))                       по монотонности
+= A(J, ∑(n\textasciitilde{}) + 0)
+\item f(n\textasciitilde{}, k + 1)
+= g(n\textasciitilde{}, k, f(n\textasciitilde{}, k))
+< A(J_1, ∑(n\textasciitilde{}) + k + f(n\textasciitilde{}, k))        по выбору J_1
+< A(J_1, ∑(n\textasciitilde{}) + k + 1 + f(n\textasciitilde{}, k))    по монотонности
+= A(J_1, A(0, ∑(n\textasciitilde{}) + k) + f(n\textasciitilde{}, k))  (i)
+< A(J_1, A(0, ∑(n\textasciitilde{}) + k) + H(J, ∑(n\textasciitilde{})+k)) по предположению
+< A(J_1, A(J, ∑(n\textasciitilde{})+k)+A(J, ∑(n\textasciitilde{}) + k)) по монотонности (J > 0)
+= A(J_1, 2 * [A(J, ∑(n\textasciitilde{}) + k)])
+< A(J_1, 2 * [A(J, ∑(n\textasciitilde{}) + k)] + 3)
+= A(J_1, A(2, A(J, ∑(n\textasciitilde{}) + k)))        по лемме 1
+< A(J_1, A(J_1 + 1, A(J, ∑(n\textasciitilde{}) + k)))   по строгой монотонности (J_1 > 2)
+= A(J_1 + 1, A(J, ∑(n\textasciitilde{}) + k) + 1)      (iii)
+≤ A(J_1 + 2, A(J, ∑(n\textasciitilde{}) + k))
+< A(J - 1, A(J, ∑(n\textasciitilde{}) + k))           по монот. J > max(..) + 4
+= A(J, ∑(n\textasciitilde{}) + (k + 1))               (iii), J != 0
+\end{enumerate}
+\end{enumerate}
+\end{itemize}
+\fi
+\begin{theorem}
+Функция Аккерманна рекурсивна
+\end{theorem}
+\begin{proof}
+Можем сказать, что он рекурсивный, потому что мы можем
+его написать на компьютере, а тьюринг выражается в рекурсивных функциях.
+\end{proof}
