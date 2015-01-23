@@ -10,3 +10,7 @@
 *.aux
 *.synctex.gz
 *.orig
+*.bbl
+*.blg
+*.pdf
+!mathlogic.pdf
