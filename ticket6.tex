@@ -19,3 +19,149 @@ $\Rightarrow$ Если противоречива, то выводится $a \&
 Заметим, что всякое подмножество непротиворечивого множества непротиворечиво.\\
 Заметим, что всякое бесконечное прот. множество содержит конечное противоречивое подмножество ввиду конечности вывода.\\
 Совместное множество – множество с моделью (все формулы множества верны в какой-либо интерпретации).
+\subsection{Лемма о дополнении непротиворечивого множества}
+\begin{lemma}
+Для всякого непротиворечивого множества $\Gamma$ замкнутых формул сигнатуры $\sigma$ существует множество $\Gamma’$, являющееся к тому же полным, имеющее ту же сигнатуру и содержащее $\Gamma$.
+\end{lemma}
+\begin{proof}
+Для не более чем счетных сигнатур:\\
+Давайте добавлять недостающие формулы в $\Gamma$ - если есть формула $\alpha$, добавим $\alpha$ или $\neg \alpha$ в зависимости от того, является ли $\Gamma \cup \alpha$ или $\Gamma \cup \neg \alpha$ противоречивым или нет (выберем непротиворечивый вариант). Одно всегда верно, потому что:
+\begin{enumerate}
+\item $\Gamma \cup \alpha$, $\Gamma \cup \neg \alpha$ противоречивы обе $\Rightarrow$ Мы можем доказать, что $\Gamma$ изначально было противоречиво
+\item $\Gamma \cup \alpha$, $\Gamma \cup \neg \alpha$ не противоречивы обе $\Rightarrow$ Тогда можно сказать, что $\alpha \to \neg \alpha \to \alpha \& \neg \alpha$.
+\end{enumerate}
+\end{proof}
+\subsection{Условие о интерпретации непротиворечивого мн-ва}
+Будем называть интерпретацией непротиворечивого множества формул функцию оценки, тождественно равную $1$ на элементах из этого множества. Будем говорить, что $\Gamma \models \alpha$, если она тождественна в любой модели $\Gamma$.
+\subsection{Несколько лемм}
+\begin{lemma}
+$\Gamma \vdash \alpha \Rightarrow \Gamma \models \alpha$
+\end{lemma}
+\begin{proof}
+Механическая проверка аксиом
+\end{proof}
+\begin{lemma}
+Eсли у $\Gamma$ есть модель, то $\Gamma$ непротиворечиво
+\end{lemma}
+\begin{proof}
+Пусть $\Gamma$ имеет модель, но противоречиво, тогда из $\Gamma$ выводится $\alpha, \neg \alpha$, по корректности $\Gamma \models \alpha, \neg \alpha$, но формула и ее отрицание не могут быть общезначимыми одновременно.
+\end{proof}
+\begin{lemma}
+Пусть $\Gamma$ - полное непротиворечивое множество бескванторных формул. Тогда существует модель для $\Gamma$.
+\end{lemma}
+\begin{proof}
+Построим модель структурной индукцией по формулам. Предметное множество - строки, содержащие выражения. Например $\llbracket c_1 \rrbracket = "c_1"$,
+$\llbracket f_1 (c_1, f_2(c_2)) \rrbracket = " f_1 (c_1, f_2(c_2)) "$\\
+Мы не хотим заниматься подсчетом, а предпочитаем оставлять то, что нужно вычислить как отдельную функцию. Рассмотрим формулу - предикат. Его оценка истина, если он принадлежит носителю, ложна если его отрицание в носителе (в предметном множестве). Элементы всегда входят противоречиво (элемент не вдохит со своим отрицанием. Связки определим естественным образом. Докажем, что $\gamma \in \Gamma \Leftrightarrow \gamma$ истинна ($\Gamma$ - предметное множество)
+\begin{itemize}
+\item База:\\
+Если атомарная формула лежит в $\Gamma$, то она истинна по определению.\\
+Если атомарная формула истинна, то лежит в $\Gamma$
+\item Переход:
+\begin{enumerate}
+\item $\alpha \& \beta$\\
+Если $\alpha \& \beta$ лежит в $\Gamma$, то оно истинно по определению\\
+\begin{itemize}
+\item Пусть $\llbracket \alpha \& \beta \rrbracket = \texttt{И}$, тогда покажем, что $\alpha \& \beta \in \Gamma$.\\
+По таблице истинности $\&$ ясно, что $\llbracket \alpha \rrbracket = \texttt{И}$ и $\llbracket \beta \rrbracket = \texttt{И}$. Тогда $\alpha$ и $\beta$ лежат в $\Gamma$ по индукционному предположению. Тогда с помощью $\alpha \to \beta \to \alpha \& \beta$ можно показать, что и $\alpha \& \beta \in \Gamma$.
+\item Пусть $\llbracket \alpha \& \beta \rrbracket = \texttt{Л}$, тогда покажем, что $\neg(\alpha \& \beta) \in \Gamma$.\\
+По таблице истинности $\&$ ясно, что $\llbracket \alpha \rrbracket = \texttt{Л}$ или $\llbracket \beta \rrbracket = \texttt{Л}$. Для определенности возьмем, что $\alpha$ - ложь. Тогда $\neg \alpha$ лежат в $\Gamma$ по индукционному предположению.\\
+Докажем, что $\neg \alpha \vdash \neg (\alpha \& \beta)$:\\
+\begin{tabular}{lll}
+(1) & $\neg\alpha$ & Предположение\\
+(2) & $\neg\alpha \rightarrow \alpha\&\beta\rightarrow\neg\alpha$ & Сх. акс. 1\\
+(3) & $\alpha\&\beta \rightarrow \neg\alpha$ & M.P. 1,2\\
+(4) & $\alpha \& \beta \rightarrow \alpha$ & Сх. акс. 4\\
+(5) & $(\alpha \& \beta \rightarrow \alpha) \rightarrow (\alpha \& \beta \rightarrow \neg\alpha) \rightarrow \neg(\alpha \& \beta)$ & Сх. акс. 9\\
+(6) & $(\alpha \& \beta \rightarrow \neg\alpha) \rightarrow \neg(\alpha \& \beta)$ & M.P. 5,4\\
+(7) & $\neg(\alpha \& \beta)$ & M.P. 6,3
+\end{tabular}
+\end{itemize}
+\item $\alpha \vee \beta$
+\begin{itemize}
+\item $\llbracket \alpha \vee \beta \rrbracket = \texttt{И}$. Тогда по таблице истинности $\vee$ либо $\llbracket \alpha \rrbracket = \texttt{И}$, либо $\llbracket \beta \rrbracket = \texttt{И}$. Не умаляя общности скажем, что $\llbracket \alpha \rrbracket = \texttt{И}$. Тогда $\alpha \in \Gamma$ по предположению индукции. Легко можно доказать, что и $\alpha \vee \beta \in \Gamma$ с помощью $\alpha \to \alpha \vee \beta$.
+\item $\llbracket \alpha \vee \beta \rrbracket = \texttt{Л}$. Тогда по таблице истинности $\vee$ и $\llbracket \alpha \rrbracket = \texttt{Л}$, и $\llbracket \beta \rrbracket = \texttt{Л}$. Тогда $\neg \alpha \in \Gamma$ и $\neg \beta \in \Gamma$ по предположению индукции. С помощью 9-ой схемы аксиом мы можем доказать, что и $\neg (\alpha \vee \beta) \in \Gamma$.
+\end{itemize}
+\item Аналогично нужно доказать все связки
+\end{enumerate}
+\end{itemize}
+\end{proof}
+\subsection{Построение $\Gamma ^ *$}
+\begin{theorem}
+Можно построить из нашего множества формул множество бескванторных формул
+\end{theorem}
+\begin{proof}
+Для этого определим такую операцию избавления от 1 квантора: Построим новый язык, отличающийся от нашего контантами, там будут $d_i^j$, где нижний индекс - это поколение, верхний – нумерационный. Возьмем непротиворечивое множество формул $\Gamma_i$ и пополним его, получив непротиворечивое множество формул $\Gamma_{i+1}$, такое что $\Gamma_i \subset \Gamma_{i+1}$. Возьмем формулу $\gamma \in \Gamma_{i}$. Рассмотрим случаи:
+\begin{enumerate}
+\item Не содержит кванторов\\
+Тогда делать ничего не нужно
+\item $\gamma = \forall x (a)$\\
+Тогда возьмем все константы, использующиеся в $\Gamma_{i}$ - это будут $c_i$, $d_a^j$, где $a \leq i$. Занумеруем их $\theta_1, \theta_2, \dots$. И добавим формулы $a_1=a[x:=\theta_1], \dots$ к $\Gamma_{i+1}$.
+\item $\gamma = \exists x (a)$\\
+Тогда возьмем новую константу $d_{i+1}^j$ и добавим $a[x:=d_{i+1}^j]$ к $\Gamma_{i+1}$.
+\end{enumerate}
+
+Заметим, что сами формулы с кванторами мы не выкидываем - ведь в будущем появятся новые формулы, и процесс для уже использованных кванторных формул нужно будет повторить. Покажем, что полученные множества остаются непротиворечивыми. $\Gamma_i$ непротиворечиво, а $\Gamma_{i+1}$ противоречиво, тогда $\Gamma_{i+1} \vdash \alpha \& \neg \alpha$, тогда выпишем конечное доказательство, найдем посылки, новые в $\Gamma_{i+1}$, которых нету в $\Gamma_{i}$, выпишем их и впихнем направо по теореме о дедукции: $\Gamma_{i} \vdash \gamma_1 \to \gamma_2 \to \gamma_3 \to \dots \to \gamma_n \to \beta \& \neg \beta$ Новые посылки у нас получаются только из пунктов 2 и 3.
+
+\begin{enumerate}
+\item $\gamma_1 = a[x:=\theta_1]$ из $\forall x (a)$. Тогда рассмотрим доказательство:\\
+\begin{tabular}{lll}
+$(1)$ & $\forall x \alpha \rightarrow \alpha [x := \theta]$ & Сх. акс. $\forall$\\
+$(2)$ & $\forall x \alpha$ & $\forall x \alpha$ из $\Gamma_g$\\
+$(3)$ & $\alpha [x := \theta]$ & M.P. $2,1$\\
+$(4 \dots k)$ & $\alpha [x := \theta] \rightarrow (\gamma_2 \rightarrow \dots \gamma_n \rightarrow \beta \& \neg \beta)$ & Исх. формула\\
+$(k+1)$ & $\gamma_2 \rightarrow \dots \gamma_n \rightarrow \beta \& \neg \beta$ & M.P. $3,k$
+\end{tabular}
+\item $\gamma_1 = a[x:=d_{i+1}^k]$ из $\exists x(a)$ выберем переменную, не участвующую в выводе противоречия - $z$. Заменим все вхождения $d^k$ в д-ве на $z$. поскольку $d_{i+1}^k$ - константа, мы можем делать такие замены. Поскольку $z$ - константа, специально введенная для замены и раньше не встречавшаяся, то она отсутствует в $\gamma_2,\dots$ + мы можем правильно выбрать $b$, чтобы и в нем отсутствовала $\d_{i+1}^k$. Значит мы можем применить правило для выведения $\exists$:\\
+\begin{tabular}{lll}
+$(1 \dots k)$ & $\alpha [x := y] \rightarrow (\gamma_2 \rightarrow \dots \gamma_n \rightarrow \beta \& \neg \beta)$ & Исх. формула\\
+$(k+1)$ & $\exists y \alpha [x := y] \rightarrow (\gamma_2 \rightarrow \dots \gamma_n \rightarrow \beta \& \neg \beta)$ & Правило для $\exists$\\
+$(k+2)$ & $\exists x \alpha$ & Т.к. $\exists x \alpha$ из $\Gamma_g$ \\
+$(k+3 \dots l)$ & $\exists y \alpha [x := y]$ & Доказуемо \\
+$(l+1)$ & $\gamma_2 \rightarrow \dots \gamma_n \rightarrow \beta \& \neg \beta$ & M.P. $l, k+1$
+\end{tabular}
+\end{enumerate}
+Возьмем $\Gamma_0 = \Gamma$. $\Gamma^* = \cup \Gamma_i$. $\Gamma^*$ также не противоречиво, потому что д-во использует конечное количество предположений, добавленных на каком-то шаге $j$ максимум, значит множество $Γ_j$ тоже противоречиво, что невозможно по условию.
+\end{proof}
+\subsection{Доказательство того, что дополненное бескванторное подмножество $\Gamma^*$ - модель для $\Gamma$}
+\begin{theorem}
+Дополненное бескванторное подмножество $\Gamma^*$ - модель для $\Gamma$
+\end{theorem}
+\begin{proof}
+Выделим в $\Gamma^*$ бескванторное подмножество $G$. Пополним его по лемме 2 (лемма о дополнении непротиворечевиого множества) модель сделаем из него по лемме о бескванторной модели. Покажем, что это модель для всего $\Gamma^*$, а значит и для $\Gamma$. Рассмотрим $\gamma \in \Gamma^*$, покажем, что $[\gamma] = \texttt{И}$.
+\begin{itemize}
+\item База\\
+Формула не содержит кванторов. Истинность гарантируется леммой о бескванторном множестве.
+\item Переход\\
+Пусть $G$ это модель для любой формулы из $\Gamma^*$ с $r$ кванторами, покажем что она остается моделью для $r+1$ квантора.
+\begin{enumerate}
+\item $\gamma = \forall x (a)$\\
+Покажем, что формула истинна для любого $t \in D$. По построению подели есть такое $\theta$, что $t = "\theta$ (string). По построению $\Gamma^*$ начиная с шага $p+1$ мы добавляем формулы вида $a[x:=k]$, где $k$ - конструкция из констант и ф.симв. Также каждая константа ($c_i$ или $d_i^j$) из $\theta$ добавлена на некотором шаге $s_k$. То есть будет шаг $l=max(max(s_k), p)$, на котором $\theta$ обретет смысл и в $\Gamma_{l+1}$ будет присутствовать $a[x:=\theta]$. В формуле $a$ на один квантор меньше, значит она истинна по предположению индукции.
+\item $\gamma = \exists x (a)$\\
+По построению $\Gamma^*$ как только добавили $a$ к $\Gamma_i$, так сразу в следующем мире $\Gamma_{i+1}$ появляется $a[x:=d_{i+1}^k]$. Значит формула истинна на значении $"d_{i+1}^k"$, то есть истинна.
+\end{enumerate}
+\end{itemize}
+\end{proof}
+\subsection{Следствие $-$ если $\models \alpha$, то $\vdash \alpha$}
+\begin{theorem}
+$\models \alpha \Rightarrow \vdash \alpha$
+\end{theorem}
+\begin{proof}
+\begin{itemize}
+\item Пусть $\Gamma \not \vdash a$, тогда по полноте множества $\Gamma$, $\Gamma \vdash \neg a$, но у $\Gamma$ есть модель, в которой $\Gamma \models \neg a$. То есть $\Gamma \not \models a$. Но $\Gamma$ по построению то же, что и модель теории, то есть все рассуждения $\Gamma \vdash a$ равноценны в предикатах $\vdash a$.
+\item Пусть $\not \vdash a$, тогда пусть $\Gamma=\lbrace \neg a \rbrace$
+\begin{enumerate}
+\item $\Gamma$ непротиворечиво\\
+Пусть $\Gamma$ противоречиво, значит $\forall b \Gamma \vdash b, \Gamma \vdash \neg b$;
+\begin{enumerate}[label=(\alph*)]
+\item $\neg a \vdash b, \neg a \vdash b$;
+\item $\neg a \vdash a, \neg a \vdash \neg a$;
+\item $\vdash \neg a \to a, \neg a \to \neg a$;
+\item $\vdash (\neg a \to a) \to (\neg a \to \neg a) \to \neg \neg a$;
+\item $\vdash \neg \neg a \to a$;
+\item $\vdash a \to\leftarrow а$ недоказуемо по условию.;
+\end{enumerate}
+\item $\Gamma$ подходит под условие теоремы Гёделя о полноти исчисления предикатов, то есть у $\Gamma$ есть модель. Тогда в ней оценка $[\neg a] = 1$, значит оценка $[a] = 0$, то есть $\not \models a$. Мы доказали мета-контрпозицию $\not \vdash a \Rightarrow \not \models a$.
+\end{enumerate}
+\end{itemize}
+\end{proof}
