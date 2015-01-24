@@ -162,47 +162,43 @@ $A(m, n) + n < A(m + 4, n)$
 Функция аккерманна не притивно-рекурсивна
 \end{theorem}
 \begin{proof}
-TODO
-\end{proof}
-\subsubsection{Аккерманн не примитивно-рекурсивен}
-\label{sec-10-3-10}
 Пусть $f(n_1 \dotsc n_k)$ - примитивная рекурсинвная функция, $k \geq 0$.\\
 $\exists J : f(n_1 \dotsc n_k) < A(J, \sum(n_1 \dotsc n_k))$
 
-Пусть $n\textasciitilde{} = (n_1 \dotsc n_k)$\\
+Пусть $\overline n = (n_1, \dotsc, n_k)$\\
 Индукция по рекурсивным функциям
 \begin{itemize}
 \item База:\\
-$f(n\textasciitilde{})$ - $N$ или $Z$ или $U^k_j$
+$f(\overline n)$ - $N$ или $Z$ или $U^k_j$
 \begin{enumerate}
-\item $f(n\textasciitilde{}) = N, k = 1;$ Пусть $J = 1$, по (i) и лемме 3c\\
-$f(n) = N(n) = n + 1 = A(0, n) < A(1, n) = A(J, n) = A(J, \sum(n\textasciitilde{}))$
-\item $f(n\textasciitilde{}) = Z, k = 1;$\\
-$f(n) = 0 < A(J, n)$ (потому что $A \geq 1$) $= A(J, \sum(n\textasciitilde{}))$
-\item $f(n\textasciitilde{}) = U^k_j; k = k;$\\
+\item $f(\overline n) = N, k = 1;$ Пусть $J = 1$, по (i) и лемме 3c\\
+$f(n) = N(n) = n + 1 = A(0, n) < A(1, n) = A(J, n) = A(J, \sum(\overline n))$
+\item $f(\overline n) = Z, k = 1;$\\
+$f(n) = 0 < A(J, n)$ (потому что $A \geq 1$) $= A(J, \sum(\overline n))$
+\item $f(\overline n) = U^k_j; k = k;$\\
 Пусть $J=1$\\
     $f(n_1\dotsc, n_k) = U_{kj}(n_1\dotsc, n_k) = n_j$\\
-Пусть $n_j = 0$, тогда $f(n) = 0 < A(J, \sum(n\textasciitilde{}))$ для любого нормального $J$
+Пусть $n_j = 0$, тогда $f(n) = 0 < A(J, \sum(\overline n))$ для любого нормального $J$
 Пусть $n_j > 0$, тогда $f(n) = (n_j - 1) + 1 = A(0, n_j - 1) < A(1, n)
-= A(J, \sum(n\textasciitilde{}))$
+= A(J, \sum(\overline n))$
 \end{enumerate}
-\item Переход\\
+\item Переход
 \begin{enumerate}
-\item Предположим, что $f(n\textasciitilde{}) = S\template{h, g_1\ldots{}g_m}(n\textasciitilde{}) = h(g_1(n\textasciitilde{}) \ldots g_m(n\textasciitilde{}))$\\
-По предположению индукции существует $J_0$ для $h$, $J_1\ldots{}J_m$ для $g_1\ldots{}g_m$.\\
+\item Предположим, что $f(\overline n) = S\template{h, g_1\ldots{}g_m}(\overline n) = h(g_1(\overline n) \ldots g_m(\overline n))$\\
+По предположению индукции существует $J_0$ для $h$, $J_1, \dotsc, J_m$ для $g_1\ldots{}g_m$.
 \begin{align*}
-&f(n\textasciitilde{}) = h(g_1(n\textasciitilde{}),..)\\
-\le {}&A(J_0, \sum\{i=1..m\}(n\textasciitilde{})) \tag{По выбору $J_0$}\\
-< {}& (J_0, \sum(A(J_i, \sum(n\textasciitilde{})))) \tag{По выбору $J_i$ и строгой монотонности}\\
-/ {}&J* = \max(J_1..J_m) + 4(m - 1)\\
-< {}&A(J_i, A(J*, \sum(n\textasciitilde{}))) \tag{По \ref{lemma4} примененной $m-1$ раз}\\
-< {}&A(J_i, A(J*+1, \sum(n\textasciitilde{}))) \tag{По монотонности}\\
-\leq {}&A(J_0, A(\max(J_0, J*) + 1, \sum(n\textasciitilde{}))) \tag{По монотонности}\\
-\leq {}&A(\max(J_0, J*) + 1, \sum(n\textasciitilde{}) + 1) \tag{3-е свойство ф-ии Аккерманна}\\
-= {}&A(\max(J_0, J*) + 2, \sum(n\textasciitilde{})) \tag{По \ref{lemma3b}}\\
+&f(\overline n) = h(g_1(\overline n),..)\\
+\le {}&A(J_0, \sum\{i=1..m\}(\overline n)) \tag{По выбору $J_0$}\\
+< {}& (J_0, \sum(A(J_i, \sum(\overline n)))) \tag{По выбору $J_i$ и строгой монотонности}\\
+// {}&J* = \max(J_1..J_m) + 4(m - 1)\\
+< {}&A(J_i, A(J*, \sum(\overline n))) \tag{По \ref{lemma4} примененной $m-1$ раз}\\
+< {}&A(J_i, A(J*+1, \sum(\overline n))) \tag{По монотонности}\\
+\leq {}&A(J_0, A(\max(J_0, J*) + 1, \sum(\overline n))) \tag{По монотонности}\\
+\leq {}&A(\max(J_0, J*) + 1, \sum(\overline n) + 1) \tag{3-е свойство ф-ии Аккерманна}\\
+= {}&A(\max(J_0, J*) + 2, \sum(\overline n)) \tag{По \ref{lemma3b}}\\
 \end{align*}
 Тогда пусть $j=\max(J_0, J*) + 2$
-\item Пусть $f(n\textasciitilde{}) = R\template{h,g}(n\textasciitilde{})$\\
+\item Пусть $f(\overline n) = R\template{h,g}(\overline n)$\\
 $f(n_1, \dotsc, n_k, 0) = h(n_1, \dotsc, n_k)$\\
 $f(n_1, \dotsc, n_k, m+1) = g(n_1, \dotsc, n_k, m, f(n_1, \dotsc, n_k, m))$\\
 По предположению имеем $J_0 (h), J_1 (g).$\\
@@ -210,39 +206,40 @@ $f(n_1, \dotsc, n_k, m+1) = g(n_1, \dotsc, n_k, m, f(n_1, \dotsc, n_k, m))$\\
 \begin{enumerate}
 \item
 \begin{align*}
-&f(n\textasciitilde{}, 0)\\
-\leq {}&f(n\textasciitilde{}, 0) + \sum(n\textasciitilde{})\\
-= {}&h(n\textasciitilde{}) + \sum(n\textasciitilde{})\\
-< {}&A(J_0, \sum(n\textasciitilde{})) + \sum(n\textasciitilde{})\\
-< {}&A(J_0 + 4, \sum(n\textasciitilde{})) \tag{По \ref{lemma5}}\\
-< {}&A(J, \sum(n\textasciitilde{})) \tag{По монотонности}\\
-= {}&A(J, \sum(n\textasciitilde{}) + 0)\\
+&f(\overline n, 0)\\
+\leq {}&f(\overline n, 0) + \sum(\overline n)\\
+= {}&h(\overline n) + \sum(\overline n)\\
+< {}&A(J_0, \sum(\overline n)) + \sum(\overline n)\\
+< {}&A(J_0 + 4, \sum(\overline n)) \tag{По \ref{lemma5}}\\
+< {}&A(J, \sum(\overline n)) \tag{По монотонности}\\
+= {}&A(J, \sum(\overline n) + 0)\\
 \end{align*} 
 \item 
 \begin{align*}
-&f(n\textasciitilde{}, k + 1)\\
-= {}&g(n\textasciitilde{}, k, f(n\textasciitilde{}, k))\\
-< {}&A(J_1, \sum(n\textasciitilde{}) + k + f(n\textasciitilde{}, k)) \tag{По выбору $J_1$}\\
-< {}&A(J_1, \sum(n\textasciitilde{}) + k + 1 + f(n\textasciitilde{}, k)) \tag{По монотонности}\\
-= {}&A(J_1, A(0, \sum(n\textasciitilde{}) + k) + f(n\textasciitilde{}, k))   \tag{По 1-му свойсту ф-ии Аккерманна}\\
-< {}&A(J_1, A(0, \sum(n\textasciitilde{}) + k) + H(J, \sum(n\textasciitilde{})+k)) \tag{По предположению}\\
-< {}&A(J_1, A(J, \sum(n\textasciitilde{})+k)+A(J, \sum(n\textasciitilde{}) + k)) \tag{По монотонности $(J > 0)$}\\
-= {}&A(J_1, 2 * [A(J, \sum(n\textasciitilde{}) + k)])\\
-< {}&A(J_1, 2 * [A(J, \sum(n\textasciitilde{}) + k)] + 3)\\
-= {}&A(J_1, A(2, A(J, \sum(n\textasciitilde{}) + k))) \tag{По \ref{lemma1a}}\\
-< {}&A(J_1, A(J_1 + 1, A(J, \sum(n\textasciitilde{}) + k))) \tag{По строгой монотонности $(J_1 > 2)$}\\
-= {}&A(J_1 + 1, A(J, \sum(n\textasciitilde{}) + k) + 1) \tag{По 3-му свойству ф-ии Аккерманна}\\
-\leq {}&A(J_1 + 2, A(J, \sum(n\textasciitilde{}) + k))\\
-< {}&A(J - 1, A(J, \sum(n\textasciitilde{}) + k)) \tag{По монот. $J > \max(..) + 4$}\\
-= {}&A(J, \sum(n\textasciitilde{}) + (k + 1)) \tag{По 3-му свойству ф-ии Аккерманна, $J != 0$}\\
+&f(\overline n, k + 1)\\
+= {}&g(\overline n, k, f(\overline n, k))\\
+< {}&A(J_1, \sum(\overline n) + k + f(\overline n, k)) \tag{По выбору $J_1$}\\
+< {}&A(J_1, \sum(\overline n) + k + 1 + f(\overline n, k)) \tag{По монотонности}\\
+= {}&A(J_1, A(0, \sum(\overline n) + k) + f(\overline n, k))   \tag{По 1-му свойсту ф-ии Аккерманна}\\
+< {}&A(J_1, A(0, \sum(\overline n) + k) + H(J, \sum(\overline n)+k)) \tag{По предположению}\\
+< {}&A(J_1, A(J, \sum(\overline n)+k)+A(J, \sum(\overline n) + k)) \tag{По монотонности $(J > 0)$}\\
+= {}&A(J_1, 2 * [A(J, \sum(\overline n) + k)])\\
+< {}&A(J_1, 2 * [A(J, \sum(\overline n) + k)] + 3)\\
+= {}&A(J_1, A(2, A(J, \sum(\overline n) + k))) \tag{По \ref{lemma1a}}\\
+< {}&A(J_1, A(J_1 + 1, A(J, \sum(\overline n) + k))) \tag{По строгой монотонности $(J_1 > 2)$}\\
+= {}&A(J_1 + 1, A(J, \sum(\overline n) + k) + 1) \tag{По 3-му свойству ф-ии Аккерманна}\\
+\leq {}&A(J_1 + 2, A(J, \sum(\overline n) + k))\\
+< {}&A(J - 1, A(J, \sum(\overline n) + k)) \tag{По монот. $J > \max(..) + 4$}\\
+= {}&A(J, \sum(\overline n) + (k + 1)) \tag{По 3-му свойству ф-ии Аккерманна, $J != 0$}\\
 \end{align*}
 \end{enumerate}
 \end{enumerate}
 \end{itemize}
+\end{proof}
 \begin{theorem}
 Функция Аккермана рекурсивна
 \end{theorem}
 \begin{proof}
 Можем сказать, что он рекурсивный, потому что мы можем
-его написать на компуктере, а тьюринг выражается в рекурсивных функциях.
+его написать на компьютере, а тьюринг выражается в рекурсивных функциях.
 \end{proof}

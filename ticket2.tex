@@ -8,20 +8,20 @@
 \subsubsection{Контрапозиция}
 \label{sec-4-1-1}
 \begin{lemma}
-$(\alpha \to \beta) \to (\lnot \beta \to \lnot \alpha)$\\
+    $(\alpha \to \beta) \to (\lnot \beta \to \lnot \alpha)$
 \end{lemma}
 \begin{proof}
-Докажем, что $(\alpha \to \beta), \lnot \beta \vdash \lnot \alpha$:\\
-\begin{tabular}{lll}
-(1) & $\alpha \to \beta$& Допущение\\
-(2) & $(\alpha \to \beta) \to (\alpha \to \lnot \beta) \to \lnot \alpha$& Сх. акс. 9\\
-(3) & $(\alpha \to \lnot \beta) \to \lnot \alpha$& M.P. 1,2\\
-(4) & $\lnot \beta \to \alpha \to \lnot \beta$& Сх. акс. 1\\
-(5) & $\lnot \beta$& Допущение\\
-(6) & $\alpha \to \lnot \beta$& M.P. 5,4\\
-(7) & $\lnot \alpha$& M.P. 6,3\\
-\end{tabular}\\
-После применения теоремы о дедукции 2 раза получим как раз то, что нужно
+    Докажем, что $(\alpha \to \beta), \lnot \beta \vdash \lnot \alpha$:\\
+    \begin{tabular}{lll}
+    (1) & $\alpha \to \beta$& Допущение\\
+    (2) & $(\alpha \to \beta) \to (\alpha \to \lnot \beta) \to \lnot \alpha$& Сх. акс. 9\\
+    (3) & $(\alpha \to \lnot \beta) \to \lnot \alpha$& M.P. 1,2\\
+    (4) & $\lnot \beta \to \alpha \to \lnot \beta$& Сх. акс. 1\\
+    (5) & $\lnot \beta$& Допущение\\
+    (6) & $\alpha \to \lnot \beta$& M.P. 5,4\\
+    (7) & $\lnot \alpha$& M.P. 6,3\\
+    \end{tabular}\\
+    После применения теоремы о дедукции 2 раза получим как раз то, что нужно
 \end{proof}
 \subsubsection{Правило исключененного третьего}
 \label{sec-4-1-2}
