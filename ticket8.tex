@@ -62,7 +62,7 @@ $A(1, n) = n + 2$
     &= A(0, A(0, A(1, n - 2))) \\
     &= A(0, A(0, A(0, \ldots{} A(1, 0)))) \\
     &= A(0, A(0, A(0, \ldots{} 2))) \\
-    &= n + 2 \tag{\text{$n$ раз инкрементируем двойку}}
+    &= n + 2 && \text{($n$ раз инкрементируем двойку)}
 \end{align*}
 \end{proof}
 \begin{lemma}
@@ -116,11 +116,12 @@ $A(m, n + 1) \leq A(m + 1, n)$
 $A(m, 0 + 1) = A(m, 1) = A(m + 1, 0)$ (ii)
 \item Переход, предположение:
     \begin{align*}
-        A(m, j + 1) &\leq A(m + 1, j) \tag{По \ref{lemma2}}\\
+        A(m, j + 1) &\leq A(m + 1, j) && \hspace{-3cm} \text{По \ref{lemma2}}\\
         (j + 1) + 1 &\leq A(m, j + 1)\\
-        A(m, (j + 1) + 1) &\leq A(m, A(m, j + 1)) \tag{По монотонности}\\
-        A(m, A(m, j + 1)) &\leq A(m, A(m + 1, j)) \tag{По монотонности + предположение}\\
-        A(m, (j + 1) + 1) &\leq A(m, A(m + 1, j)) = A(m + 1, j + 1) \tag{3-е свойство ф-ии Аккерманна}
+        A(m, (j + 1) + 1) &\leq A(m, A(m, j + 1)) && \hspace{-3cm} \text{По монотонности}\\
+        A(m, A(m, j + 1)) &\leq A(m, A(m + 1, j)) && \hspace{-3cm} \text{По монотонности + предположение}\\
+        A(m, (j + 1) + 1) &\leq A(m, A(m + 1, j)) = A(m + 1, j + 1)\\
+                          &                       && \hspace{-3cm} \text{По 3-му свойству ф-ии Аккермана}
     \end{align*}
 \end{itemize}
 \end{proof}
@@ -141,11 +142,11 @@ $A(m_1, n) + A(m_2, n) < A(\max(m_1, m_2) + 4, n)$
     \le {}&A(\max(m_1, m_2), n) + A(\max(m_1, m_2), n)\\
     = {}&2 \cdot A(\max(m_1, m_2), n)\\
     < {}&2 \cdot A(\max(m_1, m_2), n) + 3\\
-    = {}&A(2, A(\max(m_1, m_2), n)) \tag{По \ref{lemma1a}}\\
-    < {}&A(2, A(\max(m_1, m_2) + 3, n)) \tag{Строгая монотоннасть по обоим арг.}\\
-    < {}&A(\max(m_1, m_2) + 2, A(\max(m_1, m_2) + 3, n)) \tag{По \ref{lemma3c}}\\
-    = {}&A(\max(m_1, m_2) + 3, n + 1)   \tag{3-е свойство ф-ии Аккерманна}\\
-    \le {}&A(\max(m_1, m_2) + 4, n) \tag{По \ref{lemma3b}}\\
+    = {}&A(2, A(\max(m_1, m_2), n)) && \text{По \ref{lemma1a}}\\
+    < {}&A(2, A(\max(m_1, m_2) + 3, n)) && \text{Строгая монотоннасть по обоим арг.}\\
+    < {}&A(\max(m_1, m_2) + 2, A(\max(m_1, m_2) + 3, n)) && \text{По \ref{lemma3c}}\\
+    = {}&A(\max(m_1, m_2) + 3, n + 1)   && \text{3-е свойство ф-ии Аккермана}\\
+    \le {}&A(\max(m_1, m_2) + 4, n) && \text{По \ref{lemma3b}}\\
 \end{align*}
 \end{proof}
 \begin{lemma}
@@ -190,14 +191,14 @@ $f(n) = 0 < A(J, n)$ (потому что $A \geq 1$) $= A(J, \sum(\overline n))
 По предположению индукции существует $J_0$ для $h$, $J_1, \dotsc, J_m$ для $g_1\ldots{}g_m$.
 \begin{align*}
 &f(\overline n) = h(g_1(\overline n),..)\\
-\le {}&A(J_0, \sum\{i=1..m\}(\overline n)) \tag{По выбору $J_0$}\\
-< {}& (J_0, \sum(A(J_i, \sum(\overline n)))) \tag{По выбору $J_i$ и строгой монотонности}\\
+    \le {}&A(J_0, \sum\{i=1..m\}(\overline n)) && \text{По выбору $J_0$}\\
+    < {}& (J_0, \sum(A(J_i, \sum(\overline n)))) && \text{По выбору $J_i$ и строгой монотонности}\\
 // {}&J* = \max(J_1..J_m) + 4(m - 1)\\
-< {}&A(J_i, A(J*, \sum(\overline n))) \tag{По \ref{lemma4} примененной $m-1$ раз}\\
-< {}&A(J_i, A(J*+1, \sum(\overline n))) \tag{По монотонности}\\
-\leq {}&A(J_0, A(\max(J_0, J*) + 1, \sum(\overline n))) \tag{По монотонности}\\
-\leq {}&A(\max(J_0, J*) + 1, \sum(\overline n) + 1) \tag{3-е свойство ф-ии Аккерманна}\\
-= {}&A(\max(J_0, J*) + 2, \sum(\overline n)) \tag{По \ref{lemma3b}}\\
+    < {}&A(J_i, A(J*, \sum(\overline n))) && \text{По \ref{lemma4} примененной $m-1$ раз}\\
+    < {}&A(J_i, A(J*+1, \sum(\overline n))) && \text{По монотонности}\\
+    \leq {}&A(J_0, A(\max(J_0, J*) + 1, \sum(\overline n))) && \text{По монотонности}\\
+    \leq {}&A(\max(J_0, J*) + 1, \sum(\overline n) + 1) && \text{3-е свойство ф-ии Аккермана}\\
+    = {}&A(\max(J_0, J*) + 2, \sum(\overline n)) && \text{По \ref{lemma3b}}\\
 \end{align*}
 Тогда пусть $j=\max(J_0, J*) + 2$
 \item Пусть $f(\overline n) = R\template{h,g}(\overline n)$\\
@@ -212,27 +213,27 @@ $f(n_1, \dotsc, n_k, m+1) = g(n_1, \dotsc, n_k, m, f(n_1, \dotsc, n_k, m))$\\
 \leq {}&f(\overline n, 0) + \sum(\overline n)\\
 = {}&h(\overline n) + \sum(\overline n)\\
 < {}&A(J_0, \sum(\overline n)) + \sum(\overline n)\\
-< {}&A(J_0 + 4, \sum(\overline n)) \tag{По \ref{lemma5}}\\
-< {}&A(J, \sum(\overline n)) \tag{По монотонности}\\
+    < {}&A(J_0 + 4, \sum(\overline n)) && \text{По \ref{lemma5}}\\
+    < {}&A(J, \sum(\overline n)) && \text{По монотонности}\\
 = {}&A(J, \sum(\overline n) + 0)\\
 \end{align*} 
 \item 
 \begin{align*}
 &f(\overline n, k + 1)\\
 = {}&g(\overline n, k, f(\overline n, k))\\
-< {}&A(J_1, \sum(\overline n) + k + f(\overline n, k)) \tag{По выбору $J_1$}\\
-< {}&A(J_1, \sum(\overline n) + k + 1 + f(\overline n, k)) \tag{По монотонности}\\
-= {}&A(J_1, A(0, \sum(\overline n) + k) + f(\overline n, k))   \tag{По 1-му свойсту ф-ии Аккерманна}\\
-< {}&A(J_1, A(0, \sum(\overline n) + k) + H(J, \sum(\overline n)+k)) \tag{По предположению}\\
-< {}&A(J_1, A(J, \sum(\overline n)+k)+A(J, \sum(\overline n) + k)) \tag{По монотонности $(J > 0)$}\\
+    < {}&A(J_1, \sum(\overline n) + k + f(\overline n, k)) && \hspace{-1cm}\text{По выбору $J_1$}\\
+    < {}&A(J_1, \sum(\overline n) + k + 1 + f(\overline n, k)) && \hspace{-1cm}\text{По монотонности}\\
+    = {}&A(J_1, A(0, \sum(\overline n) + k) + f(\overline n, k))   &&\hspace{-1cm}\text{По 1-му свойству ф-ии Аккермана}\\
+    < {}&A(J_1, A(0, \sum(\overline n) + k) + H(J, \sum(\overline n)+k))&& \text{По предположению}\\
+    < {}&A(J_1, A(J, \sum(\overline n)+k)+A(J, \sum(\overline n) + k)) && \text{По монотонности $(J > 0)$}\\
 = {}&A(J_1, 2 * [A(J, \sum(\overline n) + k)])\\
 < {}&A(J_1, 2 * [A(J, \sum(\overline n) + k)] + 3)\\
-= {}&A(J_1, A(2, A(J, \sum(\overline n) + k))) \tag{По \ref{lemma1a}}\\
-< {}&A(J_1, A(J_1 + 1, A(J, \sum(\overline n) + k))) \tag{По строгой монотонности $(J_1 > 2)$}\\
-= {}&A(J_1 + 1, A(J, \sum(\overline n) + k) + 1) \tag{По 3-му свойству ф-ии Аккерманна}\\
+    = {}&A(J_1, A(2, A(J, \sum(\overline n) + k))) && \hspace{-1cm}\text{По \ref{lemma1a}}\\
+    < {}&A(J_1, A(J_1 + 1, A(J, \sum(\overline n) + k))) && \hspace{-1cm}\text{По строгой монотонности $(J_1 > 2)$}\\
+    = {}&A(J_1 + 1, A(J, \sum(\overline n) + k) + 1) &&\hspace{-1cm}\text{По 3-му свойству ф-ии Аккермана}\\
 \leq {}&A(J_1 + 2, A(J, \sum(\overline n) + k))\\
-< {}&A(J - 1, A(J, \sum(\overline n) + k)) \tag{По монот. $J > \max(..) + 4$}\\
-= {}&A(J, \sum(\overline n) + (k + 1)) \tag{По 3-му свойству ф-ии Аккерманна, $J != 0$}\\
+    < {}&A(J - 1, A(J, \sum(\overline n) + k)) &&\hspace{-2.5cm}\text{По монот. $J > \max(..) + 4$}\\
+    = {}&A(J, \sum(\overline n) + (k + 1)) &&\hspace{-2.5cm}\text{По 3-му свойству ф-ии Аккермана, $J != 0$}\\
 \end{align*}
 \end{enumerate}
 \end{enumerate}

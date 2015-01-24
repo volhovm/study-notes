@@ -1,6 +1,6 @@
 % Created 2015-01-21 Ср 21:06
 %\documentclass[draft,12pt]{article}
-\documentclass[12pt]{article}
+\documentclass[fleqn,12pt]{article}
 \usepackage{euler}
 %\usepackage[normalem]{ulem}
 \usepackage{amsmath}
@@ -71,6 +71,8 @@
 
 \tolerance 1000 % чтобы не очковал переносить
 
+\renewcommand{\theenumii}{\asbuk{enumii}}
+\AddEnumerateCounter{\asbuk}{\@asbuk}{ы}
 %\newenvironment{epigraph}% 
 %{\begin{list}{}{\setlength{\leftmargin}{0.3\textwidth}}\item[]}% 
 %{\end{list}} 
