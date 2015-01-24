@@ -2,12 +2,17 @@
 \label{sec-5}
 \subsection{ИИВ, структура, модель}
 \label{sec-5-1}
-Сигнатура -- $(R, F, C, r)$: $R$ -- множество символов для предикатов, $F$ -- функциональных символов, $С$ -- символов констант, $r$ -- функция, определяющая арность $x \in R \cup F$. \\ 
-Интерпретация -- это приписывание символам значения и правил действия. \\
+
+Сигнатура -- $(R, F, C, r)$: $R$ -- множество символов для предикатов, $F$ -- функциональных символов, $C$ -- символов констант, $r$ -- функция, определяющая арность $x \in R \cup F$. 
+
+Интерпретация -- это приписывание символам значения и правил действия.
+
 Структура -- это носитель $M$ (множество истинностных значений), сигнатура и интерпретация над носителем.
+
 Если все аксиомы верны, то структура корректна.
 В таком случае она называется моделью.
-Выкидываем 10 аксиому, добавляем $\alpha \rightarrow \neg \alpha \rightarrow \beta$.\\
+
+Выкидываем 10 аксиому, добавляем $\alpha \rightarrow \neg \alpha \rightarrow \beta$.
 
 Она доказывается и в ИВ.
 \begin{lemma} 
@@ -73,19 +78,20 @@ $(\alpha * \beta) * \gamma = \alpha * (\beta * \gamma)$
 $\alpha + (\alpha * \beta) = \alpha$\\
 $\alpha * (\alpha + \beta) = \alpha$
 \end{itemize} 
-Также решетку можно определить как упорядоченное множество с частичным порядком на нем. Тогда операции $+, *$ определяются как $sup$ и $inf$\\
+Также решетку можно определить как упорядоченное множество с частичным порядком на нем. Тогда операции $+, *$ определяются как $\sup$ и $\inf$
 \begin{gather*}
-sup(\phi) = min \lbrace u \vert u \geq \forall x \in \phi \rbrace\\ inf(\phi) = max \lbrace u \vert u \leq \forall x \in \phi \rbrace\\
-\alpha + \beta = sup (\lbrace \alpha, \beta \rbrace)\\
-\alpha * \beta = inf (\lbrace \alpha, \beta \rbrace)\\
+\sup(\phi) = \min \lbrace u \mid u \geq \forall x \in \phi \rbrace\\
+\inf(\phi) = \max \lbrace u \mid u \leq \forall x \in \phi \rbrace\\
+\alpha + \beta = \sup (\lbrace \alpha, \beta \rbrace)\\
+\alpha * \beta = \inf (\lbrace \alpha, \beta \rbrace)\\
 \end{gather*}
 Если для любых двух элементов из множества $S$ можно определить эти две операции, то $S$ называется решеткой.
 
-\emph{Дистрибутивная решетка} -- \emph{решетка}, в которой добавляется дистрибутивность:\\
-$\alpha * (\beta + \gamma) = \alpha * \beta + \alpha * \gamma$
+\emph{Дистрибутивная решетка} -- \emph{решетка}, в которой добавляется дистрибутивность:
+\[\alpha * (\beta + \gamma) = \alpha * \beta + \alpha * \gamma\]
 
-\emph{Импликативная решетка} -- \emph{решетка}, в которой для любых двух элементов $\alpha$ и $\beta$ из множества существует псевдодополнение $\alpha$ относительно $\beta$ ($\alpha \rightarrow \beta$), которое определяется так:\\
-$\alpha \rightarrow \beta = max \lbrace \gamma \vert \gamma * \alpha \leq \beta \rbrace$
+\emph{Импликативная решетка} -- \emph{решетка}, в которой для любых двух элементов $\alpha$ и $\beta$ из множества существует псевдодополнение $\alpha$ относительно $\beta$ ($\alpha \rightarrow \beta$), которое определяется так:
+\[\alpha \rightarrow \beta = max \lbrace \gamma \vert \gamma * \alpha \leq \beta \rbrace\]
 
 Свойства \emph{импликативной решетки}:
 \begin{itemize}
@@ -215,8 +221,10 @@ $\vdash \alpha \vee \beta \Rightarrow$ либо $\vdash \alpha$, либо $\vdas
 \begin{proof}
 Разберем все втречающиеся в изначальном доказательстве формулы
 \begin{enumerate}
-\item Заметим, что если в ИИВ доказуемо $\alpha$, то $\neg\neg\alpha$ так же доказуемо.\\
-Докажем, что $\alpha \vdash \neg \neg \alpha$\\
+\item Заметим, что если в ИИВ доказуемо $\alpha$, то $\neg\neg\alpha$ так же доказуемо.
+
+Докажем, что $\alpha \vdash \neg \neg \alpha$
+
 \begin{tabular}{lll}
 (1) &$\alpha$& Допущение\\
 (2) &$\alpha \rightarrow \neg \alpha \rightarrow \alpha$& Сх. акс. 1\\
@@ -233,8 +241,10 @@ $\vdash \alpha \vee \beta \Rightarrow$ либо $\vdash \alpha$, либо $\vdas
 (10) & $(\neg \alpha \rightarrow \neg \alpha) \rightarrow \neg \neg \alpha$& M.P. 3,9\\
 (11) & $\neg \neg \alpha$& M.P. 8,10\\
 \end{tabular}
-Значит, если $\alpha$ - аксиома с 1-ой по 9-ую, то $\neg \neg \alpha$ так же может быть доказано
-\item Пусть $\alpha$ получилось по 10-ой аксиоме $\neg \neg \alpha \rightarrow \alpha$. Докажем, что $\vdash \neg \neg (\neg \neg \alpha \rightarrow \alpha)$\\
+
+Значит, если $\alpha$ -- аксиома с 1-ой по 9-ую, то $\neg \neg \alpha$ также может быть доказано
+\item Пусть $\alpha$ получилось по 10-ой аксиоме $\neg \neg \alpha \rightarrow \alpha$. Докажем, что $\vdash \neg \neg (\neg \neg \alpha \rightarrow \alpha)$
+
 \begin{tabular}{lll}
 (1) &$\alpha \rightarrow \neg \neg \alpha \rightarrow \alpha$& Сх. акс. 1\\
 (2) &$\neg (\neg \neg \alpha \rightarrow \alpha) \rightarrow \neg \alpha$& Контрпозиция\\
