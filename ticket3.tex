@@ -48,7 +48,7 @@ $\alpha \rightarrow \alpha \vee \neg \alpha \rightarrow \neg \alpha \rightarrow 
 \begin{itemize}
 \item конъюнкция: минимум из двух значений (например $\texttt{И} \& \texttt{Н} = \texttt{Н}$).
 \item дизъюнкция: максимум из двух значений (например $\texttt{И} \vee \texttt{Н} = \texttt{И}$).
-\item импликация: $\texttt{И} \rightarrow \alpha = \alpha$, $\texttt{Л} \rightarrow \alpha = \texttt{И}$, $\texttt{Н} \rightarrow \texttt{Л} = \texttt{Л}$, $\texttt{Н} \rightarrow \texttt{Н} = \texttt{И}$, $\texttt{Н} \rightarrow \texttt{Н} = \texttt{И}$.
+\item импликация: $\texttt{И} \rightarrow \alpha = \alpha$, $\texttt{Л} \rightarrow \alpha = \texttt{И}$, $\texttt{Н} \rightarrow \texttt{Л} = \texttt{Л}$, $\texttt{Н} \rightarrow \texttt{Н} = \texttt{И}$, $\texttt{Н} \rightarrow \texttt{И} = \texttt{И}$.
 \item отрицание: $\neg \texttt{Н} = \texttt{Л}$, а для остальных элементов все так же.
 \end{itemize}
 
@@ -73,16 +73,20 @@ $(\alpha * \beta) * \gamma = \alpha * (\beta * \gamma)$
 $\alpha + (\alpha * \beta) = \alpha$\\
 $\alpha * (\alpha + \beta) = \alpha$
 \end{itemize} 
-Также решетку можно определить как упорядоченное множество с частичным порядком на нем. Тогда операции $+, *$ определяются как $sup$ и $inf$ ($sup(\phi) = min \lbrace u \vert u \geq \forall x \in \phi \rbrace$,  $inf(\phi) = max \lbrace u \vert u \leq \forall x \in \phi \rbrace$).\\
-$\alpha + \beta = sup (\lbrace \alpha, \beta \rbrace)$\\
-$\alpha * \beta = inf (\lbrace \alpha, \beta \rbrace)$\\
+Также решетку можно определить как упорядоченное множество с частичным порядком на нем. Тогда операции $+, *$ определяются как $sup$ и $inf$\\
+\begin{gather*}
+sup(\phi) = min \lbrace u \vert u \geq \forall x \in \phi \rbrace\\ inf(\phi) = max \lbrace u \vert u \leq \forall x \in \phi \rbrace\\
+\alpha + \beta = sup (\lbrace \alpha, \beta \rbrace)\\
+\alpha * \beta = inf (\lbrace \alpha, \beta \rbrace)\\
+\end{gather*}
 Если для любых двух элементов из множества $S$ можно определить эти две операции, то $S$ называется решеткой.
 
 \emph{Дистрибутивная решетка} -- \emph{решетка}, в которой добавляется дистрибутивность:\\
 $\alpha * (\beta + \gamma) = \alpha * \beta + \alpha * \gamma$
 
 \emph{Импликативная решетка} -- \emph{решетка}, в которой для любых двух элементов $\alpha$ и $\beta$ из множества существует псевдодополнение $\alpha$ относительно $\beta$ ($\alpha \rightarrow \beta$), которое определяется так:\\
-$\alpha \rightarrow \beta = max \lbrace \gamma \vert \gamma * \alpha \leq \beta \rbrace$\\
+$\alpha \rightarrow \beta = max \lbrace \gamma \vert \gamma * \alpha \leq \beta \rbrace$
+
 Свойства \emph{импликативной решетки}:
 \begin{itemize}
 \item Существует максимальный элемент $\alpha \rightarrow \alpha$, обычно обозначаемый как $1$
@@ -110,19 +114,18 @@ $\alpha * \neg \alpha = 0$\\
 $\alpha + \neg \alpha = 1$
 \end{itemize}
 
-Также \emph{Булеву алгебру} можно определить как импликативную решетку над фундированным множеством. Тогда $1$ в ней будет $\alpha \rightarrow \alpha$, $\neg \alpha = \alpha \rightarrow 0$. Тогда $\alpha * \neg \alpha = 0$ будет уже свойством, а $\alpha + \neg \alpha = 1$ все еще аксиомой.
+Также \emph{булеву алгебру} можно определить как импликативную решетку над фундированным множеством. Тогда $1$ в ней будет $\alpha \rightarrow \alpha$, $\neg \alpha = \alpha \rightarrow 0$. Тогда $\alpha * \neg \alpha = 0$ будет уже свойством, а $\alpha + \neg \alpha = 1$ все еще аксиомой.
 
-\emph{Псевдобулева алгебра} (алгебра Гейтинга) -- это импликативная решетка над фундированным множеством с $\neg \alpha = \alpha \rightarrow 0$
-
+\emph{Псевдобулева алгебра} (алгебра Гейтинга) -- это импликативная решетка над фундированным множеством с $\neg \alpha = \alpha \rightarrow 0$ (нет аксиомы $\alpha + \neg \alpha = 1$)
 \subsection{Алгебра Линденбаума-Тарского}
 \label{sec-5-5}
 Пусть $V$ -- множество формул ИИВ\\
 Порядок для решетки:\\
 $\alpha \leq \beta \Leftrightarrow  \alpha \vdash \beta$\\
-$\alpha \sim \beta \Leftrightarrow \alpha \vdash \beta \& \beta \vdash \alpha$\\
+$\alpha \sim \beta \Leftrightarrow \alpha \vdash \beta$ и $\beta \vdash \alpha$\\
 Определим операции и $0$, $1$:\\
-$0 - \alpha \& \neg \alpha = \perp$\\
-$1 - \alpha \rightarrow \alpha = T$\\
+$0$ -- $\alpha \& \neg \alpha = \perp$\\
+$1$ -- $\alpha \rightarrow \alpha = T$\\
 $\alpha \& \beta = \alpha * \beta$\\
 $\alpha \vee \beta = \alpha + \beta$\\
 $\neg \alpha = -\alpha$\\
@@ -244,7 +247,7 @@ $\vdash \alpha \vee \beta \Rightarrow$ либо $\vdash \alpha$, либо $\vdas
 \item Приведем конструктивное доказательство:
 \begin{itemize}
 \item Если $\alpha$ - аксиома, то $\neg \neg \alpha$ доказывается с помощью 1-го и 2-го пунктов
-\item Если был применен M.P., то в изначальном доказтельстве были $\alpha$, $\alpha \rightarrow \beta$, $\beta$. По индукционному предположению мы знаем, что $\neg \neg \alpha$, $\neg \neg (\alpha \rightarrow \beta$. Нужно доказать $\neg \neg \beta$.\\
+\item Если был применен M.P., то в изначальном доказательстве были $\alpha$, $\alpha \rightarrow \beta$, $\beta$. По индукционному предположению мы знаем, что $\neg \neg \alpha$, $\neg \neg (\alpha \rightarrow \beta)$. Нужно доказать $\neg \neg \beta$.\\
 Давайте для начала докажем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha, \alpha \rightarrow \beta \vdash \beta$.\\
 \begin{tabular}{lll}
 (1) &$\alpha$& Допущение\\
