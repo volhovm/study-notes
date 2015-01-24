@@ -3,6 +3,8 @@
 \usepackage{euler}
 %\usepackage[normalem]{ulem}
 \usepackage{amsmath}
+\usepackage{epigraph}
+\usepackage{mathtools}
 \usepackage{amssymb}
 \usepackage{proof}
 \usepackage{hyperref}
@@ -19,11 +21,23 @@
 \usepackage{polyglossia}
 \setdefaultlanguage[babelshorthands=true]{russian}
 
-\hyphenpenalty=5000
+%\hyphenpenalty=5000
 
-\newcommand{\lgodel}{{\unicodefont \textopencorner}}
-\newcommand{\rgodel}{{\unicodefont \textcorner}}
-\newcommand{\Godel}[1]{\lgodel #1\rgodel}
+
+% some magic for Godel numerals
+\newbox\gnBoxA
+\newdimen\gnCornerHgt
+\setbox\gnBoxA=\hbox{$\ulcorner$}
+\global\gnCornerHgt=\ht\gnBoxA
+\newdimen\gnArgHgt
+\def\Godel #1{%
+\setbox\gnBoxA=\hbox{$#1$}%
+\gnArgHgt=\ht\gnBoxA%
+\ifnum     \gnArgHgt<\gnCornerHgt \gnArgHgt=0pt%
+\else \advance \gnArgHgt by -\gnCornerHgt%
+\fi \raise\gnArgHgt\hbox{$\ulcorner$} \box\gnBoxA %
+\raise\gnArgHgt\hbox{$\urcorner$}}
+
 
 \renewcommand{\le}{\leqslant} % ≤
 \renewcommand{\leq}{\leqslant} % ≤
@@ -33,10 +47,13 @@
 \renewcommand{\epsilon}{\varepsilon}
 \DeclareMathOperator{\plog}{plog}
 \DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Proof}{Proof}
 
 \newcommand{\ltemplate}{\langle}
 \newcommand{\rtemplate}{\rangle}
 \newcommand{\template}[1]{\ltemplate #1\rtemplate}
+
+\newcommand{\defeq}{\coloneqq}
 \newcommand{\s}[1]{\texttt{#1}}
 \newcommand{\xl}{$\lambda$}
 \newcommand{\+}{\lambda}
@@ -47,6 +64,8 @@
 \newcommand{\concat}{\hat{\ \ }}
 
 \def\ra{\rightarrow}
+
+\tolerance 1000 % чтобы не очковал переносить
 
 %\newenvironment{epigraph}% 
 %{\begin{list}{}{\setlength{\leftmargin}{0.3\textwidth}}\item[]}% 
@@ -69,6 +88,9 @@
 \tableofcontents
 
 %Должно отображаться корректно: $x_1$,x₂x₃xₙ, θ, \exists , ∑, ∉
+\epigraph{%
+    лан, всё не книжку верстаем))))000}
+  {некто Игнат Лоскутов о качестве вёрстки}
 
 Mykhail Volkhov, 2538, 2014Sep-2015Jan\\
 Я не отвечаю за верность написанного - много информации
