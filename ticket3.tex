@@ -248,13 +248,13 @@ $\vdash \alpha \vee \beta \Rightarrow$ либо $\vdash \alpha$, либо $\vdas
 \begin{itemize}
 \item Если $\alpha$ - аксиома, то $\neg \neg \alpha$ доказывается с помощью 1-го и 2-го пунктов
 \item Если был применен M.P., то в изначальном доказательстве были $\alpha$, $\alpha \rightarrow \beta$, $\beta$. По индукционному предположению мы знаем, что $\neg \neg \alpha$, $\neg \neg (\alpha \rightarrow \beta)$. Нужно доказать $\neg \neg \beta$.\\
-Давайте для начала докажем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha, \alpha \rightarrow \beta \vdash \beta$.\\
+Давайте для начала докажем, что \[\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha, \alpha \rightarrow \beta \vdash \beta\].\\
 \begin{tabular}{lll}
 (1) &$\alpha$& Допущение\\
 (2) &$\alpha \rightarrow \beta$& Допущение\\
 (3) &$\beta$& M.P. 1,2\\
 \end{tabular}\\
-Значит мы знаем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha \vdash (\alpha \rightarrow \beta) \rightarrow \beta$. Теперь докажем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha, (\alpha \rightarrow \beta) \rightarrow \beta \vdash \neg \alpha \rightarrow \beta$.\\
+Значит мы знаем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha \vdash (\alpha \rightarrow \beta) \rightarrow \beta$. Теперь докажем, что \[\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha, (\alpha \rightarrow \beta) \rightarrow \beta \vdash \neg (\alpha \rightarrow \beta.)\]\\
 \begin{tabular}{lll}
 (1) &$((\alpha \rightarrow \beta) \rightarrow \beta) \rightarrow ((\alpha \rightarrow \beta) \rightarrow \neg \beta) \rightarrow \neg(\alpha \rightarrow \beta)$& Сх. акс. 9\\
 (2) &$((\alpha \rightarrow \beta) \rightarrow \beta)$& Допущение\\
@@ -264,7 +264,7 @@ $\vdash \alpha \vee \beta \Rightarrow$ либо $\vdash \alpha$, либо $\vdas
 (6) &$((\alpha \rightarrow \beta) \rightarrow \neg \beta) \rightarrow \neg(\alpha \rightarrow \beta)$ M.P. 2,1\\
 (7) &$\neg(\alpha \rightarrow \beta)$ M.P. 5,6\\
 \end{tabular}\\
-Теперь мы знаем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta \vdash \alpha \rightarrow \neg (\alpha \rightarrow \beta)$. Докажем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha \rightarrow \neg (\alpha \rightarrow \beta) \vdash \neg \alpha$.\\
+Теперь мы знаем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta \vdash \alpha \rightarrow \neg (\alpha \rightarrow \beta)$. Докажем, что \[ \neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta, \alpha \rightarrow \neg (\alpha \rightarrow \beta) \vdash \neg \alpha.\] \\
 \begin{tabular}{lll}
 (1) &$(\alpha \rightarrow \neg (\alpha \rightarrow \beta)) \rightarrow (\alpha \rightarrow \neg \neg (\alpha \rightarrow \beta)) \rightarrow \neg \alpha$& Сх. акс. 9\\
 (2) &$\alpha \rightarrow \neg (\alpha \rightarrow \beta)$&Допущение\\
@@ -274,7 +274,7 @@ $\vdash \alpha \vee \beta \Rightarrow$ либо $\vdash \alpha$, либо $\vdas
 (6) &$(\alpha \rightarrow \neg \neg (\alpha \rightarrow \beta)) \rightarrow \neg \alpha$& M.P. 2,1\\
 (7) &$\neg \alpha$& M.P.5,6\\
 \end{tabular}\\
-Теперь мы знаем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta) \vdash \neg \beta \rightarrow \neg \alpha$. Наконец докажем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta \rightarrow \neg \alpha \vdash \neg \neg \beta$.\\
+Теперь мы знаем, что $\neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta) \vdash \neg \beta \rightarrow \neg \alpha$. Наконец докажем, что \[ \neg \neg \alpha, \neg \neg (\alpha \rightarrow \beta), \neg \beta \rightarrow \neg \alpha \vdash \neg \neg \beta\] \\
 \begin{tabular}{lll}
 (1) &$(\neg \beta \rightarrow \neg \alpha) \rightarrow (\neg \beta \rightarrow \neg \neg \alpha) \rightarrow \neg \neg \beta$& Сх. акс. 9\\
 (2) &$\neg \beta \rightarrow \neg \alpha$& Допущение\\
