@@ -5,24 +5,27 @@
 Рассмотрим примитивы, из которых будем собирать выражения:
 
 \begin{enumerate}
-\item $Z: N \rightarrow N$, $Z(x) = 0$
-\item $N: N \rightarrow N$, $N(x) = x'$
-\item Проекция. $U^n_i: N^n \rightarrow N$, $U^n_i (x_1, ... x_n) = x_i$
-\item Подстановка. Если $f: N^n \rightarrow N$ и $g_1, ... g_n: N^m \rightarrow N$, 
-  то $S\langle{}f,g_1,...g_n\rangle: N^m \rightarrow N$.
-При этом $S\langle{}f,g_1,...g_n\rangle (x_1,...x_m) = f(g_1(x_1,...x_m), ... g_n(x_1,...x_m))$
-\item Примитивная рекурсия. Если $f: N^n \rightarrow N$ и $g: N^{n+2} \rightarrow N$, то
+\item $Z \colon \mathbb{N} \rightarrow \mathbb{N}$, $Z(x) = 0$
+\item $N \colon \mathbb{N} \rightarrow \mathbb{N}$, $N(x) = x'$
+\item Проекция. $U^n_i \colon \mathbb{N}^n \rightarrow \mathbb{N}$, $U^n_i (x_1, \dotsc, x_n) = x_i$
+\item Подстановка. Если $f \colon \mathbb{N}^n \rightarrow \mathbb{N}$ и $g_1, \dotsc, g_n \colon \mathbb{N}^m \rightarrow \mathbb{N}$, 
+    то $S\template{f,g_1,\dotsc, g_n} \colon \mathbb{N}^m \rightarrow \mathbb{N}$.
+
+    При этом $S\langle{}f,g_1,\dotsc, g_n\rangle (x_1,\dotsc, x_m) = f(g_1(x_1,\dotsc, x_m), \dotsc, g_n(x_1,\dotsc, x_m))$
+\item Примитивная рекурсия. Если $f \colon \mathbb{N}^n     \to \mathbb{N}$ и 
+                                 $g \colon \mathbb{N}^{n+2} \to \mathbb{N}$, то
 	$R\ltemplate f, g\rtemplate(x_1\ldots{}x_n, n) = \begin{cases}
-    	f(x_1\ldots{}x_n) & n = 0 \\
-    	g(x_1\ldots{}x_n, n, R\ltemplate f, g\rtemplate(x_1\ldots{}x_n, n - 1)) & n > 0
-	\end{cases}$\\
-\item Минимизация. Если $f: N^{n+1} \rightarrow N$, то $\mu \langle{}f\rangle: N^n \rightarrow N$, при этом
-  $\mu \langle{}f\rangle (x_1,...x_n)$ --- такое минимальное число $y$, что $f(x_1,...x_n,y) = 0$.
+    	f(x_1, \dotsc, x_n) & n = 0 \\
+    	g(x_1, \dotsc, x_n, n, R\ltemplate f, g\rtemplate(x_1, \dotsc, x_n, n - 1)) & n > 0
+	\end{cases}$
+\item Минимизация. Если $f \colon \mathbb{N}^{n+1} \rightarrow \mathbb{N}$,
+    то $\mu \template{f}\colon \mathbb{N}^n \rightarrow \mathbb{N}$, при этом
+  $\mu \langle{}f\rangle (x_1,\dotsc,x_n)$ --- такое минимальное число $y$, что $f(x_1,\dotsc, x_n, y) = 0$.
   Если такого $y$ нет, результат данного примитива неопределен.
 \end{enumerate}
 
-Пример:\\
-$a + b = R\template{U^2_1, S\template{N, U^3_3}}(a, b)$
+Пример:
+\[a + b = R\template{U^2_1, S\template{N, U^3_3}}(a, b)\]
 \subsection{Характеристическая функция и рекурсивное отношение}
 \label{sec-10-2}
 \begin{itemize}
@@ -32,14 +35,16 @@ $a + b = R\template{U^2_1, S\template{N, U^3_3}}(a, b)$
 \end{itemize}
 \subsection{Аккерман не примитивно-рекурсивен, но рекурсивен (второе)}
 \label{sec-10-3}
-Функция Аккермана -- это функция, удовлетворяющая следующим правилам:\\
-$A(m,n) = \begin{cases}
-   n+1 & m = 0\\
-   A(m-1,n) & m > 0, n = 0\\
-   A(m-1,A(m,n-1)) & m > 0, n > 0
-\end{cases}$\\
-Например:\\
-$A(2, 0) = A(1, 1) = A(0, A(1, 0)) = A(0, 2) = 3$
+Функция Аккермана -- это функция, удовлетворяющая следующим правилам:
+\[
+    A(m,n) = \begin{cases}
+        n+1 & m = 0\\
+        A(m-1,n) & m > 0, n = 0\\
+        A(m-1,A(m,n-1)) & m > 0, n > 0
+    \end{cases}
+\]
+Например:
+\[A(2, 0) = A(1, 1) = A(0, A(1, 0)) = A(0, 2) = 3\]
 \begin{lemma}
 $A(m, n) \geq 1$
 \end{lemma}
@@ -48,9 +53,9 @@ $A(m, n)$ определена только на натуральных числ
 $A(0, 0) = 1, A(1, 0) = A(0, 1) = 2, A(0, 1) = 2$, а все остальное ещё больше
 \end{proof}
 \begin{lemma}
+\label{lemma1a}
 $A(1, n) = n + 2$
 \end{lemma}
-\label{lemma1a}
 \begin{proof}
 $A(1, n) = A(0, A(1, n - 1))$
 $= A(0, A(0, A(1, n - 2)))$\\
@@ -59,9 +64,9 @@ $= A(0, A(0, A(0, \ldots{} 2)))$\\
 $= n + 2$ $ ($n$ раз инкрементируем двойку)$\\
 \end{proof}
 \begin{lemma}
+\label{lemma1b}
 $A(2, n) = 2n + 3$
 \end{lemma}
-\label{lemma1b}
 \begin{proof}
 $A(2, n)
 = A(1, A(1, \ldots{} A(2, 0)))
@@ -69,9 +74,9 @@ $A(2, n)
 = 2n + 3$ ($n$ раз к тройке прибавляем $A(0, 1) = 2$)
 \end{proof}
 \begin{lemma}
+\label{lemma2}
 $A(m, n) \geq n + 1$
 \end{lemma}
-\label{lemma2}
 \begin{proof}
 В первом случае $A \geq n + 1 = n + 1$\\
 Во втором $A$ может перейти в первый случай, который работает
@@ -84,9 +89,9 @@ $A(m, n) \geq n + 1$
 завершается.
 \end{proof}
 \begin{lemma}
+\label{lemma3a}
 $A(m, n) < A(m, n + 1)$
 \end{lemma}
-\label{lemma3a}
 \begin{proof}
 Проведем индукцию по $m$:
 \begin{itemize}
@@ -99,52 +104,59 @@ $\leq A(k + 1, m + 1)$   (3-е свойства ф-ии Аккермана)
 \end{itemize}
 \end{proof}
 \begin{lemma}
+\label{lemma3b}
 $A(m, n + 1) \leq A(m + 1, n)$
 \end{lemma}
-\label{lemma3b}
 \begin{proof}
 Проведем индукцию по $n$:
 \begin{itemize}
 \item База:\\
 $A(m, 0 + 1) = A(m, 1) = A(m + 1, 0)$ (ii)
-\item Переход, предположение: $A(m, j + 1) \leq A(m + 1, j)$ (По \ref{lemma2}\\
-$(j + 1) + 1 \leq A(m, j + 1)$\\
-$A(m, (j + 1) + 1) \leq A(m, A(m, j + 1))$ (По монотонности)\\
-$A(m, A(m, j + 1)) \leq A(m, A(m + 1, j))$ (По монотонности + предположение)\\
-$A(m, (j + 1) + 1) \leq A(m, A(m + 1, j)) = A(m + 1, j + 1)$ (3-е свойства ф-ии Аккермана)
+\item Переход, предположение:
+    \begin{align*}
+        A(m, j + 1) &\leq A(m + 1, j) \tag{По \ref{lemma2}}\\
+        (j + 1) + 1 &\leq A(m, j + 1)\\
+        A(m, (j + 1) + 1) &\leq A(m, A(m, j + 1)) \tag{По монотонности}\\
+        A(m, A(m, j + 1)) &\leq A(m, A(m + 1, j)) \tag{По монотонности + предположение}\\
+        A(m, (j + 1) + 1) &\leq A(m, A(m + 1, j)) = A(m + 1, j + 1) \tag{3-е свойство ф-ии Аккермана}
+    \end{align*}
 \end{itemize}
 \end{proof}
 \begin{lemma}
+\label{lemma3c}
 $A(m, n) < A(m + 1, n)$
 \end{lemma}
-\label{lemma3c}
 \begin{proof}
 $A(m, n) < A(m, n + 1) \leq A(m + 1, n)$ (По \ref{lemma3a}, \ref{lemma3b})
 \end{proof}
 \begin{lemma}
-$A(m_1, n) + A(m₂, n) < A(max(m_1, m₂) + 4, n)$
-\end{lemma}
 \label{lemma4}
+$A(m_1, n) + A(m_2, n) < A(\max(m_1, m_2) + 4, n)$
+\end{lemma}
 \begin{proof}
-$A(m_1, n) + A(m_2, n)$\\
-$≤ A(max(m_1, m_2), n) + A(max(m_1, m_2), n)$\\
-$= 2 * A(max(m_1, m_2), n)$\\
-$< 2 * A(max(m_1, m_2), n) + 3$\\
-$= A(2, A(max(m_1, m_2), n))$ (По \ref{lemma1a})\\
-$< A(2, A(max(m_1, m_2) + 3, n))$ (Строгая монотоннасть по обоим арг.)\\
-$< A(max(m_1, m_2) + 2, A(max(m_1, m_2) + 3, n))$ (По \ref{lemma3c})\\
-$= A(max(m_1, m_2) + 3, n + 1)$   (3-е свойства ф-ии Аккермана)\\
-$≤ A(max(m_1, m_2) + 4, n)$ (По \ref{lemma3b})\\
+\begin{align*}
+&A(m_1, n) + A(m_2, n)\\
+    \le {}&A(\max(m_1, m_2), n) + A(\max(m_1, m_2), n)\\
+    = {}&2 \cdot A(\max(m_1, m_2), n)\\
+    < {}&2 \cdot A(\max(m_1, m_2), n) + 3\\
+    = {}&A(2, A(\max(m_1, m_2), n)) \tag{По \ref{lemma1a}}\\
+    < {}&A(2, A(\max(m_1, m_2) + 3, n)) \tag{Строгая монотоннасть по обоим арг.}\\
+    < {}&A(\max(m_1, m_2) + 2, A(\max(m_1, m_2) + 3, n)) \tag{По \ref{lemma3c}}\\
+    = {}&A(\max(m_1, m_2) + 3, n + 1)   \tag{3-е свойства ф-ии Аккермана}\\
+    \le {}&A(\max(m_1, m_2) + 4, n) \tag{По \ref{lemma3b}}\\
+\end{align*}
 \end{proof}
 \begin{lemma}
+\label{lemma5}
 $A(m, n) + n < A(m + 4, n)$
 \end{lemma}
-\label{lemma5}
 \begin{proof}
-$A(m, n) + n
-< A(m, n) + n + 1
-= A(n, m) + A(0, n)
-< A(m + 4, n)$
+    \begin{align*}
+    A&(m, n) + n \\
+    < A&(m, n) + n + 1 \\
+    = A&(n, m) + A(0, n) \\
+    < A&(m + 4, n)
+    \end{align*}
 \end{proof}
 \begin{theorem}
 Функция аккерманна не притивно-рекурсивна
@@ -155,10 +167,10 @@ TODO
 \iffalse
 \subsubsection{Аккерманн не примитивно-рекурсивен}
 \label{sec-10-3-10}
-Пусть f(n_1\ldots{}nₖ) - примитивная рекурсинвная функция, k ≥ 0.
-\exists J:f(n_1\ldots{}nₖ)<A(J, ∑(n_1,\ldots{}nₖ))
+Пусть f(n_1\dotsc, n_k) - примитивная рекурсинвная функция, k ≥ 0.
+\exists J:f(n_1,\dotsc,n_k)<A(J, ∑(n_1,\dotsc, n_k))
 
-]n\textasciitilde{} = (n_1\ldots{}nₖ)
+]n\textasciitilde{} = (n_1\dotsc, n_k)
 Индукция по рекурсивным функциям
 \begin{itemize}
 \item База:
@@ -169,30 +181,30 @@ f(n) = N(n) = n + 1 = A(0, n) < A(1, n) = A(J, n) = A(J, ∑(n\textasciitilde{})
 \item f(n\textasciitilde{}) = Z, k = 1;
 f(n) = 0 < A(J, n) (потому что A ≥ 1) = A(J, ∑(n\textasciitilde{}))
 \item f(n\textasciitilde{}) = Uₖⱼ; k = k; Пусть J=1
-f(n_1\ldots{}nₖ) = Uₖⱼ(n_1\ldots{}nₖ) = nⱼ
+f(n_1\dotsc, n_k) = Uₖⱼ(n_1\dotsc, n_k) = nⱼ
 Пусть nⱼ = 0, тогда f(n) = 0 < A(J, ∑(n\textasciitilde{})) для любого нормального J
 Пусть nⱼ > 0, тогда f(n) = (nⱼ - 1) + 1 = A(0, nⱼ - 1) < A(1, n)
 = A(J, ∑(n\textasciitilde{}))
 \end{enumerate}
 \item Переход
 \begin{enumerate}
-\item Предположим, что f(n\textasciitilde{}) = S<h, g_1\ldots{}gₘ>(n\textasciitilde{}) = h(g_1(n\textasciitilde{}),\ldots{}gₘ(n\textasciitilde{}))
-По предположению индукции существует J₀ для h, J_1\ldots{}Jₘ для g_1\ldots{}gₘ.
+\item Предположим, что f(n\textasciitilde{}) = S<h, g_1\ldots{}g_m>(n\textasciitilde{}) = h(g_1(n\textasciitilde{}),\ldots{}g_m(n\textasciitilde{}))
+По предположению индукции существует J₀ для h, J_1\ldots{}J_m для g_1\ldots{}g_m.
 f(n\textasciitilde{}) = h(g_1(n\textasciitilde{}),..)
 < A(J₀, ∑\{i=1..m\}(n\textasciitilde{}))            по выбору J₀
 < A(J₀, ∑(A(Jᵢ, ∑(n\textasciitilde{}))))           по выбору Jᵢ и строгой монотонности
-// J* = max(J_1..Jₘ) + 4(m - 1)
+// J* = \max(J_1..J_m) + 4(m - 1)
 < A(J₀, A(J*, ∑(n\textasciitilde{})))             по лемме 4 примененной m-1 раз
 < A(J₀, A(J*+1, ∑(n\textasciitilde{})))           по монотонности
-≤ A(J₀, A(max(J₀, J*) + 1, ∑(n\textasciitilde{}))) по монотонности
-≤ A(max(J₀, J*) + 1, ∑(n\textasciitilde{}) + 1)   (iii)
-= A(max(J₀, J*) + 2, ∑(n\textasciitilde{}))       по лемме 3b
-Тогда пусть j=max(J₀, J*) + 2
+≤ A(J₀, A(\max(J₀, J*) + 1, ∑(n\textasciitilde{}))) по монотонности
+≤ A(\max(J₀, J*) + 1, ∑(n\textasciitilde{}) + 1)   (iii)
+= A(\max(J₀, J*) + 2, ∑(n\textasciitilde{}))       по лемме 3b
+Тогда пусть j=\max(J₀, J*) + 2
 \item Пусть f(n\textasciitilde{}) = R<h,g>(n\textasciitilde{})
-f(n_1\ldots{}nₖ, 0) = h(n_1\ldots{}nₖ)
-f(n_1\ldots{}nₖ, m+1) = g(n_1\ldots{}nₖ, m, f(n_1\ldots{}nₖ, m))
+f(n_1, \dotsc, n_k, 0) = h(n_1, \dotsc, n_k)
+f(n_1, \dotsc, n_k, m+1) = g(n_1, \dotsc, n_k, m, f(n_1, \dotsc, n_k, m))
 По предположению имеем J₀ (h), J_1 (g).
-] J = max(J₀, J_1) + 4
+] J = \max(J₀, J_1) + 4
 \begin{enumerate}
 \item f(n\textasciitilde{}, 0)
 ≤ f(n\textasciitilde{}, 0) + ∑(n\textasciitilde{})
@@ -214,16 +226,16 @@ f(n_1\ldots{}nₖ, m+1) = g(n_1\ldots{}nₖ, m, f(n_1\ldots{}nₖ, m))
 < A(J_1, A(J_1 + 1, A(J, ∑(n\textasciitilde{}) + k)))   по строгой монотонности (J_1 > 2)
 = A(J_1 + 1, A(J, ∑(n\textasciitilde{}) + k) + 1)      (iii)
 ≤ A(J_1 + 2, A(J, ∑(n\textasciitilde{}) + k))
-< A(J - 1, A(J, ∑(n\textasciitilde{}) + k))           по монот. J > max(..) + 4
+< A(J - 1, A(J, ∑(n\textasciitilde{}) + k))           по монот. J > \max(..) + 4
 = A(J, ∑(n\textasciitilde{}) + (k + 1))               (iii), J != 0
 \end{enumerate}
 \end{enumerate}
 \end{itemize}
 \fi
 \begin{theorem}
-Функция Аккерманна рекурсивна
+Функция Аккермана рекурсивна
 \end{theorem}
 \begin{proof}
 Можем сказать, что он рекурсивный, потому что мы можем
-его написать на компьютере, а тьюринг выражается в рекурсивных функциях.
+его написать на компуктере, а тьюринг выражается в рекурсивных функциях.
 \end{proof}
