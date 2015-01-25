@@ -168,11 +168,11 @@ $Var = \{P, Q, \dotsc\}$
 
 Правила:
 \begin{itemize}
-    \item $W, x \models  P \Leftrightarrow v(x, P) = 1 \text{, если $P \in Var$}$
-\item $W, x \models  (A \& B) \Leftrightarrow W, x \models  A \& W, x \models  B$
-\item $W, x \models  (A \lor B) \Leftrightarrow W, x \models  A \lor W, x \models  B$
-\item $W, x \models  (A \to B) \Leftrightarrow \forall  y \ge x (W, y \models  A ⇒ W, y \models  B)$
-\item $W, x \models  \lnot A \Leftrightarrow \forall  y \in x (W, x \lnot \models  A)$
+    \item $W, x \vDash  P \Leftrightarrow v(x, P) = 1 \text{, если $P \in Var$}$
+\item $W, x \vDash  (A \& B) \Leftrightarrow W, x \vDash  A \& W, x \vDash  B$
+\item $W, x \vDash  (A \lor B) \Leftrightarrow W, x \vDash  A \lor W, x \vDash  B$
+\item $W, x \vDash  (A \to B) \Leftrightarrow \forall  y \ge x (W, y \vDash  A ⇒ W, y \vDash  B)$
+\item $W, x \vDash  \lnot A \Leftrightarrow \forall  y \in x (W, x \lnot \vDash  A)$
 \end{itemize}
 
 В мире разрешается быть не вынужденной переменной и ее отрицанию
@@ -231,7 +231,7 @@ $\Gamma, \gamma \vdash a \Rightarrow \Gamma \vdash \gamma \to a$
 \label{sec-2-17}
 Исчисление предикатов полно (заметим, что относительно любой модели).
 Суть в том, что если предикаты непротиворечивы, то у них есть модель.
-Если у них есть модель, то типа там можно по контрпозиции показать $\models a$.
+Если у них есть модель, то типа там можно по контрпозиции показать $\vDash a$.
 \subsection{Теории первого порядка, определение структуры и модели}
 \label{sec-2-18}
 Теория первого порядка -- это формальная система с кванторами по

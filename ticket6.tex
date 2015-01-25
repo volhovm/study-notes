@@ -36,11 +36,11 @@ $\Rightarrow$ Если противоречива, то выводится $a \&
 \end{proof}
 \subsection{Условие о интерпретации непротиворечивого мн-ва}
 \label{sec-8-3}
-Будем называть интерпретацией непротиворечивого множества формул функцию оценки, тождественно равную $1$ на элементах из этого множества. Будем говорить, что $\Gamma \models \alpha$, если она тождественна в любой модели $\Gamma$.
+Будем называть интерпретацией непротиворечивого множества формул функцию оценки, тождественно равную $1$ на элементах из этого множества. Будем говорить, что $\Gamma \vDash \alpha$, если она тождественна в любой модели $\Gamma$.
 \subsection{Несколько лемм}
 \label{sec-8-4}
 \begin{lemma}
-$\Gamma \vdash \alpha \Rightarrow \Gamma \models \alpha$
+$\Gamma \vdash \alpha \Rightarrow \Gamma \vDash \alpha$
 \end{lemma}
 \begin{proof}
 Механическая проверка аксиом
@@ -49,7 +49,7 @@ $\Gamma \vdash \alpha \Rightarrow \Gamma \models \alpha$
 Eсли у $\Gamma$ есть модель, то $\Gamma$ непротиворечиво
 \end{lemma}
 \begin{proof}
-Пусть $\Gamma$ имеет модель, но противоречиво, тогда из $\Gamma$ выводится $\alpha, \neg \alpha$, по корректности $\Gamma \models \alpha, \neg \alpha$, но формула и ее отрицание не могут быть общезначимыми одновременно.
+Пусть $\Gamma$ имеет модель, но противоречиво, тогда из $\Gamma$ выводится $\alpha, \neg \alpha$, по корректности $\Gamma \vDash \alpha, \neg \alpha$, но формула и ее отрицание не могут быть общезначимыми одновременно.
 \end{proof}
 \begin{lemma}
 Пусть $\Gamma$ -- полное непротиворечивое множество бескванторных формул. Тогда существует модель для $\Gamma$.
@@ -158,15 +158,15 @@ $(l+1)$ & $\gamma_2 \rightarrow \dots \gamma_n \rightarrow \beta \& \neg \beta$ 
 \end{enumerate}
 \end{itemize}
 \end{proof}
-\subsection{Следствие -- если \texorpdfstring{$\models \alpha$}{⊨ a}, то \texorpdfstring{$\vdash \alpha$}{⊢ a}}
+\subsection{Следствие -- если \texorpdfstring{$\vDash \alpha$}{⊨ a}, то \texorpdfstring{$\vdash \alpha$}{⊢ a}}
 \label{sec-8-7}
 \begin{theorem}
-$\models \alpha \Rightarrow \vdash \alpha$
+$\vDash \alpha \Rightarrow \vdash \alpha$
 \end{theorem}
 \begin{proof}
 \begin{itemize}
-\item Пусть $\Gamma \not \vdash a$, тогда по полноте множества $\Gamma$, $\Gamma \vdash \neg a$, но у $\Gamma$ есть модель, в которой $\Gamma \models \neg a$. То есть $\Gamma \not \models a$. Но $\Gamma$ по построению то же, что и модель теории, то есть все рассуждения $\Gamma \vdash a$ равноценны в предикатах $\vdash a$.
-\item Пусть $\not \vdash a$, тогда пусть $\Gamma=\lbrace \neg a \rbrace$
+\item Пусть $\Gamma \nvdash a$, тогда по полноте множества $\Gamma$, $\Gamma \vdash \neg a$, но у $\Gamma$ есть модель, в которой $\Gamma \vDash \neg a$. То есть $\Gamma \nvDash a$. Но $\Gamma$ по построению то же, что и модель теории, то есть все рассуждения $\Gamma \vdash a$ равноценны в предикатах $\vdash a$.
+\item Пусть $\nvdash a$, тогда пусть $\Gamma=\lbrace \neg a \rbrace$
 \begin{enumerate}
 \item $\Gamma$ непротиворечиво\\
 Пусть $\Gamma$ противоречиво, значит $\forall b \Gamma \vdash b, \Gamma \vdash \neg b$;
@@ -178,7 +178,7 @@ $\models \alpha \Rightarrow \vdash \alpha$
 \item $\vdash \neg \neg a \to a$;
 \item $\vdash a \to\leftarrow а$ недоказуемо по условию.;
 \end{enumerate}
-\item $\Gamma$ подходит под условие теоремы Гёделя о полноти исчисления предикатов, то есть у $\Gamma$ есть модель. Тогда в ней оценка $[\neg a] = 1$, значит оценка $[a] = 0$, то есть $\not \models a$. Мы доказали мета-контрпозицию $\not \vdash a \Rightarrow \not \models a$.
+\item $\Gamma$ подходит под условие теоремы Гёделя о полноти исчисления предикатов, то есть у $\Gamma$ есть модель. Тогда в ней оценка $[\neg a] = 1$, значит оценка $[a] = 0$, то есть $\nvDash a$. Мы доказали мета-контрпозицию $\nvdash a \Rightarrow \nvDash a$.
 \end{enumerate}
 \end{itemize}
 \end{proof}

@@ -14,6 +14,7 @@
 \usepackage{stmaryrd} % ⟦⟧
 \usepackage{enumitem} % всякие модные enumerate-ы (latin letters, roman numbers etc)
 \usepackage{xcolor} % red color for worries
+\usepackage{pict2e} % templates
 %\usepackage{enumerate}
 %\usepackage{changepage}
 \usepackage[left=2cm,right=1.6cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}	
@@ -52,8 +53,14 @@
 \DeclareMathOperator{\Int}{Int}
 \DeclareMathOperator{\Proof}{Proof}
 
-\newcommand{\ltemplate}{\langle}
-\newcommand{\rtemplate}{\rangle}
+\newcommand{\ltemplate}{\begin{picture}(5,7)
+\put(.5,4){\line(1,-1){5}}
+\put(.5,4){\line(1,1){5}}
+\end{picture}}
+\newcommand{\rtemplate}{\begin{picture}(5,7)
+\put(4.5,4){\line(-1,-1){5}}
+\put(4.5,4){\line(-1,1){5}}
+\end{picture}}
 \newcommand{\template}[1]{\ltemplate #1\rtemplate}
 
 \newcommand{\defeq}{\coloneqq}
