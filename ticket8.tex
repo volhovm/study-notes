@@ -14,10 +14,10 @@
     При этом $S\template{f,g_1,\dotsc, g_n} (x_1,\dotsc, x_m) = f(g_1(x_1,\dotsc, x_m), \dotsc, g_n(x_1,\dotsc, x_m))$
 \item Примитивная рекурсия. Если $f \colon \mathbb{N}^n     \to \mathbb{N}$ и 
                                  $g \colon \mathbb{N}^{n+2} \to \mathbb{N}$, то
-	$R\ltemplate f, g\rtemplate(x_1\ldots{}x_n, n) = \begin{cases}
+    \[R\template{f, g}(x_1\ldots{}x_n, n) = \begin{cases}
     	f(x_1, \dotsc, x_n) & n = 0 \\
     	g(x_1, \dotsc, x_n, n, R\ltemplate f, g\rtemplate(x_1, \dotsc, x_n, n - 1)) & n > 0
-	\end{cases}$
+    \end{cases}\]
 \item Минимизация. Если $f \colon \mathbb{N}^{n+1} \rightarrow \mathbb{N}$,
     то $\mu \template{f}\colon \mathbb{N}^n \rightarrow \mathbb{N}$, при этом
   $\mu \template{f} (x_1,\dotsc,x_n)$ --- такое минимальное число $y$, что $f(x_1,\dotsc, x_n, y) = 0$.
