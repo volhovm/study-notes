@@ -53,7 +53,7 @@ $V$ -- множество вынужденных переменных\\
 $M \vdash a \Rightarrow a \in M$
 \end{lemma}
 \begin{proof}
-Пусть это не так. Рассмотрим $a \rightarrow a \vee \neg a$. Раз $M \vdash a$, то $M \vdash a \vee \neg a$. Т.к. $a \not \in M$, то $\neg a \in M$ по определению дизъюнктивности $M$. Но тогда из $M \vdash a$ и $M \vdash \neg a$ мы можем доказать, что $M \vdash a \& \neg a$.
+Пусть это не так. Рассмотрим $a \rightarrow a \vee \neg a$. Раз $M \vdash a$, то $M \vdash a \vee \neg a$. Т.к. $a \notin M$, то $\neg a \in M$ по определению дизъюнктивности $M$. Но тогда из $M \vdash a$ и $M \vdash \neg a$ мы можем доказать, что $M \vdash a \& \neg a$.
 \end{proof}
 \item Возьмем множество всех дизъюнктивных множеств с формулами из ИИВ. Мы можем это сделать, т.к. ИИВ дизъюнктивно. Для любого элемента $W_{i} \vdash a, a \in W_{i}$, значит в этом мире $a$ вынуждено. Построим дерево с порядком <<быть подмножеством>>. Докажем, что это множество - модель Крипке. Проверим 5 свойств:
 \begin{enumerate}
@@ -64,7 +64,7 @@ $M \vdash a \Rightarrow a \in M$
 Очевидно по определению дизъюнктивности
 \item $W, x \Vdash (A \rightarrow B) \Leftrightarrow \forall y \geq x (W, y \Vdash A \Rightarrow W, y \Vdash B)$\\
 Мы знаем, что $W \vdash A \rightarrow B$. Пусть в $W$ есть $A$, тогда по M.P. докажем, что $B$. Пусть в $W$ есть $B$, тогда мы уже получили $B$.
-\item $W, x \Vdash \neg A \Leftrightarrow \forall y \geq x (W, x \not \Vdash A)$
+\item $W, x \Vdash \neg A \Leftrightarrow \forall y \geq x (W, x \nVdash A)$
 
 Если где-то оказалось $A$, то оно доказуемо, а значит мы сможем доказать и $A \& \neg A$ 
 \end{enumerate}
