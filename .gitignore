@@ -2,3 +2,14 @@
 #*
 *#
 *~
+*.swp
+*.out
+*.org
+*.toc
+*.log
+*.aux
+*.synctex.gz
+*.orig
+*.bbl
+*.blg
+*.pdf
