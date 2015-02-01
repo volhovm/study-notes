@@ -1,5 +1,9 @@
 mathlogic-conspect
-==================
-It is a branch with the XeLaTeX version of the conspect (originally created by Mykhail Volkhov in org-mode).
+============
+Any help will be appreciated. Please contact me if you find any bug there (or fix it by yourself). 
 
-Feel free to pull-request and report any issues in the Issues section.
+TODO's:
+ 1. XeLaTeX 8-14
+ 2. TBD
+
+ 
