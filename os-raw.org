@@ -1,0 +1,664 @@
+#+TITLE: Notes on operating systems lectures course given by Yan Malakhovski, 4th term, 2015
+
+
+* Preface
+  Written by Mikhail Volkhov (in simple english, I'm really sorry for that decision).
+* General
+  Ян-янчик))00
+  Алгебра операционных систем? Щито?
+  100b, there's 15b for attending, now it's about 10.
+  Doeppner -- Operating Systems in depth.
+  Plan:
+  There's two levels of abstraction: logical level: transistors, operational systems (kernel, userspace programs).
+* 20.02.2015 Hardware algebra
+  Transistors (logical gates) - consists of base, collector, emitter (base is the switch we use to switch the state of the whole transistor). There's also two type of transistors: former is the usual one, latter is denying (negating). CMOS-cell is that type of unit.
+  # Draws the schemes for ¬, ∨, nor, multi-vibrator (the thing that generates meander-like signal).
+  Then we set the assumption that it's possible to express any function (haskell function, of course!) with NAND and the other stuff.
+  There's some strange function that (#link to famous theorem from TT\mathlogic#) can be also expressed with n functions if the first function has n sets of bits tuples as arguments. Here we prove that if we have function from any functional language, we can translate it into transistor low-level logic level.
+  A × B → C => A → B → C;
+  A → B × C => (A → B, A → C);
+  NB: Here what Cλash (the language) does. It takes the functional program and provides the transistor scheme for it.
+  It is possible to express logical schemes with usual logic notation of equation system: Q = D×C + Q×D + Q×(¬C). So we can construct the equation system, then build the scheme by it and with the great power of omnipresent nature receive the answer of the system as the fixed point solution.
+  Equation Q = D×C + Q×D + Q×(¬C) (Earle latch) exactly holds the data of last signal given from line D, while C is 1.
+  Let's discuss the most general algorithm of multiplying a×b.
+  * Algorithm:
+    r = 0
+    b' = 0
+    loop:
+    if b' == 0
+    then return
+    else { v = v + a; b' = b' - 1; jump loop }
+  So, generally, we can construct schemes to satisfy our needs of almost all known algorithms, like muling above.
+  * Decoders and multiplexers
+    Encoder takes 2^n inputs, it selects k, then returns the binary representation.
+    Multiplexer also has additional number s, that is returned to output #n.
+    Demux used to choose the right cell of data when binary representation of cell's index is received.
+    # I was sleeping here a lot, but there was no big difference as it all was about things everybody knows.
+  * Dram
+    Lot of seemingly hard but really simple info about how dram works.
+  * NB, SB
+    NB controls only memory and CPU, NB is connected to SB, which controls PCI, USB. We follow concept that there is one bus, which connects memory, CPU's and NB.
+  * Pipeline, latches
+* 27.02.2015 CPU as functions
+  # Yan thinks he gave us the last topic in the inappropriate way,
+  So now we can build transistor schemes from constant memory -- we form the system of expressions, then we solve it.
+  # Yan's trying to interpret transistor logic in the formal logic, he thinks of synchronization line as of 2-type, and he proves that 2-type and 0-type produces anything is needed
+  1. CPU as function
+     We divide our program into several blocks separated by ifs, and translate each block to the sequence of substitutions in the term, expressing the program.
+     Let's think of CPU as of functions set. Assume the following:
+     1. We have *Harvard* arch.
+     2. We only have memory & CPU
+
+     MTI = Vec Word
+     # DP - data pointer
+     # RM - register, memory
+     # RN - register name
+     DP = Word
+     RN = rax | rbx | cx | dx | ...
+     RF = RN → Word
+     Instruction = MOVRR RN RN | MOVRM RN DP | MOVMR RN DP | ADD RN RN | ...
+     # Instruction' is like inlined Inlined; ADD a b c = 'a ← b + c'
+     Instruction' = MOVRR Word Word | MOVRM Word Word | MOVMR Word Word | ADD RN Word Word | ...
+     fetchI: MemI → IP → MTI
+     decode: MTI → (N, Instruction)
+     fetchargs: Instruction → Instruction'
+     MemI = IP → BusI
+     # StateChange change RN to Word1, DP to Word2, Int is IP, it's usually 0 'cause we don't want to move forward more than on length of instruction (unless it's jmp)
+     StateChange = Vec(RN, Word) × Vec(DP, Word) × Int ∨ SoftInterrupt
+     exec: Instruction' → StateChange
+     InterruptMask = Clock × Keyboard × ...
+     # IN - Interrupt Name
+     IDT = IN → I0
+     commit: RF → MemD → IP → StateChange → InterruptMask → (RF, MemD, IP)
+
+     The main CPU Cycle is fetch ⇒ decode ⇒ exec ⇒ commit
+
+     In the real world we can't read and write in the single processor tic, so we cut our schema between decode and exec stage.
+     The bus to memory consists of write and read buses. There's also cache somethere.
+     * Instruction shadow is the time, when register is not available after it had started to execute.
+  1. Branch Prediction
+* 06.03.2015 ???
+  Tags: TLB, cache associativity, lots of info
+* 13.03.2015 Describing OS with functions
+  Process r = r → Context
+
+  Context = {
+    syscall: SyscallTag
+    args: Arguments syscall
+    cont: Process → (Result syscall)
+  }
+
+  SyscallTag = _exit | readLine | writeLine | yield
+
+  Arguments: SyscallTag → Type
+  Arguments _exit = int
+            readLine = ⊤
+            writeLine = String
+
+  Result: SyscallTag → Type
+  Result exit = ⊥
+         readLine = String
+         writeLine = ⊤
+
+  * Translation example
+    1. In C
+       main(..) {
+         writeLine("What's your name?");
+         name = readLine();
+         writeLine("Hello, " + name);
+       }
+     2. In our grammar
+        {writeLine, "What's your name?" fun(_):
+         {readLine, (), fun(name):
+           tmp = "Hello, " ++ "name
+           {writeLine, tmp, fun(_):
+             {exit, 0, abort}}}}
+
+  Ready = {
+    e: R
+    proc: Process R
+  }
+
+  run pr = do
+           stimer
+           pr
+           ctimer
+
+  # It takes list of processes to run, and runs it by calls in queue
+  Kernel: [Ready] → ⊥
+  Kernel ready = do
+      next
+      {r, proc} ← ready
+      {syscall, arg, cont} = run (proc r)
+      case {syscall, arg} of
+        {exit, _} → kernel (tail ready)
+        {readLine, _} → kernel (tail ready ++ [("what has been read", cont)])
+        {writeLine, _} → print str
+                         kernel (tail ready ++ [((), cont)])
+
+  # yield is a process that does nothing, but we process it in kernel function
+  # in a special way: we put our process to the head of list, so next instruction
+  # can be other process
+  yield: T → T
+  link = IP
+
+  Kernel1: [Ready] → [Reading] → KeyBuffer → ⊥
+  Kernel1 ready reading kbd = do
+    {r, proc} : tail ← ready
+    {syscall, avg, mnt} = run proc r
+    case {syscall, arg} of
+      {exit, ..} → ...
+      {yield, ..} → ...
+      {write, str} → print str
+                     kernel (tail + [((), cont)]) reading kdb
+      # <: is adding to the left of list
+      {read, ..} → kernel tail (reading <: cont) kdb
+      # if there is a line to read, we get one thing from reading, put it to reading
+      # else just add this key to rest
+      {keypress, key} → if kbd <: k has (line, rest)
+                        then kernel ([((), cont)] ++ tail <: {line, head reading})
+                             (tail reading) rest
+                        else kernel [((), cont)] (tail reading) (kbd <: k)
+
+  # Hi/Low interrupts.
+  # Some interrupts should be processed immediately, like interrupt to read from netcard
+  # buffer (it can overflow and that will lead to data loss). We have Hi and Low part of
+  # interrupt, hi part executes immediately and copies data to local buffer.
+
+  # Most popular operational systems nowadays have two kernels, one supports high interrupts,
+  # HDD reads and stuff, it also interprets kernel1 that does any other work not related to
+  # hardware stuff.
+
+  # In UNIX:
+
+  Kernel1: [Ready] → [Reading] → KeyBuffer → ⊥
+  Kernel1 ready reading kbd = do
+    {r, proc} : tail ← ready
+    {syscall, avg, mnt} = run proc r
+    case {syscall, arg} of
+      {exit, ..} → ...
+      {yield, ..} → ...
+      # fork copies our process to another, gives second one another pid, gives parent process
+      # pid1 as argument of Ready, and child pid gets 0 as args.
+      {fork, ()} → ...
+      # exec throws away everything from current process and puts data from "path"
+      # to next process, eventually starting to execute it.
+      {exec, ("path", argv, env)} → ...
+* 20.03.2015 The same
+  # →→ is the function from monad Reader a →→ b = a → (MMU → b)
+  Process r = r →→ context
+  Context = {
+    syscall: SysCallTag
+    args: Arguments syscall
+    cont: Process (Result syscall)
+  }
+  kernel =
+    ...
+    case ... of
+      (exit, n) → ...
+      (fork, ()) → ...
+      # program, arguments, environment
+      (execve str [str] [str]) → ...
+      # close deletes item from fd_table, or decreases the shared_ptr pointer
+      (close, fd_t) → ...
+      # duplicate the file descriptor -- find free space in fdtable,
+      # put there copy of fd_t descriptor
+      (dup,  fd_t) → ...
+      # dup from 1 to 2, 2 is closed if open
+      (dup2, (fd_t, fd_t)) → ...
+      # pipe gets 2 new file descriptors, each fdobj links to the only pipe
+      (pipe, ()) → ...
+      # lookup from fd_table, gets fdobj, gets resource, does a special
+      # readType(...) from it
+      (read, (fd, buf, size)) → ...
+      (write, (fd, buf, size)) → ...
+      (open, (string, opts)) → ...
+      (sig, (pos, _)) →
+
+  # a →! b is kind of map -- the function, which satisfies `update` function's
+  # conditions:
+  # update : (a →! b) → (a, b) → (a →! b)
+  # so MMU (TLB foo) is basically Word →! VM because we update TLB
+
+  MMU = Word →! Word
+  MMU2 = Word →! VM
+
+  run: Process v → v → MMU → Context
+  run = TLB = MMU
+        ctl = 0
+        jmp cont
+
+  ProcInfo = {
+    pid: pid_t
+    mmu: MMU
+    anx, res, state: State
+  }
+
+  pmap: pid → ProcInfo
+
+  # Interrupt description table
+  IDT = case interrupt num of
+    80h → ctl = 1
+          TLB = kernel TLB
+          Context {eax (regs..), linkreg}
+
+  # file descriptor
+  fdtable: fd_t →! (*Fdobj, Flags)
+  Flags = CLOSE_ON_EXEC | ...
+  Fd0bj = {
+    counter: Word
+    type: Type
+    resource: *type
+  }
+
+  Pipe = {
+    start: Word
+    end: Word
+    buf: char[size]
+    options: R | W | EXEC | ...
+    # offset within file
+    seek: Word
+  }
+
+  # Lot of info about forks, how to create one process from another
+  # and direct stdout of 2 to stdin of 1
+* 27.03.2015 IO Scheduler
+  kernel: K ⊥
+  # We divide kernel into two parts: scheduler, kernel
+  # there's also userspace, obviously. Scheduler does some interrupts
+  # by timer. Execution in kernel context -- is executing of the program,
+  # while it actually does some system call. We need scheduler level because ???
+
+  # suppose we have syscall readHdd
+  kernel : (hid → [blockid, P block]), Ready, WaitHdd[
+  kernel = ...
+    case
+      readHdd(id, seqposition, len) → do
+        (start, end) ← resolve id
+        iosched hid (start, end)
+        copy a len buf
+        ready
+
+  # MMU from address from block number in file to block number on disk
+  FS = id →! blockno →! blockid(hdd)
+
+  inode → dinode | inode
+  inode {
+    type: file | dir
+    ctime
+    mtime
+    atime
+    modes
+    uid
+    gid
+    minor
+    major
+    data
+  }
+
+  FS = inodeto →! inode
+  Mountpoint = (FS, inodenoroot)
+  Namespace = [(stringprefix, Mointpoint)]
+  # mnt, pwd, lots of info about fs, stuff
+* 3.04.2015 Hmm
+  Inode = {
+    counter : Word
+    DInode = {
+      minor
+      major
+      *time
+      nlinks
+      iuid
+      igid
+      mode
+      body:*
+    }
+    bodycache:
+  }
+  # phys mem num
+  Diskcache = (hddid, blockno) →! Block → PM#
+  # Superblock -- part of FS in which all metadata is located
+  FdObj = {
+    counter: Word
+    type: T
+    opts: R|W|A|...
+    # resource can be inode
+    resource: *F(T)
+  }
+  T = Pipe | File | Dir | Socket | shm | blockdev | chardev
+* 10.04.2015 VMMU, mappings, signals
+  Process, Context
+  # We inline context into procinfo, but in linux it is generalized this way:
+  Regs x86_32 = {
+    eax: Word
+    ebx: Word
+    ...
+  }
+  Regs x86_64 = {
+    rax: DWord
+    ...
+  }
+  ProcInfo = {
+    tty: fd
+    # mmu is used by hardware
+    mmu: VM →! (Ra, p, v, w, x, copyonwrite)
+    # vmmu is for kernel, if there was an attempt to get absent page,
+    # interruption emerges, then kernel checks if this page is not mapped
+    # to disk.
+    vmmu: VM →! ANON | (fd, off, size)
+
+    # mmap, numap, mlock, munlock - those are syscalls, that
+    # mlock -- lock range of addresses (they can't be flushed)
+    #  usecase -- we load program for HDD decrypting (that is on HDD), than
+    #  throw away key, and program is locked, and we can do anything with the
+    #  disk in the situation of absence of access to the program (it's on
+    #  encrypted drive).
+    # munlock -- unlock ...
+    # mlock(fd, offset, size, opts, flags, hint) - create a new mapping,
+    #  malloc uses it inside. if Anonymous flag, it just gets memory pages.
+    #  if fd is specified and there's no anonymous flag, fd is thought as
+    #  operational memory (used for swap). When first requested to get data
+    #  from page, the data transfers to disk cache, then to ram.
+    # unmap -- unmaps
+
+    # regs: Regs arch
+    # in this, SyscallTag is rax, register used for passing syscaltags, and
+    # Regs is other (without syscalltag)
+    regs: (SyscallTag, Regs' arch)
+
+    # Dirty pages -- if w in mmu is 0, than pagefault emerges, this page
+    # is marked as dirty. Kernel will write it to disk later.
+    # effective write ew = w & d(irty) & c(ow)
+    # For anonymous pages - dirty is swap,x
+
+    # When forking, we copy mmu
+
+    # Important thing:
+    # kernel0: [KContext] → [Context] → ⊥
+    # kernel: Context → KContext
+    # void kernel returns KContext (yield)
+
+    # OOM is exception, when memory is over. mmap is lazy, so it emerges
+    # when there's a try to get mapped memory, that actually isn't present.
+
+    sigaction: signum →! Precoss(signm, siginfo_t) | Def
+    Def = IGN | DEF = IGN | rash | crash+coredump
+    # sigmask -- can we use this signal
+    sigmask: signum →! Bool
+    # interrupts that emerged, but masked
+    sigpending: signum →! Bool
+
+    # raise(signum) -- invoke signal handler for current program
+    # kill(pid, signum)
+
+    # hardware
+    # Page fault, general exception
+    PF, GE → SEGV
+           → BUS
+           → FPE
+           # software
+           → TERM
+           # Kill can't be masked or ignored
+           → KILL
+           # Int is C-c in terminal,
+           # there's a tty for every procinfo, that defines stdout, stderr,..
+           # /dev/ttyN is standard ttys, at least 6 of them are open.
+           → INT
+           # Stop and continue process (it yields while stopped)
+           → STOP
+           → CONT
+           # Signal to wait all children (there's a default, but disabled).
+           # Used to get rid off zombie processes.
+           → CHLD
+  }
+  # We want signals, because it's good idea to tell process it's code produced
+  # interrupt.
+  # There's a problem, because if there was a timer interrupt while running
+  # interrupt, one context is useless now.
+  # So there's 3 categories of interrupts in linux.
+  Syscall = atomic | interruptable (#errno = Einter#) | restartable
+  # Example:
+  # - atomic - date
+  # interruptable:
+  # - sleep (n seconds and before interruption)
+  # - epoll
+  # restartable:
+  # - read
+  # - write
+
+  # There's also realtime signals, for them order is guaranteed, no mask,
+  # just map signm → [int]. They are used for threads synchronization.
+
+  # Threads, every pid has it's own [tid] - threadsid. If pid==tid, it's leader.
+
+* 17.04.2015 Memories (forgotten) and tty/tasks
+  # Forgotten:
+
+  # Shared memory on linux is just mapped file to memory (BSD approach)
+  # In POSIX there's shm_open system call, that creates inode of special
+  # type, and shm_inodes can be shared.
+  # Sometimes we need memory with special options -- for example, memory, that
+  # is cached by processor. Or the memory, that goes directly in physical memory.
+  # For this, memory pools are used. There's no such kind of syscalls in linux,
+  # they are used in embedded systems more commonly.
+
+  # Speaks a lot about UNIXes, plan 9, system V, X11, opengl, framebuffers
+
+  # There is some formats of binaries
+  # shebang: first line contains #!/path/
+  # ELF: there's a table at start, where metadata contains. If there's a path for
+  # interpreter, he calls it, otherwise just loads file to RAM and jumps to _start:.
+  # If interpreter is specified, it looks for all Dependent-elf files (.so is ELF too).
+
+  # Plan 9 does not support dynamic linking. When it loads program into memory. Kernel
+  # compares it's checksum with some checksums that plan 9 stores, and then it re-uses
+  # already-loaded code with copy-on-write policy or just loads it, if there was no
+  # hash collisions.
+
+  # capabilities, setrlimits -- mansetrlimit
+  # How to create new namespace?
+  # close() -- does fork with new namespace (nothing in the /)
+
+
+  # Terminals
+  ProcInfo = {
+    # group id
+    gid
+    # parent pid
+    ppid
+    # pid
+    pid
+    # thread id
+    tid
+    # thread group id
+    tgrpid
+    # pid group id
+    pgrpid
+    # session id, joins pgrps
+    sid
+
+    ns:
+    pwd:
+    fdtable:
+    sig:
+    ...
+    cont: [...]
+    r,e,suid
+    gids
+  }
+  # We do have tids and it's possible to join them into groups named "tgrp"
+  # tgrp = pid of leader in group
+  # clone() can be given some arguments to be forked, save pid or not.
+  # pid groups has process leaders
+  # sid groups has leaders -- pid (not pgrp)
+  # when leader dies, nothing happens
+  # session is terminal, leader of session is terminal master
+  # /dev/tty returns current procinfo tty
+
+  # getty is program that accepts terminal /dev/ttN, and frequency
+  # it opens terminal, sets frequency, usually getty is launched by init process.
+  # Then it prints "hello", asks for login, exec login curr_login, exec bash.
+  # When nobody holds this terminal, getty relaunches.
+  # Random facts:
+  # 1. setgrp(pid, sr) -- checks if pid is not the leader of group
+  # 2. setsid() -- sets new session, sid=pid, pgrp=pid, it closes tty
+  # 3. when you open terminal with getty, it's terminal sets as your default
+  # when you plug out some outer device, that is connected to tty, interruption HUP
+  # emerges, and it's send to all processes that has tty=this_current_tty
+
+  # PAM is a library that has config in /etc/pam.d/, PAM controls profiles -- how
+  # authentication should be done.
+  # PAM is a library, not daemon because it has chains of profile settings inside.
+
+  # kill(-pid) is send kill to group controlled by pid
+* 24.04.2015 Missed (tty)
+  Почему список вопросов страшен, я не знаю.
+  Про КР говорилось, кажется, только то, что ее будем делать в том же зебогаши. Когда она будет, я не знаю.
+  - Демонизация
+    - как стать демоном
+    - принято, что демон на сигнал HUP перечитывает свой конфиг
+  - Синхронизация (блокировки)
+    - spinlock
+    - POSIX semaphores
+    - flock
+    - fcntl SETLK/GETLK
+    - fcntl leases
+  - Терминалы и псевдотерминалы
+    - terminal modes: character, raw, and many intermediate
+    - master/slave
+    - readline
+  - Мультиплексирование ввода-вывода
+    - O_NONBLOCK
+    - select
+    - poll
+    - epoll/kqueue
+
+  http://www.linusakesson.net/programming/tty/index.php
+  tty demistyfied
+* 03.05.2015 Network stack
+  Network stack is the things that are needed (from hardware to OS) to connect computers to each other.
+  OSI is the basic and the first network stack protocol complex, that hadn't still been completed. There were BSD sockets, that emerged independently of OSI. There was a lot of bad and incomplete solutions. OSI has kind of a lot people from telephone companies and new incomers would like to bring packet transmission into the development, while old guys from telephone companies thought of this idea not really seriously. Before packet transmission, data transmitting was like connecting two clients directly by switches and by-byte transmission of data.
+  The simplest net port is COM. It's a wire with 6 smaller wires inside, two to the one side, two to the other, two wires are signal. Two-wired solution is broad, one-wired solution was not viable at all (due to it's complexity). The frequency they speak on is set up on the connection. After the connection is established the meander is sent through the wire. This naive solution has lots of problems when encountering some outer electric distortion, as signals get spoiled.
+  Ethernet is implemented by UDP -- unshielded twisted pair -- you twist smaller wires as hard as you can, basically. The signal over twisted pair is transmitted as a subtraction of potentials. This upgrade has two great advantages -- any distortion affects both wires and twisted wires are considered as one from the electronics point of view. 8 pairs is 2 pairs of wires, that are basically the com port wired transmission. Sighub is generated on timeout.
+  Coaxial cable is close to ethernet (somehow). Outer wire is similar to Faraday cage.
+  Ethernet cables (<1Gbps speed) are connected to shared wire, and the politics is this: while someone talks, other keep quiet. If there's such a condition when more than one user sends packets, all users stop sending packages for some time, and continue the process after timeout. The algorithm of people having a dinner described here: [[https://en.wikipedia.org/wiki/Carrier_sense_multiple_access_with_collision_detection][CSMA/CD]]
+  If the speed is more than 1Gb, this algorithm is not viable anymore, so collisions are solved in another way. We put a hub then.
+  Hub does the only thing -- broadcasts any packets that it receives.
+  LBT port for printers -- is parallel COM. Parallel ports are not popular because the problem of different wire length that leads to distorted signals is hardly resolved. Serial ports are cool.
+  Ethernet packet (802.3) consists of:
+  1. Header
+     1. Protocol (ethernet contains many protocols -- one of them is LLC.
+     2. Size of packet (or data). MTU -- 1500.
+     3. Two MAC addresses (of sender and receiver).
+  2. Payload (data)
+  More can be found here: [[https://en.wikipedia.org/wiki/Ethernet_frame][Ethernet Frame]].
+
+  Wifi -- ethernet over radio. There's the range of frequencies allowed for wifi (and bluetooth is somewhere near). This range is divided into some subranges, that are called canals. In different countries different ranges are used (due to the range restriction for special  and politics, some ranges are reserved). Wifi transmits two sinusoid -- with null-amplitude and non-null-amplitude. In real life it's much more complicated -- there's modulations, amplitude modulation is the most obvious. Amplitude modulation's used to transmit radio (it's the naive idea). See how it works in your 11th form physics notes.
+  Wifi ethernet packet (802.11):
+  1. flags
+  2. dest
+  3. src
+  4. crc (for header)
+  5. payload -- the inner part of package, the data itself. Usually contains IP packets. Can contains some other protocol for transmission data between hubs/routers, and some other strange transactions.
+
+  IP packet contains similar stuff: flags, src, dest, crc (for ip header), and it's own payload.
+  Netcard filters packets that are not addressed to it (MAC-address), and wrong ip packets are filtered on OS layer. Both their behavior can be controlled, there's an "promiscuous" option, that can make all packages be delivered without filtering.
+  Bonding -- sending packets from >0 netcards with similar ip simultaneously.
+  IP is 4 bytes. Netmask is the number from 0 to 32 that represents number of 1 before 0s. 24 is 255.255.255.0. 31 is 255.255.255.255.
+  Ok, there are some interfaces available to your OS and you want to send a packet. Every interface has it's own netmask and IP. You select the interface that's most close to it's netmask. The interface with the most similar bits is selected and the package's sent to it. That's how it works in BSD when you bind to OS (0.0.0.0). In BSD sockets you may also select the needed interface to bind to.
+  OS contains routing table that says to which interface packages should be send. There's also default gateway, to which the packages are sent if there's no information about ip in routing table.
+  IP packet can not be sent without ethernet wrapper. MAC address of destination should be specified (you can specify mac broadcast ff:ff:ff:ff:ff:ff), and ARP (address resolution protocol) is used for it. ARP table contains map from IP → MAC. If there's no entry in table, ARP packet is sent with something like "Who here has the IP X.X.X.X?" (with MAC broadcast), and as soon as it gets reply the proper (key, value) is stored.
+  There's a opposite protocol to specify ip when you know the MAC. First protocol was RARP (reversed ARP), then BOOTP, now it's DHCP. The difference is that RARP is over ethernet, and DHCP is over IP/UDP.
+  Protocols that are used over IP: UDP, TCP, SCIP:
+  1. UDP, TCP: have headers, in UDP crc checksums only headers, in TCP crc checksums all packet. UDP doesn't care about delivery, TCP does. TCP/UDP has ports (/etc/services). TCP: sends packets to connect (1→2 (syn), 2→1 (syn-ack (ack stands for acknowledgment)), 1→2 (ack), then the NUM of packets are send, after them accepting packets are send. Num is about 20, but was 1 when TCP was developed). It's possible to DDoS server by sending syns to servers (lots of) with ip address of desired machine, and lots of servers will be sending acks to it.
+  2. SCTP (stream control transport protocol) is similar to TCP, but if from N packets some had failed, only failed packets will be resend, while in TCP all packets after first failed will be resend. SCTP used by normal VoIP (skype's not normal of course). The cool thing that server does not save any information after it sends ack, server packs all available info right into the package, and when syn-ack is received, server knows from what machine it was sent.
+
+  Switch has ARP table inside (table from MAC to interface, that's made of ARP packages that are going through the switch). Basically, switch is just has a little more performance than hub, because sometimes (if there's an entry in a table) it can avoid broadcasting.
+  Router is switch with routing table (from ip to interface). It also has ARP, connection to the internet. And default gateway in routing table, MAC destination is something in the Internet. So if we want to send something from our machine to the net, if we don't have IP in our routing table, we send it to default gateway (ip packet with MAC wrapper with MAC destination of router), and then router routes it to it's default gateway, specified by network provider.
+  In IPv6 it's all inside. IPv6 has 16b, last 4b for compatibility with IPv4, previous 12 bits are for address, and if first 6 are linked-in (??), the next 6 is MAC.
+
+  TCP BSD:
+  fd = socket(_, _);
+  connect(...); -- the regular input socket
+  bind(...); -- makes the socket now accepting, you then make listen(port), and accept() returns new fd, related to connection.
+  There are other types of sockets. Raw sockets are like IP sockets, when you get raw IP packets. Raw sockets should be used carefully as they can stuck the queue, so raw sockets are available to root only.
+  ICMP is the protocol that's wrapped in ethernet, used generally for communicating within routers, logging errors, etc (also for ping and traceroute). IP packets has TTL, that decreases over every hop. traceroute sends IP packets with ICMP and increasing TTL, so it gets info about every place your packet has end it's existence.
+* 08.05.2015 Network stack 2
+  TFTP -- UDP-based protocol, simple server, that receives requests of format "get that file", so it's the basic implementation of FTP.
+  DNS -- /etc/resolv.conf. The simplest call to kernel, that uses DNS is gethostbyname -- resolves name to the basic ip (generally, there's an ip for every pair <host, port>, and gethostbyname uses some default port). DNS packets has type and name. Type is A (ipv4), AAAA (ipv4), MX (email), TXT (whatever). Name is host (like google.com.). Responses are recursive or non-recursive. Recursive return bunch of ip-services, that are the same (used for load distribution).
+  NAT (we don't have it in ipv4). We have some local network, we all use local addressing. If the user wants to send package to outer world, it sends it through default gateway. Default gateway contains the table that will resolve the response. NAT for TCP remembers: src, dest, protocol, source port, destination port. Then we rewrite source on ip of default gateway. TCP has hacks that allow to send TCP-packages from outer world to user directly, called tsocks. UPnP is microsoft protocol. General solution is to has server, that connects two users in different local networks.
+* 15.05.2015 Networking 3
+  The most nya-way to create sockets -- getaddrinfo.
+  Libc: /etc/nsswitch.conf. You call getaddrinfo or getpasswd, whatever. nsswitch.conf defines the order of visiting files. There are kernel functions that are firstly get the priority from nsswitch.conf. Hosts: files DNS (that's host.conf and resolv.conf respectively). There's an approach to start a daemon, that resolves this entries. That's called nscd. It runs from root and shares the secret, for example, with ldap.
+  PAM -- shared library that resolves users and stuff (what su usually does). It's much more popular solution for resolving passwords.
+  # Recommendation to read libc code
+  There's -2 level of execution, for example something that governs how to operate with cooler.
+  Available protocols for hard drives and stuff:
+  ATA-IDE, SATA-SCSI. BIOS loads first 512b - MBR - from hard drive and loads system. Standard MBR program reads something from HDD. For example, any bootloader like grub or lilo. USB is harder to program than sata -- one should rapidly poll USB device to get any data, so the driver is harder to write.
+  PXE is loading from network, that uses driver for the netcard on your motherboard. Long time ago, a driver for netcard was located on the netcard itself. It uses Now the most popular is pxelinux or ipxe. pxelinux also supports TCP that's cool, because basic TFTP by UDP can lose some packets, and it's kind of critical, when kernel size is bigger then epsilon, so there's an overhead because of re-downloading the kernel.
+* 22.05.2015 BIOS/booting
+  After reset all latches reset so the system gets into determinate state. After reset instruction pointer in processor is pointing to BIOS.
+  First thing is does -- initialization of itself. After that, VGA BIOS is initialized (to initialize VGA controller) and some set of self-tests is executed. In popular machines, some variations of self-test exist -- depending on how long test should last. Initially, selftest was needed to get the memory size (just counting the number of bytes available in RAM (O(n))). All other controllers are tested for existence/functioning too. There's also this famous error of "no keyboard" -- the reason is because old operating systems were not capable to work without keyboard. Moreover, there was no need to run a PC without keyboard or GPU, because it wasn't used to make servers out of regular desktops, the hardware was strongly different. Keyboards were connected via PS/2 because of the port's simplicity.
+  CMOS is the power-independent (powered by the battery) kind of transistor scheme, that's possible to be dumped.
+  After selftest there's a possibility (on the majority of current BIOSes) to load into GUI (pressing some f11, whatever), and after that MBR loads.
+  MBR (Dos Label) format: 512b. Of them, after 2 bytes is 0x55AA. That's for the initial check that bus works. +0x55AA guarantees that it's MBR. Basically, MBR loads some memory block and then launches it. First 510 bytes of MBR is jump, metadata, loader and TBL. Jump skips TBL. TBL contains boot bit, type, start and length. Metadata is needed after the OS loaded. TLB size is 4 partitions, but it can be extended with some костыль. TLB is made this way just because Windows doesn't accept existence of another operating systems.
+  Any partition contains information about it's type and other data. Linux simply ignores TBL information for type, but it's important for DOS. The naive way to load kernel is just go to fixed address. When using fdisk, 0 address starts somewhere after MBR table because of HDD physical properties. GRUB usually installs itself after MBR and to the code section in MBR. Also GRUB holds file systems drivers in some memory near itself. GRUB is kind of a small OS that mounts partitions using drivers that it holds very close to it's own code, and then displays some interface, providing abilities to operate with boot entries.
+  Fun fact: photoshop (in Windows) writes keys to the start of hard disk, where GRUB is located, to prevent cheating (register key saves after reboot/OS reinstallation).
+  When using GPT, a lot of memory is reserved for almost the same thing as MBR does. It contains MBR-compatible table in the start of the drive, after that 512 entries of TBL are located, the design is very similar to MBR too.
+  With PXE, BIOS gives control to the netcard, netcard sends TFTP request with naming of the file requested and other stuff, then loads it to RAM and launches. The common practice is to use chained PXE requests, first PXE requests returns nice GUI to choose other kernels from the server, for example.
+  Initrd is cpio archive that loads into RAM and kernel than mounts it as default file system. The main purpose for initrd is providing extra functionality when it's too hard to write new kernel module.
+* 29.05.2015 Booting
+  Suppose we have kernel, initrd. Kernel is usually located on fixed address. There's also a cmdline -- some of it's arguments are interpreted by kernel (root={dev|UUID}. Kernel is usually compressed with bzImage, and has decompressing program in it's start somewhere.
+  So GRUB starts the kernel, and then uncompresses initrd and mounts it to /. Then it starts /init, and here the life starts. Routers usually has NVRAM (non-volatile ram), and this (kernel; initrd) pair. Generally, excluding embedded systems, initrd then mounts drives and starts the main system. Busybox is the binary, that can act like standard utility set (with reduced functionality though) -- it just parses it's 0 argument, and launches what's said to launch (like ls, mount, etc.). The purpose of using busybox is to decrease program size, having all needed utilities in place. (all programs like ls, rm are symlinks to busybox).
+  After initrd mount/launch /dev/{stdin, stdout, stderr, console} are created and console is set as all primary std... (exec < /dev/console && exec > /dev/console && exec 2> /dev/console). It's needed to mount FS, it can be done in one or the other ways:
+  1. mount -t procfd ... /proc, mount -t sysfs ... /sys; launch udev.
+  2. mount some ...fs (here Yan couldn't remember the exact naming), that has udev included in it, and needed inodes will be created automatically. That's tricky.
+  How udev works: open netlink socket (man socket(2)) for kernel, kernel dumps all information about devices in sys connected/disconnected. Udev parses it, classifies all data into 3 categories of events (connected, disconnected, change), and then looks for rules in /etc/udev/.. and acts appropriately (generally, creates something in /dev/). After socket is flushed and empty and everything is already initialized, udev enters the "settle" state (actually, it's more like the command -- settle means to read everything from socket, initialize and stop). After that, regular mountings becomes possible (like /).
+  Let's consider example. Suppose you try to mount your USB flash drive:
+  1. USB plugged in
+  2. 300ms delay (that's needed to prevent data loss/distortion during plugging the device in)
+  3. Host controller sends signal
+  4. SB
+  5. NB
+  6. Processor gets it
+  7. int
+  8. kernel gets interruption
+  9. appropriate {o/u/e/x}hci ??
+  10. get id/name/company of device
+  11. kernel gets data, finds needed module
+  12. hotplug -- binary, that loads modules (merges it with kernel code) with dependencies, if present (compiled).
+  13. Sys/... is created, udev initializes /dev/...
+  14. Any later interrupts related to device will be handled with these module functions
+  All this interactions between hotplug and kernel are made with use of UNIX socket, so UNIX socket must be compiled into kernel, it's absence leads to endless loop {no UNIX socket ⇒ let's load it ⇒ wee need UNIX sockets module}. UNIX socket is implementation of BSD socket interface.
+  Modules are loaded automatically. It can be needed to load modules with arguments from /etc/init.d/modules.
+  Firmware is loaded directly to the hardware (like videocard driver), and then it becomes possible to speak with the card via gl interface (not sure if true).
+  If busybox, blkid is used to determine fs, and then mount, if not busybox, mount can handle it itself. There's also a problem here with long SATA initialization, so there's a blkid /dev/sda loop in initrc, that waits for the initialization. Alternative is loadsata module, that blocks the system until all SATA devices are initialized (bad approach).
+  So now / is mounted, and we should launch it's init. One way is using pivot_root, and then exec /sbin/init. New init does almost the same thing generally, but it depends, obviously. Another way is mount --move /dev /mnt/dev, and so on, to avoid extra udev initialization in the second init.
+  If the drive is encrypted, there's a stage between settle and mount, that's responsible for all that decryption stuff.
+  So, init is launched, and it's informed about if there was initrd before him. If that's true, some code available for initialization, that was already done, is skipped. It's possible to launch only emacs after init, and that will be the only operational system on your PC (/bin contains emacs and mount, that's all).
+
+  Init systems:
+  System V init - C daemon, that creates /dev/initctl socket on start. Regularly you send there commands to start runlevels, that are specified in /etc/inittab. There is a runlevels that call exec /sbin/rc N with argument, and then rc runs /etc/rt.d/N start if name started with S*, K* is kill, next runlevel stops all previous runlevel program. Runlevel 0 -- halt, 1 -- single user, 6 -- reboot.
+  System V init is OK when you don't have lots of tasks to do, so it's used on embedded systems like e-readers etc. The second problem is daemons -- it's hard to decide what program will be terminated on the next runlevel start.
+  Before systemd, arch used system v variation with asynchronous program launch possibility.
+  First normal solution of System V problems is Upstart. It's very close to system v, but it tracks daemons and has concurrent solution is using events -- some scripts produce events and so launch another script sets (sockets + emit daemon). There also were preevents and postevents for every script, that were available for subscribing on.
+  We can do better! The idea is to create all sockets/channels between tasks, and run everything simultaneously after. That's called socket activation -- used in old Mac OS.
+  Systemd is init that has graph of services, and either socket (resource) edges, or just order edges. It's more optimal that simple socket activation because we have vertexes priorities. Daemon problem in systemd is solved with cgroups, that provide no ability to exit from group.
+  Openrc is similar to systemd, but has no absurd ideas that systemd has.
+  # Yan' opinion about kdbus and systemd
+
+  TPM -- hardware, that has 256-bit registers, near 20 items of them, has clear operation and extend reg data operation -- takes hash from data, hashes it with register and writes to it. TMP has some processor, that can clear, extend, and built-in algorithms of encryption, like AES (very secure, there's a proof, thats energy to decrypt it is more than the energy to melt the Earth: http://www.eetimes.com/document.asp?doc_id=1279619). There's also seal operation, that takes registers, data, and uses registers to encrypt data, then puts data into one of hardware box; There's also unseal operation, that does the opposite.
+  Hardware encryption: LUKS, 2mb of data in the start of disk, that contains metadata, salt, master-key, header, algorithm for hashing passwords and disk, and then it's some magic. The disk is always encrypted. Hash cache is algorithm of detecting SPAM -- user that sends email generates hash collisions and it takes lot of computer time.
+  That's not clearly secure (LUKS) because one can replace initrd. That's called evil maid strategy. We can encrypt all except grub, but there can be an malware in grub. There can be a solution with outer flash drive, that contains everything but encrypted binary blob (even LUKS header). With TPM it's easier, because things that BIOS does are extended. BIOS CAN HAVE MALWARE TOO!! PARANOID!! TXT is a technology by Intel that allows you to trust your processor, and it uses TMP to extend some hardware id.
+* 05.06.2015
+  Separate compilation (tool chain) reminder.
+  .h files are generally types, methods, offsets, .c contains other stuff ⇒ binary (ELF, generally). Elf contains header, program header, body, section table. Section table: labels like .init, .fini, _start, they are mapped to {type, <offset, length in body>}. Majority of sections are just functions, but there are special ones: .init -- initialization, .fini -- finish, .ctor, .dtor -- constructors/destructors, .data -- data section, .text -- code.
+  Two of them are extra-special: .sym, .rel. Symbol is global variables, functions, almost everything that has name. Sym is symbol table {name → address}. There can't exist two equal names in symbol table (no similar name functions can exist).
+  Program headers -- {type, flags, offset in body, length in body, offset in memory<vm, ph>, length in memory}. Physical memory is ignored, if program is userspace. Mapping to physical memory directly can be useful if, for example, some pages are cached, some are not. Type can be different, MEM means that should be mapped into memory, INTERPRET is type of segment, where interpreter is located. There's also debug type (DWARF). And RPATH, that contains environment variables.
+  The simplest ELF interpreter just parses program header, and loads this code into memory. Section table is used by tool chain, program headers are used to launch.
+  Allocation table is for calls. It means that we should find address of symbol of given name and type, then add it to given offset in .body (default calls to extern are usually call 0).
+  If we have more than one .o files, and they have some dependencies, ld should use reallocation table (.rel in section table). It contains data in form {name, type, offset}. Ld takes lots of .o files, adds some special ones, that generate _start, and other stuff, and generates one .o file. It ignores program headers, splits body by sections in section tables, equal sections merges in order arguments to ld were given, then it resolves reallocation table, but doesn't put real addresses to call extern.
+  When we merge .o files, we basically ignore program headers, and each time generate new one.
+  When it's time to make executable binary out of .o, ld checks presence of _start, some other stuff (all symbols are present), fills in addresses from reallocation table, removes section table.
+  It was all about static linking.
+  Symbol-level linking is throwing away needless symbols (on the last binary creation stage). If you have symbol-level linking only, it's Plan 9'th main idea. With this knowledge one can simply implement in-container executing, because there are no problems with dynamic linking at all.
