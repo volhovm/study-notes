@@ -19,7 +19,7 @@
   5. Malakhovski's notes
      https://github.com/oxij/unix-notes-ru/blob/master/compiled/main.pdf
   6. Wikipedia ofc
-* Ticket 1
+* 2 Ticket 1
 ** RAM, SRAM, DRAM
    RAM (random-access memory) - это оперативная память.
    От постоянной памяти ее отличает:
