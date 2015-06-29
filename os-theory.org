@@ -271,7 +271,7 @@
    level-triggered: устройство выставляет напряжение на проводе запроса прерывания и держит его, пока ему не откликнутся
    edge-triggered: устройство посылает импульс на провод запроса, и южный мост запоминает, что это произошло.
 
-   # подробнее не стал, кажется, в железо углубляться незачем
+   Есть еще контроллер прерывания, который специальная железка на плате, имеющая приоритеты и умеющая отсылать только нужные прерывания, чтобы все не приходило в процессор.
    sources:
    [[https://en.wikipedia.org/wiki/Interrupt]]
 ** DMA
@@ -304,7 +304,7 @@
    sources:
    [[https://mn.wikipedia.org/wiki/Page_table]]
    [[https://en.wikipedia.org/wiki/Page_table]]
-** 2 Биты: readable, writeable, executable, present, dirty, copy-on-write
+** 1 Биты: readable, writeable, executable, present, dirty, copy-on-write
    Это мета-информация о странице.
    readable      - можно ли сейчас страницу читать
    writeable     - можно ли сейчас в страницу писать
@@ -360,11 +360,63 @@
    [[http://www.win.tue.nl/~aeb/linux/lk/lk-9.html]]
    [[https://ru.wikipedia.org/wiki/Slab]]
 * 0 Ticket 4    Maps
-** "География" адресного пространства процесса
-** Структуры ядра описывающие процесс с MMU: работа с физической памятью, VMA
-** Системные вызовы: brk, sbrk, mmap
-** Общая память: mmaping файлов и shm_open
-** Реализация malloc.
+** 2 "География" адресного пространства процесса
+   Смотреть память процессов в билете 3
+** 0 Структуры ядра описывающие процесс с MMU: работа с физической памятью, VMA
+
+** 2 Системные вызовы: brk, sbrk, mmap
+   Вершину хипа называют program break. Можно работать руками прямо с вершиной хипа, выделять память и вот это все.
+   * brk(void* addr) выставляет вершину хипа куда-то.
+   * void* sbrk(int) инкрементирует/декрементирует вершину хипа на заданную величину.
+   По очевидным причинам, вызовами пользоваться не нужно. С другой стороны, иногда через это выражают malloc.
+
+   Есть другой механизм гибкой работы с динамической памятью:
+   mmap, numap, mlock, munlock - забавные системные вызовы.
+   * mlock(void* addr, int len) -- заблокировать регион в памяти так, что ее страницы нельзя класть в своп.
+     Юзкейс -- хотим загрузить программу для расширофки HDD с диска. Расшифровываем руками диск, грузим, выкидываем ключ, лочим программу в памяти и тогда она никуда не пропадет.
+   * munlock(void* addr, int len) -- обратное действие, разлочвает регион если его часть залочена.
+   * mmap(addr, length, prot, flags, fd, ofs) -- создает новый маппинг региона виртуальной памяти.
+     1. addr -- откуда мапить память (если NULL, ядро само выберет)
+     2. len -- длина
+     3. prot -- флаги доступа к данному региону памяти (PROT_NONE, _EXEC, _READ, _WRITE)
+     4. flags -- различные флаги. Самые важные из них:
+        1. MAP_ANONYMOUS -- аргумент fd игнорируется, память создается анонимной, заполняется нулями, не относится ни к какому файлу.
+        2. MAP_SHARED -- устанавливает, что контент, котрый мы мапим, будет доступен другим пользователям (мапится-то файл, а файл могут видеть другие).
+        3. MAP_PRIVATE -- создает copy-on-write маппинг, который уникален для процесса.
+     5. fd, ofs -- если используется маппинг файлов, а не анонимный, то файл и оффсет в файле, с которого мапить.
+   * munmap(addr, length) -- освободить от мапа данный кусок памяти. Если используется SHARED, то к этому моменту все уже будет записано в файл.
+** 2 Общая память: shm_open
+   Есть память, которая может быть доступна сразу многим процессам.
+   * shm_open(name, oflag, mode)
+     Определяем имя куска памяти, которое хотим шарить, флаги на уровне RDWR/RDONLY/CREAT.., мод (chmod(2)). Возвращает файловый дескриптор.
+   * shm_unlink(name) удаляет кусок расшаренной памяти
+   С помощью mmap тоже можно создать общую память, но отличие shm_open в том, что память открытая этим методом будет оставаться шареной до ребута ядра.
+
+   Как этим пользоваться:
+   shm = shm_open("mysharedname", O_RDWR, 0777)
+   addr = mmap(0, size, PROT_WRITE|PROT_READ, MAP_SHARED, shm, 0);
+   Теперь по адресу addr можно что-то писать.
+   munmap(addr, size);
+   close(shm)
+   Если хочется шареную память удалить, нужно сделать:
+   shm_unlink("mysharedname");
+
+   source:
+   http://habrahabr.ru/post/122108/
+** 1 Реализация malloc.
+   1. На хипе с помощью sbrk
+      Недостатки -- фрагментация данных. Чтобы от нее избавиться, нужно иногда искать куски памяти которые уже освободились и что-то с ними делать.
+   2. С помощью mmap
+   3. И то и другое использовать, плюс добавить какие-нибудь бакеты, из которых выдавать данные. Бакеты добавлять с помощью sbrk, mmap'ом пользоваться если просят много памяти.
+   4. Doug Lea pmalloc2 (в libc)
+
+   sources:
+   1. Doug lea outdated explained
+      http://gee.cs.oswego.edu/dl/html/malloc.html
+   2. Wiki, implementations
+      https://en.wikipedia.org/wiki/C_dynamic_memory_allocation#Implementations
+   3. LIBC source pmalloc2 (extra hard)
+      https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/malloc.c;hb=HEAD
 * 0 Ticket 5    Processes
 ** Процессы и треды
 ** init, родители, дети, зомби
@@ -390,6 +442,7 @@
 ** Файловые системы
 ** Структура данных inode
 ** VFS
+   VFS -- такой стандартный интерфейс думать о разных файловых системах как об одной.
 ** Структуры данных: FSObject, Namespace
 ** Path resolution
 ** Операции над неймспейсами: mount, bind mount, move mount, chroot, pivot_root
@@ -545,6 +598,8 @@
    Забавный факт: с некоторых пор GRUB начал хранить себя еще и с crc, по причине того, что Windows никак не защищает этот кусок памяти, и туда могут благополучно писать кто хочет, в том числе и Photoshop, который хранит где-то в этом месте свои ключи регистрации, чтобы пользователи после переустановки системы не могли сбросить лицензию.
 
    С GPT памяти на то же, что использовалось в MBR, намного больше. В начале есть MBR-совместимая таблица, потом располагаются 512 ячеек TBL.
+   Утверждается, что с помощью BIOS без внешнего загрузчика нельзя загружать что либо в файловой системе, то есть единственный вариант -- ядро класть прямо по адресу.
+   EFI -- это такой BIOS, который пишет в NVRAM все загрузочные данные, а конкретно откуда и с каким оффсетом лежат ядра, всякие аргументы и прочее.
 ** 3 initrd
    Initrd -- это cpio архив, который грузится в память, а ядро затем монтирует это как дефолтную систему. Основная цель initrd -- обеспечить дополнительную функциональность, когда слишком сложно/лень писать новый модуль ядра. Initramfs -- это модификация initrd, доступная в linux с 2.6.13, которая монтируется как tmpfs.
    Пусть у нас есть ядро и initrd. Ядро обычно находится по некоторому фиксированному адресу. Ядру передаются параметры, в том числе root={dev|UUID}, который говорит, что монтировать в корень (blkid). Ядро обычно сжато bzImage, с тех пор, как оно стало достаточно большим -- это довольно специфичный архивный формат (не связан с bzip2), основанный на gzip. В начале этого архива есть программа для разархивации.
@@ -696,3 +751,11 @@
    TPM -- hardware, that has 256-bit registers, near 20 items of them, has clear operation and extend reg data operation -- takes hash from data, hashes it with register and writes to it. TMP has some processor, that can clear, extend, and built-in algorithms of encryption, like AES (very secure, there's a proof, thats energy to decrypt it is more than the energy to melt the Earth: http://www.eetimes.com/document.asp?doc_id=1279619). There's also seal operation, that takes registers, data, and uses registers to encrypt data, then puts data into one of hardware box; There's also unseal operation, that does the opposite.
    Hardware encryption: LUKS, 2mb of data in the start of disk, that contains metadata, salt, master-key, header, algorithm for hashing passwords and disk, and then it's some magic. The disk is always encrypted. Hash cache is algorithm of detecting SPAM -- user that sends email generates hash collisions and it takes lot of computer time.
    That's not clearly secure (LUKS) because one can replace initrd. That's called evil maid strategy. We can encrypt all except grub, but there can be an malware in grub. There can be a solution with outer flash drive, that contains everything but encrypted binary blob (even LUKS header). With TPM it's easier, because things that BIOS does are extended. BIOS CAN HAVE MALWARE TOO!! PARANOID!! TXT is a technology by Intel that allows you to trust your processor, and it uses TMP to extend some hardware id.
+** Read
+   Что делает read:
+   мы делаем read на файловый дескриптор.
+   fdtable
+   | int | file* |
+
+   Первым делом read получает положение указателя в этом файле.
+   Вызывается функция "верни мне указатель на функцию которая делает read для конкретной файловой системы".
