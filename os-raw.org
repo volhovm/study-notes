@@ -85,7 +85,7 @@
   Context = {
     syscall: SyscallTag
     args: Arguments syscall
-    cont: Process → (Result syscall)
+    cont: Process (Result syscall)
   }
 
   SyscallTag = _exit | readLine | writeLine | yield
@@ -145,7 +145,7 @@
   Kernel1: [Ready] → [Reading] → KeyBuffer → ⊥
   Kernel1 ready reading kbd = do
     {r, proc} : tail ← ready
-    {syscall, avg, mnt} = run proc r
+    {syscall, arg, cont} = run proc r
     case {syscall, arg} of
       {exit, ..} → ...
       {yield, ..} → ...
