@@ -1,0 +1,93 @@
+module OS where
+
+data SyscallTag = _exit | readLine | writeLine | yield
+
+Arguments : SyscallTag → *
+Arguments _exit = int
+Arguments readLine  = ⊤
+Arguments writeLine = String
+Arguments yield = ⊤
+
+Result : SyscallTag → *
+Result _exit = ⊥
+Result readLine  = String
+Result writeLine = ⊤
+Result yield = ⊤
+
+class Context {
+   syscall : SyscallTag
+   args : Arguments syscall
+   cont : (Result syscall) → Context
+}
+
+Process : * → *
+Process r = r → Context
+
+class ProcInfo a {
+  proc : Process A
+  fdtable : List (Fd × (⋆ FdObj))
+}
+
+Ready : * → *
+Ready r = (Process r, r)
+
+KContext = Context
+
+
+kernel : [Ready] → ⊥
+kernel ((process, data):tail) = do
+       (syscall, args, cont) ← run process data
+       case (syscall, args) of
+            (_exit, ())       → ⊥
+            (readLine, ())    → kernel $ tail ++ [(cont, read stdin)]
+            (writeLine, str)  → do
+                        print str
+                        kernel $ tail
+            (yield)           → kernel $ tail ++ [(cont, ())]
+
+
+
+kernel : [Ready] → [Blocked] → Maybe Interrupt → ⊥
+kernel ready blocked int = do
+       case int of
+            Just a → case a of
+                 keyPress →
+
+
+kernel: [KContext] → [Context] → ⊥
+kernel kcont cont = do
+       (syscall, args, cont):tail ← kcont
+
+
+int main() {
+    while (1) {
+          char buf[1024];
+          int got = hddread(/dev/sda1, buf, 228);
+          if (got == 0) exit(0);
+          videoPrint(buf);
+    }
+}
+
+char buf[1024]
+{hddRead, [/dev/sda1, buf, 228], λgot.
+  case got of
+  0 → {exit, 0, abort}
+  n → {videoPrint; buf; λ.
+    {hddRead, [/dev/sda1, buf, 228], λgot.
+      case got of
+      0 → {exit, 0, abort}
+      n → {videoPrint; buf; λ.
+        {hddRead, [/dev/sda1, buf, 228], λgot.
+                  .....
+
+
+kernel : [Ready] → [Blocked] → ⊥
+kernel rd bl =
+    {proc, res}:tail ← rd
+    {syscall, args, cont} ← run proc res
+    case (syscall, args) of
+         (hddRead (a b c))             → id = newUniqId
+                                         kernel tail (blocked ++ (id, cont))
+         (hddReadReady (type id buf))  → (id, cont) = find bl id
+                                         kernel (tail : {cont, buf}) (tailb \ (id,cont))
+         (videoPrint
