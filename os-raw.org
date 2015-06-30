@@ -131,7 +131,8 @@
       {r, proc} ← ready
       {syscall, arg, cont} = run (proc r)
       case {syscall, arg} of
-        {exit, _} → kernel (tail ready)
+        {exit, _}
+ → kernel (tail ready)
         {readLine, _} → kernel (tail ready ++ [("what has been read", cont)])
         {writeLine, _} → print str
                          kernel (tail ready ++ [((), cont)])

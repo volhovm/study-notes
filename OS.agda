@@ -51,10 +51,10 @@ record Context : * where
 Process : * → *
 Process r = r → Context
 
--- record ProcInfo (A : *) : * where
-  -- field
-    -- proc : Process A
-    -- fdtable : List (Fd × (⋆ FdObj))
+record ProcInfo (A : *) : * where
+  field
+    proc : Process A
+    fdtable : List (Fd × (⋆ FdObj))
 
 Ready : * → *
 Ready r = Process r × r
