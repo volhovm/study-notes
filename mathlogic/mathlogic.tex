@@ -1,0 +1,1540 @@
+% Created 2015-01-21 Ср 21:06
+%\documentclass[draft,12pt]{article}
+\documentclass[fleqn,12pt]{article}
+\usepackage{euler}
+%\usepackage[normalem]{ulem}
+\usepackage{amsmath}
+\usepackage{epigraph}
+\usepackage{mathtools}
+\usepackage{amssymb}
+\usepackage{proof} % M. P. и его друзья
+\usepackage[pdftitle={Курс матлогики по Штукенбергу Д. Г.}]{hyperref}
+\usepackage{amsthm}
+\usepackage{stmaryrd} % ⟦⟧
+\usepackage{enumitem} % всякие модные enumerate-ы (latin letters, roman numbers etc)
+\usepackage{xcolor} % red color for worries
+\usepackage{pict2e} % templates
+%\usepackage{enumerate}
+%\usepackage{changepage}
+\usepackage[left=2cm,right=1.6cm,top=2cm,bottom=2cm,bindingoffset=0cm]{geometry}	
+\usepackage{fontspec}
+\setmainfont[Ligatures=TeX]{Palatino Linotype}
+\setmonofont{DejaVu Sans Mono}
+\usepackage{polyglossia}
+\setdefaultlanguage[babelshorthands=true]{russian}
+
+%\hyphenpenalty=5000
+
+
+% some magic for Godel numerals
+\newbox\gnBoxA
+\newdimen\gnCornerHgt
+\setbox\gnBoxA=\hbox{$\ulcorner$}
+\global\gnCornerHgt=\ht\gnBoxA
+\newdimen\gnArgHgt
+\def\Godel #1{%
+\setbox\gnBoxA=\hbox{$#1$}%
+\gnArgHgt=\ht\gnBoxA%
+\ifnum     \gnArgHgt<\gnCornerHgt \gnArgHgt=0pt%
+\else \advance \gnArgHgt by -\gnCornerHgt%
+\fi \raise\gnArgHgt\hbox{$\ulcorner$} \box\gnBoxA %
+\raise\gnArgHgt\hbox{$\urcorner$}}
+
+
+\renewcommand{\le}{\leqslant} % ≤
+\renewcommand{\leq}{\leqslant} % ≤
+\renewcommand{\ge}{\geqslant} % ≤
+\renewcommand{\geq}{\geqslant} % ≤
+\renewcommand{\phi}{\varphi}
+\renewcommand{\epsilon}{\varepsilon}
+\DeclareMathOperator{\plog}{plog}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\Proof}{Proof}
+
+\newcommand{\ltemplate}{\begin{picture}(5,7)
+\put(.5,4){\line(1,-1){5}}
+\put(.2,4.1){\line(1,-1){5.2}} % just to make it more bold lol
+\put(.5,4){\line(1,1){5}}
+\put(.2,3.9){\line(1,1){5.2}} % just to make it more bold lol
+\end{picture}}
+\newcommand{\rtemplate}{\begin{picture}(5,7)
+\put(4.5,4){\line(-1,-1){5}}
+\put(4.8,4.1){\line(-1,-1){5.2}} % just to make it more bold lol
+\put(4.5,4){\line(-1,1){5}}
+\put(4.8,3.9){\line(-1,1){5.2}} % just to make it more bold lol
+\end{picture}}
+\newcommand{\template}[1]{\ltemplate #1\rtemplate}
+
+\newcommand{\defeq}{\coloneqq}
+\newcommand{\s}[1]{\texttt{#1}}
+\newcommand{\xl}{$\lambda$}
+\newcommand{\+}{\lambda}
+\newcommand{\bredmath}{\ \longrightarrow_\beta\ }
+\newcommand{\bred}{$\bredmath$}
+\newcommand{\mbred}{$\ \longrightarrow\!\!\!\!\rightarrow_\beta\ $}
+\newcommand{\lid}[1]{\textit{#1}}
+\newcommand{\concat}{\hat{\ \ }}
+
+\newcommand\myworries[1]{\textcolor{red}{#1}}
+
+\def\ra{\rightarrow}
+
+\tolerance 1000 % чтобы не очковал переносить
+
+\renewcommand{\theenumii}{\asbuk{enumii}}
+\AddEnumerateCounter{\asbuk}{\@asbuk}{ы}
+%\newenvironment{epigraph}% 
+%{\begin{list}{}{\setlength{\leftmargin}{0.3\textwidth}}\item[]}% 
+%{\end{list}} 
+
+\author{Daniyar Itegulov, Aleksei Latyshev, Ignat Loskutov}
+\date{\today}
+\title{Курс математической логики по Штукенбергу Д.~Г.}
+
+\begin{document}
+\theoremstyle{definition}
+\newtheorem*{definition}{Определение}%[section]
+\newtheorem*{example}{Пример}
+%\theoremstyle{theorem}
+\newtheorem{theorem}{Теорема}[section]
+\newtheorem{axiom}{Аксиома}[section]
+\newtheorem{lemma}[theorem]{Лемма}
+
+\maketitle
+\tableofcontents
+
+%Должно отображаться корректно: $x_1$,x₂x₃xₙ, θ, \exists , ∑, ∉
+\epigraph{%
+    лан, всё не книжку верстаем))))000}
+  {некто Игнат Лоскутов о качестве вёрстки}  
+\epigraph{%
+    данияр лолка пиздос)))))}
+  {аноним о всяких там хех латехерах}
+
+Mykhail Volkhov, 2538, 2014Sep-2015Jan\\
+Я не отвечаю за верность написанного - много информации
+я придумал сам, много достал из недостоверных источников.
+\include{base}
+\include{defenitions}
+\include{ticket1}
+\include{ticket2}
+\include{ticket3}
+\include{ticket4}
+\include{ticket5}
+\include{ticket6}
+\include{ticket7}
+\include{ticket8}
+\end{document}
+\section{Ticket 9: представимость}
+\label{sec-11}
+\subsection{Функции, их представимость}
+\label{sec-11-1}
+Арифметическая функция - это отображение $f: N_0^n \to N_0$
+Арифметическое отношение - это $P \in N_0^n$
+Если $k \in N_0$, то $k\textasciitilde{} = 0'''''\ldots${}, где количество штрихов
+есть $k$.
+\begin{itemize}
+\item Арифметическое отношение R \in N₀ⁿ выразимо в ФА, если
+\exists a с n свободными переменными:
+a(x_1\ldots{}xₙ), такая что
+\begin{enumerate}
+\item $Eсли R(k_1\ldots{}kₙ), то \vdash a(k_1\textasciitilde{}\ldots{}kₙ\textasciitilde{})$
+\item $Eсли \lnot R(k_1..kₙ), то \vdash \lnot a(k_1\textasciitilde{}\ldots{}kₙ\textasciitilde{})$
+\end{enumerate}
+\item C$_{\text{R}}$ - функция, равная 1, если R, и равная 0, если \lnot R
+\item \exists !y.\phi(y) = \exists y.\phi(y) \& ∀a∀b(\phi(a) \& \phi(b) \to a = b)
+\item f: N₀ⁿ \to N₀ представима в ФА, если \exists a(x_1\ldots{}xₙ₊_1), что
+∀x_1\ldots{}xₙ+_1:
+\begin{enumerate}
+\item $f(x_1\ldots{}xₙ) = xₙ₊_1 <=> \vdash a(x_1\textasciitilde{},\ldots{}xₙ₊_1\textasciitilde{})$
+\item \exists !b(a(x_1\textasciitilde{}\ldots{}xₙ\textasciitilde{}, b))
+\end{enumerate}
+\end{itemize}
+\subsection{Теорема о связи представимости и выразимости}
+\label{sec-11-2}
+R выразимо <=> Cᵣ представимо
+\to a выражает R
+(a \to (xₙ₊_1=0')) \& (\lnot a \to (xₙ₊_1=0))
+представляет Cᵣ
+По выразимости $R \vdash a$; тогда ⊤\to a\to ⊤ => a\to ⊤
+По 10i, перенесенной к нам a \to (\lnot a \to ⊥)
+правило с единственностью вроде понятно (хотя руками помахал, да)
+← Cᵣ представимо \to R выразимо
+Пусть представлять Cᵣ будет
+a(x_1\ldots{}.xₙ,xₙ₊_1)
+Тогда определим, какая формула выражает R:
+a(\ldots{}., 1)
+Из представимости:
+\begin{itemize}
+\item \exists b.a(x_1\ldots{}xₙ₊_1)
+\item ∀x∀y(a(\ldots{}x) \& a(\ldots{} y) \to x = y)
+\item если Cᵣ(x_1\ldots{}xₙ) = 1, то $\vdash a(x_1\ldots{}xₙ,1)$
+\item если Cᵣ(\ldots{}) = 0, то $\vdash a(..,0)$
+\end{itemize}
+
+Докажем выводимость
+\begin{enumerate}
+\item Покажем, что если $R(x_1\ldots{}xₙ)$, то $\vdash a(x_1\ldots{}xₙ, 1)$
+Из представимости прямо ровно.
+\item Покажем, что если $\lnot R(x_1\ldots{}.xₙ), то \vdash \lnot a(x_1\ldots{}xₙ, 1)$
+по единственности
+
+∀x∀y(a(x_1\ldots{}xₙ, x) \& a(x_1\ldots{}xₙ, y) \to x = y)
+a(x_1\ldots{}xₙ, 0) \& a(x_1\ldots{}xₙ, 1) \to (0 = 1) (спустя две акс. и 2 MP)
+дедукцию
+$a(x_1\ldots{}xₙ, 0) \& a(x_1\ldots{}xₙ, 1) \vdash ⊥$
+$a(x_1\ldots{}xₙ, 0) \& a(x_1\ldots{}xₙ, 1) \to a(x_1\ldots{}xₙ, 0)$
+$a(x_1\ldots{}xₙ, 0)$
+\lnot a(x_1\ldots{}xₙ, 0)                          по представимости
+a(x_1\ldots{}xₙ, 0) \to (\lnot a(x_1\ldots{}xₙ, 0) \to \lnot a(x_1\ldots{}xₙ, 1)) (10i в ИИВ, доказуема в предикатах)
+\lnot a(x_1\ldots{}xₙ, 1)
+хотим \lnot a(x_1\ldots{}xₙ, 1)
+\end{enumerate}
+\subsection{beta-функция Гёделя, китайская теорема об остатках}
+\label{sec-11-3}
+β(b,c,i) = b \% (1 + c(1 + i)),
+где \%(a, b) = d, ∀m.(d + m * b = a), m≥0, 0≤d≤b
+\subsubsection{Китайская теорема об остатках}
+\label{sec-11-3-1}
+n_1\ldots{}nₖ - попарно взаимно простые инты
+r_1\ldots{}rₖ - любые целые, что 0 ≤ rᵢ < nᵢ
+∀i\exists b  rᵢ = b \% nₖ
+\subsubsection{Гёделева Г-последовательность}
+\label{sec-11-3-2}
+Гᵢ = (i + 1) * c + 1
+Γ(c) = 1*c + 1, 2*c + 1, 3*c + 1,\ldots{}(n+1)*c + 1
+
+Докажем, что Г(c) подходит на роль n_1\ldots{}nₖ в китайской
+теореме об остатках. Выделим последовательность размера
+n: k_1\ldots{}kₙ.
+Чтобы это выполнялось возьмем c = (max(k_1\ldots{}kₙ))!
+\begin{enumerate}
+\item В Г любые два элемента попарно взаимно простые
+\label{sec-11-3-2-1}
+Пусть Γᵢ ⋮ Γⱼ имеют общий делитель p > 1. Мы можем его разложить
+на простые множители и взять какой-нибудь простой (любое число
+раскладывается на простые множители).
+Тогда (Γᵢ - Γⱼ) ⋮ p, (c * (i - j)) ⋮ p. Заметим, что \lnot (c ⋮ p),
+потому что иначе Γᵢ = 1 + c * (i + 1) ⋮ p и c * (i + 1) ⋮ p,
+а они отличаются на единицу. Тогда (i - j) ⋮ p, но c = m! m > n,
+а i - j < n, значит c ⋮ p. \to ←
+\item Каждое kᵢ < Гᵢ
+\label{sec-11-3-2-2}
+kᵢ ≤ c < 1 + c * (i + 1) = Γᵢ
+\end{enumerate}
+\subsubsection{Лемма о β-функции}
+\label{sec-11-3-3}
+Увидим, что β(b,c,i) считает остаток от деления b на
+(i + 1) * c + 1 - элемент Геделевой последовательности.
+\begin{itemize}
+\item <a₀\ldots{}aₙ>\in N \to \exists b\exists c(aₖ=β(b,i,c)) - β-функция кодирует
+последовательность натуральных чисел и может
+доставать по индексу i
+
+a₀\ldots{}aₙ  - последовательность натуральных чисел
+тогда существует такое c, что Г = 1*c+1, 2*c+1,\ldots{}
+если c ≥ max(a₀\ldots{}aₙ), то aₖ < (i+1)*c+1
+Но по свойству Г элементы попарно взаимно просты
+тогда сравнения
+a₀ \% (0+1)*c+1
+a_1 \% (1+1)*c+1
+\ldots{}\ldots{}\ldots{}\ldots{}.
+aₙ \% (n+1)*c+1
+имеют общее решение b по китайской теореме об остатках
+тогда aᵢ = b \% (i+1)*c + 1
+но это и есть β-функция
+aᵢ = β(b,c,i)
+\end{itemize}
+\subsubsection{Представимость β-функции Гёделя в ФА}
+\label{sec-11-3-4}
+β-функция представима в ФА отношением
+B(b,c,i,d) = \exists q((b = q * (1 + c * (i + 1)) + d) \& (d < 1 + c * (i + 1)))
+Пусть 1 + c * (i + 1) = z
+Докажем условия представимости:
+\begin{enumerate}
+\item Эквивалентность
+\begin{enumerate}
+\item β(b,c,i) = d, тогда $\vdash B(b,c,i,d)$
+b = z * (1 + c * (i + 1))    (это и следующее - из леммы о β) P
+d < 1 + c * (i + 1)                                           Q
+P \to Q \to P \& Q
+P \& Q
+P \& Q \to \exists q.(P \& Q) [z:= q]
+\exists q.(P \& Q)
+\item Пусть $\vdash B(b,c,i,d)$, тогда
+\exists q.(P \& Q)
+подберем такое q (по лемме)
+P \& Q \to P
+P \& Q \to Q
+P
+Q
+значит β(b,c,i) = d
+\end{enumerate}
+\item Единственность
+Следует из леммы.
+\end{enumerate}
+\subsection{Теорема о представимости рекурсивных функций Z, N, U}
+\label{sec-11-4}
+\begin{enumerate}
+\item Z
+Z(a, b) = (b = 0)
+\begin{itemize}
+\item Z(a) = b верно, тогда b = 0
+b = 0
+\item (b = 0)
+b = 0
+тогда Z(0) = 0, все ок
+\item \exists y.\phi(y) \& ∀a∀b(\phi(a) \& \phi(b) \to a = b)
+Тоже как-то несложно
+\end{itemize}
+\item N
+N(a, b) = (a = b')
+\begin{itemize}
+\item N(a) = b, тогда a = b'
+a = b'
+\item a = b', тогда
+N(a) = b
+\item Третье не хочу
+\end{itemize}
+\item Uₙᵢ
+Uₙᵢ(x_1\ldots{}xₙ) = (x_1 = x_1) \& (x₂ = x₂) \& \ldots{} \& (xₙ₊_1 = xᵢ)
+\begin{itemize}
+\item U(..) = xᵢ, тогда xₙ₊_1 = x_1
+x_1 = x_1 доказывается
+\ldots{}
+xₙ = xₙ доказывается
+xₙ₊_1 = x_1 по условию
+объединяем все \&
+\item (x_1 = x_1) \& \ldots{}.
+вытаскиваем каждый элемент и тогда видим, что
+проекция делает ровно то, что должна.
+\item \exists q.(xₙ₊_1 = q)
+ХЗ
+\item ∀a∀b(x(\ldots{}a)\&x(\ldots{}.b) \to a = b)
+Для конкретных a, b обявляем a = b - ⊤, тогда выводим
+из него конъюнкцию и навешиваем два квантора
+\end{itemize}
+\end{enumerate}
+\subsection{Теорема о представимости S}
+\label{sec-11-5}
+Eсли f и g_1\ldots{}gₙ представимы, то S<f, g_1\ldots{}gₙ> представима
+Пусть F, G_1\ldots{}Gₙ представляют их.
+S(a_1\ldots{}aₘ, b) = \exists b_1\ldots{}\exists bₙ(G_1(a_1\ldots{}aₙ, b_1) \& \ldots{} \& Gn(a_1\ldots{}aₘ, bₙ)
+\& F(b_1\ldots{}bₙ, b))
+\begin{itemize}
+\item Пусть S(a_1\ldots{}aₙ) = b, тогда существуют такие b_1\ldots{}bₙ, что \#каждый аргумент\#
+Поскольку f,g_1\ldots{}gₙ представимы, то доказуемы по представимости
+f(b_1\ldots{}bₙ, b)
+g_1(a_1\ldots{}aₙ, b_1)
+\ldots{}
+gₙ(a_1\ldots{}aₙ, bₙ)
+g_1 \& g₂ \& \ldots{} \& gₙ \& f    объединили \&     "P"
+"P" \to \exists b_1."P[b_1:=b_1]" + MP
+\ldots{}
+Ну и навесили кванторы, да.
+\item Пусть верна формула с кванторами. Тогда она и есть уже то, что надо
+\item не могу, да и вообще нигде это свойство не доказывается
+\end{itemize}
+\subsection{Теорема о представимости R}
+\label{sec-11-6}
+Пусть f, g представимы F, G. Тогда R<f,g> представима.
+f: Nⁿ\to N, g:Nⁿ⁺²\to N
+r(x_1\ldots{}xₙ, k, a) =
+   \exists b\exists c(
+        \exists k(β(b, c, 0, k) \& \phi(x_1\ldots{}xₙ, k))
+        \& B(b, c, xₙ₊_1, a)
+        \& ∀k(k<xₙ₊_1 \to \exists d\exists e(B(b,c,k,d)\&B(b,c,k',e)\&G(x_1\ldots{}xₙ,k,d,e))))
+Единственная возможность осознать -- внимательно прочесть формулу.
+Тут β-функция используется в качестве функии отображения нашего шага
+вычисления рекурсии в результат, типа
+0 - F(\ldots{})
+1 - G(\ldots{})
+\ldots{}
+n - G(\ldots{})
+\subsection{Теорема о представимости μ}
+\label{sec-11-7}
+f: Nⁿ⁺¹\to N представима F, тогда μ<f> представима M
+Μ<F>(x_1\ldots{}xₙ₊_1) = F(x_1\ldots{}xₙ, xₙ₊_1, 0) \& ∀y((y < xₙ₊_1) \to \lnot F(x_1\ldots{}xₙ, y, 0))
+\begin{itemize}
+\item μ<f>(x_1\ldots{}xₙ) = xₙ₊_1, тогда xₙ₊_1 - минимальное k, такое что f(x_1..xₙ,k) = 0
+то есть имеем
+F(x_1\ldots{}xₙ, xₙ₊_1, 0)
+∀x.(k < x \to \lnot F(x_1\ldots{}xₙ, k, 0))
+Просто объединим конъюнкцией
+\item обратно ей же и разъединим
+\end{itemize}
+\section{Ticket 10: Тьюринг}
+\label{sec-12}
+\subsection{Арифметические отношения, их выразимость}
+\label{sec-12-1}
+\begin{itemize}
+\item Арифметическое отношение R \in N₀ⁿ выразимо в ФА, если
+\exists a с n свободными переменными:
+a(x_1\ldots{}xₙ), такая что
+\begin{enumerate}
+\item Eсли $R(k_1\ldots{}kₙ), то \vdash a(k_1\textasciitilde{}\ldots{}kₙ\textasciitilde{})$
+\item Eсли \lnot R(k_1..kₙ), то $\vdash \lnot a(k_1\textasciitilde{}\ldots{}kₙ\textasciitilde{})$
+\end{enumerate}
+\end{itemize}
+\subsection{Гёделева нумерация}
+\label{sec-12-2}
+\begin{center}
+\begin{tabular}{lrl}
+a & `a & описание\\
+\hline
+( & 3 & \\
+) & 5 & \\
+, & 7 & \\
+\lnot  & 9 & \\
+\to & 11 & \\
+\lor & 13 & \\
+\& & 15 & \\
+∀ & 17 & \\
+\exists  & 19 & \\
+xₖ & 21 + 6 * k & переменные\\
+fⁿₖ & 23 + 6 *ᵏ * 3ⁿ & n-местные функцион. символы (', +, *)\\
+Pⁿₖ & 25 + 6 *ᵏ * 3ⁿ & n-местные предикаты (=)\\
+\hline
+\end{tabular}
+\end{center}
+
+Последовательность значков будем составлять так:
+a_1\ldots{}aₙ - наши простые числа, соответствующие char'ам, тогда
+p_1$^{\text{(a_1)}}$ * p₂$^{\text{(a₂)}}$,\ldots{}pₙ$^{\text{(aₙ)}}$ - геделев нумерал стринга, составленного
+из чаров.
+
+Если a - выражение, то `a - выражение в Геделевой форме (на
+практике пишут квадратные скобочки без нижних их половинок)
+Тогда если a - выражение, `a\textasciitilde{} - это элемент предметного множества
+ФА, соответствующий нолику с количеством черточек, равным `a.
+
+Доказательство - это последовательность простых чисел, возведенная
+в геделевы нумералы выражений, являющихся составляющими док-ва, по
+порядку. Аналогично с составлением строки из символов.
+
+Тогда определим следующие функции операций с нумералами:
+\begin{itemize}
+\item \plog(a, b) = max n : a \% bⁿ = 0
+Иногда вместо b стоит P$_{\text{b}}$, где P$_{\text{b}}$ - простое число с индексом b.
+Функция берет геделев нумерал и достает у него i-й элем. последов.
+\item len = max n : a \% pₙ
+Возвращает длину строки/д-ва
+\item s@t = p_1$^{\text{(\plog(s, 1))}}$ * \ldots{} * pₗₑₙ₍ₛ₎$^{\text{(\plog(s, len(s)))}}$ *
+pₗₑₙ₍ₛ₎₊_1$^{\text{(\plog(t, 1))}}$ * \ldots{} * pₗₑₙ₍ₛ₎₊ₗₑₙ₍ₜ₎$^{\text{(\plog(t, len(t)))}}$
+Конкатенация строк
+\end{itemize}
+\subsection{Машина Тьюринга}
+\label{sec-12-3}
+Машина тьюринга состоит из ленты, головки, регистра состояния и конечной
+таблицы состояний
+Более формально, это 7-кортеж: <Q, Γ, b, ∑, δ, q₀, F>
+Конечный список состояний, конечный алфавит, пустой символ из алфавита,
+символы, которые мы можем писать (из Γ $\backslash$ b), функция таблицы состояний,
+начальное состояние из Q, конечное состояние из Q.
+\begin{itemize}
+\item Лента - бесконечный двусвязный список, в каждой ячейке которого
+содержится символ из конечного алфавита, в котором также есть
+пустой символ (тут и далее  ), которым изначально заполнена вся
+лента
+\item Головка может находиться над элементом, писать в него и читать из
+него символ. Может двигаться влево-вправо (или двигать ленту, неважно)
+\item Регистр состояния хранит состояние - элемент из конечного множества
+состояний машины. Есть особые состояния - стартовое и конечные.
+\item Таблица состяний - таблица, хранящая данные о функции смены
+состояния - foo: Γ × Q \to Γ × Q × \{left, this, right\}.
+Функция берет текущее состояние, читает символ на головке, потом
+получает тройку, пишет новый символ, перемещается по третьему
+элементу, выставляет новое состояние. Если состояние конечное, то
+она останавливается.
+\end{itemize}
+Мы будем придерживаться нотации <\_, \_,  , \_, \_, S, F>.
+\subsection{Проблема останова}
+\label{sec-12-4}
+Дано описание процедуры и входные данные. Функция P(a, b) определяет,
+остановится ли a на входных данных b. Существует ли P?
+\begin{itemize}
+\item Проблема останова неразрешима на машине Тьюринга:
+Пусть P существует.
+Тогда S(x) = P(x, x) остановится ли функция на своем же коде
+MyProg(x) = if S(x) then while(true)\{\} else 1
+Рассмотрим MyProg(`MyProg)
+Если оно остановится, то первое условие выполнено, тогда оно не остановится
+И наоборот.
+Значит, P не существует.
+\end{itemize}
+\subsection{Выводимость и рек. функции - Тьюринг}
+\label{sec-12-5}
+\subsubsection{Выражение машин Тьюринга через рекурсивные функции}
+\label{sec-12-5-1}
+Мы хотим доказать, что если у нас есть какая-нибудь процедура, которую
+можно выразить в Тьюринге, то мы можем ее сделать и в формальной арифметике
+(рекурсивные функции представимы).
+Введем обозначение <st,tape,pos> = 2$^{\text{(st)}}$*3$^{\text{(tape)}}$*5$^{\text{(pos)}}$
+Такая тройка -- основная характеристика машины в данный момент.
+Будем называеть ее текущим полным состоянием, например.
+st, tape, pos - геделевы нумералы, st - нумерал из 1 элемента с состоянием,
+tape - string, обозначающий ленту (бесконечные   слева и справа не входят),
+pos - позиция в ленте.
+\begin{itemize}
+\item p: <st, a> \to <st, a, dir>
+принимает <st, a>, декодит, лезет в δ машины тьюринга, достает
+новые значения, делает из них <,,>, отдает.
+\item t: <st> \to 0 | 1
+Определяет, терминально ли наше состояние (0 если терминально)
+\item \epsilon  - пустой символ (у нас  )
+\item pb, pc кодируют β-функцией последовательность инпутов
+в последовательность аутпутов. β(p$_{\text{b}}$, p$_{\text{c}}$, x) = p(x)
+\item tb, tc аналогично кодируют t
+\item R<f,g>(<s$_{\text{st}}$, s$_{\text{tape}}$, s$_{\text{pos}}$>, \epsilon , pb, pc, tb, tc, y)
+Запускает машину Тьюринга от стартового состояния, заранее
+говоря ей, сколько шагов (y) она должна сделать.
+Возвращает тройку <st, tape, pos>
+\item Определим f, g
+\begin{enumerate}
+\item Дополнительные функции
+\begin{itemize}
+\item os(prev) = \plog(prev, 1)
+Текущее состояние
+\item ot(prev) = \plog(prev, 2)
+Лента
+\item op(prev) = \plog(prev, 3)
+Позиция головки в ленте
+\item nextstate(pb, pc, prev) = β(pb, pc, 2$^{\text{(os(prev))}}$ * 3$^{\text{(\plog(ot(prev), op(prev)))}}$
+           Реализует функцию p
+\item st(pb, pc, prev) = \plog(nextstate(pb, pc, prev), 1)
+Новое состояние.
+\item sym(pb, pc, prev) = \plog(nextstate(pb, pc, prev), 2)
+Символ который нужно писать
+\item dir(pb, pc, prev) = \plog(nextstate(pb, pc, prev), 3)
+Направление для перехода головки
+\item repl(pb, pc, prev) = (ot(prev) / (P$_{\text{op}}$)$^{\text{(\plog(ot(..), op(..)))}}$) * (P$_{\text{op}}$)$^{\text{sym}}$(..)
+Возвращает ленту, в которой удален символ в позиции op,
+и добавлен новый символ в эту же позицию.
+\end{itemize}
+\item f - возвращает полное состояние машины
+f(<start$_{\text{state}}$>, \epsilon , pb, pc, tb, tc) = <start$_{\text{state}}$>
+\item g - возвращает новое полное состояние из машины после перехода
+(пометка: 0 - nothing, 1 - right, 2 - left
+все фукнции вызываются с аргументом prev, <start$_{\text{state}}$> не используется)
+g(<start$_{\text{state}}$>, \epsilon , pb, pc, tb, tc, y, prev) =
+\begin{center}
+\begin{tabular}{lll}
+\hline
+Condition & Result & Desrc\\
+\hline
+dir = 0 & <st, repl, op> & nothing\\
+dir = 1 \& len(repl) = op & <st, repl@2$^{\text{(\epsilon )}}$, op + 1> & tape end\\
+dir = 1 & <st, repl, op + 1> & move right\\
+dir = 2 \& op = 0 & <st, 2$^{\text{(\epsilon )}}$@repl, op - 1> & tape start\\
+dir = 2 & <st, repl, op - 1> & move left\\
+\hline
+\end{tabular}
+\end{center}
+\end{enumerate}
+
+\item Определим steps - функцию, определяющую необх. кол-во шагов
+steps(<start$_{\text{state}}$>, \epsilon , pb, pc, tb, tc) =
+μ<β(tb, tc, \plog(R<f,g>, 1))>(<start$_{\text{state}}$>, \epsilon , pb, pc, tb, tc)
+Она найдет такое минимальное к, что состояние \plog(R<f, g>(args, k), 1) терминально.
+\end{itemize}
+\subsubsection{Выражение программы по проверке доказательства в машине тьюринга}
+\label{sec-12-5-2}
+\begin{itemize}
+\item Emulate(input, prog) = \plog(R<f,g>(<`S, input, 0>,  , pb, pc, tb, tc, steps(-//-)), 1) == F
+Функция проверяет, правда ли получившееся терминальное состояние - ок.
+Можем давать программу такую, что она заканчивается в терминальном F(inish)
+или в терминальном FAIL
+Дает в качестве аргумента функцию перехода, pb, pc выражают prog
+\item Proof(term, proof) = Emulate(proof, MY$_{\text{PROOFCHECKER}}$) \&\& (\plog(proof, len(proof)) = term)
+Проверяет, что доказательство p заканчивается корректно и его последний
+элемент - то, что мы доказываем.
+\item Любая представимая в ФА ф-я является рекурсивной
+Пусть f представима
+Пусть f(x_1\ldots{}xₙ) = b, тогда $\vdash \phi(x_1\textasciitilde{}\ldots{}xₙ\textasciitilde{}, b\textasciitilde{})$
+Всегда можно построить рекурсивную функцию G$_{\text{\phi}}$(x_1\ldots{}xₙ, b, p),
+утверждающую, что p - гёделев номер вывода предиката \phi(x_1\textasciitilde{}\ldots{}xₙ\textasciitilde{}, b\textasciitilde{})
+Мы делаем это обычным перебором чисел, проверяем вывод нашей
+программой из домашнего задания, выраженную в тьюринге, а потом в
+рекурсивных функциях.
+Тогда f в рекурсивных функциях выражается так:
+f(x_1\ldots{}xₙ) = \plog(μ<S<G$_{\text{\phi}}$, Uₙ₊_1,_1,\ldots{} Uₙ₊_1,ₙ,
+\plog(Uₙ₊_1,ₙ₊_1, 1),
+\plog(Uₙ₊_1,ₙ₊_1, 2)>>(x_1\ldots{}xₙ), 1)
+Такая функция берет \plog(1) от первого такого минимального геделева
+номера k (геделева пара из двух элементов - <b, p>)), что
+S<G$_{\text{\phi}}$, U\ldots{}.>(x_1\ldots{}xₙ, k) = 0. Это значит, что
+G$_{\text{\phi}}$(x_1\ldots{}xₙ, \plog(k, 1), \plog(k, 2)) = 0, это значит, что
+G$_{\text{\phi}}$(x_1\ldots{}xₙ, b, p) = 0, то есть p - вывод \phi(x_1\textasciitilde{}\ldots{}xₙ\textasciitilde{}, b\textasciitilde{}).
+Этот геделев номер - b
+\end{itemize}
+\section{Ticket 11: 1т о неполноте}
+\label{sec-13}
+\subsection{Непротиворечивость, ω-непротиворечивость}
+\label{sec-13-1}
+\begin{itemize}
+\item Теория непротиворечива, если в ней нельзя вывести
+одновременно a и \lnot a (что аналогично невозможности
+вывести a\&\lnot a).
+\item Теория ω-непротиворечива, если из %∀\phi(x) \vdash \phi(x\textasciitilde{})$ следует
+⊬ \exists p\lnot \phi(p). Проще говоря, если мы взяли
+формулу, то невозможно вывести одновременно \exists x\lnot A(x)
+и A(0), A(1), \ldots{}
+\item Лемма о w-\# и обычной непротиворечивости
+Если теория w-непротиворечива, то она непротиворечива
+\phi = x=x \to x=x
+Такая формула очевидно доказуема (A \to A)
+$\vdash \phi[x:=k] k \in N₀$
+Но недоказуемо \exists x\lnot (x=x\to x=x)
+А в противоречивой теории доказуемо все
+\end{itemize}
+\subsection{Прервая теорема о неполноте}
+\label{sec-13-2}
+Определим отношение W_1(x, p), истинное тогда и только тогда,
+когда x - геделев номер формулы \phi с единственным свободным
+аргументом x, а p - геделев номер доказательства \phi("\phi"). Это
+отношение выразимо в ФA, потому что мы просто пихаем это в наш
+Proof, а его мы выразили через рекурсивные функции, а они
+представимы.
+Пусть его выражает w_1(x, p);
+Рассмотрим формулу σ = ∀p\lnot w_1(x, p) - для любого доказательства
+оно не является доказательством самоприменения \phi, то есть
+самоприменение \phi недоказуемо.
+То есть если σ(`a\textasciitilde{}) истинно, то a(`a\textasciitilde{}) недоказуемо.
+В нашем случае если σ(`a\textasciitilde{}) истинно, то σ(`σ\textasciitilde{}) недоказуемо.
+\begin{enumerate}
+\item Если формальная арифметика непротиворечива, то недоказуемо σ(`σ\textasciitilde{})
+\begin{enumerate}
+\item Пусть $\vdash σ(`σ\textasciitilde{})$, тогда найдется геделев номер ее док-ва p,
+тогда W_1(`σ, p), то есть $\vdash w_1(`σ\textasciitilde{}, p\textasciitilde{})$.
+\item С другой стороны,
+$\vdash σ(`σ\textasciitilde{})$
+$\vdash ∀p\lnot w_1('σ\textasciitilde{}, p)$
+∀p\lnot w_1(`σ\textasciitilde{}, p) \to \lnot w_1(`σ\textasciitilde{}, p\textasciitilde{})
+\lnot w_1(`σ\textasciitilde{}, p\textasciitilde{})
+Тогда ФА противоречива.
+\end{enumerate}
+\item Если формальная арифметика w-непротиворечива, то недоказуемо \lnot σ(`σ\textasciitilde{})
+Пусть $\vdash \lnot σ(`σ\textasciitilde{})$, то есть $\vdash \lnot ∀p\lnot w_1(`σ\textasciitilde{}, p)$, что значит \exists p.w_1(`σ\textasciitilde{}, p)
+Найдется такой q, что $\vdash w_1(`σ\textasciitilde{}, q\textasciitilde{})$, потому что если бы не нашелся,
+это бы значило доказуемость для каждого q \lnot w_1(`σ\textasciitilde{}, q\textasciitilde{}), тогда по
+ω-непротиворечивости было бы не доказуемо \exists p\lnot \lnot w_1(`σ\textasciitilde{}, p)
+То q, что мы нашли - это номер доказательства  σ(`σ\textasciitilde{}), что и
+утверждает выражение $\vdash w_1(`σ\textasciitilde{}, q\textasciitilde{})$. Но мы предполагали, что $\vdash \lnot σ(`σ\textasciitilde{})$.
+Противоречие.
+\end{enumerate}
+
+Нормальное доказательство общезначимости:
+Я не знаю, зачем нам второй пункт, но из первого следует, что если
+наша теория w-непротиворечива, то она непротиворечива (по лемме выше),
+значит в ней недоказуемо σ(`σ\textasciitilde{}), то есть ∀p\lnot w_1(`σ\textasciitilde{}, p), то есть
+по корректности последнее выражение И, но это и есть в точности определение
+σ(`σ\textasciitilde{}).
+
+Ненормальное д-во общезначимости:
+Итого мы доказали, что если формальная арифметика ω-непротиворечива,
+то в ней не доказуемо ни σ(`σ\textasciitilde{}) ни \lnot σ(`σ\textasciitilde{}). Одно из них точно тавтология
+(в формуле нет свободных переменных). Тогда ФА неполна при условии
+ω-непротиворечивости.
+
+Другое доказательство общезначимости:
+\lnot σ(`σ\textasciitilde{}) недоказуема
+[σ(`σ\textasciitilde{})] = [∀p\lnot w_1(`σ\textasciitilde{}, p)] =
+\begin{enumerate}
+\item И если [\lnot w_1(`σ\textasciitilde{}, a)] = И для какого-то а
+\item Л иначе
+\end{enumerate}
+
+Это значит, что
+И если [w_1(`σ\textasciitilde{}, a)] = Л
+[w_1(`σ\textasciitilde{}, a)] = Л, докажем от противного
+Пусть [σ(`σ\textasciitilde{})] = Л,
+[∀p\lnot w_1(`σ\textasciitilde{}, p)] = Л
+[\lnot ∀p\lnot w_1(`σ\textasciitilde{}, p)] = И
+[\exists p.w_1(`σ\textasciitilde{}, p)] = И
+[w_1(`σ\textasciitilde{}, a)] = И для какого-то а
+то есть a доказывает σ(`σ\textasciitilde{})
+???
+
+тогда по определению w_1 существует
+доказательство σ(`σ\textasciitilde{}),
+\subsection{Пример w-противоречивой, но непротиворечивой теории (при усл. непрот. ФА)}
+\label{sec-13-3}
+Добавим в ФА аксиому Г: \lnot σ(`σ\textasciitilde{})
+Тогда по контрпозиции 1п2 она w-противоречива.
+Если бы мы могли доказать противоречивость нашей системы, то
+ФА была бы противоречива, тогда хз
+$\lnot σ(`σ\textasciitilde{}) \vdash σ(`σ\textasciitilde{})\&\lnot σ(`σ\textasciitilde{})$
+$\vdash σ(`σ\textasciitilde{})$
+Но мы предположили что \lnot σ(`σ\textasciitilde{})
+\subsection{Форма Россера}
+\label{sec-13-4}
+Если формальная арифметика непротиворечива, то в ней найдется
+такая формула \phi, что ⊬\phi и ⊬\lnot \phi
+\section{Ticket 12: 2т о неполноте}
+\label{sec-14}
+\subsection{Consis, Условия выводимости Гильберта-Бернайса}
+\label{sec-14-1}
+Определим Consis как утверждение, показывающее
+непротиворечивость ФА - отсутствие $\phi : \vdash \phi, \lnot \phi$. Поскольку
+в противоречивой теории выводится что угодно, возьмем что-то
+недоказуемое, типа 1=0.
+Consis = ∀p(\lnot Proof('(1=0)\textasciitilde{}, p))
+
+Определим отношение Sub(a, b, c) истинно, если
+a, b - `a, `b \& c = `a[x:=b] или
+a \lor b не геделев номер и c = 0
+
+Пусть Sub(a, b, c) выражает τ(a, b, c)
+
+\begin{itemize}
+\item Лемма о самоприменении
+a(x) - формула, тогда \exists b такой что
+\begin{enumerate}
+\item $\vdash a(`b\textasciitilde{}) \to b$
+\item $\vdash β \to a(`b\textasciitilde{})$
+\end{enumerate}
+b₀(x) = ∀t(τ(x, x, t) \to a(t))
+b = b₀(`b₀\textasciitilde{})
+\begin{enumerate}
+\item $a(`b\textasciitilde{}) \vdash a(`b\textasciitilde{})$
+$a(`b\textasciitilde{}) \vdash τ(`b₀\textasciitilde{}, `b₀\textasciitilde{}, `b\textasciitilde{}) \to a(`b\textasciitilde{})$    акс 1 + MP
+$a(`b\textasciitilde{}) \vdash ⊤ \to (τ(`b₀\textasciitilde{}, `b₀\textasciitilde{}, `b\textasciitilde{}) \to a(`b\textasciitilde{}))$
+$a(`b\textasciitilde{}) \vdash ⊤ \to ∀t(τ(`b₀\textasciitilde{}, `b₀\textasciitilde{}, t) \to a(t))$
+$a(`b\textasciitilde{}) \vdash ∀t(τ(`b₀\textasciitilde{}, `b₀\textasciitilde{}, t) \to a(t))$
+$a(`b\textasciitilde{}) \vdash b$
+\item $b \vdash ∀t(τ(`b₀\textasciitilde{}, `b₀\textasciitilde{}, t) \to a(t))$    тут почти $a \vdash a$ написано
+$b \vdash τ(`b₀\textasciitilde{}, `b₀\textasciitilde{}, `b\textasciitilde{})$             по выразимости
+$b \vdash τ(`b₀\textasciitilde{}, `b₀\textasciitilde{}, `b\textasciitilde{}) \to a(`b\textasciitilde{})$    сняли квантор с 1
+$b \to a(`b\textasciitilde{})$
+\end{enumerate}
+
+\item Условия Гильберта-Бернайса
+\end{itemize}
+Пусть πg(x, p) выражает Proof(x, p)
+πr(x) = \exists t πg(x, t) тогда если
+\begin{enumerate}
+\item $\vdash a$ , то $\vdash πr(`a\textasciitilde{})$
+\item $\vdash πr(`a\textasciitilde{}) \to πr(`πr(`a\textasciitilde{})\textasciitilde{})$
+\item $\vdash πr(`a\textasciitilde{}) \to πr(`(a \to b)\textasciitilde{}) \to πr(`b\textasciitilde{})$
+\end{enumerate}
+\subsection{Вторая теорема о неполноте}
+\label{sec-14-2}
+\subsubsection{Рукомашеское доказательство без условий Г-Б}
+\label{sec-14-2-1}
+\begin{itemize}
+\item Если арифметика непротиворечива, в ней нет д-ва Consis
+рассмотрим Consis \to σ(`σ\textasciitilde{}).
+Тогда если Consis доказуемо, то σ(`σ\textasciitilde{}) недоказуемо.
+То есть это формулировка 1.1 Гёделя о неполноте.
+Тогда если у нас будет Consis, мы сможем доказать
+σ(`σ), тогда 1.1 фейлится. Значит Consis недоказуемо.
+
+\item Доказательство того, что Consis недостаточно формален
+Заменим Consis в д-ве на
+Proof1(a, x) = Proof(a, x)\&\lnot Proof(`(1=0),x)
+Consis1 = ∀x\lnot Proof1(`(1=0),x)
+Если арифметика непротиворечива, то Proof1(a, x) = Proof(a, x)
+Если арифметика противоречива, то Consis1 доказуема как и все
+остальное.
+Ну давайте менять.
+
+Поменяли. Смотрим. хехехе, давайте докажем Consis1:
+\lnot (π(x) \& \lnot π(x))              доказуемо в ИВ
+⊤
+⊤ \to \lnot (π(x) \& \lnot π(x))          1 акс, MP
+\lnot (π(x) \& \lnot π(x))
+∀x(\lnot (π(x) \& \lnot π(x)))
+
+Тогда выходит, что мы можем доказать противоречивость арифметики.
+Но это не так, бага вот в чем:
+Замена consis на consis1 неоправдана - в consis1 есть
+формула 1=0, на которой ее результат не вычисляется, а
+постулируется.
+Чтобы выражать Consis абстрактно, существуют условия выводимости
+Гильберта-Бернайса.
+
+Докажем, что consis1 не удовлетворяет 3 свойству Г-Б
+Пусть Proof1(x,p) выражает π1.
+$\vdash π1(`a\textasciitilde{}) \to π1(`a\to b\textasciitilde{}) \to π1(`b\textasciitilde{})$ оценим при a=(2=0), b=(1=0)
+?       \to (   true  \to  false)
+?       \to false
+Если эта формула верна, то $\vdash π1(`a\textasciitilde{}$)
+Тогда если π1(`a\textasciitilde{}), то Proof(2=0, x)\&\lnot Proof(`1=0, x) = И
+Это значит что теория противоречива, потому что в ней выводимо 2=0,
+но она непротиворечива, потому что недоказуемо 1=0. \to ←
+\end{itemize}
+\subsubsection{Доказательство 2 теоремы Гёделя о неполноте}
+\label{sec-14-2-2}
+Пусть π удовлетворяет условиям Г-Б
+Consis = \lnot π(1=0)
+ФА непротиворечива
+Тогда ⊬ Consis
+
+\begin{enumerate}
+\item По лемме о самоприменении
+\begin{enumerate}
+\item \lnot π(γ) \to γ
+\item γ \to \lnot π(γ)
+\item \lnot γ \to π(γ)                            контрпозиция
+\item π(γ) \to \lnot γ
+\end{enumerate}
+\item π(γ) \to π(\lnot γ)
+\begin{enumerate}
+\item $π(γ) \vdash π(`π(γ)\textasciitilde{})$                     ГБ2
+\item $\vdash π(π(γ) \to \lnot γ)$                       ГБ1 от 1.4
+\item $\vdash π(π(γ)) \to π(π(γ) \to \lnot γ) \to π(\lnot (γ))$   ГБ3
+\item $π(γ) \vdash π(\lnot γ)$                         2MP (2.1, 2.2)
+\end{enumerate}
+\item $\vdash π(α \to β \to γ) and \vdash π(α) \to π(β) => \vdash π(α) \to π(γ)$
+\begin{enumerate}
+\item π(α \to β \to γ) \to π(α) \to π(b \to γ)        ГБ3
+\item π(β \to γ) \to π(β) \to π(γ)                ГБ3
+\item π(α) \to π(β \to γ)                       MP 1, given
+\item π(α) \to π(β)                           given
+\item π(α) \to π(γ)                           занести под дедукцию, ГБ3
+\end{enumerate}
+\item $\vdash π(γ) \to π(1=0)$
+\begin{enumerate}
+\item γ \to \lnot γ \to (1=0)                        10i в ИИВ, выводима в предикатах
+\item $\vdash π(γ \to \lnot γ \to (1=0))$                   ГБ1
+\item π(γ) \to π(\lnot γ)                          2
+\item $\vdash π(γ) \to π(1=0)$                       MP 4.2 4.3
+\end{enumerate}
+\item ⊬ Consis
+$\vdash \lnot π(1=0) \to \lnot π(γ)$                        контрапозиция 4
+$\vdash Consis \to \lnot π(γ)$                         the same
+$] \vdash Consis$, тогда $\vdash \lnot π(γ)$
+$\vdash \lnot π(γ) \to γ => \vdash γ => \vdash π(γ)$            1.1, ГБ1
+$\vdash \lnot π(γ), \vdash π(γ)  \to ←$
+\end{enumerate}
+\section{Ticket 13: ТМ}
+\label{sec-15}
+\subsection{Теория множеств}
+\label{sec-15-1}
+   Значит это такая теория первого порядка.
+   В сигнатуре модели есть один пред.символ - \in 
+   Добавляем связку a \leftrightarrow b = (a \to b) \& (b \to a)
+   σ \in Θ => ∀x(x \in σ \to x \in Θ)
+o   σ = Θ => σ \in Θ \& Θ \in σ
+   ∅ : ∀x(\lnot x \in ∅)
+   x ∩ y = z, тогда ∀t(t \in z \leftrightarrow t \in x \& t \in y)
+   Dj(x) ∀a∀b(a \in x \& b \in x \& a \ne  b \to a ∩ b = ∅)
+   X(a) - мн-во всех x пересекающихся ровно в одном эл-те с каждым из а
+   и содержащих элементы из ∪a.
+   X(\{\{1, 2\}, \{2', 3\}\}) = \{\{2, 3\}, \{1, 2'\}\}
+\subsubsection{Если существует мн-во, то существует пустое мн-во}
+\label{sec-15-1-1}
+Аксиома выделения:
+∀x\exists b∀y(y \in b \leftrightarrow (y \in x \& \phi(y)))
+Возьмем наше существующее мн-во x
+\exists b∀y(y \in b \leftrightarrow (y \in x \& \phi(y)))
+Пусть \phi(y) = ⊥
+тогда подставим ∅ вместо b:
+∀y(y \in ∅ \leftrightarrow (y \in x \& ⊥))
+Это выполняется вроде.
+\subsubsection{Если x, то найдется \{x\}}
+\label{sec-15-1-2}
+∀x\exists \{x\}∀y(y \in \{x\} \to y = x)
+\begin{enumerate}
+\item Пусть x \ne  ∅
+\{x\} = \{y | y \in \{x, y\} \& y \ne  ∅\}
+по аксиоме объединения \exists p∀y(y \in p \leftrightarrow \exists s(y \in s \& s \in x))
+∀y(y \in \{x, ∅\} \leftrightarrow \exists s(y \in s \& s \in x))
+
+или по аксиоме пары
+\exists p(x \in p \& ∅ \in p \& ∀z(z \in p \to (x = z \lor y = z)))
+x \in \{x, ∅\} \& ∅ \in \{x, ∅\} \& ∀z(z \in \{x, ∅\} \to \ldots{}\}
+
+ДГ руками помахал тут, ну и я помахаю по причине
+отсутствия времени доказывать
+
+А, нет, вот, кажется:
+По аксиоме степени ∀x\exists \{x, ∅\}∀y(y \in \{x, ∅\} \leftrightarrow y \in x)
+∀x\exists \{x, ∅\}∀y((y \in \{x, ∅\} \to y \in x)\&(y \in x \to y \in \{x, ∅\}))
+\lnot y \in ∅, значит (y \in x \to y \in x) = ⊤
+∀x\exists \{x, ∅\}∀y((y \in \{x, ∅\} \to y \in x)\&⊤)
+∀x\exists \{x, ∅\}∀y(y \in \{x, ∅\} \to y = x)   более слабое условие
+\item x = ∅
+P(∅) = \{∅\}
+\end{enumerate}
+\subsubsection{\exists !x(∀y.\lnot (y \in x))}
+\label{sec-15-1-3}
+\exists x(∀y.\lnot (y \in x)) \& ∀a∀b((∀y.\lnot (y \in a)) \& (∀y.\lnot (y \in b)) \to a = b)
+Первое по определению пустого множества и аксиоме выделения с ⊥
+∀y.(\lnot y \in \{\}) \& ∀y.(\lnot y \in \{\}) \to ∀p((p\in x \to p\in y) \& (p\in y \to p\in x))
+Второе как-то через ∅_1 \in ∅₂ и обратное включение
+На основании того, что мы подставляем наши пустые множества, импликация
+вырождается в ⊤ \to ⊤
+\subsubsection{x ∩ y существует}
+\label{sec-15-1-4}
+по теореме выделения
+∀x\exists b∀y(y \in b \leftrightarrow (y \in x \& \phi(y)))
+∀y(y \in x ∩ y \leftrightarrow (y \in x \& t \in y))
+\subsection{Аксиоматика ZFC}
+\label{sec-15-2}
+\subsubsection{Аксиома равенства}
+\label{sec-15-2-1}
+∀x∀y∀z((x = y \& y \in z) \to x \in z)
+Eсли два множества равны, то любой элемент лежащий в первом,
+лежит и во втором
+\subsubsection{Аксиома пары}
+\label{sec-15-2-2}
+∀x∀y(\lnot (x=y) \to \exists p(x \in p \& y \in p \& ∀z(z \in p \to (x = z \lor y = z))))
+x \ne  y, тогда сущ. \{x, y\}
+\subsubsection{Аксиома объединений}
+\label{sec-15-2-3}
+∀x(\exists y(y\in x) \to \exists p∀y(y \in p \leftrightarrow \exists s(y \in s \& s \in x)))
+Eсли x не пусто, то из любого семейства множеств можно
+образовать „кучу-малу“, то есть такое множество p,
+каждый элемент y которого принадлежит по меньшей мере
+одному множеству s данного семейства s x
+\subsubsection{Аксиома степени}
+\label{sec-15-2-4}
+∀x\exists p∀y(y \in p \leftrightarrow y \in x)
+P(x) - множество степени x (не путать с 2ˣ - булеаном)
+Это типа мы взяли наш x, и из его элементов объединением и
+пересечением например понаобразовывали кучу множеств, а потом
+положили их в p.
+\subsubsection{Схема аксиом выделения}
+\label{sec-15-2-5}
+∀x\exists b∀y(y \in b \leftrightarrow (y \in x \& \phi(y)))
+Для нашего множества x мы можем подобрать множество побольше,
+на котором для всех элементов, являющихся подмножеством x
+выполняется предикат.
+\subsubsection{Аксиома выбора (не входит в ZF по дефолту)}
+\label{sec-15-2-6}
+Если a = Dj(x) и a \ne  0, то x \in a \ne  0
+\subsubsection{Аксиома бесконечности}
+\label{sec-15-2-7}
+\exists N(∅ \in N \& ∀x(x \in N \to x ∪ \{x\} \in N))
+\subsubsection{Аксиома фундирования}
+\label{sec-15-2-8}
+∀x(x = ∅ \lor \exists y(y \in x \& y ∩ x = ∅))
+∀x(x \ne  ∅ \to \exists y(y \in x \& y ∩ x = ∅))
+Равноценные формулы.
+
+Я бы сказал, что это звучит как-то типа
+"не существует бесконечно вложенных множеств"
+\subsubsection{Схема аксиом подстановки}
+\label{sec-15-2-9}
+∀x\exists !y.\phi(x,y) \to ∀a\exists b∀c(c \in b \leftrightarrow (\exists d.(d \in a \& \phi(d, c))))
+Пусть формула \phi такова, что для при любом x найдется единственный y
+такой, чтобы она была истинна на x, y, тогда для любого a
+найдется множество b, каждому элементу которого c можно сопоставить
+подмножество a и наша функция будет верна на нем и на c
+Типа для хороших функций мы можем найти множество с отображением из
+его элементов в подмножество нашего по предикату.
+\section{Ticket 14: oрдиналы}
+\label{sec-16}
+\subsection{Ординальные числа}
+\label{sec-16-1}
+\begin{itemize}
+\item Определение вполне упорядоченного множества (фундированное
+с линейныи порядком).
+\item Определение транзитивного множества
+Множество X транзитивно, если
+∀a∀b((a \in b \& b \in x) \to a \in x)
+\item Ординал - транзитивное вполне упорядоченное отношением \in мн-во
+\item Верхняя грань множества ординалов S
+C | \{C = min(X) \& C \in X | X = \{z | ∀(y\in S)(z ≥ y)\}\}
+C = Upb(S)
+Upb(\{∅\}) = \{∅\}
+\item Successor ordinal (сакцессорный ординал?)
+Это b = a' = a ∪ \{a\}
+\item Предельны ординал
+Ординал, не являющийся ни 0 ни successor'ом.
+\item Недостижимый ординал\\
+$\epsilon$ - такой ординал, что $\epsilon = w^{\text{\epsilon }}$
+$\epsilon_0$ = Upb(w, w$^{\text{w}}$, w$^{\text{w}}$$^{\text{w}}$, w$^{\text{w}}$$^{\text{w}}$$^{\text{w}}$, \ldots{}) - минимальный из $\epsilon$
+\item Канторова форма - форма вида ∑$(a*w^b+c)$, где $b$ - ординал, последовательность
+строго убывает по $b$. Есть слабая канторова форма, где вместо a (a \in N)
+пишут $a$ раз $w^b$. В канторовой форме приятно заниматься сложениями и
+прочим, потому что всякие upb - слишком ниочем.
+\end{itemize}
+\subsection{Операции над ординальными числами}
+\label{sec-16-2}
+\subsubsection{Стабилизация убывающей последовательности}
+\label{sec-16-2-1}
+Допустим, что есть убывающая последовательность ординалов x_1,x₂\ldots{}
+Возьмем ординал x_1 + 1 = x₀. Тогда \{x_1, x₂, \ldots{}\} \in x₀. x₀ не пусто,
+значит там есть минимальный элемент по определению порядка на ординале.
+Пусть этот элемент - m. Тогда поскольку m \in x₀, то m = xᵢ для какого-то
+i нашей убывающей последовательности.
+\begin{enumerate}
+\item Последовательность убывает нестрого.
+Тогда все xₖ ≤ m, для k > i. Это выполняется, если xₖ = xᵢ, тогда
+последовательность стабилизируется в m.
+\item Последовательность убывает строго.
+Тогда все xₖ < m для k > i, но m - минимум множества. Противоречие.
+Убывающей строго последовательности ординалов не существует.
+\end{enumerate}
+\subsubsection{Арифметические операции через Upb}
+\label{sec-16-2-2}
+Пусть lim(a) = предельный ординал a
+\begin{align*}
+$x + 0      &= x$ \\
+$x + c'     &= (x + c)'$ \\
+$x + lim(a) &= Upb\{x + c | c < a\}$ \\
+ \\
+$x * 0      &= 0$ \\
+$x * c'     &= x * c + x$ \\
+$x * lim(a) &= Upb\{x * c | c < a\}$ \\
+ \\
+$x \^{} 0      &= 1$ \\
+$x \^{} c'     &= x^c * x$ \\
+$x \^{} lim(a) &= Upb\{x^c | c < a\}$
+\end{align*}
+
+Ну вот короче можно так, только приходится много думать
+как реализовывать Upb. Или только у меня так.
+
+2$^{\text{w}}$ = Upb(2, 4, 8, \ldots{}) = w
+\subsubsection{Арифметические операции через Канторову форму}
+\label{sec-16-2-3}
+Хорошо описано в этой статье:
+\href{http://www.google.ru/url?sa=t&rct=j&q=&esrc=s&source=web&cd=1&ved=0CB4QFjAA&url=http://www.ccs.neu.edu/home/pete/pub/cade-algorithms-ordinal-arithmetic.pdf&ei=FDW6\lor JOYNuvXyQPd0ILQBQ&usg=AFQjCNENBOBOdKbbqBYN3iFhmAu_jFD2Sw&sig2=1UISFzJ_21I8f1YScX7Tkw&bvm=bv.83829542,d.bGQ&cad=rjt}{Algorithms for Ordinal Arithmetic}
+Переписывать довольно громоздко, учитывая количество вспомогательных
+функций. Есть в моем гитхабе (\emph{volhovm/mathlogic}) реализованное
+\section{Ticket 15: кардиналы}
+\label{sec-17}
+\subsection{Кардинальные числа}
+\label{sec-17-1}
+Будем называть множества равномощными, если найдется биекция.
+Будем называть A не превышающим по мощности B, если найдется
+инъекция A \to B (|A| ≤ |B|)
+Будем называть А меньше по мощности, чем B, если |A| ≤ |B| \& |A| \ne  |B|
+Кардинальное число - число, оценивающее мощность множества.
+Кардинальное число ℵ - это ординальное число a, такое что
+∀ x ≤ a |x| ≤ |a|
+ℵ₀ = w по определению; ℵ_1 = минимальный кардинал, следующий за ℵ₀
+Кардинальное число ℶ - это ординальное число а, такое что
+ℶᵢ = P(ℶᵢ₋_1)
+ℶ₀ = ℵ₀
+Континуум-гипотеза формулируется таким образом: |P(ℵ₀)| = ℵ_1 или ℶ_1 = ℵ_1
+В 40 году Гёдель доказал недоказуемость отрицания Континуум-гипотезы
+в терминах ZFC, в 60 Коэн сделал то же самое но без отрицания. Это все
+в условиях непротиворечивости ФА. То есть в ZFC нельзя доказать или
+опровергнуть континуум-гипотезу.
+Сложение кардинальных чисел - |A| + |B| = |A∪B| если в них
+нету общих элементов, иначе max(|A|, |B|), поскольку мы можем
+построить двумерную таблицу из перес. элементов.
+Остальное есть на вики и вряд ли нужно вообще.
+\subsection{Диагональный метод Кантора}
+\label{sec-17-2}
+Докажем, что для любого множества |x| < |P(x)|
+Воспользуемся диагональным методом Kантора
+Пусть |x|=|P(x)|
+Выпишем таблицу, в которой  столбцу p и строке q соответствует
+1, если в множестве X лежит p, а в множестве P(X) лежит
+множество, содержащее в себе p. Построим ключевое мн-во t:
+элемент лежит в t, если на i-й диагональной позиции не стоит 1
+и наоборот. То есть это множество всех таких элементов из X,
+которым по биекции соответствует множество о чем угодно, но не
+о самом элементе (не включающее элемент).
+t состоит из подмножеств X, тогда оно должно лежать в P(X).
+Докажем, что строка t не присутствует в таблице, сравнив ее с
+каждой другой строкой - от каждой n-й строки отличается в n-й
+столбце по построению.
+Противоречие - t нет в таблице, но t \in P(X).
+\subsection{Теорема Лёвингейма-Скулема}
+\label{sec-17-3}
+\begin{itemize}
+\item Назовем мощностью модели мощность ее носителя (\lor или P или \lor ∪P).
+M - модель, |M| - ее мощность, ну ясно.
+\item Элементарная подмодель
+Пусть M - модель фс первого порядка с носителем D. Пусть определено
+D_1 ⊂ D, тогда структура M_1 построенная на D_1 так, что в ее интерпретации
+лежит все, что и в интерпретации M, кроме элементов, взаимодействующих
+с M $\backslash$ M_1 (сужение области определения на D_1), называется \textbf{элементарной}
+\textbf{подмоделью}, если:
+\begin{enumerate}
+\item Любая функция ФС, над которой рассматривается M, замкнута на
+D_1 (то есть если a \in D_1, b \in D_1, \ldots{} то f(a, b, \ldots{}) \in D_1)
+\item Любая формула A(x_1\ldots{}xₙ) теории при любых аргументах из D_1,
+истинная в M истинна и в M_1.
+\end{enumerate}
+\item Элементарная подмодель теории - модель теории
+Рассмотрим формулу А, она общазначима в М, значит и в М_1, тогда M_1 корректна.
+\item Счетно-аксиоматизируемая теория - множество аксиом ФС имеет мощность ℵ₀
+\item ФА и ТМ счетно-аксоиматизируемые
+\item Пусть M - модель, T - мн-во формул теории. Тогда \exists M_1 : |M_1| = max(|T|, ℵ₀)
+Нужно построить необходимое предметное множество и доказать,
+что модель на нем - это подмодель.
+\begin{enumerate}
+\item Построение множества
+Пусть у нас есть множество D', тогда D'' = D' ∪ P, где P - некоторое
+множество формул добавленное при рассмотрении формул D' по одной.
+A(y, x_1\ldots{}xₙ) - n-местная формула из Т. Фиксируем x_1\ldots{}xₙ из D'.
+\begin{itemize}
+\item Если А = И или А = Л (тождественно) при любом y \in D - пропустим формулу
+\item Если А = И или А = Л при каких-то y \in D' - пропустим формулу
+\item \exists y: A(y,..) = И, но при этом ∀y\in D' A(y,..) = Л - тогда добавим один из
+тех у, на которых формула истинна, в D''. Добавим еще констант, которые
+нужны для вычисления А. Типа если В D' не хватает переменных для того,
+чтобы показать что A может принимать истинностное значение, сгенерим
+и добавим такое.
+\end{itemize}
+Переход от предыдущего множества к текущему увеличивает его не более чем на
+ℵ₀ * |T| * |D'| - max(ℵ₀, T)
+Рассмотрим D₀, D₀ ⊂ D такое, что в него входят те элементы носителя,
+соответствующие константам, упоминающимся в Т. Если оно пустое -- добавим
+какую-нибудь константу из D. Оно ляжет в начало счетной последовательности
+D₀ ⊂ D_1 ⊂ \ldots{} (каждый переход описан выше). D* = ∪Dᵢ.
+D* - нужное нам множество. |D*| = max(ℵ₀, T)
+\item Проверка структуры
+Индукция по структуре.
+\begin{itemize}
+\item База. Предикат.
+P(f_1(x_1\ldots{}xₙ), \ldots{}, fₖ(x_1\ldots{}xₙ)). Если x_1\ldots{}xₙ взяты из D*, то они были
+добавлены на некотором шаге, значит \exists t | xᵢ \in Dₜ. Тогда на шаге Dₜ₊_1
+лежат результаты функций f_1\ldots{}fₖ. по построению. Тогда оценка формулы
+сохраняется.
+\item Переход
+Связки X\&Y, X\lor Y, X\to Y, \lnot X работают на сужении модели и оценка сохр.
+\begin{itemize}
+\item \exists yB(y, x_1\ldots{}xₙ). Фиксируем x_1\ldots{}xₙ из D*.
+\begin{enumerate}
+\item A была тождественно истинна или ложна - все ОК
+\item А принимала значения разных знаков
+Каждый xᵢ добавлен на каком-то шаге, тогда возьмем максимальный
+шаг t, в Dₜ₊_1 уже лежат все эти xᵢ.
+Тогда по построению Dₜ₊_1 мы добавили нужный y такой что B(y, x_1\ldots{}xₙ)
+определено и выполнено в M.
+Значит B выполнено в M* по индукции, тогда A истинна в M*.
+\end{enumerate}
+\end{itemize}
+\item ∀yB(y, x_1\ldots{}xₙ).
+\begin{enumerate}
+\item Тождественно - ОК
+\item Принимает значения разных знаков
+Если оно истинно в M, тогда оно истинно в M* по 1 пункту перехода.
+Если ∀yB(y, x_1\ldots{}xₙ) было ложно на t-шаге, тогда на t+1 шаге мы
+здоровски исправили ситуацию, положив в мир y на котором оно истинно.
+Если оно было истинно, то по пункту 2 пошло дальше.
+\end{enumerate}
+Таким образом, D* - подмодель нашего множества, |D*| = ℵ₀ + |T|
+\end{itemize}
+\end{enumerate}
+\end{itemize}
+\subsection{Парадокс Скулема}
+\label{sec-17-4}
+Мнимый парадокс Сколема формулируется так:
+Возьмем теорию, прикрутим модель с аксиоматикой ZF. Модель
+будет счетно-аксиоматизируемой потому что ZF.
+Утверждается, что в ZF $\vdash \exists x(|x| = ℶ_1)$ - это доказывает диагон.
+метод Кантора.
+Тогда получается что по теореме Лёвингейма-Скулема у нашей
+модели есть подмодель размером ℵ₀ + ℵ₀(счетно-акс) = ℵ₀, но
+мы можем взять то самое x | |x| = ℶ_1, и его занумеровать, выходит.
+
+Формальный подход не допускает этого конфликта ввиду одного
+простого факта:
+Рассмотрим отношение существования несчетного мн-ва в R.
+$ZF \vdash \lnot \exists f$(f - биецкия между w и P(w)) \& \exists f(f - биецкия между w и w∪w)
+// второе гарантирует счетность
+Первый аргумент конъюнкции - \lnot \exists f(∀x∀y(<x,y>\in f \leftrightarrow x\in A\&x\in B))
+<x,y> - пара (типа \{x, y, \{x\}\})
+Тогда это значит, что в носителе модели нет такого f, что он
+бы представлял собой объединение пар.
+Собственно, по теореме Лёвингейма-Скулема у нас любая подмодель
+будет иметь счетный носитель. Нет никакого противоречия, потому
+что мы все еще работаем со счетным количеством множеств, а
+отсутствие биекции все так же выражается отсутствием множества
+в носителе.
+\section{Ticket 16: неполнота ФА}
+\label{sec-18}
+\subsection{Теорема о трансфинитной индукции}
+\label{sec-18-1}
+Пусть есть формула с одной свободной переменной a(x)
+a истинна, если
+\begin{enumerate}
+\item a(0)
+\item Если для любого конечного p - ординала мы можем
+показать следование \{ q < p => a(p) \}, то a(p) истинно.
+\end{enumerate}
+
+Без док-ва, не требуется.
+
+\subsection{Построение S∞}
+\label{sec-18-2}
+Мы строим еще одну теорию I порядка.
+По сути, мы вкладываем ФА в нашу теорию так, что
+любое доказательство ФА работает в S∞ и мы можем доказать
+доказать непротиворечивость любого "импортированного" д-ва
+
+\begin{enumerate}
+\item Формулы:
+Оставим связки ∀x, \lor , \lnot 
+Заметим, что \{\lor , \lnot \} полно для \{0, 1\}.
+\item Доказательство
+Доказательством является дерево утверждений, в
+узлах которого правли, причем если дерево
+растет вверх, то правила действуют сверху вниз.
+\item Аксиомы:
+\begin{enumerate}
+\item все термы ФА без переменных типа θ_1=θ₂ (корректные)
+\item все термы вида \lnot (θ_1=θ₂) если [θ_1]\ne [θ₂] (некорректные, все остальн.)
+\end{enumerate}
+\item Правила:
+Примечание: в правилах используются боковые формулы,
+они могут отсутствовать. Это сделано для формализации
+того факта, что мы можем применять правило для двух любых
+элементов нашей дизъюнкции или вроде того.
+Примечение: org-mode подчеркивает a, если "$_{\text{a}}$\_"
+\begin{enumerate}
+\item Структурные
+\begin{enumerate}
+\item Перестановка
+\uline{a\lor b\lor γ\lor σ}
+a\lor γ\lor b\lor σ
+\item Сокращение
+\uline{a\lor b\lor b\lor γ}
+a\lor b\lor γ
+\end{enumerate}
+\item Сильные
+\begin{enumerate}
+\item Ослабление
+\uline{γ}
+a\lor γ
+\item Де-Морган
+\uline{(\lnot a)\lor γ$_{\text{(\lnot b)}}$\lor γ}
+\lnot (a\lor b)\lor γ
+\item Отрицание
+\uline{a\lor γ\_\_}
+(\lnot \lnot a)\lor γ
+\item Квантификация
+\uline{\lnot a(t)\lor γ}
+\lnot ∀x.a(x)\lor γ
+\item Бесконечная индукция
+\uline{a(0\textasciitilde{})\lor γ$_{\text{a}}$(1\textasciitilde{})\lor γ} \ldots{} \uline{a(r\textasciitilde{})\lor γ}\ldots{}
+∀xa(x)\lor γ
+\end{enumerate}
+\item Сечение (для облегчения жизни)
+\uline{γ\lor a$_{\text{\lnot a\lor δ}}$}
+γ\lor δ
+\end{enumerate}
+\item Порядки
+Каждой формуле в дереве соответствует порядок, причем
+посылке и заключению (выше и ниже \uline{\_}) слабого правила
+вывода соответствует один порядок, а порядковое число,
+отнесенное заключению сильного правила или сечения, больше
+порядковых чисел, отнесенных соотвтетствующим посылкам.
+Порядковые числа - это ординалы, они могут быть достижимыми,
+но не конечными - пусть формула какая-нибудь околорекурсивная
+типа Ф(x): Ф(0) = A \to A, Ф(1) = A \to A \to A, Ф(2) = A \to A \to A \to A.
+Тогда пусть мы хотим доказать ∀x.Ф(x) - по бесконечной
+индукции порядок термов будет увеличиваться, а порядок
+∀x.Ф(x) будет w. Именно из-за этого факта мы используем
+в доказательстве теоремы об устранении сечений трансфинитную
+индукцию по порядку - ведь обычной индукции мало для порядков
+больших w.
+\item Степень
+Степень сечения - количество связок в \lnot a.
+Степень доказательства - наибольшая степень сечения в дереве.
+Степень всегда конечна - любая формула в ФА содержит конечное
+число связок, а при трансляции нет возможности увеличить
+их количество. Тогда трансфинитная индукция по термам, в
+которых в сечении количество связок растет до бесконечности,
+невозможно.
+
+\item Нитью называется последовательность формул от начальной до
+конечной. Все нити в доказательстве конечны, поскольку если в начальной
+формуле стоит ординал, последовательность в нити не возрастает, а эти
+числа убывают с применением строгого правила или сечения. Мы знаем,
+что строго убывающая бесконечная последовательность ординалов не существует.
+Добавим правило, что последовательность применения слабых правил подряд
+была всегда конечна
+\item Теорема в S∞ - выражение, которое может стоять в заключительной формуле
+вывода
+\end{enumerate}
+\subsection{Теоремы об эквивалентности ФА и S∞}
+\label{sec-18-3}
+\subsubsection{Лемма 1: В S∞ выводимо A\lor \lnot A}
+\label{sec-18-3-1}
+А либо корректна, либо некорректна, тогда
+\uline{A}
+\lnot A\lor A     ослабление
+
+\uline{\lnot A}
+\uline{A\lor \lnot A}   ослабление
+\uline{\lnot A\lor A}   перестановка
+\subsubsection{Лемма 2: В S∞ выводимо s\ne t\lor \lnot A(s)\lor A(t)}
+\label{sec-18-3-2}
+Если выводимо A(s), s = t, то выводимо A(t) (все вхождения меняем)
+если s=t, то выводимо \lnot A(t)\lor A(t), потом сделаем ослабление
+если s\ne t, то она аксиома (некорректная) и ослабим.
+\subsubsection{Лемма 3: всякая выводимая в S замкнутая формула А является теоремой S∞}
+\label{sec-18-3-3}
+Докажем, что если что-то доказуемо в ФА, то его эквивалент
+доказуем и в S∞.
+$\vdash ₚₐA => \vdash ₛA'$
+Схема док-ва
+Рассмотрим доказательство в ФА, оно состоит из
+β_1'\ldots{}βₙ', оттранслируем каждое в βᵢ \in S∞ (по полноте \{\lnot , \lor \} это возможно)
+Тогда можно сделать дерево, в котором начальные формулы - аксиомы S,
+а правила вывода - MP, GEN.
+
+Рассмотрим формулу A = βᵢ
+\begin{enumerate}
+\item B \to C \to B, те \lnot B \lor (\lnot  C \lor B)
+Из замкнутости A следует замкнутость B
+\lnot B \lor B выводима по Л1, тогда ослабим с \lnot C, переставим.
+\item (B \to C) \to (B \to C \to D) \to B \to D
+\lnot (\lnot B \lor C) \lor (\lnot (\lnot B \lor (\lnot C \lor D)) \lor (\lnot B \lor D))
+По Л1 выводимо \lnot (\lnot B \lor C) \lor (\lnot B \lor C),
+(\lnot B \lor \lnot C \lor D) \lor \lnot (\lnot B \lor \lnot C \lor D)
+Тогда можно по перестановке, сечению (с С) и сокращению
+доказать (B \to C \to D) \to (B \to C) \to (B \to D)
+что одно и то же, см дедукцию в предикатах
+\item (B \to C) \to (B \to \lnot C) \to \lnot B
+\lnot (\lnot B \lor C) \lor \lnot (\lnot B \lor \lnot C) \lor \lnot B
+\begin{enumerate}
+\item \lnot B \lor B                        л1
+\item \lnot \lnot \lnot B \lor B                      отрицание
+\item \lnot (\lnot \lnot B \lor C) \lor \lnot \lnot \lnot B \lor B         ослабление
+\item \lnot \lnot \lnot B \lor \lnot (\lnot \lnot B \lor C) \lor B         перестановка
+\item \lnot \lnot \lnot B \lor B \lor \lnot \lnot C                аналогично + еще перестановка
+\item \lnot C \lor \lnot \lnot C                      лемма
+\item \lnot C \lor B \lor \lnot \lnot C                  ослабление + перестановка
+\item \lnot (\lnot \lnot B \lor C) \lor B \lor \lnot \lnot C          де-морган от 6 и 8
+\item \lnot \lnot C \lor \lnot (\lnot \lnot B \lor C) \lor B          перестановка 8
+\item \lnot (\lnot \lnot B \lor \lnot C) \lor \lnot (\lnot \lnot B \lor C) \lor B де-морган от 4 и 9
+\end{enumerate}
+Ну вот мы доказали что-то очень похожее на то, что нужно было.
+Там контрпозиция, шмяк шмяк, готово.
+\item Видимо, примерно все формулы так доказываются.
+\item ∀x.B(x) \to B(t)
+\lnot ∀x.B(x) \lor B(t)
+По л1 \lnot B(t) \lor B(t), потом квантификация по 1 элем.
+\item B(t) \to \exists x.B(x)
+B(t) \to \lnot ∀x.B(x) (что заметно отличается от ∀x.\lnot B(x))
+\lnot B(t) \lor \lnot ∀x.B(x)
+Не, я не знаю. Но точно можно! По бесконечной индукции мож как-то.
+Или там сечение хитрое.
+\end{enumerate}
+
+А еще есть аксиомы ФА
+\begin{enumerate}
+\item a = b \to a' = b'
+\lnot (a = b) \lor a' = b'
+\begin{itemize}
+\item если a = b, то a' = b', это аксиома S∞,
+тогда по ослаблению добавим \lnot (a = b)
+\item если a \ne  b, то она же и аксиома
+\end{itemize}
+\item a = b \to a = c \to b = c
+a \ne  b \lor a \ne  c \lor b = c
+a \ne  b \lor \lnot (x = c) @ b \lor (x = c) @ c     по лемме 2
+\item a' = b' \to a = b
+Аналогично 1
+\item \lnot (a' = 0)
+Аксиома, поскольку a' всегда имеет с 0 разные значения
+\item a + b' = (a + b)'
+TODO
+\item a + 0 = a
+Аксиома, поскольку это вседа равенство
+\item a * 0 = 0
+аналогично 6
+\item a * b' = a * b + a
+TODO
+\item \phi[x:=0] \& ∀x.(\phi \to \phi[x:=x']) \to \phi
+\lnot B(0) \lor \lnot ∀x(\lnot B(x)\lor B(x')) \lor B(0)         лемма 1 и перестановка
+\lnot B(0) \lor \lnot (\lnot B(0) \lor B(1)) \lor \ldots{}           можно показать по индукции
+\ldots{} \lor \lnot (\lnot B(k) \lor B(k')) \lor B(k')   (ослабление, перестановка, де-морган)
+\lnot B(0) \lor \lnot (∀x(\lnot B(x) \lor B(x'))) \lor B(k')    k раз квантификация, перестановки, сокращ.
+Применим бесконечную индукцию относительно первого
+и третьего терма и получим что надо.
+\end{enumerate}
+
+Окей, с аксиомами разобрались.
+И еще есть два правила вывода
+\begin{enumerate}
+\item MP
+B            условие
+\lnot B \lor A       условие
+A            сечение
+\item GEN
+B(x)         условие
+Продвигаясь от этой формулы вверх можно поменять все
+x на k, тогда верно
+$$\vdash B(k)$$
+На основании принципа бесконечной индукции доказываем ∀xB(x)
+\item A \to B(t) => A \to ∀x.B(x)
+\lnot A \lor B
+Заменим все вхождения перменной в доказательстве в
+ФА формулы \lnot A \lor B на 0, 1, 2\ldots{},
+тогда по бесконечной индукции:
+$\lnot A \lor B(0), \lnot A \lor B(1), \ldots{} \vdash \lnot A \lor ∀x.B$   (только B(0) \lor \lnot A везде)
+\item A(t) \to B => \exists x.A(x) \to B
+$\lnot A \lor B \vdash \lnot \lnot ∀x.(\lnot A(x)) \to B$
+Заменим все вхождения свободной перменной t в ФА на конкретные.
+Получим счетное мн-во д-в \lnot A(0) \lor B, \lnot A(1) \lor B, \ldots{}
+по беск. индукции
+∀x.\lnot A(x) \lor B
+\lnot \lnot ∀x.\lnot A(x) \lor B -  навесили двойное отрицание
+\end{enumerate}
+\subsubsection{Следствие: непротиворечивость S∞ влечет непротиворечивость S}
+\label{sec-18-3-4}
+Пусть в S доказуемо \lnot (0=0), тогда оно доказуемо и в
+S∞, тогда
+\uline{A\lor 0=0$_{\text{\lnot }}$(0=0)\lor A}          Аргументы получаются по ослаблению
+\uline{A\lor A}
+A
+\subsection{Теорема Генцена об устранении сечений}
+\label{sec-18-4}
+\subsubsection{Лемма: сильные правила 2, 3, 5 обратимы}
+\label{sec-18-4-1}
+Правила обратимы и их д-во имеет порядок и степень не больше,
+чем первоначальное
+Нам дают доказательство формулы, мы строим новое дерево,
+в котором из результата следуют посылки.
+\begin{enumerate}
+\item Правило Де-Моргана
+\lnot (B \lor E) \lor D
+Рассмотрим вывод формулы. Проследим вхождения
+подформул \lnot (B \lor E)  вормулы, которые соответствуют
+вхождению в конечную формулу (то есть не те, которые
+исчезают в сечении). Мы пройдем через всякий случай
+применения слабого правила и сильные, когда \lnot (B \lor E)
+является боковой формулой. Остановка произойдет
+либо в ослаблении $( F \vdash \lnot (B \lor E) \lor F )$ либо в Де-Моргане
+$( \lnot B \lor F, \lnot E \lor F \vdash \lnot (B \lor E) \lor F )$. Совокупность таких
+вхождений формулы назовем ее \textbf{историей}.
+Если все вхождения формулы \lnot (B \lor E) в ее истории заменить
+на \lnot B, то в результате получится вывод \lnot B \lor D. Аналогично
+можем вывести \lnot E \lor D.
+\item Правило отрицания
+\lnot \lnot B \lor D
+Заменим все вхождения \lnot \lnot B в ее истории на B, получим
+вывод B \lor D
+\item Бесконечная индукция
+∀xB(x) \lor D
+Заменим все вхождения ∀xB(x) в ее истории (1 элемент) на
+B(k) (причем если мы уткнулись в бесконечную индукцию,
+выберем только ту ветку, которая соответствует B(k))
+Тогда для любого k получим вывод B(k)
+\end{enumerate}
+\subsubsection{Теорема: устранение сечения}
+\label{sec-18-4-2}
+Если для A в S∞ существует вывод (m, a), то существует
+вывод в S∞ (n, 2ᵃ), где n < m
+Докажем через трансфинитную индукцию по порядку a вывода A
+\begin{itemize}
+\item База: порядок вывода 0
+Вывод не содержит сечений и его степень 0
+\item Переход: пусть теорема верна для выводов порядков меньших a
+Будем продвигаться вверх по выводу, пока не встретим первое
+применение сильного правила или сечения.
+\begin{enumerate}
+\item Сильное правило
+Пусть его посылки занумерованы порядковыми числами aₗ
+Согласно индуктивному предположению, для этих посылок
+существует дерево вывода F со степенью < m и порядком 2$^{\text{(aᵢ)}}$.
+Заменим таким деревом то поддерево данного дерева вывода,
+заключительной формулой которого служит рассматриваемое
+вхождение F. Сделав так со всеми посылками мы получим новое
+дерево для A, отнесем ему порядковое число 2ᵃ > 2$^{\text{(aᵢ)}}$
+(пояснение от меня, потому что я чет долго доганял - каждую
+посылку заменяем по индукции на ее модное новое дерево
+от нее самой же).
+\item Сечение
+Значит имеем что-то на уровне
+\uline{C\lor B\_$_{\text{\lnot B\lor D}}$}
+C\lor D
+Согласно индуктивному предположению для C\lor B и \lnot B\lor D существуют
+выводы степеней меньших m и порядков 2$^{\text{a_1}}$, 2$^{\text{a₂}}$. Рассмотрим
+разные случаи строения B:
+\begin{enumerate}
+\item B - это элементарная формула. Одна из формул B и \lnot B есть
+аксиома. Пусть K - та, которая не аксиома.
+По предположениию поддерево основного дерева вывода с K
+может быть заменено другим со степенью n и порядка 2$^{\text{(a}_{\text{i}}\text{)}}$
+(i = 1 или 2, смотря в какой посылке K).
+В этом новом дереве расмотрим историю K, начальные формулы
+в которой могут возникнуть только по ослаблению (а исчезать
+по сечению). Поэтому удаление всех вхождений K из истории
+приводит к построению дерева вывода для D или C порядка
+2$^{\text{aᵢ}}$. Отсюда с помощью ослабления получаем дерево вывода
+для C \lor D порядка 2$^{\text{a}}$. Степень меньше m (одно сечение убрали).
+\item B - это \lnot E, тогда посылки выглядят как
+C\lor \lnot E, \lnot \lnot E\lor D
+Существует дерево вывода для \lnot \lnot E\lor D степени < m и порядка 2$^{\text{a₂}}$
+В силу леммы об обратимости можно построить дерево вывода
+E\lor D порядка 2$^{\text{a₂}}$ степени < m
+Кроме того существует дерево вывода степени < m и порядка 2$^{\text{a_1}}$
+для левой посылки, тогда построим из них новое дерево
+вывода
+\uline{E\lor D}   \uline{C\lor \lnot E}
+\uline{D\lor E\_$_{\text{\lnot E\lor C}}$}
+\uline{D\lor C}
+C\lor D
+Степень выделенного здесь сечения на единицу меньше общего
+числа связок и кванторов в \lnot E, которое само по себе ≤ m.
+Формуле C\lor D можно присвоить порядковое число C \lor D по свойству
+посылок новог сечения.
+\item B - это E\lor F, посылки:
+C\lor E\lor F, \lnot (E\lor F)\lor D
+Существует дерево вывода для правой посылки < m и порядка 2$^{\text{a₂}}$,
+по лемме об обратимости существуют выводы степеней < m и порядка
+2$^{\text{a₂}}$ для \lnot E\lor D и \lnot F\lor D (по Де-Моргану). По предположению индукции
+есть еще дерево вывода для левой посылки.
+Из последних трех построим такое:
+\uline{C\lor E\lor F\_$_{\text{\lnot F\lor D}}$}
+   \uline{C\lor E\lor D}
+   \uline{C\lor D\lor E\_\_\_$_{\text{\lnot E\lor D}}$}
+       \uline{C\lor D\lor D}
+C\lor D
+Степень сечения уменьшили (в каждом на 1), в формуле
+C\lor E\lor D можно дать порядок $2^{\max(a_1, a₂)}$+1, а остальным - $2^a$
+\item B - это ∀xE, посылки:
+C\lor ∀xE  (\lnot ∀xE)\lor D
+По индуктивному предположению для левой посылки можно построить
+дерево вывода (< m,2$^{\text{a_1}}$). В силу указания в начале 2 леммы о
+эквивалентности S∞ и ФА (если $\vdash A(t), t=s, то \vdash A(s)$) и леммы
+об обратимости для любого постоянного терма z существует вывод
+C\lor E(z).
+Можем и правую посылку заменить (< m, 2$^{\text{a₂}}$) по инд.предположению
+Тогда в правой посылке история \lnot (∀xE) может начинаться либо
+с ослабления либо с квантификации.
+Заменим на C все такие начала - если это ослабление, то просто
+подменим вместо \lnot (∀xE) новое C, если квантификация, то
+\uline{\lnot E(t)\lor F\_\_}         \uline{C\lor E(t)\_$_{\text{\lnot E}}$(t)\lor F}   //первое мы взяли из левой посылки
+\lnot (∀xE(x))\lor F   =>          C\lor F
+В результате мы получили дерево вывода C\lor D
+Степень меньше m, поскольку связку мы одну убрали
+\textbf{тут еще ОЧЕНЬ АДОВЫЕ оценки порядка C\lor D, но он 2$^{\text{a}}$}
+\end{enumerate}
+\end{enumerate}
+\end{itemize}
+\subsubsection{Следствие: устранение всех сечений}
+\label{sec-18-4-3}
+Воспользуемся леммой об устранении сечения, пока степень вывода
+не станет равна нулю. Тогда порядок будет что-то на уровне степенной
+башни из двоек, в вершине которой первоначальная степень, а количество
+двоек -- количество применения леммы.
+\subsubsection{Следствие: S∞ непротивроечива}
+\label{sec-18-4-4}
+Если S∞ противоречива, в ней докажется $0\ne 0\lor 0\ne 0\lor \dotsb \lor 0\ne 0$.
+В ее истории появление 0\ne 0 может быть только из-за ослабления,
+но тогда посылкой ослабления тоже будет 0\ne 0. Если в д-ве есть
+сечения, мы можем перестроить его, устранив все сечения, а затем провести
+рассуждения вновь и увидеть, что такая формула недоказуема, а значит
+S∞ непротиворечива, значит и ФА тоже непротиворечива.
+\section{Ключевые фигуры}
+\label{sec-19}
+\begin{itemize}
+\item Станислав Яськовски - 1906
+Aлгебра Яськовского, один из первых исследователей ИИВ
+\item Герхард Генцен - 1909
+Теорема об устранении сечения (1935)
+\item Курт Гёдель - 1906
+Теоремы о непротиворечивости - 1930
+Чуть ли не все остальное
+\item Сол Крипке - 1940
+Семантика Крипке - 1960-1970
+\item Дэвид Гильберт - 1862, Пауль Бернайс - 1888
+Основания математики - 1934, 39
+\item Их достаточно много, а времени мало.
+\end{itemize}
+% Emacs 24.4.1 (Org mode 8.2.10)
+\end{document}

@@ -1,0 +1,116 @@
+\section{Ticket 2: полнота ИВ}
+\label{sec-4}
+\subsection{Полнота исчисления высказываний относительно алгебры Яськовского}
+\label{sec-4-1}
+Кстати полноту можно доказывать маханием руками как для предикатов,
+и я не могу утверждать, что при таком подходе ИВ не будет полно
+относительно любой модели.
+\subsubsection{Контрапозиция}
+\label{sec-4-1-1}
+\begin{lemma}
+    $(\alpha \to \beta) \to (\lnot \beta \to \lnot \alpha)$
+\end{lemma}
+\begin{proof}
+    Докажем, что $(\alpha \to \beta), \lnot \beta \vdash \lnot \alpha$:\\
+    \begin{tabular}{lll}
+    (1) & $\alpha \to \beta$& Допущение\\
+    (2) & $(\alpha \to \beta) \to (\alpha \to \lnot \beta) \to \lnot \alpha$& Сх. акс. 9\\
+    (3) & $(\alpha \to \lnot \beta) \to \lnot \alpha$& M.P. 1,2\\
+    (4) & $\lnot \beta \to \alpha \to \lnot \beta$& Сх. акс. 1\\
+    (5) & $\lnot \beta$& Допущение\\
+    (6) & $\alpha \to \lnot \beta$& M.P. 5,4\\
+    (7) & $\lnot \alpha$& M.P. 6,3\\
+    \end{tabular}\\
+    После применения теоремы о дедукции 2 раза получим как раз то, что нужно
+\end{proof}
+\subsubsection{Правило исключененного третьего}
+\label{sec-4-1-2}
+С помощью контрапозиции доказываем два утверждения:\\
+$\lnot (A|\lnot A)\to \lnot A$ (один раз контрапозицию от этого обратную, там $A\to (A|\lnot A)$ акс) \\
+$\lnot (A|\lnot A)\to \lnot \lnot A$
+Потом девятую аксиому и снимаем двойное отрицание
+\subsubsection{Всякие очевидные вещи типа если выводится из А и из Б то из А и Б тоже}
+\label{sec-4-1-3}
+\subsubsection{Правило со звездочкой (14 доказательств)}
+\label{sec-4-1-4}
+\begin{enumerate}
+\item $\alpha, \beta \vdash \alpha \lor \beta$ \\
+$\alpha$ \\
+$\alpha \to \alpha \lor \beta$ \\
+$\alpha \lor \beta$
+\item $\alpha, \lnot \beta \vdash \alpha \lor \beta$ \\
+$\alpha$ \\
+$\alpha \to \alpha \lor \beta$ \\
+$\alpha \lor \beta$
+\item $\lnot \alpha, \beta \vdash \alpha \lor \beta$ \\
+$\beta$ \\
+$\beta \to \alpha \lor \beta$ \\
+$\alpha \lor \beta$
+\item $\lnot \alpha, \lnot \beta \vdash \lnot (\alpha \lor \beta)$ \\
+$\lnot \alpha$ \\
+$\lnot \beta$ \\
+$(\alpha \lor \beta \to \alpha) \to (\alpha \lor \beta \to \lnot \alpha) \to \lnot (\alpha \lor \beta)$ \\
+$\lnot \alpha \to \alpha \lor \beta \to \lnot \alpha$ \\
+$\alpha \lor \beta \to \lnot \alpha$ \\
+$\lnot \alpha, \lnot \beta, \alpha \lor \beta \vdash \alpha$ \\
+$\lnot \alpha$ \\
+$\lnot \beta$ \\
+$\alpha \lor \beta$ \\
+$\alpha \to \alpha$ \\
+\ldots{} //д-во $\lnot \beta, \lnot \alpha \vdash \beta \to \alpha$ \\
+$\beta \to \alpha$ \\
+$(\alpha \to \alpha) \to ((\beta \to \alpha) \to (\alpha \lor \beta \to \alpha))$ \\
+$(\beta \to \alpha) \to (\alpha \lor \beta \to \alpha)$ \\
+$\alpha \lor \beta \to \alpha$ \\
+$\alpha$ \\
+$\alpha \lor \beta \to \alpha$ \\
+$(\alpha \lor \beta \to \lnot \alpha) \to \lnot (\alpha \lor \beta)$ \\
+$\lnot (\alpha \lor \beta)$
+\item $\alpha, \beta \vdash \alpha \& \beta$ \\
+$\alpha$ \\
+$\beta$ \\
+$\alpha \to \beta \to \alpha \& \beta$ \\
+$\beta \to \alpha \& \beta$ \\
+$\alpha \& \beta$
+\item $\alpha, \lnot \beta \vdash \lnot (\alpha \& \beta)$ \\
+$\lnot \beta$ \\
+$((\alpha \& \beta) \to \beta) \to ((\alpha \& \beta) \to \lnot \beta) \to \lnot (\alpha \& \beta)$ \\
+$\alpha \& \beta \to \beta$ \\
+$(\alpha \& \beta \to \lnot \beta) \to \lnot (\alpha \& \beta)$ \\
+$\lnot \beta \to \alpha \& \beta \to \lnot \beta$ \\
+$\alpha \& \beta \to \lnot \beta$ \\
+$\lnot (\alpha \& \beta)$
+\item $\lnot \alpha, \beta \vdash \lnot (\alpha \& \beta)$ \\
+аналогично
+\item $\lnot \alpha, \lnot \beta \vdash \lnot (\alpha \& \beta)$ \\
+аналогично
+\item $\alpha, \beta \vdash \alpha \to \beta$ \\
+$\beta$ \\
+$\beta \to \alpha \to \beta$ \\
+$\alpha \to \beta$
+\item $\alpha, \lnot \beta \vdash \lnot (\alpha \to \beta)$ \\
+$\alpha$ \\
+$\lnot \beta$ \\
+$\lnot \beta \to ((\alpha \to \beta) \to \lnot \beta)$ \\
+$(\alpha \to \beta) \to \lnot \beta$ \\
+$\alpha, \lnot \beta, \alpha \to \beta \vdash \beta$ \\
+$\alpha$ \\
+$\alpha \to \beta$ \\
+$\beta$ \\
+$(\alpha \to \beta) \to \beta$ \\
+$((\alpha \to \beta) \to \beta) \to ((\alpha \to \beta) \to \lnot \beta) \to \lnot (\alpha \to \beta)$ \\
+$((\alpha \to \beta) \to \lnot \beta) \to \lnot (\alpha \to \beta)$ \\
+$\lnot  \beta \to (\alpha \to \beta) \to \lnot \beta$ \\
+$(\alpha \to \beta) \to \lnot \beta$ \\
+$\lnot (\alpha \to \beta)$
+\item $\lnot \alpha, \beta \vdash \alpha \to \beta$ \\
+$\beta$ \\
+$\beta \to \alpha \to \beta$ \\
+$\alpha \to \beta$
+\item $\lnot \alpha, \lnot \beta \vdash \alpha \to \beta$\\
+Ну тут типо очевидно (на самом деле тут боль и страдания)
+\item $\alpha \vdash \lnot \lnot \alpha$\\
+Схема аксиом 9
+\item $\lnot \alpha \vdash \lnot \alpha$\\
+$\lnot \alpha$
+\end{enumerate}
