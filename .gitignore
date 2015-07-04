@@ -1,4 +1,14 @@
-/photos/
+*/
+*scans/
+
+!.gitignore
+
+!os/
+!mathlogic/
+!type_theory/
+!economics/
+
+*.agdai
+*~
 #*
 *#
-*~
