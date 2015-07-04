@@ -1,0 +1,44 @@
+;;; This one was written by Zhenya Vinogradov 
+
+Syscall = ReadFile ∷ (filename : String) → [Byte]
+	| Exit     ∷ (exitCode : Word) → ⊥
+
+KSyscall = ReadHdd ∷ (blockNumber : Word) → [Byte]
+         | Run     ∷ ((R : ∗) , (cont : process R) , (result : R)) → ⊥
+         | KExit   ∷ (exitCode : Word) → ⊥
+
+Context  = {(s : Syscall)  , Arg  s , Process  s}
+KContext = {(s : KSyscall) , KArg s , KProcess s}
+
+Process  = λ(r : ∗). r → Context
+KProcess = λ(r : ∗). r → KContext
+
+-- ∀A.⊥→A
+⊥-elimination : (A : ∗) → (imp : ⊥) → A
+⊥-elimination = …
+
+yummyProcess  : Process  ⊥
+yummyKProcess : KProcess ⊥
+yummyProcess  = λ(imp : ⊥) → ⊥-elimination Context  imp
+yummyKProcess = λ(imp : ⊥) → ⊥-elimination KContext imp
+
+-- reads a number from file and exits, using the number as the exit code
+prog : Context
+prog = { ReadFile , "num.txt" , λ(num : [Byte]) → 
+         { Exit , parseInteger num , yummyProcess
+         }
+       }
+
+kernel0 : [KContext] → [Context] → ⊥
+kernel0 = …
+
+kernel : Context → KContext
+kernel { ReadFile , filename , cont } =
+   { ReadHdd , metaDataBlockNumber , λ(metaBlock : [Byte]) →
+     { ReadHdd , getFileBlockNumber filename metaBlock , λ(fileBlock : [Byte]) →
+       { Run , ([Byte] , cont , fileBlock) , yummyKProcess
+       }
+     }
+   }
+kernel { Exit , exitCode , cont } =
+  { KExit , exitCode , yummyKProcess }
