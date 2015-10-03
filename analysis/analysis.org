@@ -1,0 +1,7 @@
+#+TODO: X 0 1 2 | OK
+#+OPTIONS: tex:verbatim
+#+TITLE: Mathematical analysis conspect of lections by Kokhas' K.P.
+
+[[file:./term2/analysis2.org][II Term]]
+[[file:./term3/analysis3.org][III Term]]
+[[file:./term4/analysis4.org][IV Term]]
