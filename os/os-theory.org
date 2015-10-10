@@ -582,12 +582,7 @@ int (*flock) (struct file *, int, struct file_lock *);
    sources:
    [[https://en.wikipedia.org/wiki/Inode_pointer_structure]]
    [[http://www.grymoire.com/Unix/Inodes.html]]
-<<<<<<< HEAD
-** VFS
-=======
-
 ** 2 VFS
->>>>>>> 8c42388e9241d9af5e12fc67c4934152b1f465c6
    VFS -- такой стандартный интерфейс думать о разных файловых системах как об одной.
 
    Суть проста: нам надо объединить всевозможные файловые системы (различные - на диске, всякие виртуальные типа /dev, /proc) одним интерфейсом.
