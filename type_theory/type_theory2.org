@@ -470,7 +470,7 @@
        plus(m,n) = natrec([x]ℕ, n, [x,y]succ(y), m)
        mult(m,n) = natrec([x]ℕ, 0, [x,y]plus(y,n), m)
     6. Выводится
-*** Set of functions (Π)
+*** Cartesian product of a family of sets (Π)
     (x ∈ A)B -- это тип. Мы хотим коррелирующий сет. Пусть есть сет A
     и семейство сетов B над A (A -- сет, для каждого a ∈ A существует
     B(a) -- тоже сет), тогда Π(A,B) -- прямое произведение A и B.
@@ -551,7 +551,7 @@
                   [y](apply(A, A → {}, y, x))))
      Тогда, выходит, Ans ∈ A → ((A → {}) → {}) = A → ¬¬A.
      Мы нашли элемент в типе, чего и хотели.
-*** Id set
+*** Identity set
     a = b ∈ A -- это равенство определяемое, два объекта равны, когда
     имеют одинаковую нормальную форму.
     Мы хотим же, например, выразить тот факт, что сложение натуральных
@@ -600,8 +600,36 @@
        apply'(Id(A,b,c), Id(A,a,c), Inner, e) ∈ Id(A, a, c)
 
        Что и хотели показать.
-*** Disjoint unions (+)
-    Это сет кусков слева или кусков справа -- inl или inr.
+**** Подстановка
+     subst ∈ (A ∈ Set;
+              P ∈ (A)Set;
+              a, b ∈ A;
+              c ∈ Id(A, a, b);
+              p ∈ P(a))
+              P(b)
+     subst(A,P,a,b,c,p) = apply(P(a), P(b),
+                                idpeel(A, [x,y,z](P(x) → P(y)),
+                                       a, b, c,
+                                       [x]λ(P(x), P(x), [w]w)),
+                                p)
+*** Set of lists
+    Будем строить однотипные (а что если я хочу разнотипные?) листы:
+    * List ∈ (A ∈ Set) Set
+    * nil ∈ (A ∈ Set) List(A)
+      cons ∈ (A ∈ Set, x ∈ A, xs ∈ List(A)) List(A)
+      Достаточно канонично
+    * listrec ∈ (A ∈ Set;
+                 C ∈ (List(A)) Set;
+                 c ∈ C(nil(A));
+                 e ∈ (x ∈ A, y ∈ List(A); z ∈ C(y)) C(cons(A,x,y));
+                 l ∈ List(A)) C(l)
+      listrec(A,C,c,e,nil(A)) = c
+      listrec(A,C,c,e,cons(A,a,l)) = e(l,a,listrec(A,C,c,e,l))
+
+      Интуиция подсказывает, что listrec -- это рекурсия на листе!
+      # Заставить кого-то написать левую свертку, эта -- правая
+*** Disjoint unions of two sets (+)
+    то сет кусков слева или кусков справа -- inl или inr.
     1. + ∈ (A, B ∈ Set) Set
     2. inl ∈ (A,B ∈ Set; A) A + B
        inr ∈ (A,B ∈ Set; B) A + B
@@ -620,6 +648,9 @@
 *** Disjoint union of a family of sets (Σ)
     Это сет пар.
     1. Σ ∈ (A ∈ Set; B ∈ (A)Set) Set
+       Отличие от Π в типе второго аргумента -- здесь Set не зависит
+       от x, хотя B все еще функция. Тонкой разницы не чувствую --
+       пожалуй, и в Π можно было написать (A)B (не уверен).
     2. pair ∈ (A ∈ Set; B ∈ (A)Set; a ∈ A; B(a)) Σ(A,B)
     3. Selector:
        split ∈ (A ∈ Set;
@@ -635,37 +666,87 @@
 
        snd ∈ (A ∈ Set, B ∈ (A)Set; p ∈ Σ(A,B)) B(fst(A, B, p))
        snd(A,B,p) = split(A,B,[x]B(fst(A,B,p)), [x,y]y, p)
-** W-типы
-   http://mazzo.li/epilogue/index.html?p=324.html
-   Мы выбираем некоторый сет и строим функцию из его элементов в
-   какой-то другой сет. Это очень похоже на Π, но конструктор другой.
-   * W ∈ (S ∈ Set; P ∈ (x ∈ S)Set) Set
 
-   Конструктор:
-   * sup ∈ (S ∈ Set;
-            P ∈ (x ∈ S)Set;
-            f ∈ (y ∈ P) W(S, P))
-            W(S, P)
+       Эта связка соответствует квантору существования.
+*** W-types
+    * Source
+       W-types: good news and bad news:
+       http://mazzo.li/epilogue/index.html?p=324.html
+    Мы выбираем некоторый сет и строим функцию из его элементов в
+    какой-то другой сет. Это очень похоже на Π, но конструктор другой.
+    * W ∈ (S ∈ Set; P ∈ (x ∈ S)Set) Set
 
-     S -- сет.
-     P -- семейство сетов, порождаемое каждым элементом из S.
-     f -- функция, сопоставляющая каждому элементу семейства P другой
-     узел W.
+    Конструктор:
+    * sup ∈ (S ∈ Set;
+             s ∈ S;
+             P ∈ (x ∈ S) Set;
+             f ∈ (y ∈ P) W(S, P))
+             W(S, P)
 
-   # {a → b; c → d} -- это анонимный паттерн матчинг!
-   ψ -- функция, которая имеет 0 аргументов, соответствует {}.
+      S -- сет.
+      P -- семейство сетов, порождаемое каждым элементом из S.
+      f -- функция, сопоставляющая каждому элементу семейства P другой
+      узел W.
 
-   Вот вам натуральные числа:
-   * mapping = {true → Unit; false → {}} ∈ (x ∈ Bool)Set
-   * Nat = W Bool mapping ∈ Set
-   * zero = sup(false, mapping, ψ) ∈ Nat
-   * suc (n: Nat) = sup(true, mapping, {_ → n})
+    # {a → b; c → d} -- это анонимный паттерн матчинг!
+    ψ -- функция, которая имеет 0 аргументов, соответствует {}.
 
-   И еще дерево:
-   * mapping = {true → Bool; false → {}} ∈ (x ∈ Bool)Set
-   * Tree = W Bool mapping ∈ Set
-   * leaf = sup(false, mapping, ψ) ∈ Tree
-   * node(L,R ∈ Tree) = sup(true, mapping, {true → L, false → R}) ∈ Tree
+    Вот вам натуральные числа:
+    * mapping = {true → Unit; false → {}} ∈ (x ∈ Bool)Set
+    * Nat = W Bool mapping ∈ Set
+    * zero = sup(Bool, false, mapping, ψ) ∈ Nat
+    * suc (n: Nat) = sup(Bool, true, mapping, {_ → n})
+
+    И еще дерево:
+    * mapping = {true → Bool; false → {}} ∈ (x ∈ Bool)Set
+    * Tree = W Bool mapping ∈ Set
+    * leaf = sup(Bool, false, mapping, ψ) ∈ Tree
+    * node(L,R ∈ Tree) = sup(Bool, true, mapping, {true → L, false → R}) ∈ Tree
+*** Set of small sets
+    U -- universe, это сет, отображающий часть структуры сета на
+    объектном уровне, нужен для доказательства неравенств, тайпчекинга
+    алгоритмов, создания рекурсивных сетов.
+    S -- функция, которая мапает U в элементы.
+    * U ∈ Set
+      S ∈ (U)Set
+    * Конструкторы
+      1. Boolᵤ ∈ U
+         S(Boolᵤ) = Bool
+      2. {}ᵤ ∈ U
+         S({}ᵤ) = {}
+      3. Πᵤ ∈ (A ∈ U, B ∈ (S(A))U) U
+         S(Πᵤ(A,B)) = Π(S(A), [x]S(B(x)))
+      4. И так далее
+**** Пример доказательства неравенства
+     Пусть докажем ¬Id(N,0,succ(0)):
+     Найдем элемент в Id(N,0,succ(0)) → {}:
+
+     Для начала пусть x ∈ Id(N,0,succ(0)), то есть от противного.
+     Построим Iszero:
+     Iszero ∈ (N)U
+     Iszero(m) = natrec(m, Boolᵤ, [y,z]{}ᵤ)
+     # natrec ∈ (C ∈ (ℕ)Set;
+     #           d ∈ C(0);
+     #           e ∈ (x ∈ ℕ, y ∈ C(x))C(succ(x));
+     #           n ∈ ℕ) C(n)
+     Понятно, что:
+     Iszero(0) = S(Boolᵤ) = Bool
+     Iszero(succ(0)) = S({}ᵤ) = {}
+
+     И тогда:
+     true ∈ Bool = Iszero(0)
+     # x ∈ Id(N,0,succ(0))
+     # true ∈ Iszero(0)
+     subst(x, true) ∈ Iszero(succ(0)) = {}
+
+     Тогда этот элемент:
+     λ'(Id(N,0,succ(0)), {}, [x]subst(x,true))
+         ∈ Id(N,0,succ(0)) → {}
+
+     Причем тут x явно не выписан, заметим, так что противоречия нет.
+
+     Утверждение: без универсума невозможно доказать отрицания
+     неравенства.
 * Constructive math & programming
 ** Мотивация
    Очень хочется высокоуровневое программирование.
