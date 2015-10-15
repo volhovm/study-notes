@@ -765,3 +765,17 @@
    | integer, real, boolean         | ℤ, ℝ, {0,1}           |
    |--------------------------------+-----------------------|
    Давайте тогда опишем систему.
+* Coq manual
+** Introduction
+   В Coq есть три основных типа: Set, Prop, Type.
+   1. Set -- это знакомое уже.
+   2. Prop -- это утверждения пропозициональной логики.
+      Например, (x ∈ A) B = forall x : A, B
+      Аналогично A → B
+   4. Type -- тип.
+
+   Типы этих типов выглядят так:
+   {Set, Prop, Type(i) | i ∈ ℕ}
+   Set : Type(1), Prop: Type(1), Type(i) : Type(i+1).
+** Проверка того, что все в MLTT -- не туфта
+   Смотри тип [[file:./coq_introduction.v][coq_introduction.v]].
