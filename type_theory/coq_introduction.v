@@ -117,7 +117,7 @@ Section Natural_Numbers.
   Infix "*" := mul'  : Prelude_scope.
 
   Section Nat_Lemmas.
-    Theorem zero_neutral_right : forall n : Nat, Id (n + zero) n.
+    Theorem zero_neutral_right : forall n : Nat, n + zero == n.
     Proof.
       intros n.
       unfold plus'.
@@ -125,7 +125,7 @@ Section Natural_Numbers.
       exact (id n).
     Qed.
 
-    Theorem zero_neutral_left : forall n : Nat, Id (zero + n) n.
+    Theorem zero_neutral_left : forall n : Nat, zero + n == n.
     Proof.
       intros n.
       unfold plus'.
@@ -141,7 +141,7 @@ Section Natural_Numbers.
       exact (id (succ n0)).
     Qed.
 
-    Theorem comm_plus : forall (a b : Nat), Id (a + b) (b + a).
+    Theorem comm_plus : forall (a b : Nat), a + b == b + a.
     Proof.
       intros a b.
       unfold plus'.
@@ -165,7 +165,7 @@ Section Natural_Numbers.
       exact (id _).
     Qed.
 
-    Theorem assoc_plus : forall a b c : Nat, Id ((a + b) + c) (a + (b + c)).
+    Theorem assoc_plus : forall a b c : Nat, (a + b) + c == a + (b + c).
     Proof.
       intros a b c.
       unfold plus'.
@@ -180,7 +180,7 @@ Section Natural_Numbers.
       exact (id _).
     Qed.
 
-    Theorem transfer0_plus : forall a b : Nat, Id (succ (a + b)) (a + succ b).
+    Theorem succr_plus : forall a b : Nat, succ (a + b) == a + succ b.
     Proof.
       intros a b.
       elim a.
@@ -190,51 +190,23 @@ Section Natural_Numbers.
       exact (id (succ n0 + succ b)).
     Qed.
 
-    Theorem transfer1_plus : forall a b : Nat, Id (succ (a + b)) (succ a + b).
+    Theorem succl_plus : forall a b : Nat, succ (a + b) == succ a + b.
     Proof.
       intros a b.
       rewrite (comm_plus (succ a) b).
       rewrite (comm_plus a b).
-      exact (transfer0_plus b a).
+      exact (succr_plus b a).
     Qed.
 
-    Theorem transfer_plus : forall a b : Nat, Id (succ a + succ b) (a + succ (succ b)).
+    Theorem transfer_plus : forall a b : Nat, succ a + b == a + succ b.
     Proof.
       intros a b.
-      rewrite <- (transfer1_plus a (succ b)).
-      rewrite <- (transfer0_plus a (succ b)).
+      rewrite <- (succl_plus a b).
+      rewrite <- (succr_plus a b).
       exact (id _).
      Qed.
 
-    Theorem comm_mul : forall a b c : Nat, Id (a * b) (b * a).
-    Proof.
-      intros a b c.
-      unfold mul'.
-      elim a.
-      (* base1 *)
-      simpl.
-      elim b.
-      (* base2 *)
-      simpl.
-      exact (id zero).
-      (* shift2 *)
-      simpl.
-      intros.
-      rewrite H.
-      exact (id zero).
-
-      (* shift1 *)
-      intros.
-      unfold plus'.
-      unfold plus' in H.
-      simpl H.
-      simpl.
-      rewrite <- H.
-      intuition.
-      admit.
-    Qed.
-
-    Theorem mul_zero_kills : forall a : Nat, Id (zero * a) zero.
+    Theorem mul_zero_kills : forall a : Nat, zero * a == zero.
     Proof.
       intros.
       elim a.
@@ -247,18 +219,59 @@ Section Natural_Numbers.
       exact (id zero).
     Qed.
 
-    Theorem mul_succ_mull : forall a b : Nat, Id (succ a * b) (a * b + b).
+    Theorem mul_zero_killsr : forall a : Nat, a * zero == zero.
     Proof.
       intros.
-      elim b.
+      elim a.
       exact (id zero).
       intros.
       unfold mul'.
       unfold mul' in H.
       simpl.
-      rewrite (comm_plus _ _).
-      rewrite H.
-      admit.
+      exact (id zero).
+    Qed.
+
+    Theorem mul_one : forall a : Nat, a * succ zero == a.
+    Proof.
+      intros a.
+      elim a.
+      rewrite (mul_zero_kills (succ zero)).
+      exact (id zero).
+      intros.
+      unfold mul'.
+      simpl.
+      exact (id _).
+    Qed.
+
+    Theorem succr_mul : forall a b : Nat, a * succ b == a + a * b.
+    Proof.
+      intros.
+      elim b.
+      rewrite (mul_zero_killsr a).
+      unfold mul'.
+      simpl.
+      exact (id a).
+
+      intros.
+      unfold mul'.
+      simpl.
+      exact (id _).
+    Qed.
+
+    Theorem succl_mul : forall a b : Nat, Id (succ a * b) (b + a * b).
+    Proof.
+      intros.
+      elim b.
+      exact (id zero).
+      intros n0 ind_hyp0.
+      rewrite (succr_mul a n0).
+      rewrite (succr_mul (succ a) n0).
+      rewrite ind_hyp0.
+      rewrite <- (assoc_plus (succ a) n0 (a * n0)).
+      rewrite <- (assoc_plus (succ n0) a (a * n0)).
+      rewrite (comm_plus (succ a) n0).
+      rewrite (transfer_plus n0 a).
+      exact (id _).
     Qed.
 
     Theorem distr_mul : forall a b c : Nat, Id (a * (b + c)) (a * b + a * c).
@@ -272,17 +285,43 @@ Section Natural_Numbers.
       exact (id zero).
       (* shift *)
       intros.
-      rewrite (mul_succ_mull n (b + c)).
-      rewrite (mul_succ_mull n b).
-      rewrite (mul_succ_mull n c).
+      rewrite (succl_mul n (b + c)).
+      rewrite (succl_mul n b).
+      rewrite (succl_mul n c).
       rewrite H.
-      rewrite (assoc_plus (n * b) b (n * c + c)).
-      rewrite <- (assoc_plus b (n * c) c).
-      rewrite (comm_plus b (n * c)).
-      rewrite (assoc_plus (n * c) b c).
-      rewrite <- (assoc_plus (n * b) (n * c) (b + c)).
+      rewrite (assoc_plus b (n * b) (c + n * c)).
+      rewrite <- (assoc_plus (n * b) c (n * c)).
+      rewrite (comm_plus (n * b) c).
+      rewrite (assoc_plus b c (n * b + n * c)).
+      rewrite (assoc_plus c (n * b) (n * c)).
       exact (id _).
-2    Qed.
+    Qed.
+
+    Theorem comm_mul : forall a b c : Nat, Id (a * b) (b * a).
+    Proof.
+      intros a b c.
+      elim a.
+      (* base1 *)
+      simpl.
+      elim b.
+      (* base2 *)
+      simpl.
+      exact (id zero).
+      (* shift2 *)
+      simpl.
+      intros.
+      rewrite (mul_zero_kills (succ n)).
+      rewrite (mul_zero_killsr (succ n)).
+      exact (id zero).
+
+      (* shift1 *)
+      intros.
+      rewrite (succl_mul n b).
+      rewrite (succr_mul b n).
+      rewrite H.
+      exact (id _).
+    Qed.
+
   End Nat_Lemmas.
 End Natural_Numbers.
 
