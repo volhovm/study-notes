@@ -1,10 +1,3 @@
-(* Definition x := y. *)
-(* Definition fst(A B : Set) (p : A /\ B) : A =
-                                         match p with
-                                           pair a b => a.
-                                             end.
-*)
-
 (* Propositional Bools *)
 Inductive True' : Prop :=
   I' : True'.
@@ -12,10 +5,14 @@ Inductive False' : Prop := .
 Definition not' (A : Prop) := A -> False'.
 Notation "~ A" := (not' A) (at level 75, right associativity) : Prelude_scope.
 
+Definition prodAbs (x : False') (A : Set) : A.
+Proof.
+  intuition.
+Qed.
+
 (* Делаем сейчас скоуп и открываем, в котором будут работать инфиксные операторы *)
 (* Local перед Open делает его не импортиться никуда *)
 Open Scope Prelude_scope.
-
 
 (* SET: Id *)
 (* Curly braces -- implicit *)
@@ -91,6 +88,11 @@ Qed.
 
 (* SET: Empty sets *)
 Inductive Empty : Set := .
+
+Definition case' (S : Empty -> Set) (e : Empty) : S e.
+Proof.
+  intuition.
+Qed.
 
 (* SET: Nats *)
 Section Natural_Numbers.
@@ -325,17 +327,16 @@ Section Natural_Numbers.
   End Nat_Lemmas.
 End Natural_Numbers.
 
-
 Inductive Pi (A: Set) (B : A -> Set) : Set :=
   lambda: (forall x: A, B x) -> Pi A B.
 
-Definition apply' (A : Set) (B : A -> Set) (g : Pi A B) (x : A) :=
+Definition apply' (A : Set) (B : A -> Set) (g : Pi A B) (x : A) : B x :=
   match g with
     lambda f => f x
   end.
 
-Notation "A ~> B" := (Pi A (fun _ => B)) (at level 45, right associativity) : Prelude_scope.
-Notation "~' A"   := (A ~> Empty) (at level 45).
+Notation "A ~> B" := (Pi A (fun _ => B)) (at level 90, right associativity) : Prelude_scope.
+Notation "~' A"   := (A ~> Empty) (at level 75, right associativity).
 
 Definition lambda' (A B : Set) (f : A -> B) : A ~> B :=
   lambda A (fun _ => B) f.
@@ -351,7 +352,6 @@ Proof.
 Qed.
 
 (* Disjoint union of two sets *)
-
 Inductive orS (A B : Set) : Set :=
   inlS : A -> orS A B
 | inrS : B -> orS A B.
@@ -382,11 +382,26 @@ Definition fst' (A : Set) (B : A -> Set) (p : Sigma A B) : A :=
 Definition snd' (A : Set) (B : A -> Set) (p : Sigma A B) : B (fst' A B p) :=
   split A B (fun x => B (fst' A B x)) (fun _ y => y) p.
 
-(* homework *)
-(*
-Theorem quantor_equality : forall (A : Set) (B : A -> Set),
-    Pi A (fun x => ~'(B x)) ~> ~' Sigma A B.
- *)
+(* forall theorem ! *)
+Theorem forall_exists :
+  forall (A:Set) (B : A -> Set),
+    (Pi A (fun x => ~'(B x))) ~> ~'(Sigma A B).
+Proof.
+  intros A B.
+  unfold lambda'.
+  refine (lambda' (Pi A (fun x : A => ~' B x)) (~' Sigma A B) _).
+  intros C.
+  refine (lambda' (Sigma A B) Empty _).
+  intros D.
+  pose (x := fst' A B D).
+  pose (y := snd' A B D).
+  pose (prod := apply' _ _ C x).
+  intuition.
+  pose (realb := apply' _ _ prod y).
+  intuition.
+Qed.
+
+
 
 (* SET : Lists *)
 Inductive List (A : Set) : Set :=
@@ -412,12 +427,14 @@ Definition head'' (A : Set) (l : List A) : Maybe :=
   | new x xs => Just x
   end.
 
-(* Homework *)
-(*
-Definition head''' (A : Set) (l: List A) (proof : C /= null A) :A :=
-  match l with
-  end.
- *)
+
+Definition head''' (A : Set) (l: List A) (proof : l /= null A) : A.
+Proof.
+  unfold not' in proof.
+  induction l.
+  intuition.
+  exact a.
+Qed.
 
 Definition tail' (A : Set) (l : List A) : List A :=
   match l with
@@ -459,41 +476,34 @@ Section Relation_definitions.
       forall x y : A, R1 x y -> R2 x y.
     Definition equal_rels (R1 R2 : Relation A) : Prop :=
       inclusion R1 R2 /.\ inclusion R2 R1.
-    Definition min_relation (R : Relation A) : Prop :=
-      forall R' : Relation A, inclusion R' R.
+    Definition minimal : Prop :=
+      forall R' : Relation A, inclusion R R'.
+    Definition extensional
+               (B : Type)
+               (R2 : Relation B)
+               (f : A -> B) : Prop :=
+      forall x y, R x y -> R2 (f x) (f y).
   End Meta_relations.
 End Relation_definitions.
-
-Definition minimal (A : Type) (R : Relation A) :=
-  forall (S : Relation A), reflexive A S -> inclusion _ R S.
-
-Section Extensionality_definition.
-  Variable A B : Type.
-  Variable R1 : Relation A.
-  Variable R2 : Relation B.
-  Definition extensional (f : A -> B) : Prop :=
-    forall x y, R1 x y -> R2 (f x) (f y).
-End Extensionality_definition.
 
 Section Theorem_about_min_refl_relation.
   Variable A: Type.
   Variable R: Relation A.
   Hypothesis reflR : reflexive A R.
-  Hypothesis minR : minimal A R.
-  Theorem min_reflex_rel_is_equiv_and_ext :
-    equality A R /.\
-             forall (B : Type) (R2 : Relation B),
-               equality B R2 -> forall f : A -> B,
-                 extensional A B R R2 f.
+  Hypothesis minR : forall S : Relation A, reflexive A S -> inclusion A R S.
+
+  Theorem min_reflex_is_equiv :
+    equality A R.
   Proof.
-    refine (conj' _ _).
+    split.
     unfold equality.
     intuition.
-    pose (S x y := R y x).
+
+    pose (S a b := R b a).
     pose (minR' := minR S).
     assert (reflexive A S).
     unfold reflexive.
-    intros.
+    intros a0.
     intuition.
     pose (incl := minR S H).
     unfold symmetric.
@@ -503,10 +513,131 @@ Section Theorem_about_min_refl_relation.
     assert (reflexive A T).
     unfold reflexive, T.
     intros.
+    exact H.
+
+    pose (incl := minR T H).
+    unfold inclusion in incl.
+    unfold transitive, T.
+    intros.
+    exact (incl a b H0 c H1).
+  Qed.
+
+  Theorem min_reflex_is_extensional :
+    forall (B : Type) (R2 : Relation B),
+      equality B R2 -> forall f : A -> B,
+        extensional A R B R2 f.
+  Proof.
+    unfold extensional.
+    intros.
+
+    pose (F x y := R2 (f x) (f y)).
+    assert (reflexive A F).
+    unfold reflexive.
+    intros.
+    unfold equality in H.
+    assert (reflexive B R2).
+    intuition.
+    unfold reflexive in H1.
+    exact (H1 (f a)).
+
+    unfold reflexive in minR.
+    unfold inclusion in minR.
+    exact (minR F H1 x y H0).
+  Qed.
+
+  Theorem rels_equality_is_equivalence : forall T:Type, equality (Relation T) (equal_rels T).
+  Proof.
+    unfold equality.
+    intros.
     intuition.
 
-    pose (incl'' := minR T H).
-    unfold transitive, T.
+    unfold reflexive.
+    intros.
+    unfold equal_rels.
+    intuition.
 
+    unfold inclusion.
+    intros.
+    exact H.
+
+    unfold inclusion.
+    intros.
+    exact H.
+
+    unfold symmetric.
+    intros.
+    unfold equal_rels.
+    intuition.
+    unfold inclusion.
+    intros.
+    unfold equal_rels in H.
+    intuition.
+
+    unfold inclusion.
+    intros.
+    unfold equal_rels in H.
+    intuition.
+
+    unfold transitive.
+    intros.
+    unfold equal_rels.
+    unfold equal_rels in H, H0.
+    intuition.
+    unfold inclusion.
+    unfold inclusion in H, H1, H2, H3.
+    intros.
+    intuition.
+
+    unfold inclusion.
+    intros.
+    unfold inclusion.
+    unfold inclusion in H, H1, H2, H3.
+    intros.
     intuition.
   Qed.
+End Theorem_about_min_refl_relation.
+
+
+Section Null_is_not_one.
+  Variable A : Type.
+  Theorem id_refl : reflexive A Id.
+  Proof.
+    unfold reflexive.
+    intros.
+    exact (id a).
+  Qed.
+  Theorem null_not_one : zero /= succ(zero).
+  Proof.
+    admit.
+  Qed.
+End Null_is_not_one.
+
+Section TT_choice.
+  Variable S : Type.
+  Variable T : Type.
+  Definition Relation' (A : Type) (B : Type) := A -> B -> Prop.
+  Variable R : Relation' S T.
+  Theorem tt_choice_axiom:
+    (Pi S (fun x => Sigma T (fun y => R x y)))
+      ->
+      (Sigma (S ~> T) (fun (f : S ~> T) =>
+                         Pi S (fun x => R x (apply'' S T f x)))).
+  Proof.
+    intro z.
+    pose (zapp1foo := fun (x : S) => fst' _ _
+                                       (apply' _ _
+                                          z x)).
+    pose (zapp1 := lambda' S T zapp1foo).
+    pose (zapp2foo := fun (x : S) => snd' _ _
+                                        (apply' _ _
+                                                z x)).
+    pose (zapp2 := lambda' _ _ zapp2foo).
+    pose (try1 := pair
+                    (S ~> T)
+                    (fun (f : S ~> T) => Pi S (fun x => R x (apply'' S T f x)))
+                    (fun (x : S) => fst'
+                                      _ _
+                                      (apply'' S T z x))
+                    (fun y => snd' (apply'' _ _ z y))).
+  Qed.
+End TT_choice.
