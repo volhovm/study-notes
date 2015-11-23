@@ -103,7 +103,7 @@
   2. Правильное -- сужение исполнения на один поток (только операции,
      приналежащие конкретному потоку) последовательно.
      Неправильные исполнения -- вообще какая-то чепуха (параллельность
-     в одном потоке). Или a = (b++) + (c++) в плюсах.
+     в одном потоке). Или "a = (b++) + (c++)" == UB в плюсах.
   3. Допустимое последовательное исполнение -- выполнены
      последовательные спецификации всех объектов.
      Посл. спецификация объекта -- последовательность сужения
@@ -675,7 +675,7 @@
      |--------------------------------------------+--------------------|
      | Объект                                     | Консенсусное число |
      |--------------------------------------------+--------------------|
-     | Атомарные регичтры                         | 1                  |
+     | Атомарные регистры                         | 1                  |
      | Снимок состояния нескольких регистров      |                    |
      |--------------------------------------------+--------------------|
      | getAndSet, getAndAdd, очередь, стек        | 2                  |
@@ -684,7 +684,7 @@
      |--------------------------------------------+--------------------|
      | compareAndSet, LoadLinked/StoreConditional | ∞                  |
      |--------------------------------------------+--------------------|
-* Практические построения на списке
+* Практические построения на списке, вступление
   Будем смотреть всякие практические построения на списках.
   Будем писать код уже на джаве настоящей.
 
@@ -741,6 +741,17 @@
 
   Таким образом, мы реализовали thread-safe объект.
 
+* Типы синхронизации на примере списка (LinkedSet)
+  * Многопоточные объект -- это объект, который можно использовать из
+    нескольких потоков без дополнительной внешней синхронизации, при
+    этом:
+    1. Специфицируется через последовательное поведение.
+    2. По умолчанию требуется линеаризуемость операций (редко -- более
+       слабые условия).
+    3. Редко удается реализовать все операции wait-free. Чаще всего
+       делается с блокировками или без них (что на самом деле
+       lock-free).
+
   Типы синхронизации:
   1. Грубая синронизация (Coarse-grained)
   2. Тонкая (fine-grained)
@@ -748,7 +759,8 @@
   4. Ленивая (lazy)
   5. Неблокирующая (non-blocking)
 
-  Будем строить многопоточные связанные списки.
+  Будем строить многопоточные связанные списки. Массивами пользоваться
+  намного эффективней, но они сложнее пишутся.
 
   #+NAME: Что пытаемся синхронизировать
   #+BEGIN_SRC java
@@ -759,304 +771,439 @@
         Node next;
     }
   #+END_SRC
+  Пустой список будет состоять из 2х граничных элементов:
+  Node head = Node(Integer.MIN_VALUE, null);
+  head.next = Node(Integer.MAX_VALUE, null);
+** Грубая синхронизация
+   Обеспечиваем синхронизацию через
+   java.util.concurrent.locks.ReentrantLock lock.
+   Такой подход дает немножко больше функционала чем секции
+   synchronized.
 
-  #+NAME: грубая синхронизация списка
-  #+BEGIN_SRC java
-    class LinkedSet {
+   #+NAME: грубая синхронизация списка
+   #+BEGIN_SRC java
+     class LinkedSet {
+         final Node head;
+         final Lock lock; // mutex
 
-        boolean contains(int key) {
-            lock.lock();
-            try {
-                Node curr = head;
-                while (curr.key < key) {
-                    curr = curr.next;
-                }
-                return key == curr.key;
-            } finally { lock.unlock() }
-        }
-
-        boolean add(int key, T item) {
-            lock.lock();
-            try {
-                Node pred = head, curr = pred.next;
-                while (...) {}
-                    /// stuff
-            } finally { lock.unlock(); }
-        }
-        boolean remove (int key, T item) {
-            lock.lock();
-            try {
-                // stuff
-            } finally { lock.unlock; }
-        }
-    }
-  #+END_SRC
-
-
-  #+NAME: Тонкая синхронизация
-  #+BEGIN_SRC java
-    class Node {
-        final int key;
-        final T item;
-        final Lock lock;
-        Node next;
-
-        void lock() { lock.lock(); }
-        void unlock() { lock.unlock(); }
-
-        void search() {
-            Node pred = head; pred.lock();
-            Node curr = pred.next; curr.lock();
-            try {
-                while (curr.key < key) {
-                    pred.unlock(); pred = curr;
-                    curr = curr.next; curr.lock();
-                }
-                return key == curr.key;
-            } finally { curr.unlock; pred.unlock; }
-        }
-
-        boolean add(int key, T item) {
-            Node pred = head; pred.lock();
-            Node curr = pred.next; curr.lock();
-            try {
-                // addition
-            } finally { curr.unlock; pred.unlock; }
-        }
-
-        boolean remove(int key, T item) {
-            Node pred = head; pred.lock();
-            Node curr = pred.next; curr.lock();
-            try {
-                // removal
-            } finally { curr.unlock; pred.unlock; }
-
-        }
-    }
-  #+END_SRC
-
-
-  Оптимистичная синхронизация:
-  1. Ищем элемент без синхронизации, но перепроверяем с
-     синхронизацией.
-     1. Если перепроверка сломалась, то начинаем операцию заново
-     2. Поиск не зациклится, ибо ключи упорядочены, никогда не
-        меняются внутри Node, значения next не могут возникнуть
-        ниоткуда даже при чтении без синхронизации
-  2. Имеет смысл только если обход дешев и быстр, а обход с
-     синхронизацией -- наоборот.
-  3. Потоки всегда синхронизируются между собой ("synchronizes with")
-     через критические секции, поэтому никаких дополнительных
-     механизмов не нужно.
-  #+NAME:Оптимистичная синхронизация
-  #+BEGIN_SRC java
-        retry: while (true) {
-            Node pred = head, curr = pred.next;
-            while (curr.key < key) {
-                pred = curr; curr = curr.next;
-                if (curr == null) continue retry;
-            }
-            pred.lock(); curr.lock();
-            try {
-                if (!validate(pred, curr)) continue retry;
-                return curr.key == key;
-            } finally { curr.unlock(); pred.unlock();
-            }
+         boolean contains(int key) {
+             lock.lock();
+             try {
+                 Node curr = head;
+                 while (curr.key < key) {
+                     curr = curr.next;
+                 }
+                 return key == curr.key;
+             } finally { lock.unlock() }
          }
-    // остальные операции аналогично
-  #+END_SRC
 
-  Ленивая синхронизация:
-  1. Добавляем в Node boolean флажок, в котором будем помечать
-     удаленные элементы.
-  2. Инвариант: все непомеченные элементы всегда в списке.
-  3. Результат: для валидации не надо просматривать список, остальное
-     как в оптимистичном варианте.
+         boolean add(int key, T item) {
+             lock.lock();
+             try {
+                 Node pred = head, curr = pred.next;
+                 while (...) {}
+                     /// stuff
+             } finally { lock.unlock(); }
+         }
+         boolean remove (int key, T item) {
+             lock.lock();
+             try {
+                 // stuff
+             } finally { lock.unlock; }
+         }
+     }
+   #+END_SRC
+** Тонкая синхронизация
+   Обеспечиваем синхроизацию взаимным исключением на каждом
+   объекте. При любых операциях одновременно удерживаем блокировку
+   текущего и предыдущего элемента, чтобы не потерять инвариант
+   pred.next == curr.
 
-  #+NAME:Ленивая синхронизация
-  #+BEGIN_SRC java
-    void add(T elem) {
-     retry: while (true) {
-            Node pred = ...;
-            while (...) {
-                pred = curr; curr = curr.next; // тут curr != null
-            }
-            pred.lock(); curr.lock();
-            try {
-                if (...) continue retry;
-                if (curr.key == key) return false;
-                else {
-                    // тут точка линеаризации
-                }
-            }
-        }
-    }
+   #+NAME: Тонкая синхронизация
+   #+BEGIN_SRC java
+     class Node {
+         final int key;
+         final T item;
+         final Lock lock;
+         Node next;
 
-    void delete (T elem) {
-     retry: while (true) {
-            Node pred = get;
+         void lock() { lock.lock(); }
+         void unlock() { lock.unlock(); }
+     }
 
-            // ставим маркер
-        }
-    }
+     class LinkedSet {
+         boolean contains() {
+             Node pred = head; pred.lock();
+             Node curr = pred.next; curr.lock();
+             try {
+                 while (curr.key < key) {
+                     // отпускаем блокировку у предыдущего объекта
+                     // берем у следующего.
+                     pred.unlock();
+                     pred = curr;
+                     curr = curr.next;
+                     curr.lock();
+                 }
+                 return key == curr.key;
+             } finally { curr.unlock(); pred.unlock(); }
+         }
 
-    boolean contains(int key) {
-        Node curr = head;
-        while (curr.key < key) {
-            curr = curr.next; // точка линеаризации
-        }
-        return key == curr.key;
-    }
-  #+END_SRC
+         boolean add(int key, T item) {
+             Node pred = head; pred.lock();
+             Node curr = pred.next; curr.lock();
+             try {
+                 // addition
+                 while (curr.key < key) {
+                     pred.unlock(); pred = curr;
+                     curr = curr.next; curr.lock();
+                 }
+                 if (key == curr.key) return false; else {
+                     Node node = new Node(key, item);
+                     node.next = curr; pred.next = node;
+                     return true;
+                 }
+             } finally { curr.unlock; pred.unlock; }
+         }
 
-  Неблокирующая синхронизация
-  * Простое использование CAS не помогает -- удаление двух соседних
-    элементов будет конфликтовать
-    1, 2, 3, 4, удалим 2, 3, но указатель 1 → 3 сохранится.
-  * Трюк такой: объединим (next, marked) в одну переменную, и будем ее
-    изменять CASом.
-  * Плюс к этому будем физически удалять в других потоках помеченные
-    элементы.
+         boolean remove(int key, T item) {
+             Node pred = head; pred.lock();
+             Node curr = pred.next; curr.lock();
+             try {
+                 // removal
+             } finally { curr.unlock; pred.unlock; }
 
+         }
+     }
+   #+END_SRC
+** Оптимистичная синхронизация
+   Алгоритм построения:
+   1. Ищем элемент без синхронизации, но перепроверяем с
+      синхронизацией.
+      1. Если перепроверка сломалась, то начинаем операцию заново
+      2. Поиск не зациклится, ибо ключи упорядочены, никогда не
+         меняются внутри Node, значения next не могут возникнуть
+         ниоткуда даже при чтении без синхронизации
+   2. Имеет смысл только если обход дешев и быстр, а обход с
+      синхронизацией -- наоборот.
+   3. Потоки всегда синхронизируются между собой ("synchronizes with")
+      через критические секции, поэтому никаких дополнительных
+      механизмов не нужно.
+   #+NAME:Оптимистичная синхронизация
+   #+BEGIN_SRC java
+     class LinkedSet {
+         // проверяет, что pred является предыдущим для curr
+         // идет от начала списка до pred оптимистично, там сравнивает
+         boolean validate(Node pred, Node curr) {
+             Node node = head;
+             while (node.key <= pred.key) {
+                 if (node == pred) {
+                     return pred.next == curr;
+                 }
+                 node = node.next;
+                 if (node == null) return false;
+             }
+         }
 
-  Стек еще очень просто пишется, пишем универсальную конструкцию
-  (персистентное копирование).
+         boolean contains(int key) {
+         retry: while (true) {
+                 Node pred = head, curr = pred.next;
+                 while (curr.key < key) {
+                     pred = curr; curr = curr.next;
+                     if (curr == null) continue retry;
+                 }
+                 pred.lock(); curr.lock();
+                 try {
+                     if (!validate(pred, curr)) continue retry;
+                     return curr.key == key;
+                 } finally { curr.unlock(); pred.unlock();
+                 }
+             }
+         }
+         boolean add(int key, T item) {
+         retry: while (true) {
+                 Node pred = head, curr = pred.next;
+                 while (curr.key < key) {
+                     pred = curr; curr = curr.next;
+                     if (curr == null) continue retry;
+                 }
+                 pred.lock(); curr.lock();
+                 try {
+                     if (!validate(pred, curr)) continue retry;
+                     if (curr.key == key) return false; else {
+                         Node node = new Node(key, item);
+                         node.next = curr; pred.next = node;
+                         return true;
+                     }
+                 } finally { curr.unlock(); pred.unlock(); }
+             }
+         }
+         // remove аналогично
+     }
+   #+END_SRC
+** Ленивая синхронизация
+   Как строить:
+   1. Добавляем в Node boolean флажок, в котором будем помечать
+      удаленные элементы. Удаление в две фазы -- флажок помечен
+      соответствует логическому удалению, физическое следует позже.
+   2. Инвариант: все непомеченные элементы всегда в списке.
+   3. Результат: для валидации не надо просматривать список (только
+      проверить, что элементы не удалены логически и pred.curr ==
+      next), остальное как в оптимистичном варианте.
+
+   Поиск без ожидания:
+
+   #+NAME:Ленивая синхронизация
+   #+BEGIN_SRC java
+     class Node {
+         final int key;
+         final T item;
+         final Lock lock;
+         boolean marked;
+         // Очень важен volatile для линеаризуемости!
+         volatile Node next;
+
+         void lock() { lock.lock(); }
+         void unlock() { lock.unlock(); }
+     }
+
+     class LinkedSet {
+         boolean validate(Node prev, Node next) {
+             return !pred.marked &&
+                 !curr.marked &&
+                 pred.next == curr;
+         }
+
+         boolean add(T elem) {
+         retry: while (true) {
+                 Node pred = head, curr = pred.next;
+                 while (curr.key < key) {
+                     pred = curr; curr = curr.next;
+                     //                   ^^^^^^
+                     //            тут curr.next != null
+                 }
+                 pred.lock(); curr.lock();
+                 try {
+                     if (!validate(pred,curr)) continue retry;
+                     if (curr.key == key) {
+                         curr.marked = true; // для validate
+                         pred.next = curr.next; // точка линеаризации
+                         return true;
+                     } else return false;
+                 } finally { curr.unlock(); pred.unlock(); }
+             }
+         }
+
+         void delete (T elem) {
+         retry: while (true) {
+                 Node pred = head, curr = pred.next;
+                 while (curr.key < key) {
+                     pred = curr; curr = curr.next;
+                     //                   ^^^^^^
+                     //            тут curr.next != null
+                 }
+                 pred.lock(); curr.lock();
+                 try {
+                     if (!validate(pred,curr)) continue retry;
+                     if (curr.key == key) return false;
+                     else {
+                         Node node = new Node(key, item);
+                         node.next = curr; // сначала! порядок важен
+                         pred.next = node; // тут точка линеаризации
+                         return true;
+                     }
+                 } finally { curr.unlock(); pred.unlock(); }
+             }
+         }
+
+         // Wait-free поиск!
+         boolean contains(int key) {
+             Node curr = head;
+             while (curr.key < key) {
+                 curr = curr.next; // точка линеаризации
+             }
+             return key == curr.key;
+         }
+     }
+   #+END_SRC
+** Неблокирующая синхронизация
+   Сделать синхронизацию без блокировок нетривиально:
+   * Простое использование CAS не помогает -- удаление двух соседних
+     элементов будет конфликтовать
+     1, 2, 3, 4, удалим 2, 3 одновременно, но указатель 1 → 3
+     сохранится.
+   * Трюк такой: объединим (next, marked) в одну переменную, и будем ее
+     изменять CASом атомарно.
+     * Одновременное удаление соседних двух элементов будет
+       конфликтовать
+     * Каждая операция модификации выполняется одним успешным CAS'ом.
+     * Это выполнение CAS'а и есть точка линеаризации
+   * Будем пытаться удалять физически, от этого добавление и удаление
+     станут lock-free, а поиск вообще wait-free.
+   * В реализации будем использовать для пары
+     java.util.concurrent.atomic.AtomicMarkableReference.
 * Продолжение построений на списках, стеках
   #+DATE: 2015.10.19
-  Вот короче стек есть, но он не масштабируемый. Если конкуренция
-  очень большая, то производительность в многосокетных системах на top
-  будет падать.
-  #+NAME: stack implementation
-  #+BEGIN_SRC java
-    void push(T item) {
-         while (true) {
-               Node node = new Node(item, top.get());
-               if (top.compareAndSet(node.next, node)) // линеаризация
-                  return;
+  Можно строить структуры универсально, храня на нее указатель и меняя
+  его CAS'ом каждый раз. Так, например, работает счетчик -- в джаве
+  это AtomicInteger.
+
+  Персистентные структуры тоже несложно пишутся, достаточно заменить
+  CAS'ом root на новый после изменения структуры. Остальное дерево
+  остается прежней версии (персистентность, собсна).
+** Стек LIFO
+   Рассмотрим частный, вырожденный случай древовидной структуры --
+   стек. Он не масштабируемый. Если конкуренция очень большая, то
+   производительность в многосокетных системах на top будет падать.
+   #+NAME: stack implementation
+   #+BEGIN_SRC java
+     // such immutable!
+     class Node {
+         final T item;
+         final Node next;
+     }
+
+     final AtomicReference<Node> top = new AtomicReference<Node>(null);
+
+     void push(T item) {
+          while (true) {
+                Node node = new Node(item, top.get());
+                if (top.compareAndSet(node.next, node)) // линеаризация
+                   return;
+          }
+     }
+
+     T pop() {
+       while (true) {
+             Node node = top.get();
+
+  if (node == null) throw new EmptyStack();
+             if (top.compareAndSet(node, node.next)) // линеаризация
+                return node.item;
+       }
+     }
+   #+END_SRC
+
+   С разделяемой памятью вообще все достаточно сложно, там не только
+   race condition'ы в большом количестве, но и куча проблем с
+   производительностью. Будем пока считать что стек хороший.
+** Очереди на списках, Майкл-Скотт
+   Будем делать очередь на списках. Наивно с помощью универсальной
+   конструкции так себе, а популярный алгоритм -- Майкла Скотта.
+
+   Делаем список, у очереди есть указатель на голову и хвост, все
+   односвязно. Будем элементы добавлять и удалять достаточно
+   естественно.
+   Добавление: Создаем элемент, ссылаемся на голову, с помощью CAS'а
+   меняем указатель на голову в классе.
+   Дописать элемент в хвост сложно, потому что нужно поменять сразу две
+   ячейки памяти -- указатель класса на хвост, указатель предыдущего
+   элемента хвоста на последний.
+
+   Идея алгоритма Майкла-Скотта такая: будем брать элемент и
+   подписывать его в хвост, меняя ссылку предыдущего, а физически
+   перемещать tail (указатель из класса) потом.
+   Если другой поток увидит, что очередь в состоянии "есть ссылка на
+   tail, у которого есть следующий элемент", то он может помочь
+   переставить указатель класса на нужный элемент.
+
+   #+NAME: Майкл-Скотт
+   #+BEGIN_SRC java
+     class Node {
+         T item;
+         final AtomicReference<Node> next;
+     }
+
+     AtomicReference<Node> head =
+         new AtomicReference<Node>(new Node(null));
+     AtomicReference<Node> tail =
+         new AtomicReference<Node>(head.get());
+
+     void enqueue(T item) {
+         Node node = new Node(item);
+      retry: while (true) {
+             Node last = tail.get(),
+                 next = last.next.get();
+             if (next == null) {
+                 if (!last.next.compareAndSet(null, node))
+                     continue retry;
+                 // оптимизация -- сами переставляем tail
+                 tail.compareAndSet(last, node);
+                 return;
+             }
+             // помогаем другим операциям enqueue с tail
+             tail.compareAndSet(last, next);
          }
-    }
+     }
 
-    T pop() {
-      while (true) {
-            Node node = top.get();
-            if (node == null) throw new EmptyStack();
-            if (top.compareAndSet(node, node.next)) // линеаризация
-               return node.item;
-      }
-    }
-  #+END_SRC
+     T dequeue() {
+      retry: while (true) {
+             Node first = head.get(),
+                 last = tail.get(),
+                 next = first.next();
+             if (first == last) {
+                 if (next == null) throw new EmptyQueue();
+                 // Помогаем операциям enqueue с tail
+                 tail.compareAndSet(last, next);
+             } else {
+                 if (head.compareAndSet(first, next)) // линеаризация
+                     return next.item;
+             }
+         }
+     }
+   #+END_SRC
+** ABA problem
+   Есть проблема в средах без сборки мусора, называется ABA. Суть:
+   Будем реализовывать самый первый стек этой лекции на C, без Garbage
+   collector'а.
+   Добавим  в стек несколько элементов -- A и B.
+   Может быть такое, что top стека может быть: A B A.
+   Достанем указатель на top, сделаем успешно cas, на return нас
+   перебил другой поток, и что-то переаллочилось, теперь в A лежит
+   какая-то другая фигня.
 
-  С разделяемой памятью вообще все достаточно сложно, там не только
-  race condition'ы в большом количестве, но и куча проблем с
-  производительностью.
+   Еще раз: в стеке 1 элемент, по адресу A (top = A).
+   Мы делаем ему pop, достаем A. В это время нас прерывают.
+   Другой поток делает pop A, push B, pop B, push C на месте A появился
+   другой элемент, но CAS сравнивает только указатели, и в этом случае
+   он не обнаружит эту проблему.
+   В джаве это не работает так, потому что память на A нельзя
+   освободить, пока на нее ссылаются.
 
-  Будем пока считать что стек хороший.
-
-  Будем делать очередь на списках. Наивно с помощью универсальной
-  конструкции так себе, а популярный алгоритм -- Майкла Скотта.
-
-  Делаем список, у очереди есть указатель на голову и хвост, все
-  односвязно. Будем элементы добавлять и удалять достаточно
-  естественно.
-  Добавление: Создаем элемент, ссылаемся на голову, с помощью CAS'а
-  меняем указатель на голову в классе.
-  Дописать элемент в хвост сложно, потому что нужно поменять сразу две
-  ячейки памяти -- указатель класса на хвост, указатель предыдущего
-  элемента хвоста на последний.
-
-  Идея алгоритма Майкла-Скотта такая: будем брать элемент и
-  подписывать его в хвост, меняя ссылку предыдущего, а физически
-  перемещать tail (указатель из класса) потом.
-  Если другой поток увидит, что очередь в состоянии "есть ссылка на
-  tail, у которого есть следующий элемент", то он может помочь
-  переставить указатель класса на нужный элемент.
-
-  #+NAME: Майкл-Скотт
-  #+BEGIN_SRC java
-    void enqueue(T item) {
-        Node node = new Node(item);
-     retry: while (true) {
-            Node last = tail.get(),
-                next = last.next.get();
-            if (next == null) {
-                if (!last.next.compareAndSet(null, node))
-                    continue retry;
-                // оптимизация -- сами переставляем tail
-                tail.compareAndSet(last, node);
-                return;
-            }
-            // помогаем другим операциям enqueue с tail
-            tail.compareAndSet(last, next);
-        }
-    }
-
-    T dequeue() {
-     retry: while (true) {
-            Node first = head.get(),
-                last = tail.get(),
-                next = first.next();
-            if (first == last) {
-                if (next == null) throw new EmptyQueue();
-                // Помогаем операциям enqueue с tail
-                tail.compareAndSet(last, next);
-            } else {
-                if (head.compareAndSet(first, next)) // линеаризация
-                    return next.item;
-            }
-        }
-    }
-  #+END_SRC
-
-  Есть проблема без GC, называется ABA. Суть:
-  Будем реализовывать самый первый стек этой лекции на C, без Garbage
-  collector'а.
-  Добавим  в стек несколько элементов -- A и B.
-  Может быть такое, что top стека может быть: A B A.
-  Достанем указатель на top, сделаем успешно cas, на return нас
-  перебил другой поток, и что-то переаллочилось, теперь в A лежит
-  какая-то другая фигня.
-
-  Еще раз: в стеке 1 элемент, по адресу A (top = A).
-  Мы делаем ему pop, достаем A. В это время нас прерывают.
-  Другой поток делает pop A, push B, pop B, push C на месте A появился
-  другой элемент, но CAS сравнивает только указатели, и в этом случае
-  он не обнаружит эту проблему.
-  В джаве это не работает так, потому что память на A нельзя
-  освободить, пока на нее ссылаются.
-
-  Решить ABA проще всего с помощью реализации сборщика мусора.
-  Другой способ -- пользоваться версиями. Хранить в top пару из
-  указателя и версии. Таким образом если стек за время top.get и cas
-  успел поменяться, мы сравним версии и упадем. Именно поэтому мы
-  можем делать cas на 2х последовательных словах, это позволяет нам
-  менять одновременно указатель + версию.
-  Еще можно пользоваться Hazard Pointers -- многопоточный сборщик
-  мусора, который работает только для наших узлов.
+   Решить ABA проще всего с помощью реализации сборщика мусора.
+   Другой способ -- пользоваться версиями. Хранить в top пару из
+   указателя и версии. Таким образом если стек за время top.get и cas
+   успел поменяться, мы сравним версии и упадем. Именно поэтому мы
+   можем делать cas на 2х последовательных словах, это позволяет нам
+   менять одновременно указатель + версию.
+   Еще можно пользоваться Hazard Pointers -- многопоточный сборщик
+   мусора, который работает только для наших узлов.
 * Алгоритмы на массивах
-  Давайте делать стек на массиве.
-  В однопоточном варианте стек на массиве -- очень просто.
-  Типа держим размер, pop/push меняет размер массива и ячейку.
-  Но это все равно не взлетит в многопоточном варианте совсем прям
-  наивно.
-  Вот делаем мы push. Сначала увеличим top cas'ом, а потом проставим
-  элемент. Push будет работать, но pop в такой реализации упадет --
-  если мы уже увеличили top, но не положили элемент, то достанет
-  какой-то мусор.
-  Аналогично если сначала проставляем элемент, а потом увеличиваем
-  top, то там будет что-то старое.
-  С очередями проблемы те же.
+** Стек на массиве
+   Давайте делать стек на массиве.
+   В однопоточном варианте стек на массиве -- очень просто.
+   Типа держим размер, pop/push меняет размер массива и ячейку.
+   Но это все равно не взлетит в многопоточном варианте совсем прям
+   наивно.
+   Вот делаем мы push. Сначала увеличим top cas'ом, а потом проставим
+   элемент. Push будет работать, но pop в такой реализации упадет --
+   если мы уже увеличили top, но не положили элемент, то достанет
+   какой-то мусор.
+   Аналогично если сначала проставляем элемент, а потом увеличиваем
+   top, то там будет что-то старое.
+   С очередями проблемы те же.
 
-  Будем писать дек, пытаясь реализовать obstruction-free свойство.
-  Дек будет циклическим.  Храним в элементе пару -- значение и
-  версия. Там где дек пустой, будем хранить (left_null, version),
-  справа (right_null, version).
-  Для корректности алгоритма не будем полагаться на указатели left и
-  right в классе дека -- они будут типа для производительности, а
-  индексироваться будем за O(n).
+   Будем писать дек, пытаясь реализовать obstruction-free свойство.
+   Дек будет циклическим.  Храним в элементе пару -- значение и
+   версия. Там где дек пустой, будем хранить (left_null, version),
+   справа (right_null, version).
+   Для корректности алгоритма не будем полагаться на указатели left и
+   right в классе дека -- они будут типа для производительности, а
+   индексироваться будем за O(n).
 
-  На практике этим никто не пользуется, потому что все равно
-  медленнее, чем на ссылочном листе.
-  #+BEGIN_SRC java
+   На практике этим никто не пользуется, потому что все равно
+   медленнее, чем на ссылочном листе.
+   #+NAME: Дек без помех
+   #+BEGIN_SRC java
     int rightOracle() {
         int k = right; // для оптимизации
         while (a[k] != RN) k++;
@@ -1072,7 +1219,7 @@
             if (prev.item == RN || cur.item != RN) continue;
             if (k == MAX-1) throw new FullDeque();
             if (CAS(a[k-1], prev, {prev.item, prev.ver+1} &&
-                    CAS(a[k]))) {}
+                    CAS(a[k], cur, {item, cur.ver+1}))) return;
         }
     }
 
@@ -1087,58 +1234,57 @@
                 return cur.item;
         }
     }
-  #+END_SRC
+   #+END_SRC
+** Хэш-таблицы на массиве
+   Бывают с прямой адресацией (по хэшу находим ведро, и все элементы с
+   таким хэшом попадают в это ведро -- там дальше список или дерево).
+   На практике с прямой адресацией все медленно, потому что там опять
+   массивы или списки.
+   Бывают с открытой, это самый лучший вариант.
+   Но со списками намного проще.
 
-* Хэш-таблицы
-  Бывают с прямой адресацией (по хэшу находим ведро, и все элементы с
-  таким хэшом попадают в это ведро -- там дальше список или дерево).
-  На практике с прямой адресацией все медленно, потому что там опять
-  массивы или списки.
-  Бывают с открытой, это самый лучший вариант.
-  Но со списками намного проще.
-
-  Будем пользоваться алгоритмом Split-Ordered lists.
-  Засунем все элементы в одно большое связанео множество. Упорядочим
-  их по хэшу. Для ускорения заведем слева хэш-таблицу, адресующую те
-  элементы листа с заданным хэшом. Эта дополнительная таблица делается
-  только для ускорения.
-  Когда будем хотеть расширить таблицу, создадим вторую, скопируем ее
-  черезстрочно, будем по мере обращений к хэшу ее обновлять (вторую).
+   Будем пользоваться алгоритмом Split-Ordered lists.
+   Засунем все элементы в одно большое связанео множество. Упорядочим
+   их по хэшу. Для ускорения заведем слева хэш-таблицу, адресующую те
+   элементы листа с заданным хэшом. Эта дополнительная таблица делается
+   только для ускорения.
+   Когда будем хотеть расширить таблицу, создадим вторую, скопируем ее
+   черезстрочно, будем по мере обращений к хэшу ее обновлять (вторую).
 
 
-  Открытая адресация.
-  Делаем на массиве, будем считать ведро по хэшкоду, если занято, то
-  дальше.
-  Добавлять из нескольких потоков легко -- просто делаем cas. Удалять
-  из такой таблицы можно прописывая некоторое особенное
-  значение T. Нельзя прудмать алгоритм, который бы многопоточно
-  закрывал дырки в этих списках.
-  Ну, допустим мы забиваем элементы T, но как перевыделять память со
-  временем -- для освобождения элементов T или расширения таблицы.
+   Открытая адресация.
+   Делаем на массиве, будем считать ведро по хэшкоду, если занято, то
+   дальше.
+   Добавлять из нескольких потоков легко -- просто делаем cas. Удалять
+   из такой таблицы можно прописывая некоторое особенное
+   значение T. Нельзя прудмать алгоритм, который бы многопоточно
+   закрывал дырки в этих списках.
+   Ну, допустим мы забиваем элементы T, но как перевыделять память со
+   временем -- для освобождения элементов T или расширения таблицы.
 
-  Сделаем так, что таблица хранит указатель на "реальную" внутреннюю
-  таблицу. Когда копируем, создаем новую таблицу, а указатель поставим
-  в конце. Операция изменения ищет в новой таблице, если нету, то ищет
-  в старой, если находит -- копирует в новую.
-  Таким образом мы перенесем все элементы в новую таблицу.
-  Как переносить, собственно?
+   Сделаем так, что таблица хранит указатель на "реальную" внутреннюю
+   таблицу. Когда копируем, создаем новую таблицу, а указатель поставим
+   в конце. Операция изменения ищет в новой таблице, если нету, то ищет
+   в старой, если находит -- копирует в новую.
+   Таким образом мы перенесем все элементы в новую таблицу.
+   Как переносить, собственно?
 
-  Если собираемся переносить, то пометим битиком значение. После этого
-  мы занимаем слот в новой таблице, после этого копируем значение в
-  новой таблице. Затем в старой пометим, что мы уже скопировали.
-  (0, 0)
-  ↓
-  {Claim key}
-  ↓
-  (K, 0)
-  ↓
-  {Set value}
-  ↓
-  (K, V)            → Start copy → (K, V')
-  ↕                                  ↑
-  {insert/delete}                  Moved
-  ↕                                  ↑
-  (K, T)            → Moved      → (K, T')
+   Если собираемся переносить, то пометим битиком значение. После этого
+   мы занимаем слот в новой таблице, после этого копируем значение в
+   новой таблице. Затем в старой пометим, что мы уже скопировали.
+   (0, 0)
+   ↓
+   {Claim key}
+   ↓
+   (K, 0)
+   ↓
+   {Set value}
+   ↓
+   (K, V)            → Start copy → (K, V')
+   ↕                                  ↑
+   {insert/delete}                  Moved
+   ↕                                  ↑
+   (K, T)            → Moved      → (K, T')
 * CASN
   Этот алгоритм с переносом таблиц есть частный случай.
   Хотим чтобы работало корректно (линеаризуемо) и:
@@ -1160,11 +1306,140 @@
   Если мы сделаем CASN, то сделаем стек на массиве -- будем
   одновременно делать CAS 2 раза.
 
-  # Тут мы показываем, как это писать -- очень быстро, чтобы
-  # переписывать на ходу.
-  # TODO переписать
+  #+NAME: CASN -- реализация
+  #+BEGIN_SRC java
+    import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
+
+    public class CASEntry<T> {
+        final DataReference<T> a; // что поменять
+        final T expect; // ожидаемое значение
+        final T update; // на что заменить
+        // И тут простой конструктор для всех трех полей
+    }
+
+    // RDCSS сложна, только если ячейка может страдать от ABA.
+    // Если нет, то проще.
+    class RDCSSDescriptor {
+        private final DataReference a1;
+        private final Object expect1;
+        private final DataReference a2;
+        private final Object expect2;
+
+        private final Object update2;
+        // и конструктор
+
+        Object invoke() {
+            Object r;
+            do {
+                r = a2.getAndCAS(expect2, this);
+                if (r instanceof RDCSSDescriptor)
+                    ((RDCSSDescriptor)r).complete();
+            } while (r instanceof RDCSSDescriptor);
+            if (r == expect2) complete();
+            return r;
+        }
+
+        void complete() {
+            if (a1.value == expect1) a2.CAS(this, update2);
+            else a2.CAS(this.expect2);
+        }
+    }
+
+    enum Status {
+        UNDECINED, SUCCEEDED, FAILED
+    }
+
+    class CASNDescriptor {
+        private final DataReference status =
+            new DataReference(Status.UNDECINED);
+        private final CASEntry[] entries;
+
+        // надо гарантировать одинаковый порядок обработки
+        // DataReference каждым CASN, их надо как-то упорядочить
+        CASNDescriptor(CASEntry[] entries) {
+            this.entries = entries;
+            Arrays.sort(this.entries);
+        }
+
+        boolean complete() {
+            if (status.value == Status.UNDECINED) {
+                Status newStatus = Status.SUCCEEDED;
+                for (int i = 0; i < entries.length;) {
+                    CASEntry entry = entries[i];
+                    // AQUIRE ENTRY
+                    Object val = new RDCSSDescriptor(this.status,
+                                                     Status.UNDECIDED,
+                                                     entry.a,
+                                                     entry.expect,
+                                                     this).invoke();
+                    // AQUIRE ENTRY END
+
+                    if (val instanceof CASNDescriptor) {
+                        if (val != this) {
+                            ((CASNDescriptor)val).complete();
+                            continue; // retry this entry
+                        }
+                    } else if (val != entry.expect) {
+                        newStatus = Status.FAILED;
+                        break;
+                    }
+                    i++; // go to next entry
+                }
+                this.status.CAS(Status.UNDECIDED, newStatus);
+            }
+            boolean succeeded = status.value == Status.SUCCEEDED;
+            for (CASEntry entry : entries) {
+                // RELEASE
+                entry.a.CAS(this, succeeded ? entry.update : entry.expect);
+            }
+            return succeeded;
+        }
+    }
+
+    public class DataReference<T> {
+        // хранимое значение
+        volatile Object value;
+
+        private static final
+          AtomicReferenceFieldUpdater<DataReference, Object>
+            VALUE_UPDATER =
+              AtomicReferenceFieldUpdater.newUpdater(
+                DataReference.class, Object.class, "value");
+
+        boolean CAS(Object expect, Object update) {
+            return VALUE_UPDATER.compareAndSet(this, expect, update);
+        }
+
+        Object getAndCAS(Object expect, Object update) {
+            do {
+                Object curval = value;
+                if (curval != expect) return curval;
+            } while (!CAS(expect, update));
+            return expect;
+        }
+
+        public T get() {
+            while (true) {
+                Object curval = value;
+                if (curval instanceof RDCSSDescriptor) {
+                    ((RDCSSDescriptor)curval).complete();
+                    continue;
+                }
+                if (curval instanceof CASNDescriptor) {
+                    ((CASNDescriptor)curval).complete();
+                    continue; // retry
+                }
+                return (T)curval;
+            }
+        }
+
+        public T get();
+        public static boolean CASN(CASEntry... entries);
+    }
+  #+END_SRC
 * Сложные блокировки и STM
-  Проведем анализ конфликтов (data race).
+  Проведем анализ конфликтов (data race) -- два несинхронизированных
+  доступа к одной ячейке данных, один из которых запись.
   Матрица конфликтов (для регистра) -- какие методы конфликтуют:
   |---+---+---|
   |   | R | W |
@@ -1185,10 +1460,11 @@
 
   Эту проблему решают read-write locks.
   Можем создать класс, который умеет лочиться по read или по write.
+  Такой класс будет принимать сколько угодно локов по read, но
+  остальные не будут совместимы.
 
   Другое решение -- делать структуру данных, используя тонкую
   блокировку. Например, с помощью CASN.
-
 
   Как сделать линеаризуемый многопоточный объект?
   1. Блокировки (aka synchronized): грубая, тонкая, ..., read-write
@@ -1212,5 +1488,10 @@
   атомарно. Такое есть, например, в Clojure. Проблема -- оно работает
   медленно и поэтому не подходит для плюсов/джавы.
 
-  В джаве тоже есть, класс Transaction. Как это реализовываать?
-  Можно двухфазовой блокировкой.
+  В джаве тоже есть, класс Transaction.
+
+  Транзакции с блокировкой:
+  1. Двухфазовая
+     Можно двухфазовой блокировкой. Все конфликтующие блокировки
+     защищаются локами, в начале транзакции локи накапливаются, в
+     конце отпускаются.
