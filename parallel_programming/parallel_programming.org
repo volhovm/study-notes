@@ -1437,7 +1437,7 @@
         public static boolean CASN(CASEntry... entries);
     }
   #+END_SRC
-* Сложные блокировки и STM
+* Сложные блокировки
   Проведем анализ конфликтов (data race) -- два несинхронизированных
   доступа к одной ячейке данных, один из которых запись.
   Матрица конфликтов (для регистра) -- какие методы конфликтуют:
@@ -1482,16 +1482,195 @@
   3. Минимальный параллелизм работы, причем параллелизм обратно
      пропорционален количеству блокировок.
   4. Deadlocks
-
+* STM
   Как делать сложные вещи и не думать? STM!
   Типа навешиваем какие-то вещи на кусок кода, и он выполняется
   атомарно. Такое есть, например, в Clojure. Проблема -- оно работает
   медленно и поэтому не подходит для плюсов/джавы.
 
-  В джаве тоже есть, класс Transaction.
+  #+NAME: Чего хочется от STM
+  #+BEGIN_SRC java
+    public class Employees {
+        Set working = new ConcurrentSet();
+        Set vacating = new ConcurrentSet();
 
-  Транзакции с блокировкой:
-  1. Двухфазовая
-     Можно двухфазовой блокировкой. Все конфликтующие блокировки
+        // псевдокод
+        public boolean contains(Employee e) {
+            atomic {
+                return working.contains(e) ||
+                    vaccating.contains(e);
+            }
+        }
+
+        public void startVacation(Employee e) {
+            atomic {
+                working.remove(e);
+                vacating.add(e);
+            }
+        }
+    }
+  #+END_SRC
+
+  Будем писать класс транзакций и класс переменной для транзакции.
+** Транзакции с блокировкой:
+   * Можно двухфазовой блокировкой. Все конфликтующие блокировки
      защищаются локами, в начале транзакции локи накапливаются, в
      конце отпускаются.
+   * Тогда любое исполнение такой системы будет линеаризуемо
+   #+NAME: Реализация транзакций с блокировкой
+   #+BEGIN_SRC java
+     public class Transaction {
+         private static final ThreadLocal<Transaction> CURRENT =
+             new ThreadLocal<Transaction>();
+
+         private final List<Lock> locks = new ArrayList<Lock>();
+
+         private final Set<TVar<?>> writes = new HashSet<TVar<?>>();
+
+         public void addWrite(TVar<?> var) {
+             writes.add(var);
+         }
+
+         void addLock(Lock lock) { locks.add(lock); }
+
+         // commit с блокировкой
+         public boolean commit() {
+             for (Lock lock : locks) lock.unlock();
+             return true;
+         }
+
+         public void rollback() {
+             for (TVar<?> var : writes) var.rollback();
+             for (Lock lock : locks) lock.unlock();
+         }
+
+         public static Transaction beginTransaction() {
+             Transaction t = new Transaction();
+             CURRENT.set(t);
+             return t;
+         }
+
+         public static Transaction currentTransaction() {
+             return CURRENT.get();
+         }
+
+         public static <R> R atomic(AtomicBlock<R> call) {
+             for (;;) {
+                 Transacion t = beginTransaction();
+                 try {
+                     R result = call.call();
+                     if (t.commit()) return result;
+                 } catch (RuntimeException | Error e) {
+                     t.rollback();
+                     throw e;
+                 }
+             }
+         }
+     }
+
+     public class TVar<T> {
+         private T value;
+         private final ReadWriteLock lock =
+             new ReentrantReadWriteLock();
+
+         // для rollback в Transaction
+         private static final Object UNDEFINED = new Object();
+         private Object oldValue = UNDEFINED;
+
+         public T get() {
+             lock.readLock().lock();
+             Transaction.currentTransaction().addLock(lock.readLock());
+             return value;
+         }
+
+         public void set(T value) {
+             if (oldValue = UNDEFINED) {
+                 lock.writeLock().lock();
+                 this.oldValue = this.value;
+                 Transaction.currentTransaction().addWrite(this);
+             }
+             this.value = value;
+         }
+
+         void rollback() {
+             value = (T)oldValue;
+             oldValue = UNDEFINED;
+             lock.writeLock().unlock();
+         }
+     }
+   #+END_SRC
+** Транзакции без блокировки
+   Предоставим реализацию без помех. Разные потоки могут бесконечно
+   долго мешать друг другу закончить транзакцию без прогресса, но если
+   активен только один поток, то прогресс гарантирован.
+   Проблематика -- даже читающие транзакции конфликтуют.
+   В этом смысле решение с блокировкой лучше.
+
+   #+NAME: Реализация транзакции с блокировкой (obstruction-free)
+   #+BEGIN_SRC java
+     public class Transaction {
+         private static final int ACTIVE = 0;
+         private static final int COMITED = 1;
+         private static final int ABORTED = -1;
+         private final AtomicInteger state = new AtomicInteger(ACTIVE);
+
+         public boolean isCommited() {
+             return state.get() == COMMITED;
+         }
+         public boolean commit() {
+             return state.compareAndSet(ACTIVE, COMMITED);
+         }
+         public void rollback() {
+             state.compareAndSet(ACTIVE, ABORTED);
+         }
+         class VarHolder<T> {
+             final Transaction owner;
+             final Object value;
+             Object newValue; // updated by owner
+
+             VarHolder(Transaction owner, Object value) {
+                 this.owner = owner;
+                 this.value = value;
+                 this.newValue = value;
+             }
+
+             // текущее значение зависит от состояния владельца
+             T current() {
+                 return owner.isCommited() ? (T)newValue : (T)value;
+             }
+         }
+     }
+
+     public class TVar<T> {
+         private AtomicReference<VarHolder<T>> holder =
+             new AtomicReference<VarHolder<T>>();
+
+         public T get() {
+             return (T)open().newValue;
+         }
+
+         public void set(T value) {
+             open().newValue = value;
+         }
+
+         // переменную нужно открыть перед любым доступом
+         VarHolder<T> open() {
+             Transaction tx = Transaction.current();
+             VarHolder<T> old, upd;
+             do {
+                 old = holder.get();
+                 if (old.owner == tx) return old;
+                 old.owner.rollback(); // если активен
+                 upd = new VarHolder<T>(tx, old.current());
+             } while (!holder.compareAndSet(old, upd));
+             return upd
+         }
+     }
+
+   #+END_SRC
+
+   Параллельно читать можно, для этого необходимо в TVar при чтении не
+   открывать переменную. Значение тогда сможет поменяться в процессе
+   транзакции, и линеаризуемость пропадает.
+   Решить это можно с помощью пост-проверки транзакции на
+   корректность. Или с помощью многоверсионного контроля корректности.
