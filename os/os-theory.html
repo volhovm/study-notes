@@ -1,0 +1,3305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
+<head>
+<title>Notes on OS lectures given by Jan Malakhovski, 4th term, 2015</title>
+<!-- 2015-11-25 Wed 21:45 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="Volkhov Mikhail" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+<script type="text/javascript" src="http://orgmode.org/mathjax/MathJax.js"></script>
+<script type="text/javascript">
+<!--/*--><![CDATA[/*><!--*/
+    MathJax.Hub.Config({
+        // Only one of the two following lines, depending on user settings
+        // First allows browser-native MathML display, second forces HTML/CSS
+        //  config: ["MMLorHTML.js"], jax: ["input/TeX"],
+            jax: ["input/TeX", "output/HTML-CSS"],
+        extensions: ["tex2jax.js","TeX/AMSmath.js","TeX/AMSsymbols.js",
+                     "TeX/noUndefined.js"],
+        tex2jax: {
+            inlineMath: [ ["\\(","\\)"] ],
+            displayMath: [ ['$$','$$'], ["\\[","\\]"], ["\\begin{displaymath}","\\end{displaymath}"] ],
+            skipTags: ["script","noscript","style","textarea","pre","code"],
+            ignoreClass: "tex2jax_ignore",
+            processEscapes: false,
+            processEnvironments: true,
+            preview: "TeX"
+        },
+        showProcessingMessages: true,
+        displayAlign: "center",
+        displayIndent: "2em",
+
+        "HTML-CSS": {
+             scale: 100,
+             availableFonts: ["STIX","TeX"],
+             preferredFont: "TeX",
+             webFont: "TeX",
+             imageFont: "TeX",
+             showMathMenu: true,
+        },
+        MMLorHTML: {
+             prefer: {
+                 MSIE:    "MML",
+                 Firefox: "MML",
+                 Opera:   "HTML",
+                 other:   "HTML"
+             }
+        }
+    });
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Notes on OS lectures given by Jan Malakhovski, 4th term, 2015</h1>
+<div id="table-of-contents">
+<h2>&#1057;&#1086;&#1076;&#1077;&#1088;&#1078;&#1072;&#1085;&#1080;&#1077;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Legend</a></li>
+<li><a href="#sec-2">2. Sources</a></li>
+<li><a href="#sec-3">3. <span class="todo 2">2</span> Ticket 1    RAM</a>
+<ul>
+<li><a href="#sec-3-1">3.1. RAM, SRAM, DRAM</a>
+<ul>
+<li><a href="#sec-3-1-1">3.1.1. SRAM</a></li>
+<li><a href="#sec-3-1-2">3.1.2. DRAM</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-2">3.2. Структурно-операционная схема обычной планки памяти (DDR)</a></li>
+<li><a href="#sec-3-3">3.3. Кеши CPU: L1, L2, L3</a></li>
+<li><a href="#sec-3-4">3.4. Схема параллельного извлечения</a></li>
+<li><a href="#sec-3-5">3.5. Извлечение демультиплексором</a></li>
+<li><a href="#sec-3-6">3.6. Ассоциативность</a></li>
+<li><a href="#sec-3-7">3.7. TLB</a></li>
+<li><a href="#sec-3-8">3.8. Общее влияние кеша на работу с памятью</a></li>
+<li><a href="#sec-3-9">3.9. Кеши в мультипроцессорных системах и когерентность кешей</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4. <span class="todo 2">2</span> Ticket 2    CPU pipeline</a>
+<ul>
+<li><a href="#sec-4-1">4.1. Пайплайн и стадии</a></li>
+<li><a href="#sec-4-2">4.2. Регистровый файл</a></li>
+<li><a href="#sec-4-3">4.3. Пузыри (pipeline bubbles)</a></li>
+<li><a href="#sec-4-4">4.4. Предсказание переходов (branch prediction)</a></li>
+<li><a href="#sec-4-5">4.5. Out of order исполнение</a></li>
+<li><a href="#sec-4-6">4.6. Интерфейс между устройствами ввода и CPU</a></li>
+<li><a href="#sec-4-7">4.7. Прерывания</a></li>
+<li><a href="#sec-4-8">4.8. DMA</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5. <span class="todo 2">2</span> Ticket 3    Virtual memory</a>
+<ul>
+<li><a href="#sec-5-1">5.1. <span class="done 3">3</span> Виртуальная память</a></li>
+<li><a href="#sec-5-2">5.2. <span class="done 3">3</span> MMU: TLB, каталог страниц (page table)</a></li>
+<li><a href="#sec-5-3">5.3. <span class="todo 1">1</span> Биты: readable, writeable, executable, present, dirty, copy-on-write</a></li>
+<li><a href="#sec-5-4">5.4. <span class="done 3">3</span> IOMMU</a></li>
+<li><a href="#sec-5-5">5.5. <span class="todo 2">2</span> Память процессов</a></li>
+<li><a href="#sec-5-6">5.6. <span class="todo 2">2</span> Общая память</a></li>
+<li><a href="#sec-5-7">5.7. <span class="todo 2">2</span> Пулы памяти со специальными требованиями.</a></li>
+</ul>
+</li>
+<li><a href="#sec-6">6. <span class="todo 1">1</span> Ticket 4    Maps</a>
+<ul>
+<li><a href="#sec-6-1">6.1. <span class="done 3">3</span> "География" адресного пространства процесса</a></li>
+<li><a href="#sec-6-2">6.2. <span class="todo 1">1</span> Структуры ядра описывающие процесс с MMU: работа с физической памятью, VMA</a></li>
+<li><a href="#sec-6-3">6.3. <span class="done 3">3</span> Системные вызовы: brk, sbrk, mmap</a></li>
+<li><a href="#sec-6-4">6.4. <span class="done 3">3</span> Общая память: shm<sub>open</sub></a></li>
+<li><a href="#sec-6-5">6.5. <span class="todo 2">2</span> Реализация malloc.</a></li>
+</ul>
+</li>
+<li><a href="#sec-7">7. <span class="todo 0">0</span> Ticket 5    Processes</a>
+<ul>
+<li><a href="#sec-7-1">7.1. Процессы и треды</a></li>
+<li><a href="#sec-7-2">7.2. init, родители, дети, зомби</a></li>
+<li><a href="#sec-7-3">7.3. Треды, группы тредов, процессы, группы процессов, сессии</a></li>
+<li><a href="#sec-7-4">7.4. Системные вызовы fork, clone, exec, wait</a></li>
+<li><a href="#sec-7-5">7.5. Интерфейс bash</a></li>
+<li><a href="#sec-7-6">7.6. Реализация переключения контекстов процессов: структуры данных ядра, состояния процессов, различные методы реализации CPS-преобразования.</a></li>
+</ul>
+</li>
+<li><a href="#sec-8">8. <span class="todo 2">2</span> Ticket 6    FS 0</a>
+<ul>
+<li><a href="#sec-8-1">8.1. <span class="todo 2">2</span> Файловые дескрипторы и пайпы</a></li>
+<li><a href="#sec-8-2">8.2. <span class="todo 2">2</span> Системные вызовы open, read, write, close</a></li>
+<li><a href="#sec-8-3">8.3. <span class="todo 1">1</span> Структуры данных ядра: таблица файловых дескрипторов, файловые объекты POSIX, флаг CLOEXEC</a></li>
+<li><a href="#sec-8-4">8.4. <span class="todo 2">2</span> Системные вызовы dup2, fcntl, flock</a></li>
+</ul>
+</li>
+<li><a href="#sec-9">9. <span class="todo 1">1</span> Ticket 7    Drivers/ints</a>
+<ul>
+<li><a href="#sec-9-1">9.1. <span class="todo 2">2</span> Драйвера устройств в пространстве ядра</a></li>
+<li><a href="#sec-9-2">9.2. <span class="todo 2">2</span> Прерывания</a></li>
+<li><a href="#sec-9-3">9.3. <span class="todo 2">2</span> Монолитная обработка прерываний</a></li>
+<li><a href="#sec-9-4">9.4. <span class="todo 2">2</span> Hi/Lo прерывания</a></li>
+<li><a href="#sec-9-5">9.5. <span class="todo 2">2</span> Polling</a></li>
+<li><a href="#sec-9-6">9.6. <span class="todo X">X</span> Драйвера как контексты исполнения и их отличия от процессов</a></li>
+<li><a href="#sec-9-7">9.7. <span class="todo 2">2</span> Реализация драйверов: структуры данных ядра</a>
+<ul>
+<li><a href="#sec-9-7-1">9.7.1. struct file<sub>operations</sub></a></li>
+</ul>
+</li>
+<li><a href="#sec-9-8">9.8. <span class="todo X">X</span> Различные методы реализации CPS-преобразования</a></li>
+</ul>
+</li>
+<li><a href="#sec-10">10. <span class="todo 2">2</span> Ticket 8    FS 2</a>
+<ul>
+<li><a href="#sec-10-1">10.1. <span class="todo 1">1</span> Файловые системы</a></li>
+<li><a href="#sec-10-2">10.2. <span class="todo 2">2</span> Структура данных inode</a></li>
+<li><a href="#sec-10-3">10.3. <span class="todo 2">2</span> VFS</a></li>
+<li><a href="#sec-10-4">10.4. <span class="todo 1">1</span> Структуры данных: FSObject, Namespace</a></li>
+<li><a href="#sec-10-5">10.5. <span class="todo 2">2</span> Path resolution</a></li>
+<li><a href="#sec-10-6">10.6. <span class="todo 2">2</span> Операции над namespace: mount, bind mount, move mount, chroot, pivot<sub>root</sub></a></li>
+<li><a href="#sec-10-7">10.7. <span class="done 3">3</span> Linux FUSE</a></li>
+<li><a href="#sec-10-8">10.8. <span class="todo 0">0</span> ФС как функция inodeno -&gt; inode</a></li>
+<li><a href="#sec-10-9">10.9. <span class="todo 1">1</span> Структуры ядра: файловый дескриптор (на устройство, файл, директорию), различные кэши, mmaping файлов.</a></li>
+<li><a href="#sec-10-10">10.10. <span class="todo 1">1</span> Кеши, mmapping</a></li>
+</ul>
+</li>
+<li><a href="#sec-11">11. <span class="todo 2">2</span> Ticket 9    Users/access</a>
+<ul>
+<li><a href="#sec-11-1">11.1. <span class="todo 2">2</span> Пользователи и права</a></li>
+<li><a href="#sec-11-2">11.2. <span class="todo 2">2</span> Модели прав доступа к объектам: дискретная и ролевая</a></li>
+<li><a href="#sec-11-3">11.3. <span class="todo 2">2</span> Права на объекты файловой системы</a></li>
+<li><a href="#sec-11-4">11.4. <span class="todo 1">1</span> Пользователи и группы с точки зрения ядра</a></li>
+<li><a href="#sec-11-5">11.5. <span class="todo 1">1</span> Пользователи и группы с точки зрения пространства пользователя</a></li>
+<li><a href="#sec-11-6">11.6. <span class="todo 1">1</span> Системные вызовы setuid, setgid и товарищи</a></li>
+<li><a href="#sec-11-7">11.7. <span class="todo 1">1</span> setuid bit</a></li>
+<li><a href="#sec-11-8">11.8. PAM</a></li>
+<li><a href="#sec-11-9">11.9. /etc/passwd, /etc/shadow, /etc/group</a></li>
+<li><a href="#sec-11-10">11.10. Capabilities.</a></li>
+</ul>
+</li>
+<li><a href="#sec-12">12. <span class="done 3">3</span> Ticket 10   Signals</a>
+<ul>
+<li><a href="#sec-12-1">12.1. <span class="done 3">3</span> Стандартные сигналы</a></li>
+<li><a href="#sec-12-2">12.2. <span class="done 3">3</span> Реалтаймовые сигналы</a></li>
+<li><a href="#sec-12-3">12.3. <span class="done 3">3</span> Системные вызовы kill, sigaction.</a></li>
+<li><a href="#sec-12-4">12.4. <span class="done 3">3</span> Прерывание сигналами: кода программы, обработчиков сигналов, системных вызовов</a></li>
+<li><a href="#sec-12-5">12.5. <span class="done 3">3</span> Сигналы и треды</a></li>
+<li><a href="#sec-12-6">12.6. <span class="done 3">3</span> Семантика сигналов: TERM, KILL, STOP, CONT, CHLD, PIPE, ILL/FPE, SEGV, BUS.</a></li>
+</ul>
+</li>
+<li><a href="#sec-13">13. <span class="todo 0">0</span> Ticket 11   Polling</a>
+<ul>
+<li><a href="#sec-13-1">13.1. Мултиплексирование ввода-вывода</a></li>
+<li><a href="#sec-13-2">13.2. O<sub>NONBLOCK</sub></a></li>
+<li><a href="#sec-13-3">13.3. Edge и level triggered события</a></li>
+<li><a href="#sec-13-4">13.4. Преобразование асинхронного ввода-вывода в синхронный CPS-преобразованием</a></li>
+<li><a href="#sec-13-5">13.5. Структуры данных пространства ядра для реализации мультиплексора файловых дескрипторов</a></li>
+<li><a href="#sec-13-6">13.6. Системные вызовы select, poll, epoll</a></li>
+<li><a href="#sec-13-7">13.7. Управление скоростью передачи данных через файловые дескрипторы.</a></li>
+</ul>
+</li>
+<li><a href="#sec-14">14. <span class="todo 0">0</span> Ticket 12   Synchronisation</a>
+<ul>
+<li><a href="#sec-14-1">14.1. Синхронизация</a></li>
+<li><a href="#sec-14-2">14.2. Спинлоки</a></li>
+<li><a href="#sec-14-3">14.3. Ядерные семафоры</a></li>
+<li><a href="#sec-14-4">14.4. Блокировки и лизинги на файлы</a></li>
+<li><a href="#sec-14-5">14.5. Структуры данных пространства ядра для реализации блокировок и лизингов</a></li>
+<li><a href="#sec-14-6">14.6. <span class="todo 1">1</span> Системные вызовы: flock, fcntl.</a></li>
+</ul>
+</li>
+<li><a href="#sec-15">15. <span class="done 3">3</span> Ticket 13   Netstack</a>
+<ul>
+<li><a href="#sec-15-1">15.1. <span class="done 3">3</span> Сетевой стек</a></li>
+<li><a href="#sec-15-2">15.2. <span class="done 3">3</span> PPP</a></li>
+<li><a href="#sec-15-3">15.3. <span class="done 3">3</span> Ethernet</a></li>
+<li><a href="#sec-15-4">15.4. <span class="done 3">3</span> IP</a></li>
+<li><a href="#sec-15-5">15.5. <span class="done 3">3</span> ARP</a></li>
+<li><a href="#sec-15-6">15.6. <span class="done 3">3</span> Hardware</a></li>
+<li><a href="#sec-15-7">15.7. <span class="done 3">3</span> TCP/UDP/SCTP</a></li>
+<li><a href="#sec-15-8">15.8. <span class="todo 2">2</span> BSD sockets: API, Stream-сокеты, Datagram-сокеты, RAW-сокеты, файловый объект для accept-сокета.</a></li>
+<li><a href="#sec-15-9">15.9. <span class="done 3">3</span> ICMP, TFTP, DNS, NAT</a></li>
+</ul>
+</li>
+<li><a href="#sec-16">16. <span class="done 3">3</span> Ticket 14   Terminals/Groups</a>
+<ul>
+<li><a href="#sec-16-1">16.1. <span class="done 3">3</span> Терминалы, псевдотерминалы и режимы их работы</a></li>
+<li><a href="#sec-16-2">16.2. <span class="done 3">3</span> Группы процессов, сессии, управление заданиями</a></li>
+<li><a href="#sec-16-3">16.3. <span class="done 3">3</span> Сигналы: INT, HUP, TSTP, TTIN, TTOU, WINCH</a></li>
+<li><a href="#sec-16-4">16.4. <span class="done 3">3</span> Демоны и демонизация</a></li>
+<li><a href="#sec-16-5">16.5. <span class="done 3">3</span> Getty и рандомные факты</a></li>
+</ul>
+</li>
+<li><a href="#sec-17">17. <span class="todo 2">2</span> Ticket 15   Booting</a>
+<ul>
+<li><a href="#sec-17-1">17.1. <span class="todo 2">2</span> Pre-BIOS: хардварная загрузка</a></li>
+<li><a href="#sec-17-2">17.2. <span class="done 3">3</span> Загрузка: BIOS → MBR (DOS Label), DOS/Windows boot, GRUB</a></li>
+<li><a href="#sec-17-3">17.3. <span class="done 3">3</span> initrd</a></li>
+<li><a href="#sec-17-4">17.4. <span class="done 3">3</span> Инициализация системы: последовательная, учитывая зависимости, resource/socket activation, lazy activation, cтандартные init системы</a></li>
+<li><a href="#sec-17-5">17.5. <span class="done 3">3</span> Стандартные демоны: init, syslog, klog, cron, at, ssh</a></li>
+<li><a href="#sec-17-6">17.6. <span class="done 3">3</span> Стандартные файлы /etc: fstab, mtab, sysctl.conf, motd, issue, nologin.</a></li>
+</ul>
+</li>
+<li><a href="#sec-18">18. <span class="done 3">3</span> Ticket 16   Linking</a>
+<ul>
+<li><a href="#sec-18-1">18.1. [Sources]</a></li>
+<li><a href="#sec-18-2">18.2. <span class="done 3">3</span> ELF</a></li>
+<li><a href="#sec-18-3">18.3. <span class="done 3">3</span> Статическая линковка</a></li>
+<li><a href="#sec-18-4">18.4. <span class="done 3">3</span> Динамическая линковка, GOT, PLT</a></li>
+<li><a href="#sec-18-5">18.5. <span class="done 3">3</span> PIC</a></li>
+<li><a href="#sec-18-6">18.6. <span class="todo 2">2</span> Exec magic и интерпретаторы и прочее</a></li>
+</ul>
+</li>
+<li><a href="#sec-19">19. Uncategoriesed</a>
+<ul>
+<li><a href="#sec-19-1">19.1. Execution levels</a></li>
+<li><a href="#sec-19-2">19.2. Encryption and safety</a></li>
+<li><a href="#sec-19-3">19.3. Read</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Legend</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+X &#x2013; нифига не написано и непонятно, где брать
+0 &#x2013; нифига не написано
+1 &#x2013; что-то написано, но не дописано
+2 &#x2013; написано, но возможно, что что-то серьезно упущено
+3 &#x2013; все хорошо.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Sources</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+Тут только самые важные и обширные источники. Всякие статьи, которые по мере необходимости встречаются в тексте, встречаются только там (и в заголовках тем).
+</p>
+<ol class="org-ol">
+<li>Raw notes by volhovm
+</li>
+<li>OS course plan
+<a href="http://rain.ifmo.ru/~trojan/linux/year2009/">http://rain.ifmo.ru/~trojan/linux/year2009/</a>
+</li>
+<li>Yet another plan
+<a href="http://rain.ifmo.ru/~trojan/linux/year2007/">http://rain.ifmo.ru/~trojan/linux/year2007/</a>
+</li>
+<li>Prev. year googledoc
+<a href="https://docs.google.com/spreadsheets/d/1CoPjN7shou3m3kAQdsRHY1HxQYyKho5f7Qn1KeL9n-U/edit#gid=0">https://docs.google.com/spreadsheets/d/1CoPjN7shou3m3kAQdsRHY1HxQYyKho5f7Qn1KeL9n-U/edit#gid=0</a>
+</li>
+<li>Malakhovski's notes
+<a href="https://github.com/oxij/unix-notes-ru/blob/master/compiled/main.pdf">https://github.com/oxij/unix-notes-ru/blob/master/compiled/main.pdf</a>
+</li>
+<li>Wikipedia ofc
+</li>
+<li>Very much about memory
+<a href="http://www.akkadia.org/drepper/cpumemory.pdf">http://www.akkadia.org/drepper/cpumemory.pdf</a>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> <span class="todo 2">2</span> Ticket 1    RAM</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> RAM, SRAM, DRAM</h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+<b>RAM</b> (<i>random-access memory</i>) - это оперативная память.
+</p>
+
+<p>
+От постоянной памяти ее отличает:
+</p>
+<ol class="org-ol">
+<li>скорость работы
+</li>
+<li>потеря данных в отсутствие питания
+</li>
+<li>да вообще все по-другому!
+</li>
+</ol>
+</div>
+
+<div id="outline-container-sec-3-1-1" class="outline-4">
+<h4 id="sec-3-1-1"><span class="section-number-4">3.1.1</span> SRAM</h4>
+<div class="outline-text-4" id="text-3-1-1">
+<p>
+<b>SRAM</b> (<i>static random-access memory</i>) - статическая память.
+</p>
+
+<p>
+Ячейка SRAM основана на защелке:
+<img src="http://2.bp.blogspot.com/-dCCrTGB-c6U/T1zaY5TG1oI/AAAAAAAAAu8/MutoYbjglvs/s1600/SRAM.gif" alt="SRAM.gif" />
+</p>
+
+<ul class="org-ul">
+<li><b>Read-операция</b>: мы даем на WL напряжение, сигнал уходит с BL и
+¬BL.
+</li>
+<li><b>Write-операция</b>: мы даем на WL напряжение и в BL тоже даем
+сигнал, он запоминается.
+</li>
+</ul>
+
+<p>
+Pros:
+</p>
+<ul class="org-ul">
+<li>Быстрая
+</li>
+<li>Не надо ничего перезаписывать
+</li>
+</ul>
+<p>
+Cons:
+</p>
+<ul class="org-ul">
+<li>Защелки жрут электричество все время
+</li>
+<li>Схема ячейки сложная, делать дороже
+</li>
+<li>Ячейка занимает много площади
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-1-2" class="outline-4">
+<h4 id="sec-3-1-2"><span class="section-number-4">3.1.2</span> DRAM</h4>
+<div class="outline-text-4" id="text-3-1-2">
+<p>
+<b>DRAM</b> (<i>dynamic random-access memory</i>) - динамическая память.
+</p>
+
+<p>
+Ячейка DRAM основана на конденсаторе. Схема ячейки:
+</p>
+
+
+<div class="figure">
+<p><img src="https://www.cs.auckland.ac.nz/~jmor159/363/html/fig/dram_cell.gif" alt="dram_cell.gif" />
+</p>
+</div>
+
+<ul class="org-ul">
+<li><b>Read-операция</b>: мы даем на WL напряжение, конденсаторы
+разряжаются, сигнал уходит, и теперь его надо перезаписать
+обратно.
+</li>
+<li><b>Write-операция</b>: даем на WL и BLs напряжения, те конденсаторы,
+на которых 1, заряжаются, а те, на которых 0 - разряжаются.
+</li>
+<li><b>Замечание</b>: так как конденсаторы разряжаются сами по себе,
+периодически надо их перезаписывать (memory refresh)
+</li>
+</ul>
+
+<p>
+Pros:
+</p>
+<ul class="org-ul">
+<li>Дешевая
+</li>
+<li>Ячейки маленькие, можно много понапихать
+</li>
+<li>Жрет энергию только во время read/write и refresh
+</li>
+</ul>
+<p>
+Cons:
+</p>
+<ul class="org-ul">
+<li>Медленная (конденсаторы разряжаются не мгновенно)
+</li>
+<li>Refresh-и тоже не прибавляют отзывчивости
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> Структурно-операционная схема обычной планки памяти (DDR)</h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+Схема одного банка:
+</p>
+
+
+<div class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Square_array_of_mosfet_cells_read.png" alt="Square_array_of_mosfet_cells_read.png" />
+</p>
+</div>
+
+<p>
+Банки лежат на планочке рядом. Верхняя часть адреса ячейки отвечает
+за номер банка
+</p>
+
+<p>
+<b>DDR</b> (<i>double-data rate</i>) - хитрость, позволяющая передавать 2 слова
+за такт процессора вместо 1.  Хитрость в том, что мы передаем
+данные как на восходящем, так и на нисходящем фронте меандра.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> Кеши CPU: L1, L2, L3</h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+<b>Кэш</b> - быстрый кусок SRAM рядом с процессором, в который
+складываются часто используемые данные. Кэш - всегда SRAM, чтобы
+было быстро, и потому всегда маленький, чтобы было не так дорого и
+энергозатратно.
+</p>
+
+<ol class="org-ol">
+<li>L1 - это самый маленький и близкий к процессору кэш. Он обычно
+</li>
+</ol>
+<p>
+сидит на том же куске кремния. Иногда подразделяется на L1i (кэш
+инструкций) b L1d (кэш данных).
+</p>
+<ol class="org-ol">
+<li>Его подстраховывает кэш L2 - который побольше и чуть подальше.
+</li>
+<li>Для многоядерных процессоров есть также кэш L3, к которому могут
+обращаться все ядра. (подробнее про это все - в последнем
+пункте).
+</li>
+</ol>
+
+<p>
+Кэши могут быть <b>inclusive</b> (L1 ⊂ L2 ⊂ L3 - данные дублируются) или
+<b>exclusive</b> (данные не дублируются).
+</p>
+
+<p>
+Кэш разбит на кэш-линии. Структура кэш-линии:
+</p>
+
+
+<div class="figure">
+<p><img src="ditaa-cacheline.png" alt="ditaa-cacheline.png" />
+</p>
+</div>
+
+<p>
+Кроме этого мы знаем номер каждой кэш-линии.
+</p>
+
+<p>
+Мы делим:
+</p>
+<ul class="org-ul">
+<li>tag - кусок адреса того куска памяти, который дублируется в этой
+кэш-линии. За тегом закреплен некоторый последовательный регион
+данных размера \(2^{length\_tag}\). Нужен, чтобы искать данные по
+адресу в кэше.
+</li>
+<li>data - собственно, сами данные (может, 256 байт, много).
+</li>
+<li>flags - различная мета-инфа, а еще тут бывают коды коррекции
+ошибок.
+</li>
+</ul>
+
+
+<p>
+Обычный адрес в памяти интерпретируется в следующем виде:
+</p>
+
+
+<div class="figure">
+<p><img src="ditaa-address.png" alt="ditaa-address.png" />
+</p>
+</div>
+
+<ul class="org-ul">
+<li>tag - как раз тот кусок, который матчится с tag в кэше.
+</li>
+<li>index - индекс кэш-линии, определяет, в каком наборе линий искать
+данные.
+</li>
+<li>offset - отступ от начала линии.
+</li>
+</ul>
+
+<p>
+Контроллер обычной памяти же воспринимает адрес по-своему (как?).
+</p>
+
+<p>
+По методике синхронизации с памятью кэши бывают <b>write-through</b> и
+<b>write-back</b>.
+</p>
+<ol class="org-ol">
+<li>write-through - это когда любой запрос на запись всегда
+досылается в память.
+</li>
+<li>write-back - это когда данные из кэша дампятся в память только
+при вытеснении.
+</li>
+</ol>
+
+<p>
+Sources:
+</p>
+<ul class="org-ul">
+<li><a href="https://en.wikipedia.org/wiki/CPU_cache">https://en.wikipedia.org/wiki/CPU_cache</a>
+</li>
+<li><a href="http://arstechnica.com/gadgets/2002/07/caching/2/">http://arstechnica.com/gadgets/2002/07/caching/2/</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> Схема параллельного извлечения</h3>
+<div class="outline-text-3" id="text-3-4">
+<p>
+Параллельное извлечение используется в кэше (там где у кэш-линий
+есть tag). Мы просто посылаем tag адреса на компараторы
+кэш-линий. Компаратор сравнивает tag линии с переданным, и высылает
+1, если он совпал, и 0 - если нет.
+</p>
+
+<p>
+Данные извлекаются из всех кэш-линий одновременно, и данные каждой
+кэш-линии and-ятся с результатом компаратора. Выходные провода
+данных спаиваются вместе, и в итоге на выходе получаются только
+данные из кэш-линии с нужным тэгом.
+</p>
+
+<p>
+Если же все компараторы вернули 0, то мы детектируем cache miss и
+перенаправляем запрос к контроллеру памяти.
+</p>
+
+<p>
+Sources:
+</p>
+<ul class="org-ul">
+<li><a href="http://www.csbio.unc.edu/mcmillan/Media/L20Spring2012.pdf">http://www.csbio.unc.edu/mcmillan/Media/L20Spring2012.pdf</a>
+</li>
+<li><a href="http://lwn.net/Articles/252125/">http://lwn.net/Articles/252125/</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> Извлечение демультиплексором</h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+Демультиплексор - это штука, которая принимает n-битное число и
+сигнал и дает этот сигнал на соответствующий числу выход (один из
+2ⁿ).
+</p>
+
+<p>
+Выглядит он следующим образом:
+</p>
+
+
+<div class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/15/Demultiplexer_Example01.svg/483px-Demultiplexer_Example01.svg.png" alt="483px-Demultiplexer_Example01.svg.png" />
+</p>
+</div>
+
+<p>
+Извлекать данные демультиплексором надо так:
+</p>
+
+
+<div class="figure">
+<p><img src="http://lwn.net/images/cpumemory/cpumemory.9.png" alt="cpumemory.9.png" />
+</p>
+</div>
+
+<ul class="org-ul">
+<li>Row Address Selection - демультиплексор (выбираем строку но
+номеру).
+</li>
+<li>Column Address Selection - мультиплексор (выбираем столбец по
+номеру из тех, что пришли).
+</li>
+</ul>
+
+<p>
+Демультиплексор также используется в кэшах с неполной
+ассоциативностью, где с его помощью извлекаются кэш-линии с
+заданным индексом.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> Ассоциативность</h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+Суть кэша - в том, чтобы быстро проверить, лежат ли данные по
+заданному адресу в кэше, и если да - вернуть их.
+</p>
+
+<p>
+Если кэш <b>полностью ассоциативный</b> (<i>fully-associative</i>), то мы должны
+сделать параллельное извлечение сразу из всего кэша! С этим есть
+несколько бед:
+</p>
+<ul class="org-ul">
+<li>Теги должны быть большими, слишком много места в кэше отведено
+под тэги.
+</li>
+<li>Теги большие - и компараторы для них тоже большие, а значит -
+дорогие и медленные.
+</li>
+</ul>
+
+<p>
+Однако, есть плюсы:
+</p>
+<ul class="org-ul">
+<li>Не бывает коллизий кэша - если мы хотим положить что-то в кэш и в
+нем еще вообще есть место, нам это удастся.
+</li>
+<li>Как следствие этого, происходит мало cache miss'ов.
+</li>
+</ul>
+
+<p>
+Противоположность: <i>direct-mapped cache</i>: адрес в памяти однозначно
+определяет кэш-линию, в которой эта ячейка памяти может
+содержаться.
+</p>
+
+<p>
+Делается это так: адрес демультиплексируется по полю index,
+выбирается одна кэш-линия, тэг в ней сравнивается с данным, и если
+тэг равен &#x2013; данные кэш-линии возвращаются. Иначе - регистрируется
+кэш-мисс.
+</p>
+
+<p>
+Pros:
+</p>
+<ul class="org-ul">
+<li>Все это делается быстро, нет кучи компараторов
+</li>
+</ul>
+<p>
+Cons:
+</p>
+<ul class="org-ul">
+<li>Так как каждая ячейка памяти может быть сохранена только в 1
+кэш-линии, возникает множество <b>коллизий</b> - это когда 2 разные
+ячейки попадают в одну и ту же кэш-линию и кто-то из них
+вытесняет другую
+</li>
+<li>Вследствие этого, много кэш-миссов
+</li>
+</ul>
+
+<p>
+Золотая середина - n-ассоциативный кэш, когда каждая ячейка может
+содержаться в одной из n линий. Делается это так:
+</p>
+<ol class="org-ol">
+<li>Демультиплексор отсеивает n кэш-линий по index адреса
+</li>
+<li>Из этих n линий по тэгу извлекаются параллельно данные
+</li>
+</ol>
+
+<p>
+Sources:
+</p>
+<ul class="org-ul">
+<li><a href="http://www.csbio.unc.edu/mcmillan/Media/L20Spring2012.pdf">http://www.csbio.unc.edu/mcmillan/Media/L20Spring2012.pdf</a>
+</li>
+<li><a href="http://arstechnica.com/gadgets/2002/07/caching/5/">http://arstechnica.com/gadgets/2002/07/caching/5/</a>
+</li>
+<li><a href="http://arstechnica.com/gadgets/2002/07/caching/6/">http://arstechnica.com/gadgets/2002/07/caching/6/</a>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> TLB</h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+<b>TLB</b> (<i>translation lookaside buffer</i>) &#x2013; это такой специальный
+кэш, который маппит виртуальные адреса в реальные.
+</p>
+
+<p>
+Он небольшой, и, конечно, не содержит все используемые виртуальные
+адреса, а лишь часто используемые. Трансляцией из виртуальных
+адресов в реальные занимается <b>MMU</b> (<i>memory management unit</i>) &#x2013;
+специальный кусок процессора. Он глядит в TLB, и если не находит
+там, пускается в долгий путь по page table'ам в основной памяти.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> Общее влияние кеша на работу с памятью</h3>
+<div class="outline-text-3" id="text-3-8">
+<p>
+Кэш, в целом, ускоряет работу с памятью (кто бы мог
+подумать?). Иногда получается так, что работа идет только с кэшом,
+а к памяти обращений и вовсе нет (в случае look-aside).
+</p>
+
+<p>
+?? Что здесь написать ??
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-9" class="outline-3">
+<h3 id="sec-3-9"><span class="section-number-3">3.9</span> Кеши в мультипроцессорных системах и когерентность кешей</h3>
+<div class="outline-text-3" id="text-3-9">
+<p>
+Если у нас есть много ядер, то у каждого ядра есть собственные кэши
+L1 и L2.  Однако, что же делать, если одна и та же ячейка памяти
+продублирована в кэшах разных ядер, и одно ядро меняет эту ячейку в
+своем кэше?  Другое должно как-то увидеть это изменение.
+</p>
+
+<p>
+Для таких ситуаций существует <b>протоколы когерентности
+кэша</b>. Например, <b>MESI</b>:
+</p>
+
+<p>
+Во flags каждой кэш-линии кодируется ее состояние, 1 из 4:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">Modified</td>
+<td class="left">актуальная кэш-линия есть только в этом кэше, и она была изменена, то есть не соответствует данным в основной памяти</td>
+</tr>
+
+<tr>
+<td class="left">Exclusive</td>
+<td class="left">кэш-линия актуальна только в этом кэше, и она совпадает с данными в памяти</td>
+</tr>
+
+<tr>
+<td class="left">Shared</td>
+<td class="left">кэш-линия совпадает с данными в памяти и может присутствовать в нескольких кэшах</td>
+</tr>
+
+<tr>
+<td class="left">Invalid</td>
+<td class="left">кэш-линия невалидна</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Read может происходить из любого состояния, кроме Invalid. Если
+пытаемся читать из Invalid, то нужно сначала пофетчить данные
+(извлечь из соседних кэшей или из памяти). После фетча Invalid
+сменится на Shared.
+</p>
+
+<p>
+Write может происходить только в Modified или Exclusive. Иначе
+сначала нам нужно инвалидировать все копии в других кэшах, а потом
+выставить статус Modified.
+</p>
+
+<p>
+Перед инвалидацией Modified-линии нужно сбросить данные из нее в
+память (write-back).
+</p>
+
+<p>
+Sources:
+</p>
+<ul class="org-ul">
+<li><a href="https://en.wikipedia.org/wiki/MESI_protocol">https://en.wikipedia.org/wiki/MESI_protocol</a>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> <span class="todo 2">2</span> Ticket 2    CPU pipeline</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> Пайплайн и стадии</h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+Исполнение инструкций - сложный процесс, включающий в себя много этапов.
+Чтобы было быстро, процессор разбивает инструкции на этапы и выполняет их на конвейере (pipeline)
+</p>
+
+<p>
+Этапы конвейера:
+</p>
+<ol class="org-ol">
+<li>Fetch
+Получение инструкции по адресу, на который указывает IP. Обычно достается
+из кэша L1i
+</li>
+<li>Decode
+Декодирует полученную инструкцию и, таким образом, определяет, что делать дальше
+(сколько аргументов фетчить, куда их посылать и так далее
+</li>
+<li>FetchArgs
+Получает все аргументы инструкции (в том числе, вычисляет effective address)
+</li>
+<li>Execute
+Непосредственно выполняет инструкцию
+</li>
+<li>Commit
+Записывает результаты в регистры/память
+</li>
+</ol>
+
+<p>
+<a href="pipeline.hs">Модель пайплайна на Хаскеле</a>
+</p>
+
+<p>
+sources:
+<a href="https://en.wikipedia.org/wiki/Classic_RISC_pipeline">https://en.wikipedia.org/wiki/Classic_RISC_pipeline</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> Регистровый файл</h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+Регистровый файл - SRAM-массивчик в процессоре. Содержит в себе ячейки с регистрами.
+В простых процессорах имена регистров в коде напрямую маппятся в эти ячейки, в процах покруче (современных) они иногда просто переименовываются (так себя ведет, например, процедура XCHG (кажется)).
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> Пузыри (pipeline bubbles)</h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+Пузырь - это последовательность nop-ов. Он появляется, когда только что зафетченную инструкцию нельзя сразу начать исполнять - например, она зависит от результата предыдущей, которая еще не завершила выполнение.
+Появление пузырей - это самый простой способ решения data hazard (проблемы зависимостей данных) и control hazard (проблемы переходов)
+Другим способом решения data hazards является forwarding - отсылка полученного результата инструкции назад. Между каждой стадией есть буфер в который кладется промежуточный результат и процессор на стадии fetchArgs может обращаться к этим буферам наперед. Есть еще документирование, которое работает как "А давайте вы не будете так делать", например если VLIW.
+</p>
+
+<p>
+sources:
+<a href="https://en.wikipedia.org/wiki/Bubble_(computing)">https://en.wikipedia.org/wiki/Bubble_(computing)</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> Предсказание переходов (branch prediction)</h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+Когда процессор натыкается на инструкцию j* (условный переход), он должен ее распарсить и выполнить, прежде чем станет ясно, куда нужно сдвинуть IP. Однако, если простаивать все это время, пока инструкция не выполнится, будет очень долго. Поэтому процессор пытается угадать, куда все-таки в итоге нужно будет прыгнуть, и начинает фетчить и выполнять инструкции оттуда. Если же предсказание было неверно, весь пайплайн сбрасывается, и инструкции фетчатся заново с верного адреса.
+</p>
+
+<p>
+Отсутствие branch-prediction'a - это когда IP всегда просто сдвигается на единичку вперед. Чуть более продвинутые процы, кстати, обрабатывают безусловные переходы (jmp) на decode-стадии, иначе бы каждый безусловный переход был долгим и мучительным.
+</p>
+
+<p>
+Самый простой нетривиальный бранч-предиктор - это 2 бита на каждый джамп, которые олицетворяют одно из 4 состояний:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">True</td>
+<td class="left">Almost true</td>
+<td class="left">Almost false</td>
+<td class="left">False</td>
+</tr>
+</tbody>
+</table>
+<p>
+Если в результате выполнения условия мы все-таки прыгнули, тогда состояние предиктора сдвигается влево. Иначе - вправо.
+Понятно, что если предиктор находится в состоянии True/Almost true, то следующие инструкции мы фетчим из адреса прыжка.
+Иначе - следующие инструкции фетчатся со следующего адреса.
+</p>
+
+<p>
+В современных компуктерах branch predictor'ы гораздо более хитрые, там таблицы всякие, но достаточно этого сказать, пожалуй.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> Out of order исполнение</h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+Out-of-order execution - это технология, позволяющая динамически изменять порядок выполнения инструкций.
+Суть проста: предположим, есть следующий порядок инструкций:
+</p>
+
+<p>
+ADD rax, rbx
+SUB rcx, rax
+ADD r8, r9
+</p>
+
+<p>
+Вторая инструкция зависит от 1, поэтому должна ждать ее выполнения. Однако 3 инструкция не зависит ни от той, ни от другой - почему бы не пропустить ее между 1 и 2?
+</p>
+
+<p>
+Процессоры с out-of-order исполнением имеют буфер инструкций (reservation station) и очередь результатов. Обработка инструкции происходит так:
+</p>
+
+<ol class="org-ol">
+<li>Инструкция фетчится и декодится
+</li>
+<li>Инструкция кладется в буфер
+</li>
+<li>Когда что-то в регистрах/памяти меняется, в буфере ищутся инструкции, которые от этого "чего-то" зависели. Достаем самую старую из них.
+</li>
+<li>Инструкция выполняется
+</li>
+<li>Ее результат кладется в очередь
+</li>
+<li>Результаты записываются в регистры/память в порядке очереди
+</li>
+</ol>
+
+<p>
+sources:
+<a href="https://en.wikipedia.org/wiki/Out-of-order_execution">https://en.wikipedia.org/wiki/Out-of-order_execution</a>
+<a href="https://en.wikipedia.org/wiki/Reservation_station">https://en.wikipedia.org/wiki/Reservation_station</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6"><span class="section-number-3">4.6</span> Интерфейс между устройствами ввода и CPU</h3>
+<div class="outline-text-3" id="text-4-6">
+<p>
+<a href="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Motherboard_diagram.svg/665px-Motherboard_diagram.svg.png">Схема общения CPU со всем остальным</a>
+</p>
+
+<p>
+Процессор общается со всеми остальными устройствами через чипсет материнской платы. Чипсет - это 2 устройства - Northbridge (NB) и Southbridge (SB)
+NB соединяет CPU с критичной по скорости периферией:
+</p>
+<ul class="org-ul">
+<li>памятью
+</li>
+<li>видеокартой на AGP/PCI-Express
+</li>
+<li>а также с SB
+</li>
+</ul>
+
+<p>
+SB соединяется со всей остальной периферией:
+</p>
+<ul class="org-ul">
+<li>PCI-девайсами (сетевая/звуковая карта)
+</li>
+<li>PCI/2 периферия (старые клавы и мышки)
+</li>
+<li>жесткими дисками (IDE, SATA)
+</li>
+<li>ROM (память BIOS)
+</li>
+<li>часы
+</li>
+</ul>
+
+<p>
+Также иногда SB соединяется с встроенной сетевой/звуковой/видеокартой.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-7" class="outline-3">
+<h3 id="sec-4-7"><span class="section-number-3">4.7</span> Прерывания</h3>
+<div class="outline-text-3" id="text-4-7">
+<p>
+Прерывания - это механизм сообщить процессору о том, что что-то произошло и на это надо отреагировать.
+</p>
+
+<p>
+Прерывания бывают следующие:
+</p>
+<ol class="org-ol">
+<li>Hardware
+<ol class="org-ol">
+<li>Игнорируемые (IRQ - interrupt request) - прерывания, имеющие маску, по которой их можно опознавать и игнорить (почти все хардварные прерывания такие)
+</li>
+<li>Неигнорируемые (NMI - non-maskable interrupt) - прерывания без маски, которые нельзя игнорить (e. g. watchdog timer - строгий контроллер таймаута)
+</li>
+<li>Межпроцессорные - генерируемые одним процессором/ядром для другого
+</li>
+</ol>
+</li>
+<li>Software - генерируемые самим процессором из инструкции int, как правило, используются для написания сисколлов.
+</li>
+</ol>
+
+<p>
+В железе прерывания реализованы как level-triggered и edge-triggered.
+level-triggered: устройство выставляет напряжение на проводе запроса прерывания и держит его, пока ему не откликнутся
+edge-triggered: устройство посылает импульс на провод запроса, и южный мост запоминает, что это произошло.
+</p>
+
+<p>
+Есть еще контроллер прерывания, который специальная железка на плате, имеющая приоритеты и умеющая отсылать только нужные прерывания, чтобы все не приходило в процессор.
+sources:
+<a href="https://en.wikipedia.org/wiki/Interrupt">https://en.wikipedia.org/wiki/Interrupt</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-8" class="outline-3">
+<h3 id="sec-4-8"><span class="section-number-3">4.8</span> DMA</h3>
+<div class="outline-text-3" id="text-4-8">
+<p>
+DMA - direct memory access - это технология, позволяющая устройствам общаться с памятью в обход процессора.
+Когда видеокарта, например, хочет достать какие-то данные из памяти, она посылает interrupt процессору, а он уже достает все из памяти и отсылает видеокарте. Но на это тратится его драгоценное время!
+С DMA можно так: процессор передает работу DMA-контроллеру и занимается своими делами. Тот же перекладывает данные из одного места в другое и посылает процессору interrupt об окончании.
+DMA можно использовать также и для копирования данных из одного куска памяти в другой!
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> <span class="todo 2">2</span> Ticket 3    Virtual memory</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Useful: <a href="http://www.makelinux.net/ldd3/chp-15-sect-1">http://www.makelinux.net/ldd3/chp-15-sect-1</a>
+</p>
+</div>
+<div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> <span class="done 3">3</span> Виртуальная память</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Виртуальная память - механизм, который отвечает за следующие задачи:
+</p>
+<ol class="org-ol">
+<li>Изоляция памяти процессов друг от друга и от памяти операционной системы
+</li>
+<li>Представление памяти для каждого процесса как единого непрерывного куска
+</li>
+<li>Использование большего количества памяти, чем физически возможно
+</li>
+</ol>
+
+<p>
+Суть в том, что каждому адресу в программном коде (виртуальному) сопоставляется физический адрес в плашке памяти. Причем таблица сопоставления виртуальных адресов для каждого процесса своя.
+Кроме того, виртуальная память может мапаться куда-нибудь еще, например - на диск, что позволяет создавать swap partitions.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> <span class="done 3">3</span> MMU: TLB, каталог страниц (page table)</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+MMU - memory management unit - устройство, управляющее трансляцией виртуальных адресов в физические.
+При нем есть его собственный кэш - TLB (translation lookaside buffer) - который хранит небольшое множество часто используемых адресов.
+</p>
+
+<p>
+Если в TLB записи нет, идет поиск по таблицам страниц (page tables &#x2013; paging). Обычно они находятся в основной памяти, но в некоторых MMU есть для них рядышком отдельный буфер.
+Обычно page tables устроены так (<a href="http://users.dickinson.edu/~braught/courses/cs354f97/Classes/Class17/Image63.gif">схема</a>):
+</p>
+<ul class="org-ul">
+<li>первые 10 бит адреса индексируют запись в таблице 1-го уровня (таблице таблиц). В записи лежит индекс страницы 2-го уровня.
+</li>
+<li>вторые 10 бит адреса индексируют запись в таблице 2-го уровня. В записи лежит адрес начала 4-килобайтной страницы
+</li>
+<li>последние 12 бит - номер байта в странице
+</li>
+</ul>
+
+<p>
+Если в таблице не нашлось нужной страницы, MMU делает либо запрос в swap (если он настроен), либо говорит процессору, что случился page fault.
+</p>
+
+<p>
+sources:
+<a href="https://mn.wikipedia.org/wiki/Page_table">https://mn.wikipedia.org/wiki/Page_table</a>
+<a href="https://en.wikipedia.org/wiki/Page_table">https://en.wikipedia.org/wiki/Page_table</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3"><span class="section-number-3">5.3</span> <span class="todo 1">1</span> Биты: readable, writeable, executable, present, dirty, copy-on-write</h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Это мета-информация о странице.
+readable      - можно ли сейчас страницу читать
+writeable     - можно ли сейчас в страницу писать
+present       - есть ли страница сейчас в памяти вообще (или надо лезть в своп, например)
+executable    - можно ли эту страницу исполнять (т. е. перекинуть на нее IP и читать инструкции)
+dirty         - модифицировалась ли страница
+copy-on-write - является ли страница copy-on-write (т. е. нужно ли в случае записи скопировать страницу (мало ли, вдруг она используется в нескольких процессах, как глобальные переменные некоторой shared либы, например)
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-4" class="outline-3">
+<h3 id="sec-5-4"><span class="section-number-3">5.4</span> <span class="done 3">3</span> IOMMU</h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+IOMMU - это MMU для периферических устройсв. Как мы знаем, периферические устройства могут общаться с памятью напрямую с помощью DMA, так вот, устройствам тоже хочется иметь свои виртуальные адреса (пример: шейдерам на видеокарте тоже надо разделять адресное пространство).
+IOMMU - это ровно MMU, только приставленный не к процессору, а к DMA-контроллеру.
+Кроме того, IOMMU еще и повышает секьюрность, так как на компе с физической DMA-адресацией хитровыебанное периферическое устройство может считать/затереть важные области памяти в обход CPU через DMA. С IOMMU такое не проканает.
+</p>
+
+<p>
+sources:
+<a href="https://en.wikipedia.org/wiki/IOMMU">https://en.wikipedia.org/wiki/IOMMU</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-5" class="outline-3">
+<h3 id="sec-5-5"><span class="section-number-3">5.5</span> <span class="todo 2">2</span> Память процессов</h3>
+<div class="outline-text-3" id="text-5-5">
+<p>
+Память процесса устроена так:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">.text</td>
+<td class="left">.data</td>
+<td class="left">.bss</td>
+<td class="left">Heap &#x2013;&gt; &#x2026;. &lt;&#x2013; Stack</td>
+<td class="left">argc, argv, env</td>
+</tr>
+</tbody>
+</table>
+<p>
+0                                                                  N
+</p>
+
+<p>
+Но это в Линуксе примерно так, а вообще, конечно, везде по-разному.
+Во время переключения процесса (context switch) происходит, кроме всего прочего, очистка TLB и переключение page tables для процесса. Чтобы не копировать их туда-сюда, страницы 1 уровня всегда находятся в выделенной области памяти на своем месте, страницы нижних уровней раскиданы по памяти произвольно, и во время переключения контекста ядро переставляет указатели на page tables 2 уровня.
+</p>
+
+<p>
+sources:
+<a href="http://www.thegeekstuff.com/2012/03/linux-processes-memory-layout/">http://www.thegeekstuff.com/2012/03/linux-processes-memory-layout/</a>
+<a href="http://unix.stackexchange.com/questions/72680/how-does-linux-update-page-table-after-context-switch">http://unix.stackexchange.com/questions/72680/how-does-linux-update-page-table-after-context-switch</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-6" class="outline-3">
+<h3 id="sec-5-6"><span class="section-number-3">5.6</span> <span class="todo 2">2</span> Общая память</h3>
+<div class="outline-text-3" id="text-5-6">
+<p>
+Sytem V style общей памяти.
+В Линуксе, например, можно выделять отдельные страницы памяти, доступные для нескольких процессов.
+В железе это выглядит очень просто - в page tables разных процессов есть ссылки на одну и ту же страницу физической памяти.
+В коде это делается системными функциями:
+</p>
+
+<p>
+shmget() &#x2013; выделить кусок общей памяти
+shmat()  &#x2013; присобачить этот кусок в виртуальную память процесса
+shmdt()  &#x2013; убрать кусок из виртуальной памяти процесса
+shmctl() &#x2013; освободить общую память
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-7" class="outline-3">
+<h3 id="sec-5-7"><span class="section-number-3">5.7</span> <span class="todo 2">2</span> Пулы памяти со специальными требованиями.</h3>
+<div class="outline-text-3" id="text-5-7">
+<p>
+В ядре очень часто возникает задача создать/убить какой-то стандартный объект, такой, как inode/process descriptor/semaphore и т. д. Если делать это все время стандартным malloc-ом, это будет долго и грустно - маллок сам по себе долгий, и фрагментация памяти - это тоже не очень. Поэтому возникает идея: стандартные объекты ядра помещать в выделенные места.
+</p>
+
+<p>
+Slab - это как раз такое выделенное место - 1 или несколько последовательных страниц, предназначенных для размещения объектов с наперед заданным размером.
+Slab-кэш - это набор slab-ов, предназначенных для какого-либо типа объектов - inode там, вот это все.
+</p>
+
+<p>
+Аллокация объекта в slab-кэше происходит так:
+</p>
+<ol class="org-ol">
+<li>Выбирается первый slab со свободными "комнатами"
+</li>
+<li>Если все slab-ы заняты, маллочится новый.
+</li>
+<li>Свободная комната в выбранном slab-е помечается как занятая, и возвращается указатель на нее
+</li>
+<li>Если это была последняя комната, slab помечается как заполненный
+</li>
+</ol>
+
+<p>
+Удаление объекта:
+</p>
+<ol class="org-ol">
+<li>Комната объекта помечается как свободная
+</li>
+<li>Если это была последняя занятая комната, slab помечается как свободный
+</li>
+</ol>
+
+<p>
+sources:
+<a href="http://www.win.tue.nl/~aeb/linux/lk/lk-9.html">http://www.win.tue.nl/~aeb/linux/lk/lk-9.html</a>
+<a href="https://ru.wikipedia.org/wiki/Slab">https://ru.wikipedia.org/wiki/Slab</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> <span class="todo 1">1</span> Ticket 4    Maps</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1"><span class="section-number-3">6.1</span> <span class="done 3">3</span> "География" адресного пространства процесса</h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+Смотреть память процессов в билете 3
+</p>
+</div>
+</div>
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> <span class="todo 1">1</span> Структуры ядра описывающие процесс с MMU: работа с физической памятью, VMA</h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+VMA &#x2013; (virtual memory area) это структура данных ядра, помогающая менеджить куски адресного пространства процесса. VMA представляет собой кусок памяти, обладающий одинаковыми свойствами относительно своего содержимого &#x2013; одинаковые права доступа/забэкаплены одним объектом. Это некоторым образом похоже на понятие сегмента, хотя концепция "регион памяти с похожими свойствами" ближе.
+Memory map процесса имеет как минимум следующие зоны:
+</p>
+<ol class="org-ol">
+<li>.text &#x2013; программный код
+</li>
+<li>.bss
+</li>
+<li>.data
+</li>
+<li>стек
+</li>
+</ol>
+<p>
+Посмотреть активные маппинги &#x2013; cat /proc/PID/maps.
+Каждый маппинг состоит из:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">start</td>
+<td class="left">end</td>
+<td class="left">perm</td>
+<td class="left">offset</td>
+<td class="left">major</td>
+<td class="left">minor</td>
+<td class="left">inode</td>
+<td class="left">image</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Каждому новому маппингу соответствует VMA. Структура называется vm<sub>area</sub><sub>struct</sub>, лежит в исхониках include/linux/mm<sub>types</sub>.h.
+Структуры данных относительно MMU &#x2013; Хз
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-6-3" class="outline-3">
+<h3 id="sec-6-3"><span class="section-number-3">6.3</span> <span class="done 3">3</span> Системные вызовы: brk, sbrk, mmap</h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+Вершину хипа называют program break. Можно работать руками прямо с вершиной хипа, выделять память и вот это все.
+</p>
+<ul class="org-ul">
+<li>brk(void* addr) выставляет вершину хипа куда-то.
+</li>
+<li>void* sbrk(int) инкрементирует/декрементирует вершину хипа на заданную величину.
+</li>
+</ul>
+<p>
+По очевидным причинам, вызовами пользоваться не нужно. С другой стороны, иногда через это выражают malloc.
+</p>
+
+<p>
+Есть другой механизм гибкой работы с динамической памятью:
+mmap, numap, mlock, munlock - забавные системные вызовы.
+</p>
+<ul class="org-ul">
+<li>mlock(void* addr, int len) &#x2013; заблокировать регион в памяти так, что ее страницы нельзя класть в своп.
+Юзкейс &#x2013; хотим загрузить программу для расширофки HDD с диска. Расшифровываем руками диск, грузим, выкидываем ключ, лочим программу в памяти и тогда она никуда не пропадет.
+</li>
+<li>munlock(void* addr, int len) &#x2013; обратное действие, разлочвает регион если его часть залочена.
+</li>
+<li>mmap(addr, length, prot, flags, fd, ofs) &#x2013; создает новый маппинг региона виртуальной памяти.
+<ol class="org-ol">
+<li>addr &#x2013; откуда мапить память (если NULL, ядро само выберет)
+</li>
+<li>len &#x2013; длина
+</li>
+<li>prot &#x2013; флаги доступа к данному региону памяти (PROT<sub>NONE</sub>, _EXEC, _READ, _WRITE)
+</li>
+<li>flags &#x2013; различные флаги. Самые важные из них:
+<ol class="org-ol">
+<li>MAP<sub>ANONYMOUS</sub> &#x2013; аргумент fd игнорируется, память создается анонимной, заполняется нулями, не относится ни к какому файлу.
+</li>
+<li>MAP<sub>SHARED</sub> &#x2013; устанавливает, что контент, котрый мы мапим, будет доступен другим пользователям (мапится-то файл, а файл могут видеть другие).
+</li>
+<li>MAP<sub>PRIVATE</sub> &#x2013; создает copy-on-write маппинг, который уникален для процесса.
+</li>
+</ol>
+</li>
+<li>fd, ofs &#x2013; если используется маппинг файлов, а не анонимный, то файл и оффсет в файле, с которого мапить.
+</li>
+</ol>
+</li>
+<li>munmap(addr, length) &#x2013; освободить от мапа данный кусок памяти. Если используется SHARED, то к этому моменту все уже будет записано в файл.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-6-4" class="outline-3">
+<h3 id="sec-6-4"><span class="section-number-3">6.4</span> <span class="done 3">3</span> Общая память: shm<sub>open</sub></h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+Есть память, которая может быть доступна сразу многим процессам.
+</p>
+<ul class="org-ul">
+<li>shm<sub>open</sub>(name, oflag, mode)
+Определяем имя куска памяти, которое хотим шарить, флаги на уровне RDWR/RDONLY/CREAT.., мод (chmod(2)). Возвращает файловый дескриптор.
+</li>
+<li>shm<sub>unlink</sub>(name) удаляет кусок расшаренной памяти
+</li>
+</ul>
+<p>
+С помощью mmap тоже можно создать общую память, но отличие shm<sub>open</sub> в том, что память открытая этим методом будет оставаться шареной до ребута ядра.
+</p>
+
+<p>
+Как этим пользоваться:
+shm = shm<sub>open</sub>("mysharedname", O<sub>RDWR</sub>, 0777)
+addr = mmap(0, size, PROT<sub>WRITE|PROT</sub><sub>READ</sub>, MAP<sub>SHARED</sub>, shm, 0);
+Теперь по адресу addr можно что-то писать.
+munmap(addr, size);
+close(shm)
+Если хочется шареную память удалить, нужно сделать:
+shm<sub>unlink</sub>("mysharedname");
+</p>
+
+<p>
+source:
+<a href="http://habrahabr.ru/post/122108/">http://habrahabr.ru/post/122108/</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-6-5" class="outline-3">
+<h3 id="sec-6-5"><span class="section-number-3">6.5</span> <span class="todo 2">2</span> Реализация malloc.</h3>
+<div class="outline-text-3" id="text-6-5">
+<ol class="org-ol">
+<li>На хипе с помощью sbrk
+Недостатки &#x2013; фрагментация данных. Чтобы от нее избавиться, нужно иногда искать куски памяти которые уже освободились и что-то с ними делать.
+</li>
+<li>С помощью mmap
+</li>
+<li>И то и другое использовать, плюс добавить какие-нибудь бакеты, из которых выдавать данные. Бакеты добавлять с помощью sbrk, mmap'ом пользоваться если просят много памяти.
+</li>
+<li>Doug Lea pmalloc2 (в libc)
+</li>
+</ol>
+
+<p>
+sources:
+</p>
+<ol class="org-ol">
+<li>Doug lea outdated explained
+<a href="http://gee.cs.oswego.edu/dl/html/malloc.html">http://gee.cs.oswego.edu/dl/html/malloc.html</a>
+</li>
+<li>Wiki, implementations
+<a href="https://en.wikipedia.org/wiki/C_dynamic_memory_allocation#Implementations">https://en.wikipedia.org/wiki/C_dynamic_memory_allocation#Implementations</a>
+</li>
+<li>LIBC source pmalloc2 (extra hard)
+<a href="https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/malloc.c;hb=HEAD">https://sourceware.org/git/?p=glibc.git;a=blob_plain;f=malloc/malloc.c;hb=HEAD</a>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> <span class="todo 0">0</span> Ticket 5    Processes</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+Большинство тут написано в билете про TTY (14)
+</p>
+</div>
+<div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> Процессы и треды</h3>
+</div>
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2"><span class="section-number-3">7.2</span> init, родители, дети, зомби</h3>
+</div>
+<div id="outline-container-sec-7-3" class="outline-3">
+<h3 id="sec-7-3"><span class="section-number-3">7.3</span> Треды, группы тредов, процессы, группы процессов, сессии</h3>
+</div>
+<div id="outline-container-sec-7-4" class="outline-3">
+<h3 id="sec-7-4"><span class="section-number-3">7.4</span> Системные вызовы fork, clone, exec, wait</h3>
+</div>
+<div id="outline-container-sec-7-5" class="outline-3">
+<h3 id="sec-7-5"><span class="section-number-3">7.5</span> Интерфейс bash</h3>
+</div>
+<div id="outline-container-sec-7-6" class="outline-3">
+<h3 id="sec-7-6"><span class="section-number-3">7.6</span> Реализация переключения контекстов процессов: структуры данных ядра, состояния процессов, различные методы реализации CPS-преобразования.</h3>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> <span class="todo 2">2</span> Ticket 6    FS 0</h2>
+<div class="outline-text-2" id="text-8">
+</div><div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1"><span class="section-number-3">8.1</span> <span class="todo 2">2</span> Файловые дескрипторы и пайпы</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+Файловый дескриптор - это int, который для текущего процесса сопоставляется с неким файлом. Сопоставление идет так:
+</p>
+<ul class="org-ul">
+<li>fd - индекс в fdtable процесса. В ней лежит *FdObj - указатель на структурку, в которой хранятся флаги, количество сославшихся и ссылка на сам файл.
+FdObj = {
+    counter :: Int,
+    flags :: Flags,
+    type :: Type,
+    resource :: type
+}
+Type = Pipe | File | Dir | Socket | shm | blockdev | chardev | packetdev (network)
+</li>
+<li>resource указывает на файл в file table (общая для системы таблица открытых файлов). Этот файл может быть структуркой какого-то типа: DInode, Pipe, Socket, etc.
+Каждая такая структурка так или иначе содержит в себе счетчик ссылок на себя из процессов и ссылку на свой inode.
+</li>
+<li>Inode-ы, собственно, содержит адреса сегментов памяти, в которых расположен файл.
+</li>
+</ul>
+
+<p>
+Пайпы - это специальные двунаправленные файлы. Делаются они следующим образом: есть специальная виртуальная файловая система pipefs, которая лежит вообще в отдельном неймспейсе (нет такой папки в корне, которая бы ее содержала). В ней лежит inode, который маппится на какой-то кусок памяти. На него ссылается файл-пайп в file table, который вот такой:
+Pipe = {
+    readers :: Int,
+    writers :: Int,
+    inode   :: *Inode
+} (примерно)
+В fdtable процесса на него ссылается 2 FdObj: с read-only и write-only
+</p>
+
+<p>
+Ну и короче в 1 конец пишем, другой читаем!))
+</p>
+
+<p>
+sources:
+<a href="https://en.wikipedia.org/wiki/File_descriptor">https://en.wikipedia.org/wiki/File_descriptor</a>
+<a href="http://www.slideshare.net/divyekapoor/linux-kernel-implementation-of-pipes-and-fifos">http://www.slideshare.net/divyekapoor/linux-kernel-implementation-of-pipes-and-fifos</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-8-2" class="outline-3">
+<h3 id="sec-8-2"><span class="section-number-3">8.2</span> <span class="todo 2">2</span> Системные вызовы open, read, write, close</h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+open(path, flags)   – открыть файл по данному пути и вернуть fd
+read(fd, buf, len)  - прочитать что-то из файла в буфер
+write(fd, buf, len) - записать чего-то туда
+close(fd)           - закрыть дескриптор (удалить его из fdtable и декрементнуть счетчик ссылок на файл)
+</p>
+
+<p>
+Все эти вызовы - абстракция VFS, а драйвера каких-то физических систем предоставляют им реализации, понятно (см билет 8).
+</p>
+</div>
+</div>
+<div id="outline-container-sec-8-3" class="outline-3">
+<h3 id="sec-8-3"><span class="section-number-3">8.3</span> <span class="todo 1">1</span> Структуры данных ядра: таблица файловых дескрипторов, файловые объекты POSIX, флаг CLOEXEC</h3>
+<div class="outline-text-3" id="text-8-3">
+<p>
+Таблица файловых дескрипторов - смотри выше.
+Файловые объекты POSIX — эээм? как раз вот эти DInode, Pipe, Socket?
+Флаг CLOEXEC - удобный флаг, который заставляет fd закрываться всегда, когда успешно вызвана функция из семейства exec.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-8-4" class="outline-3">
+<h3 id="sec-8-4"><span class="section-number-3">8.4</span> <span class="todo 2">2</span> Системные вызовы dup2, fcntl, flock</h3>
+<div class="outline-text-3" id="text-8-4">
+<p>
+dup2(fd1, fd2) - дублировать дескриптор: fd2 начинает указывать на тот файл, на который указывает fd1. Если fd2 на что-то указывал раньше, он сначала закрывается.
+Удобно, когда надо перенаправить куда-то stdin или stdout.
+</p>
+
+<p>
+fcntl - йобо-функция, которая принимает кучу различных флагов и позволяет делать почти все, что могут делать прочие функции: ставить всевозможные флаги, лочить/анлочить, и еще дохера всякой ненужной и advanced херни. Также, в отличие от flock, ей можно делать lock только части файла.
+</p>
+
+<p>
+flock - залочить файл за процессом. Известная фигня - нам нужно, чтобы только мы писали/читали из файла/в файл. Лок бывает shared и exclusive - соответственно, "много процессов читают" и "один процесс читает и пишет". При попытке обращения к файлу прочие будут получать access denied, НО! Лок на файл не является строго обязательным. То есть, мало что мешает какому-то другому процессу что-то делать с залоченным файлом, если тот очень захочет.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> <span class="todo 1">1</span> Ticket 7    Drivers/ints</h2>
+<div class="outline-text-2" id="text-9">
+</div><div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1"><span class="section-number-3">9.1</span> <span class="todo 2">2</span> Драйвера устройств в пространстве ядра</h3>
+<div class="outline-text-3" id="text-9-1">
+<p>
+Драйвер &#x2013; это такой кусок кода, который соответствует некоторому заданному интерфейсу. Ты его короче пишешь, потом компилируешь и запихиваешь с помощью insmod/rmmod в ядро, которое может делать это в рантайме.
+Для каждого вида девайса (block/character/packet) указывается свой набор функций. Кроме того, нужно поимплементить ioctl handler.
+sources:
+</p>
+<ol class="org-ol">
+<li>Как сделать свой маленький драйвер:
+<a href="http://www.freesoftwaremagazine.com/articles/drivers_linux">http://www.freesoftwaremagazine.com/articles/drivers_linux</a>
+</li>
+<li>И еще:
+<a href="http://www.unitedthc.com/ELS/LinuxDriver.pdf">http://www.unitedthc.com/ELS/LinuxDriver.pdf</a>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2"><span class="section-number-3">9.2</span> <span class="todo 2">2</span> Прерывания</h3>
+<div class="outline-text-3" id="text-9-2">
+<p>
+Прерывания &#x2013; это такой способ сказать что-то ядру. Прерывания делятся на хардварные и софтварные. Процессор их обрабатывает с помощью хендлеров, которые BIOS/OS выставляет в особой таблице прерывний при буте.
+</p>
+<ol class="org-ol">
+<li>Хардварные прерывания &#x2013; на ногу процессору приходит сигнал и он что-то делает. Это какие-нибудь divideByZero.
+</li>
+<li>Софтварные прерывания &#x2013; могут быть вызваны из кода. Все системные вызовы реализуются через софт. прерывание (в rax кладется дата о том, что нужно вызвать, потом вызывается int 0x80 &#x2013; UNIX).
+</li>
+</ol>
+
+<p>
+Стоит короче около процессора железяка, которая называется Programmable Interrupt Controller &#x2013; контроллер прерываний, который их менеджит прежде чем тыкать процессор. Профиты более-менее очевидны &#x2013; более умный хендлинг, можно какие-то прерыавния сортить по приоритетам и т.д.
+Прерывания можно маскировать &#x2013; в контроллере прерываний кроме таблицы есть еще и маска, по которой приходящие прерывания игнорируются или отмечаются как pending.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-9-3" class="outline-3">
+<h3 id="sec-9-3"><span class="section-number-3">9.3</span> <span class="todo 2">2</span> Монолитная обработка прерываний</h3>
+<div class="outline-text-3" id="text-9-3">
+<p>
+Самый простой и наивный способ обрабатывать интеррапты &#x2013; это вот наш наивный kernel. Как только пришло прерывание, обработаем его. Все.
+Более подробно &#x2013; наивный kernel должен читаться где-то в raw, может потом сюда его TODO.
+С другой стороны, может иметься в виду тот факт, что монолитно &#x2013; запрещать прерывания в прерываниях.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-9-4" class="outline-3">
+<h3 id="sec-9-4"><span class="section-number-3">9.4</span> <span class="todo 2">2</span> Hi/Lo прерывания</h3>
+<div class="outline-text-3" id="text-9-4">
+<p>
+Прерывания деляться на High и Low по приоритету. Действительно, есть интеррапты, которые нельзя откладывать &#x2013; например, чтение из сетевой карты (буфер переполниться, и данные будут выпадать).
+Есть два принипиально разных подхода обработки прерываний (железно):
+</p>
+<ol class="org-ol">
+<li>Level triggered interrupts
+Железка которая хочет послать проецссору интеррапт, выставляет напряжение на линии и держит его, пока процессор не сделает с этим что-нибудь.
+<ul class="org-ul">
+<li>процессор не имеет проблем с пониманием, какие девайсы послали интеррапт &#x2013; если больше одного устройства разделяет interrupt line, он опрашивает всех
+</li>
+</ul>
+<p>
+Из минусов:
+</p>
+<ul class="org-ul">
+<li>непонятно, что делать, если устройство поставило один интеррапт, а потом поменяло его на другой.
+</li>
+</ul>
+</li>
+<li>Edge-triggered interrupts
+Устройство которое хочет послать интеррапт, посылает короткий импульс по ноге, сразу потом прекращая. Иногда необходимо специальное железо чтобы улавливать слишком короткие сигналы.
+Такие интеррапты не имеют недостатков level-triggered. Можно пропускать интеррапты, которые не особо важны, и мы не будем терять важные. С другой стороны, если нет никакого железа, которое запоминает интеррапты, можно легко пропустить такой интеррапт, если он замаскирован.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-9-5" class="outline-3">
+<h3 id="sec-9-5"><span class="section-number-3">9.5</span> <span class="todo 2">2</span> Polling</h3>
+<div class="outline-text-3" id="text-9-5">
+<p>
+Общее понимание &#x2013; polling это алгоритм опрашивание переферийных устройств на какие-либо их действия.
+<a href="https://en.wikipedia.org/wiki/Polling_(computer_science)">https://en.wikipedia.org/wiki/Polling_(computer_science)</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-9-6" class="outline-3">
+<h3 id="sec-9-6"><span class="section-number-3">9.6</span> <span class="todo X">X</span> Драйвера как контексты исполнения и их отличия от процессов</h3>
+<div class="outline-text-3" id="text-9-6">
+<p>
+???
+</p>
+</div>
+</div>
+<div id="outline-container-sec-9-7" class="outline-3">
+<h3 id="sec-9-7"><span class="section-number-3">9.7</span> <span class="todo 2">2</span> Реализация драйверов: структуры данных ядра</h3>
+<div class="outline-text-3" id="text-9-7">
+<p>
+Block/char девайсы работают через стандартный file интерфейс, в то время как у network девайсов свой network-specific API.
+Каждый драйвер должен зарегестрироваться в ядре с помощью специального вызова и сруктуры, причем предоставить нужный интерфейс.
+</p>
+<ol class="org-ol">
+<li>Character devices:
+должно инстанциировать cdev структуру и имплементить file<sub>operations</sub>
+</li>
+<li>Block devices:
+getdisk структура и block<sub>device</sub><sub>operations</sub> интерфейс (+ еще make<sub>request</sub> функци)
+</li>
+<li>Network devices:
+net<sub>device</sub> структура, net<sub>device</sub><sub>ops</sub> интерфейс
+</li>
+</ol>
+</div>
+
+<div id="outline-container-sec-9-7-1" class="outline-4">
+<h4 id="sec-9-7-1"><span class="section-number-4">9.7.1</span> struct file<sub>operations</sub></h4>
+<div class="outline-text-4" id="text-9-7-1">
+<p>
+struct file<sub>operations</sub> {
+struct module *owner;
+loff<sub>t</sub> (*llseek) (struct file *, loff<sub>t</sub>, int);
+ssize<sub>t</sub> (*read) (struct file *, char _<sub>user</sub> *, size<sub>t</sub>, loff<sub>t</sub> *);
+ssize<sub>t</sub> (*write) (struct file *, const char _<sub>user</sub> *, size<sub>t</sub>, loff<sub>t</sub> *);
+ssize<sub>t</sub> (*aio<sub>read</sub>) (struct kiocb *, const struct iovec *, unsigned long, loff<sub>t</sub>);
+ssize<sub>t</sub> (*aio<sub>write</sub>) (struct kiocb *, const struct iovec *, unsigned long, loff<sub>t</sub>);
+int (*readdir) (struct file *, void *, filldir<sub>t</sub>);
+unsigned int (*poll) (struct file *, struct poll<sub>table</sub><sub>struct</sub> *);
+int (*ioctl) (struct inode *, struct file *, unsigned int, unsigned long);
+int (*mmap) (struct file *, struct vm<sub>area</sub><sub>struct</sub> *);
+int (*open) (struct inode *, struct file *);
+int (*flush) (struct file *, fl<sub>owner</sub><sub>t</sub> id);
+int (*release) (struct inode *, struct file *);
+int (*fsync) (struct file *, struct dentry *, int datasync);
+int (*fasync) (int, struct file *, int);
+int (*flock) (struct file *, int, struct file<sub>lock</sub> *);
+[&#x2026;]
+};
+</p>
+
+<p>
+<a href="http://thomas.enix.org/pub/conf/rmll2010/kernel-architecture-for-drivers.pdf">http://thomas.enix.org/pub/conf/rmll2010/kernel-architecture-for-drivers.pdf</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9-8" class="outline-3">
+<h3 id="sec-9-8"><span class="section-number-3">9.8</span> <span class="todo X">X</span> Различные методы реализации CPS-преобразования</h3>
+</div>
+</div>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> <span class="todo 2">2</span> Ticket 8    FS 2</h2>
+<div class="outline-text-2" id="text-10">
+</div><div id="outline-container-sec-10-1" class="outline-3">
+<h3 id="sec-10-1"><span class="section-number-3">10.1</span> <span class="todo 1">1</span> Файловые системы</h3>
+<div class="outline-text-3" id="text-10-1">
+<p>
+Файловые системы - это структуры данных на диске, позволяющие оперировать норм данными.
+Обычно реализуются в виде b-tree или чего-то такого.
+В линупсе все файлы - это inode.
+</p>
+
+<p>
+Исторически: были плоские
+Щас почти все - древовидные
+Бывают и реляционные! (как базы данных)
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-2" class="outline-3">
+<h3 id="sec-10-2"><span class="section-number-3">10.2</span> <span class="todo 2">2</span> Структура данных inode</h3>
+<div class="outline-text-3" id="text-10-2">
+<p>
+Inode - структурка, которая содержит в себе информацию о файле.
+</p>
+
+<p>
+Inode = {
+    permissions :: Permissions,
+    owner :: UID,
+    group :: GID,
+    size  :: Int,
+    links :: Int,
+    lastAccessed :: Datetime,
+    lastModified :: Datetime,    &#x2013; когда сами данные файла менялись
+    inodeModified :: Datetime,   &#x2013; когда inode менялся (права, например)
+    data :: Vector<sup><a id="fnr.1" name="fnr.1" class="footref" href="#fn.1">1</a></sup> void*     &#x2013; указатели на данные файла, отмапленные в память
+}
+</p>
+
+<p>
+Разные специальные inode (например, дисковые файлы) также содержат всякую другую инфу, типа местоположения на диске там, id девайса.
+</p>
+
+<p>
+sources:
+<a href="https://en.wikipedia.org/wiki/Inode_pointer_structure">https://en.wikipedia.org/wiki/Inode_pointer_structure</a>
+<a href="http://www.grymoire.com/Unix/Inodes.html">http://www.grymoire.com/Unix/Inodes.html</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-3" class="outline-3">
+<h3 id="sec-10-3"><span class="section-number-3">10.3</span> <span class="todo 2">2</span> VFS</h3>
+<div class="outline-text-3" id="text-10-3">
+<p>
+VFS &#x2013; такой стандартный интерфейс думать о разных файловых системах как об одной.
+</p>
+
+<p>
+Суть проста: нам надо объединить всевозможные файловые системы (различные - на диске, всякие виртуальные типа /dev, /proc) одним интерфейсом.
+Делается это так: на каждую файловую систему/устройство/че там еще скрывается за vfs есть свой драйвер, который предоставляет реализацию интерфейса VFS для себя.
+Когда идет какой-то системный вызов по чтению/писанию/чему-то еще по некоторому файловому дескриптору, ядро выясняет, кто из драйверов ответственнен за него, и дергает его реализацию. Что сделает драйвер - его дело: часто он инициализирует DMA-передачу данных.
+</p>
+
+<p>
+sources:
+<a href="http://www.slideshare.net/divyekapoor/linux-kernel-implementation-of-pipes-and-fifos">http://www.slideshare.net/divyekapoor/linux-kernel-implementation-of-pipes-and-fifos</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-4" class="outline-3">
+<h3 id="sec-10-4"><span class="section-number-3">10.4</span> <span class="todo 1">1</span> Структуры данных: FSObject, Namespace</h3>
+<div class="outline-text-3" id="text-10-4">
+<p>
+FSObject - ну видимо значит тип данных файловой системы)))
+</p>
+
+<p>
+Namespace - набор строчек и точек монтирования для текущего процесса.
+Определяет, как выглядит файловая система.
+</p>
+
+<p>
+Маунтпоинт - это привязка определенного куска файловой системы к девайсу.
+</p>
+
+<p>
+Mountpoint = (FS, inodenoroot)
+Namespace = [(Path, Mountpoint)]
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-5" class="outline-3">
+<h3 id="sec-10-5"><span class="section-number-3">10.5</span> <span class="todo 2">2</span> Path resolution</h3>
+<div class="outline-text-3" id="text-10-5">
+<p>
+Пути вот такие: /aaa/bbb/ccc
+В каждой директории есть . и ..
+За корень выйти нельзя: /.. =&gt; /
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-6" class="outline-3">
+<h3 id="sec-10-6"><span class="section-number-3">10.6</span> <span class="todo 2">2</span> Операции над namespace: mount, bind mount, move mount, chroot, pivot<sub>root</sub></h3>
+<div class="outline-text-3" id="text-10-6">
+<p>
+mount - монтирует файловую систему (добавляет запись в Namespace)
+bind mount - подмонтировать что-то уже примонтированное куда-то еще
+move mount - подмонтировать fs по другому пути
+chroot - сменить корень namespace-а
+pivot<sub>root</sub> - переподвесить корень: сделать корнем какого-то ребенка, а текущий корень подвесить в его поддерево
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-7" class="outline-3">
+<h3 id="sec-10-7"><span class="section-number-3">10.7</span> <span class="done 3">3</span> Linux FUSE</h3>
+<div class="outline-text-3" id="text-10-7">
+<p>
+FUSE - такая херь, которая позволяет делать свои собственные системы в userspace.
+Это клево, потому что программы теперь могут использовать файлосистемный интерфейс. Пример: какой-нибудь плеер lastfm делает
+себе папочку с альбомчиками, чтобы музло слушать как файл, а на самом деле - слушаем онлайн!
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-8" class="outline-3">
+<h3 id="sec-10-8"><span class="section-number-3">10.8</span> <span class="todo 0">0</span> ФС как функция inodeno -&gt; inode</h3>
+</div>
+<div id="outline-container-sec-10-9" class="outline-3">
+<h3 id="sec-10-9"><span class="section-number-3">10.9</span> <span class="todo 1">1</span> Структуры ядра: файловый дескриптор (на устройство, файл, директорию), различные кэши, mmaping файлов.</h3>
+<div class="outline-text-3" id="text-10-9">
+<p>
+Файловый дескриптор уже обсуждали.
+Устройство: есть major (категория устройств) и minor (номер устройства) номера, определяющие драйвер для устройства.
+Файл: позиция в файле, даты изменения
+Директория: номер айноды, хэшмап из имен в айноды.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-10" class="outline-3">
+<h3 id="sec-10-10"><span class="section-number-3">10.10</span> <span class="todo 1">1</span> Кеши, mmapping</h3>
+<div class="outline-text-3" id="text-10-10">
+<p>
+Есть open-кэш - это типа чтобы долго имена не резолвить.
+mmap - супир-универсальный механизм чтения файлов, как ни странно, read реализован именно им! (сам mmap мы уже обсуждали)
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> <span class="todo 2">2</span> Ticket 9    Users/access</h2>
+<div class="outline-text-2" id="text-11">
+</div><div id="outline-container-sec-11-1" class="outline-3">
+<h3 id="sec-11-1"><span class="section-number-3">11.1</span> <span class="todo 2">2</span> Пользователи и права</h3>
+<div class="outline-text-3" id="text-11-1">
+<p>
+Пользователь - кто-то, кто пользуется компьютером.
+У него есть имя и группа. А также, может быть, пароль.
+Юзер может владеть некоторыми объектами файловой системы в разной мере.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11-2" class="outline-3">
+<h3 id="sec-11-2"><span class="section-number-3">11.2</span> <span class="todo 2">2</span> Модели прав доступа к объектам: дискретная и ролевая</h3>
+<div class="outline-text-3" id="text-11-2">
+<p>
+Дискретная модель - табличная (ну как есть, для каждого явно определено, что ему можно, что нельзя) &#x2013; ето linux
+Ролевая модель - у юзеров есть уровни привилегий, и данные могут течь снизу вверх, но не сверху вниз
+</p>
+
+<p>
+sources:
+<a href="https://ru.wikipedia.org/wiki/%D0%9C%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C_%D0%91%D0%B5%D0%BB%D0%BB%D0%B0_%E2%80%94_%D0%9B%D0%B0%D0%BF%D0%B0%D0%B4%D1%83%D0%BB%D1%8B">https://ru.wikipedia.org/wiki/%D0%9C%D0%BE%D0%B4%D0%B5%D0%BB%D1%8C_%D0%91%D0%B5%D0%BB%D0%BB%D0%B0_%E2%80%94_%D0%9B%D0%B0%D0%BF%D0%B0%D0%B4%D1%83%D0%BB%D1%8B</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11-3" class="outline-3">
+<h3 id="sec-11-3"><span class="section-number-3">11.3</span> <span class="todo 2">2</span> Права на объекты файловой системы</h3>
+<div class="outline-text-3" id="text-11-3">
+<p>
+Права устроены так:
+Каждый inode имеет владельца и группу. Также он имеет 3 числа: права для владельца, для группы и для остальных.
+Числа от 0 до 7, либо rwxrwxrwx (read, write, execute)
+</p>
+
+<p>
+Права меняются командой chmod, владелец - командой chown, группа - командой chgrp
+chmod(1)
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11-4" class="outline-3">
+<h3 id="sec-11-4"><span class="section-number-3">11.4</span> <span class="todo 1">1</span> Пользователи и группы с точки зрения ядра</h3>
+<div class="outline-text-3" id="text-11-4">
+<p>
+Много ублюдков, которым надо все запрещать
+<a href="http://www.cs.fsu.edu/~baker/devices/lxr/http/source/linux/kernel/user.c">http://www.cs.fsu.edu/~baker/devices/lxr/http/source/linux/kernel/user.c</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11-5" class="outline-3">
+<h3 id="sec-11-5"><span class="section-number-3">11.5</span> <span class="todo 1">1</span> Пользователи и группы с точки зрения пространства пользователя</h3>
+<div class="outline-text-3" id="text-11-5">
+<p>
+Всем пацанам можно, а мне нельзя?!
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11-6" class="outline-3">
+<h3 id="sec-11-6"><span class="section-number-3">11.6</span> <span class="todo 1">1</span> Системные вызовы setuid, setgid и товарищи</h3>
+<div class="outline-text-3" id="text-11-6">
+<p>
+setuid - переназначить процесс на определенного пользователя. Работает только тогда, когда мы root или этот самый юзер (а тогда зачем?)
+setgid - то же для группы
+</p>
+
+<p>
+Еще есть геттеры: getgid, getuid
+</p>
+
+<p>
+sources:
+<a href="https://en.wikipedia.org/wiki/Setuid">https://en.wikipedia.org/wiki/Setuid</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11-7" class="outline-3">
+<h3 id="sec-11-7"><span class="section-number-3">11.7</span> <span class="todo 1">1</span> setuid bit</h3>
+<div class="outline-text-3" id="text-11-7">
+<p>
+Это короче такой флажок в inode, который позволяет запускать что-то с повышенными правами (от юзера поважнее).
+Пример: ВНЕЗАПНО ping - обычный юзер не имеет права посылать и принимать контрольные сетевые пакеты!
+У него есть братишка - setgid bit
+</p>
+
+<p>
+Когда они выставлены на директории, они наследуются всеми впоследствии созданными в этой директории файлами и поддиректориями
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11-8" class="outline-3">
+<h3 id="sec-11-8"><span class="section-number-3">11.8</span> PAM</h3>
+<div class="outline-text-3" id="text-11-8">
+<p>
+PAM - pluggable authentication module - большая и классная либа для аутентификации. Объединяет в себе разные механизмы, можно с ее помощью по отпечатку пальца аутентифицироваться там, все такое.
+Ей щас все пользуются. Однако есть еще nsswitch, который также может менеджить пароли, и если их включить вместе, может получиться смешно.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11-9" class="outline-3">
+<h3 id="sec-11-9"><span class="section-number-3">11.9</span> /etc/passwd, /etc/shadow, /etc/group</h3>
+<div class="outline-text-3" id="text-11-9">
+<p>
+/etc/passwd - файл, который содержит информацию о юзерах. Там имя, id, группа, комментарий, путь к домашней папке и путь к логин-шеллу (для юзеров-демонов - это какой-нибудь /bin/false.
+Когда-то здесь хранился и пароль, но это супер несекьюрно, поэтому хэши паролей хранятся в отдельном файле:
+/etc/shadow - это доступный только руту файл с хэшами паролей для всех пользователей. Отдельно от passwd, потому что какая-то инфа о юзере часто требуется всяким нерутовым программам, и если доступ к passwd запретить, это все сломает.
+/etc/groups - просто список групп с айдишниками
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11-10" class="outline-3">
+<h3 id="sec-11-10"><span class="section-number-3">11.10</span> Capabilities.</h3>
+<div class="outline-text-3" id="text-11-10">
+<p>
+Capabilities - более модная и гибкая система прав, появившаяся с Linux 2.2. Это разбиение всех прав суперпользователя на набор небольших разрешений, которые можно в любом порядке комбинировать и назначать процессу. Также мы можем навешивать capabilities исполняемым файлам, по аналогии с setuid флагом.
+</p>
+
+<p>
+Список разных капабилитей: <a href="http://unixhelp.ed.ac.uk/CGI/man-cgi?capabilities+7">http://unixhelp.ed.ac.uk/CGI/man-cgi?capabilities+7</a>
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> <span class="done 3">3</span> Ticket 10   Signals</h2>
+<div class="outline-text-2" id="text-12">
+</div><div id="outline-container-sec-12-1" class="outline-3">
+<h3 id="sec-12-1"><span class="section-number-3">12.1</span> <span class="done 3">3</span> Стандартные сигналы</h3>
+<div class="outline-text-3" id="text-12-1">
+<p>
+Сигналы &#x2013; это некоторый высокоуровневый аналог прерываний, который хендлится ядром, а не процессором.
+Стандартные сигналы все есть в signal(7).
+У каждого сигнала есть стандартные хендлеры, которые можно определять. Хендлеры уникальны для процессов, но общие у тредов.
+Сигналы можно маскировать, маска &#x2013; набор битов, которые указывают, какие сигналы следует складывать в очередь и не вызывать на них хендлеры.
+Это не относится к SIGKILL, SIGSTOP, они не маскируются.
+Сигнал назыавется pending если его можно достать, блокирующийся сигнал &#x2013; сигнал, у которого в маске 1.
+Когда обычные сигналы приходят в количестве больше одного, то вообще остается только один.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-12-2" class="outline-3">
+<h3 id="sec-12-2"><span class="section-number-3">12.2</span> <span class="done 3">3</span> Реалтаймовые сигналы</h3>
+<div class="outline-text-3" id="text-12-2">
+<p>
+Реалтаймовые сигналы &#x2013; модные новые (с 2.2) сигналы для синхронизации тредов.
+</p>
+<ul class="org-ul">
+<li>Можно блочить больше одного сигнала, в отличии от обычных
+</li>
+<li>Вместе с сигналом можно передавать немного данных (указатель/int)
+</li>
+<li>Порядок доставки гарантируется
+</li>
+</ul>
+<p>
+Если приходят одновременно и обычные, и реалтаймовые, то сначала выпадают обычные (linux), но по POSIX не определено.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-12-3" class="outline-3">
+<h3 id="sec-12-3"><span class="section-number-3">12.3</span> <span class="done 3">3</span> Системные вызовы kill, sigaction.</h3>
+<div class="outline-text-3" id="text-12-3">
+<p>
+Понятно, вызывают сигналы. Sigaction оперирует хендлерами.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-12-4" class="outline-3">
+<h3 id="sec-12-4"><span class="section-number-3">12.4</span> <span class="done 3">3</span> Прерывание сигналами: кода программы, обработчиков сигналов, системных вызовов</h3>
+<div class="outline-text-3" id="text-12-4">
+<p>
+Рассмотрим стандартные сигналы, которые мы умеем хендлить.
+Есть проблема с сигналом, пока мы находимся в хендлере. Поэтому все системные вызовы делятся на 3 категории
+</p>
+<ol class="org-ol">
+<li>atomic &#x2013; не прерываются сигналом
+date
+</li>
+<li>interruptable &#x2013; могут быть прерваны сигналом EINTR
+sleep, epoll
+</li>
+<li>restartable &#x2013; после сигнала восстанавливаются внутри кода и работают коррректно
+read/write
+</li>
+</ol>
+<p>
+Какие вызовы системные как обрабатываются, зависит от вызова и флага SA<sub>RESTART</sub> на хендлере сигнала. Есть ряд вызовов, для которых SA<sub>RESTART</sub> решает, будет ли вызов прерван, или нет.
+Если же сигнал SIGSTOP, то когда мы выйдем из суспенда, системный вызов упадет с EINTR.
+</p>
+
+<p>
+sources: signal(7)
+</p>
+</div>
+</div>
+<div id="outline-container-sec-12-5" class="outline-3">
+<h3 id="sec-12-5"><span class="section-number-3">12.5</span> <span class="done 3">3</span> Сигналы и треды</h3>
+<div class="outline-text-3" id="text-12-5">
+<p>
+Сигналы деляться на process-oriented (kill(2)), и thread-oriented(pthread<sub>kill</sub>(2)).
+</p>
+<ol class="org-ol">
+<li>Process-oriented
+Есть процесс и группа тредов. У тредов раздельные маски. Сигнал приходит кому-то (не определено), у кого не заблочена маска.
+Если заблочена у всех &#x2013; становится в общую очередь процесса. Если нету маски и дефолтное действие &#x2013; terminate, убивается весь процесс.
+</li>
+<li>Thread-oriented
+Сигнал отправляется конкретному треду, будет обработан или замаскирован для конкретного треда. Если нет хендлера и стандартное действие terminate, убивается процесс.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-12-6" class="outline-3">
+<h3 id="sec-12-6"><span class="section-number-3">12.6</span> <span class="done 3">3</span> Семантика сигналов: TERM, KILL, STOP, CONT, CHLD, PIPE, ILL/FPE, SEGV, BUS.</h3>
+<div class="outline-text-3" id="text-12-6">
+<p>
+man signal
+</p>
+<ul class="org-ul">
+<li>PIPE &#x2013; write to pipe with no readers
+</li>
+<li>ILL/FPE &#x2013; illegal instruction/floating point exception
+</li>
+<li>BUS &#x2013; Bus error (memory error)
+Отличие от SEGV:
+SEGV: address not mapped to object,  invalid permissions for mapped object
+BUS: invalid address alignment, non-existent physical address, object specific hardware error
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> <span class="todo 0">0</span> Ticket 11   Polling</h2>
+<div class="outline-text-2" id="text-13">
+</div><div id="outline-container-sec-13-1" class="outline-3">
+<h3 id="sec-13-1"><span class="section-number-3">13.1</span> Мултиплексирование ввода-вывода</h3>
+</div>
+<div id="outline-container-sec-13-2" class="outline-3">
+<h3 id="sec-13-2"><span class="section-number-3">13.2</span> O<sub>NONBLOCK</sub></h3>
+</div>
+<div id="outline-container-sec-13-3" class="outline-3">
+<h3 id="sec-13-3"><span class="section-number-3">13.3</span> Edge и level triggered события</h3>
+</div>
+<div id="outline-container-sec-13-4" class="outline-3">
+<h3 id="sec-13-4"><span class="section-number-3">13.4</span> Преобразование асинхронного ввода-вывода в синхронный CPS-преобразованием</h3>
+</div>
+<div id="outline-container-sec-13-5" class="outline-3">
+<h3 id="sec-13-5"><span class="section-number-3">13.5</span> Структуры данных пространства ядра для реализации мультиплексора файловых дескрипторов</h3>
+</div>
+<div id="outline-container-sec-13-6" class="outline-3">
+<h3 id="sec-13-6"><span class="section-number-3">13.6</span> Системные вызовы select, poll, epoll</h3>
+</div>
+<div id="outline-container-sec-13-7" class="outline-3">
+<h3 id="sec-13-7"><span class="section-number-3">13.7</span> Управление скоростью передачи данных через файловые дескрипторы.</h3>
+</div>
+</div>
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14"><span class="section-number-2">14</span> <span class="todo 0">0</span> Ticket 12   Synchronisation</h2>
+<div class="outline-text-2" id="text-14">
+</div><div id="outline-container-sec-14-1" class="outline-3">
+<h3 id="sec-14-1"><span class="section-number-3">14.1</span> Синхронизация</h3>
+</div>
+<div id="outline-container-sec-14-2" class="outline-3">
+<h3 id="sec-14-2"><span class="section-number-3">14.2</span> Спинлоки</h3>
+</div>
+<div id="outline-container-sec-14-3" class="outline-3">
+<h3 id="sec-14-3"><span class="section-number-3">14.3</span> Ядерные семафоры</h3>
+</div>
+<div id="outline-container-sec-14-4" class="outline-3">
+<h3 id="sec-14-4"><span class="section-number-3">14.4</span> Блокировки и лизинги на файлы</h3>
+</div>
+<div id="outline-container-sec-14-5" class="outline-3">
+<h3 id="sec-14-5"><span class="section-number-3">14.5</span> Структуры данных пространства ядра для реализации блокировок и лизингов</h3>
+</div>
+<div id="outline-container-sec-14-6" class="outline-3">
+<h3 id="sec-14-6"><span class="section-number-3">14.6</span> <span class="todo 1">1</span> Системные вызовы: flock, fcntl.</h3>
+<div class="outline-text-3" id="text-14-6">
+<p>
+Смотри тикет 6
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-15" class="outline-2">
+<h2 id="sec-15"><span class="section-number-2">15</span> <span class="done 3">3</span> Ticket 13   Netstack</h2>
+<div class="outline-text-2" id="text-15">
+</div><div id="outline-container-sec-15-1" class="outline-3">
+<h3 id="sec-15-1"><span class="section-number-3">15.1</span> <span class="done 3">3</span> Сетевой стек</h3>
+<div class="outline-text-3" id="text-15-1">
+<p>
+Сетевой стек &#x2013; весь набор протоколов необходимых для соединения компюьтеров друг к другу.
+OSI &#x2013; один из первых базовых сетевых стеков, который не допилили. BSD сокеты &#x2013; протокол, который развивался параллельно. Проблема OSI с их разработкой была в планировке, к примеру часть разработчиков хотела разрабатывать пакетную передачу данных (на тот момент новшество), но разработчики из бывшых телефонных компаниях считали эту затею плохой. До пакетной передачи соединение обеспечивалось правильным подключением клиентов друг к другу через свичи.
+Существует три широко используемых протокола низшего уровня: MAC(через Ethernet/DSL), PPP, ARP.
+Первый всем хорошо известен, второй &#x2013; это как раз телефоны, третий используется для общения между устройствами в сети для обмена данными необходимыми для других протоколов (IP → MAC).
+</p>
+</div>
+</div>
+<div id="outline-container-sec-15-2" class="outline-3">
+<h3 id="sec-15-2"><span class="section-number-3">15.2</span> <span class="done 3">3</span> PPP</h3>
+<div class="outline-text-3" id="text-15-2">
+<p>
+Point-to-Point Protocol &#x2013; протокол, который применяется для соединения двух нодов. Физически используется в телефонии (как стандартной, так и сотовой), оптических сетях и где угодно. Есть два протокола, похожие на PPP: PPPoE, PPPoA &#x2013; over Ethernet/over ATM, использующиеся в основном провайдерами чтобы настраивать доступ клиента к внешнему миру.
+PPP пользуется протоколом LCP (Link Control) для того, чтобы установить сессию между узлами (например, пользователем и провайдером).
+PPP поддерживает 3 типа аутентификация для разной защиты. PAP (Password Authentication Protocol) &#x2013; протокол для аутентификации пользоватьского пароля на выделенном сервере. Это самый менее секьюрный вариант, пользователь просто отправляет пароль на сервер, а сервер его верифицирует. Ничего не шифруется.
+Есть CHAP (Challenge Handshake Authentication), который отсылает challenge message клиенту на машину, содержащию какую-то рандомную чушь. Машина клиента зашифровывает это вместе с паролем и отправляет обратно на сервер, который это отправляет на сервер аутентификации. Последний зашифровывает challenge с пользовательским паролем с проверяет наличие в базе. Используется модель shared secret, чтобы аутентифицировать пользователя.
+Самый секьюрный вариант &#x2013; EAP, про него много.
+PPPoE &#x2013; протокол уровня Ethernet, представляющий виртуальное соединение по PPP. Используется провайдерами, как уже было сказано. PPPoE discovery, процесс, который соединяет машины, выглядит так:
+</p>
+<ol class="org-ol">
+<li>Initiation &#x2013; клиент высылает специальный пакет на сервер
+</li>
+<li>Offer &#x2013; сервер отвечает другим похожим пакетом
+</li>
+<li>Request &#x2013; клиент на основании Offer создает пакет и отсылает на сервер
+</li>
+<li>Confirmation &#x2013; сервер понимает, что клиент живой, выдает уникальный ID клиенту для PPP сессии и высылает подтверждение клиенту.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-15-3" class="outline-3">
+<h3 id="sec-15-3"><span class="section-number-3">15.3</span> <span class="done 3">3</span> Ethernet</h3>
+<div class="outline-text-3" id="text-15-3">
+<p>
+Самый простой сетевой порт это COM. У него 6 проводов, одна пара из которых передает данные в одну сторону, пара в другую, еще пара сигнальная. Двухпроводное решение широко используется, есть однопроводные, которые очень сложные и непопулярные (чипы в домофонах!). После установления соединения, по проводу передается меандр. Проблемы COM-порта в нарушении целостности сигнала из-за наводки.
+Ethernet реализован чаще всего в формате UTP (unshielded twisted pair) &#x2013; много маленьких проводов очень сильно скручены друг между другом. Сигнал по витой паре задается разницой потенциалов (по 2м соседним проводам передаются сигналы, а смысл имеет их разница). Такое решение имеет смысл, потому что любая наводка одинаково искажает сигнал на двух проводах и разность остается неизменной. UTP чаще всего в этой стране встречается в формате двух и четырех пар проводов. Проводов для синхронизации нету, SIGHUB генерируется по таймауту.
+Еще есть коаксиальный кабель (тонкий кабель внутри обертки), профит которого в том, что обертка как-то защищает внутренний кабель от помех, выступая некой клеткой Фарадея.
+Сеть по формату Ethernet до 1Гб/c реализуется подключением всех юзеров к одной общей ethernet-шине. Политика такая: пока кто-то посылает пакеты, другие молчат. Если есть несколько пользователей, которые пользуются шиной одновременно, все замолкают на рандомный интервал времени, потом продолжают. <a href="https://en.wikipedia.org/wiki/Carrier_sense_multiple_access_with_collision_detection">CSMA/CD</a>
+Сеть с большей скоростью нуждается в различных вспомогательных машинах, типа хабов.
+Хаб &#x2013; железяка, которая передает пакеты, которые ему приходят, на все свои выходы (броадкастит).
+Есть еще параллельный COM для принтеров, называется LBT. Параллельные шины плохи, потому что сложно синхронизировать передачу данных по многим проводам одновременно, учитывая всякие помехи.
+</p>
+
+<p>
+Ethernet пакет по стандарту (802.3) состоит из:
+</p>
+<ol class="org-ol">
+<li>Преамбула (какие-то метаданные)
+</li>
+<li>Header
+<ol class="org-ol">
+<li>Size of packet (or data). MTU &#x2013; 1500.
+</li>
+<li>Два MAC-адреса (отправитель и получатель)
+</li>
+<li>Протокол (ethertype) &#x2013; есть разные форматы ethernet (LLC, Ethernet II)
+</li>
+</ol>
+</li>
+<li>Payload (всякие данные)
+</li>
+<li>CRC (контрольные суммы) всего кроме данных
+</li>
+</ol>
+<p>
+Больше здесь: <a href="https://en.wikipedia.org/wiki/Ethernet_frame">Ethernet Frame</a>.
+</p>
+
+<p>
+Wifi представляет из себя Ethernet по радио. Есть некоторый диапазон частот разрешенный для использования wifi-устройствами, который разделен на поддиапазоны &#x2013; каналы. В разных странах используются разные диапазоны. Wifi передает синусоиду, все как по радио, с этими вашими модуляциями.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-15-4" class="outline-3">
+<h3 id="sec-15-4"><span class="section-number-3">15.4</span> <span class="done 3">3</span> IP</h3>
+<div class="outline-text-3" id="text-15-4">
+<p>
+IP протокол находится на уровне выше и обычно запихивается в Ethernet. IP пакет содержит флаги, IP адресата/адресанта, данные и crc для всего кроме данных.
+Сетевые карты обычно фильтруют пакеты которые ей не принадлежат (адрес назначения не совпадает с нашим) на уровне MAC, IP пакеты фильтрует уже ОС. И то и другое поведение может быть изменено с помощью <a href="https://en.wikipedia.org/wiki/Promiscuous_mode">promiscuous mode</a> опции.
+Ethernet bonding — это объединение двух или более физических сетевых интерфейсов в один виртуальный для обеспечения отказоустойчивости и повышения пропускной способности. Гуглится.
+</p>
+
+<p>
+IP &#x2013; уникальный идентификатор размером в 4 байта. Подсети бывают классов A, B и C. Для класса A определена маска 255.0.0.0, для B 255.255.0.0, для C 255.255.255.0. Кроме того, определены зарезервированные адреса для сетей: A: 10.0.0.0, B: 172.16.0.0 &#x2013; 172.13.0.0, C: 192.168.0.0 &#x2013; 192.168.255.0. Маска подсети &#x2013; число от 0 до 32, означающее количество единичек перед ноликами в двоичной записи 4-байтового числа. Маска записывается как IP. 24 &#x2013; 255.255.255.0, 31 &#x2013; 255.255.255.255. Первая нотация называется префиксной (CIDR).
+Работает это следующим образом. Пусть нужно отправить пакет. У каждого интерфейса в компьютере есть своя маска и IP (ifconfig -a). ОС выбирает интерфейс, который наиболее близок по маске с ip с ip адресата (сравниваются and, полагаю). В BSD сокетах это поведение реализуется, если делать bind(0.0.0.0). Можно сделать bind на конкретный интерфейс, и тогда пакеты будут отправляться ровно куда надо.
+Ядро хранит таблицу роутинга, которая говорит, какие пакеты в какой интерфейс пихать (ip r, netstat -rn, route). Есть дефолтный гейтвей (шлюз по умолчанию), в который отправляются пакеты, если они не матчатся по другим маскам (default в route).
+</p>
+</div>
+</div>
+<div id="outline-container-sec-15-5" class="outline-3">
+<h3 id="sec-15-5"><span class="section-number-3">15.5</span> <span class="done 3">3</span> ARP</h3>
+<div class="outline-text-3" id="text-15-5">
+<p>
+Проблема отправки Ethernet-пакетов состоит в том, что нам нужны MAC-адреса (можно указать MAC broadcast ff:ff:ff:ff:ff:ff). Что делать, если у нас есть только IP?
+Если IP адрес не лежит в нашей локальной сети, то все просто - мы знаем MAC-адрес роутера, Ethernet-пакет дойдет до него, роутер его распакует и отправит дальше куда нужно. Что, если роутера нет - у нас простая локальная сеть?
+Для того, чтобы по IP найти MAC, существует протокол ARP. Ядро содержит ARP-таблицу, которая заполняется по мере необходимости и отображает IP в MAC (arp -e). Если в таблице нет записи, а нужно отправить, по сети прогоняется ARP-запрос на уровне "у кого тут такой ip?", и получает ответ.
+Обратный протокол получения IP по MAC первоначально назывался RARP (reversed ARP). Потом он перетек в BOOTP, теперь это DHCP. Существенная разница RARP и DHCP в том, что DHCP &#x2013; протокол на уровне TCP/IP, а RARP был на netlink уровне (самом низком). Зачем DHCP оборачивать в IP &#x2013; никто не знает.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-15-6" class="outline-3">
+<h3 id="sec-15-6"><span class="section-number-3">15.6</span> <span class="done 3">3</span> Hardware</h3>
+<div class="outline-text-3" id="text-15-6">
+<p>
+Напомним: хаб &#x2013; железяка, которая передает пакеты, которые ему приходят, на все свои выходы (броадкастит).
+Свитч &#x2013; это хаб с ARP таблицей внутри, который умеет отправлять пакеты не всем сразу (как хаб), а только тем, кому надо, если в ARP-таблице есть необходимая запись.
+Маршрутизатор &#x2013; это свитч с таблицей маршрутизации! Конечно, он тоже имеет ARP, и чаще всего связывает локальную сеть с внешним миром. В таком случае, обычно, в локальной сети у нодов дефолтный гейтвей как раз машрутизатор. Сам маршрутизатор получает свой дефолтный гейтвей обычно от провайдера.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-15-7" class="outline-3">
+<h3 id="sec-15-7"><span class="section-number-3">15.7</span> <span class="done 3">3</span> TCP/UDP/SCTP</h3>
+<div class="outline-text-3" id="text-15-7">
+<p>
+Протоколы, которые обычно запихивают в IP: UDP, TCP, SCIP
+</p>
+<ol class="org-ol">
+<li>UDP, TCP: хедеры, в UDP crc берется от хедеров, в TCP от всего пакета. UDP не обеспечивает никакого механизма проеврки доставки пакета, в отличии от TCP. TCP/UDP пакеты внутри содержат порт (/etc/services).
+Механизм подключения в TCP похож на трехкратное рукопожатие:
+<ol class="org-ol">
+<li>Отправляется запрос 1→2 (syn)
+</li>
+<li>Отправляется подтверждение о получении запроса 2→1 (syn-ack, ack = acknowledgment), эта сторона запоминает кому отправила syn-ack
+</li>
+<li>Клиент отправляет 1→2 (ack) еще раз и сервер проверяет, правда ли, что отправлял клиенту syn-ack. Если да, соединение установлено.
+</li>
+</ol>
+<p>
+Забавное наблюдение заключается в том, что можно много раз отправлять некоторому набору серверов syn с подмененным ip возврата, и syn-ack будут возвращаться на желаемый адрес, от чего желаемому адресу может стать плохо. Еще минус &#x2013; приходится хранить в сервере данные о том, кому отправил syn-ack.
+</p>
+</li>
+<li>SCTP (stream control transport protocol) &#x2013; штука похожая на TCP, но если среди N пакетов некоторые зафейлились, то только зафейленные будут отправляться заново (в TCP все начиная с первого зафейленного). Кроме того, этот протокол подразумевает, что всякие данные для подключения отправляются клиенту от сервера зашифрованными и только сервер может их расшифровать, когда эти же данные ему придут в ack. Отпадает необходимость помнить о syn-ack которые сервер отправляет.
+</li>
+</ol>
+
+<p>
+IPv6 имеет все из коробки внутри. Имеет обратную совместимость с IPv4, зашитый внутрь MAC. Утверждается, что использование IPv6 избавляет от необходимости использовать NAT и DHCP.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-15-8" class="outline-3">
+<h3 id="sec-15-8"><span class="section-number-3">15.8</span> <span class="todo 2">2</span> BSD sockets: API, Stream-сокеты, Datagram-сокеты, RAW-сокеты, файловый объект для accept-сокета.</h3>
+<div class="outline-text-3" id="text-15-8">
+<p>
+man socket
+BSD socket API выглядит примерно так (по всему лучше читать man):
+</p>
+<ul class="org-ul">
+<li>socket(&#x2026;) &#x2013; создать сокет. Тут устанавливаются всякие параметры, тип сокета (datagram &#x2013; UDP, stream &#x2013; TCP), другие настройки.
+</li>
+<li>connect(&#x2026;) &#x2013; создать соединение на сокете. Первоначально сокет висит в пространстве и ничего не делает, connect его инициализирует.
+</li>
+<li>bind(&#x2026;) &#x2013; другой способ инициализации сокета, серверный.
+</li>
+<li>listen(&#x2026;) &#x2013; обычно следует за bind.
+</li>
+<li>getaddrinfo(&#x2026;) &#x2013; супер обобщенный вызов, возвращающий данные о хосте, которые могут быть использованы для создания сокетов. Прелесть в том, что он удобный и одинаковый для ipv4/v6 сокетов (и еще много чего).
+</li>
+<li>Далее с сокетами можно обращаться с помощью read/write, но есть специальные вызовы: send/recv, sendto/recvfrom, sendmsg/recvmsg. Все они &#x2013; это write/read со специальными флагами + можно передавать какие-нибдуь допопции + падает если соединения нет + еще перделки.
+</li>
+</ul>
+
+<p>
+Есть файл /etc/nsswitch.conf. Сервисы типа getaddrinfo пользуются им чтобы определить откуда искать данные. К примеру, в nsswitch поле hosts хранит "files dns", что соответствует /etc/host.conf и /etc/resolv.conf. Есть демон nscd, который занимается тем, что резолвит запросы "откуда мне бы почитать". Этот демон первоначально запускается от рута и как-то связан с ldap, может резолвить пароли. Есть еще PAM, которой все пользуются (su), и иногда эти сервисы могут конфликтить.
+</p>
+
+<p>
+man socket описывает семейства сокетов как IPv4, IPv6, полезно еще знать про существование AF<sub>UNIX</sub>, который используется для общения ядра самого с собой.
+Сокет конкретного семейства имеет тип. RAW сокеты &#x2013; это уровень IPv4, но сырой, без части хедеров. Поскольку с такими сокетами можно набагать и застопорить какую-нибудь очередь IO, они доступны только руту.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-15-9" class="outline-3">
+<h3 id="sec-15-9"><span class="section-number-3">15.9</span> <span class="done 3">3</span> ICMP, TFTP, DNS, NAT</h3>
+<div class="outline-text-3" id="text-15-9">
+<p>
+ICMP протокол, который завернут в Ethernet, используется для общения между роутерами, логирования ошибок, для ping/traceroute. IP пакеты имеют TTL и на каждом hop отправляют запрос обратно.
+TFTP &#x2013; UDP-протокол, обеспечивающий наивную реализацию того, что делает FTP (достань-ка мне тот файл).
+DNS &#x2013; /etc/resolv.conf. Та самая штука, которая мапит имена в &lt;host,port&gt;. Самый простой вариант использовать DNS &#x2013; gethostbyname &#x2013; как раз получает IP по хосту. DNS пакеты имеют тип и имя. Типы: A(IPv4), AAAA(IPv4), MX(email), TXT(что угодно). Именем является хост. Ответы бывают рекурсивными и нет. Рекурсивные ответы возвращают кучу ip-адресов, соответсвтующих одному хосту (например, сервер распределяется между несколькими хостами для уменьшения нагрузки).
+NAT (network address translation): пусть есть локальная сеть и мы пользуемся внутри локальной адресацией. Тогда если узел отправляет пакет во внешний мир, он проходит через шлюз по умолчанию. Устройство, которое имеет адрес шлюза, содержит таблицу, которая сохраняет данные о пакетах. Устройство подменяет source пакета на свой, и отправляет куда надо. Когда возвращается ответ, он перенаправляется юзеру согласно таблице. Существуют хаки, которые позволяют отправлять пакеты напрямую. Гуглить tsocks, UPnP.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-16" class="outline-2">
+<h2 id="sec-16"><span class="section-number-2">16</span> <span class="done 3">3</span> Ticket 14   Terminals/Groups</h2>
+<div class="outline-text-2" id="text-16">
+</div><div id="outline-container-sec-16-1" class="outline-3">
+<h3 id="sec-16-1"><span class="section-number-3">16.1</span> <span class="done 3">3</span> Терминалы, псевдотерминалы и режимы их работы</h3>
+<div class="outline-text-3" id="text-16-1">
+<p>
+Как это было раньше:
+</p>
+<ol class="org-ol">
+<li>Line discipling &#x2013; это набор правил для обработки текста.
+Различают два мода line discipling:
+<ol class="org-ol">
+<li>raw &#x2013; приложение обрабатывает все сигналы с клавиатуры, которые ей приходят
+(так делает vim/emacs/&#x2026;)
+</li>
+<li>cooked &#x2013; приложение получает данные построчно, причем обработкой строчек перед отправлением (редактирование) занимается ОС.
+</li>
+</ol>
+</li>
+<li>TTY driver &#x2013; это драйвер, который занимается кучей разных вещей, в том числе определяет понятие бэкграундных процессов и основного, возможности их останавливать и запускать в разных режимах.
+</li>
+<li>UART (Universal Asynchronous Receiver and Transmitter) &#x2013; это драйвер операционной системы, который занимается физическим транслированием байтов, контролем четности битов (parity check) и прочее.
+</li>
+</ol>
+
+<p>
+TTY &#x2013; это тройка из &lt;Line discipline, TTY, UART&gt;.
+Как работает TTY в древник пека:
+</p>
+
+<p>
+Hardware&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;..   Kernel&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;   Userspace&#x2026;&#x2026;
+Terminal&#x2014;Physical line&#x2014;UART&#x2014;[&#x2013;UART Driver&#x2014;Line Discipline&#x2014;TTY Driver&#x2013;]&#x2014;{User Processes}
+</p>
+
+
+<p>
+Как это работает в POSIX:
+У нас нет никакого UART. Нет никакого физического терминала, вместо этого есть видео терминал &#x2013; эмулирующаяся штука, которая содержит framebuffer &#x2013; виртуальное или реальное устройство, которое хранит битмапы и умеет выводить их на экран. И этот видео терминал рендерится в VGA дисплей.
+</p>
+
+<p>
+Hardware&#x2026;..  Kernel&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;&#x2026;    Userspace&#x2026;&#x2026;.
+Display&lt;-&#x2014;&#x2014;VGA Driver&lt;-&#x2014;┐
+                            Terminal Emulator&#x2013;Line Discipline&#x2013;TTY driver-&#x2014;{User Processes}
+Keyboard&#x2014;&gt;Keyboard driver-&gt;-┘
+</p>
+
+<p>
+Чтобы облегчить себе жизнь, были созданы псевдотерминалы &#x2013; pty(7). PTY &#x2013; это пара псевдоустройств, одно из которых (slave) эмулирует текстовый терминал. Когда к терминалу хочет подлючиться какая-то программа, то она будет управляться той программой, которая открыла другой конец (master).
+Вот как работает утилита script(1): <a href="https://upload.wikimedia.org/wikipedia/commons/e/ef/Termios-script-diagram.png">script-diagram</a>
+Она фактически запускает внутри себя баш, который посылает все наверх, а в это время script пишет всякий инпут/аутпут в файл.
+</p>
+
+<p>
+sources:
+TTY unmistyfied (очень советую, просто супер забавная статья)
+<a href="http://www.linusakesson.net/programming/tty/index.php">http://www.linusakesson.net/programming/tty/index.php</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-16-2" class="outline-3">
+<h3 id="sec-16-2"><span class="section-number-3">16.2</span> <span class="done 3">3</span> Группы процессов, сессии, управление заданиями</h3>
+<div class="outline-text-3" id="text-16-2">
+<p>
+Процесс может быть в одном из пяти состояний:
+</p>
+<ul class="org-ul">
+<li>R &#x2013; запущен или может быть запущен
+</li>
+<li>D &#x2013; ждет какого-то евента в непрерываемом сне
+</li>
+<li>S &#x2013; прерываемый сон (ждем евента или сигнала)
+</li>
+<li>T &#x2013; остановлен либо по контрольному сигналу либо дебаггером
+</li>
+<li>Z &#x2013; зомби, закончившийся, но о котором забыл родитель (не сделал wait(2))
+
+<p>
+┌&#x2013;→S&#x2014;┬-&#x2014;&#x2014;┐
+↓       ↓       ↓
+</p>
+</li>
+</ul>
+<p>
+D ←&#x2013;→ R ←&#x2014;→ T ←&#x2014;→ Z
+       ∣               ↑
+       └&#x2014;&#x2014;&#x2014;&#x2014;&#x2014;┘
+</p>
+
+<p>
+ps 1 выводит запущенные/спящие процессы и чего они ждут. Более того, в графе STAT может быть флажок s &#x2013; этот процесс лидер сессии.
+Управление заданиями &#x2013; это все действия с процессами, которые касаются откладывания на задний фон, суспендинга, и прочих похожих вещей.
+Сессии и задания &#x2013; это разные уровни объединения процессов в группы. Выгляит это так:
+{Процессы} ⊂ Группа
+{Группа} ⊂ Сессия
+У каждой группы есть лидер группы (process leader), у сессии есть лидер сессии (session leader). Сессия соответствует некоторому терминалу,
+(Примечание: на самом деле есть tid &#x2013; thread id, уровень ниже процесса, треды объединяются в процессы (thread group), и у таких групп есть лидеры, при закрытии которого треды тоже умирают).
+Логика такова: fork создает процесс в своей группе, сессия менеджит сигналы. Bash понимает что пришел, например, ^C и отправляет его текущей fg группе, от чего умирают все pid'ы в ней. Шелл является лидером сессии и поэтому каждый новый запуск чего-нибудь создает новую группу.
+</p>
+
+<p>
+Понятно как делать foreground/background процессы если ты шелл. Типа просто создаешь с помощью некоторого системного вызова (полагаю, что clone) новую группу и чилда, и запускаешь, либо связывая текущий stdin/out с запущенным чилдом, либо отмечаешь, что они живут и работаешь дальше с юзером. fg/bg &#x2013; утилиты, которые могут взять последнюю использованную группу процессов и отправить ее в bg/fg.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-16-3" class="outline-3">
+<h3 id="sec-16-3"><span class="section-number-3">16.3</span> <span class="done 3">3</span> Сигналы: INT, HUP, TSTP, TTIN, TTOU, WINCH</h3>
+<div class="outline-text-3" id="text-16-3">
+<p>
+Поскольку в UNIX все tty/pty файлы, то ими можно управлять с помощью классного ioctl(2) &#x2013; швейцарского ножа UNIX относительно девайсов. Есть некоторая загадочная проблема с асинхронностью работы ядра с приложением, если юзать в приложении вызовы к ioctl. Поэтому на помощь приходят сигналы.
+</p>
+
+<p>
+Полный список сигналов есть в man, мы рассмотрим следующие:
+</p>
+<ol class="org-ol">
+<li>SIGHUP
+Default action: Terminate
+Possible actions: Terminate, Ignore, Function call
+Отсылается драйвером UART к сессии целиком, когда мы замечаем зависание на девайсе. По дефолту оно убивает все процессы. Тем не менее, программы типа nohup(1) и screen(1) отключаются от сессии, так что их процессы не заметят SIGHUP.
+</li>
+<li>SIGINT
+Default action: Terminate
+Possible actions: Terminate, Ignore, Function call
+Отпавляется драйвером TTY конкретной forground job обычно по ^C (пока это поведение не выключить с помощью stty). По дефолту SIGINT аффектит группу и убивает ее сразу (напомним, что в шелл группа &#x2013; это какая-нибудь пайпнутая последовательность команд или любая конкретная команда, которая была запущена, а также все ее чилды).
+</li>
+<li>SIGQUIT
+Default action: Core dump
+Possible actions: Core dump, Ignore, Function call
+SIGQUIT &#x2013; это SIGINT по ^\, который имеет немного другое дефолтное действие и помогает, когда программа нагло игнорирует SIGINT (если конечно не стоит хендлер и на QUIT).
+</li>
+<li>SIGSTOP
+Default action: Suspend
+Possible actions: Suspend
+Очень модный сигнал, который нельзя превентить и замаскировать. Обычно SIGSTOP не вызывается напрямую. По ^Z отправляется SIGSTP, а потом само приложение себе посылает SIGSTOP.
+</li>
+<li>SIGTSTP
+Default action: Suspend
+Possible actions: Suspend, Ignore, Function call
+Работает как INT/QUIT, но магическая кнопка &#x2013; ^Z и дефолтное действие &#x2013; остановить.
+</li>
+<li>SIGCONT
+Default action: Wake up
+Possible actions: Wake up, Wake up + Function call
+Выводит процесс из состояния сна. Он посылается, когда юзер вызывает fg.
+</li>
+<li>SIGTSTP
+Еще один сигнал (наравне с SIGSTOP и SIGSTP), суть которого в том же самом и большинство источников утверждает, что именно этот сигнал посылается по ^Z.
+</li>
+<li>SIGTTIN
+Default action: Suspend
+Possible actions: Suspend, Ignore, Function call
+Если бэкграундный процесс пытается читать из TTY, этот сигнал посылается, чтобы та задача засуспендилась.
+</li>
+<li>SIGTTOU
+Default action: Suspend
+Possible actions: Suspend, Ignore, Function call
+Если бэкграундный процесс пытается писать в TTY, ему посылается SIGTTOU, который засуспендит задачу.
+</li>
+<li>SIGWINCH
+Default action: Ignore
+Possible actions: Ignore, Function call
+TTY девайс следит за параметрами терминала, и эта информация должна периодически обновляться. Если размер изменился, TTY посылает SIGWITCH foreground'ной задаче. Всякие редакторы должны корректно растягиваться и перерисоваться.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-16-4" class="outline-3">
+<h3 id="sec-16-4"><span class="section-number-3">16.4</span> <span class="done 3">3</span> Демоны и демонизация</h3>
+<div class="outline-text-3" id="text-16-4">
+<p>
+Демоны &#x2013; это такие задачи, которые висят в фоне и не аффектят другие процессы напрямую. Демоны не принадлежат группам и не привязаны к TTY. Обычно демонизируют всякие серверы и сервисы.
+Чтобы стать демоном, нужно:
+</p>
+<ol class="org-ol">
+<li>Закрыть stdin/stdout/stderr
+</li>
+<li>Отсоединиться от TTY
+В этом две сути &#x2013; демон и все его потомки не смогут открыть терминал и что-то испортить. Плюс, демоны не будут зависимы от HUP, когда юзер выходит из shell после запуска сервера.
+</li>
+</ol>
+
+<p>
+Хорошей практикой для сетевых демонов есть:
+</p>
+<ol class="org-ol">
+<li>Поменять директорию на /
+</li>
+<li>Поменять собственную маску создания файлов (chmod)
+</li>
+<li>Нормализовать PATH
+</li>
+<li>Записать свой pid в /var/run или еще куда-нибудь
+</li>
+<li>Дополнительно, настроить логирование
+</li>
+<li>Дополнительно, сделать chroot в какой-нибудь удобный environment, где ничего нельзя испортить.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-16-5" class="outline-3">
+<h3 id="sec-16-5"><span class="section-number-3">16.5</span> <span class="done 3">3</span> Getty и рандомные факты</h3>
+<div class="outline-text-3" id="text-16-5">
+<p>
+Getty &#x2013; это программа, которая открывает терминал /dev/ttN, выставляет свою частоту. Обычно getty запускается init'ом.
+Потом она принтит issue, login, motd.
+</p>
+
+<p>
+Рандомные факты:
+</p>
+<ol class="org-ol">
+<li>setgrp(pid, sr) &#x2013; проеряет, правда ли, что pid не лидер группы.
+</li>
+<li>setsid() &#x2013; стартует новую сессию, sid=pid, pgrp=pid.
+</li>
+<li>Когда ты открываешь терминал с getty, терминал выставляется как дефолтный
+</li>
+<li>при подключении нового деваяса соединенного с терминалом, возникает HUP, и отправляется всем процессам у которых tty=current<sub>tty</sub>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-17" class="outline-2">
+<h2 id="sec-17"><span class="section-number-2">17</span> <span class="todo 2">2</span> Ticket 15   Booting</h2>
+<div class="outline-text-2" id="text-17">
+<ol class="org-ol">
+<li>UEFI explained:
+</li>
+</ol>
+</div>
+<div id="outline-container-sec-17-1" class="outline-3">
+<h3 id="sec-17-1"><span class="section-number-3">17.1</span> <span class="todo 2">2</span> Pre-BIOS: хардварная загрузка</h3>
+<div class="outline-text-3" id="text-17-1">
+<p>
+Материнская плата имеет огромное число всяких разных защелок, кнопка включения/reset приводит их в детерменированное состояние. Затем подается питание на процессор и указатель направлен в константную память, в которой лежит BIOS.
+Тут Ян минут 5-10 рассказывал, но вроде не критично и не нужно.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-17-2" class="outline-3">
+<h3 id="sec-17-2"><span class="section-number-3">17.2</span> <span class="done 3">3</span> Загрузка: BIOS → MBR (DOS Label), DOS/Windows boot, GRUB</h3>
+<div class="outline-text-3" id="text-17-2">
+<p>
+Первым делом BIOS инициализируется. Затем иницализируется VGA BIOS
+&#x2013; штука которая инициализирует VGA-контроллер. Происходит проверка
+системы на целостность, прогоняются тесты. Существуют различные
+вариации селф-тестов, в зависимости от желаемого времени
+прохождения. Первоначально целью этих тестов было получить размер
+оперативной памяти (программа подсчитывала количество байтов
+линейно).  Далее проверяется наличие всех необходимых
+контроллеров. Ровно тут существовала популярная ошибка "no keyboard
+detected" &#x2013; старые операционные системы не могли работать без
+клавиатуры. Более того, раньше никто не задумывался о необходимости
+запускать ПК без клавиатуры или видеокарты, так как самый
+популярные юзкейс &#x2013; серверы, а раньше из обычных ПК серверы никто
+не делал, там железо требовалось особое. Кстати говоря, клавиатуры
+подключались через PS/2 &#x2013; он очень простой, в этом профит.  Если у
+BIOS происходят какие-то ошибки, понять, какие конкретно, сейчас
+можно по специфическим гудкам, которые он издает с помощью
+встроенного динамика (и документации). BIOS можно дампить, он там
+свой стейт как-то в CMOS хранит.  После прохождения self-тестов
+BIOS предоставляет возможность что-то сделать, войти в какой-нибудь
+GUI по нажатию f11, например. Раньше кастомизация BIOS происходила
+с помощью джамперов, которые выставлялись один раз перед загрузкой.
+Затем происходит загрузка с дефолтного boot устройства. Тут
+необходимо посвятить время основной загрузке с жесткого диска и
+немного сетевой загрузке.
+</p>
+
+<p>
+При сетевой загрузке используется PXE. У нас есть сетевая карта,
+драйвер к которой давным-давно был расположен на самой кате, а
+сейчас он есть в BIOS. BIOS может с ее помощью вытаскивать
+необходимые данные. Есть несколько вариантов PXE на данный момент,
+самый популярный &#x2013; pxelinux, или ipxe. Первый поддерживает TCP, и
+это очень круто, потому что TFTP по UDP может терять пакеты и если
+ядро большое, можно много раз безуспешно пробовать его
+загружать. Частая практика с PXE использовать chained
+requests. Один PXE вытаскивает с сервера некоторый код, который
+предоставляет GUI для того, чтобы выбрать другой удаленный сервер и
+выбрать ядро, которое тебе нравится (например).
+</p>
+
+<p>
+Стандартная загрузка с жесткого диска происходит следующим образом:
+BIOS загружает необходимые ему драйвера: ATA-IDE, SATA-SCSI,
+USB. USB драйвера труднее писать из-за того, что USB необходимо
+постоянно поллить (значит ли это, что драйвера для USB не всегда
+включены в BIOS?). Затем BIOS грузит в оперативную память первые
+512б и загружается с них. Есть несколько вариантов разметки
+жесткого диска, которые позволяют делать разные приятные вещи, к
+примеру MBR или GPT. Отметим, что нет ничего противозаконного
+загружаться напрямую из какого-то кода (как grub или
+ваш<sub>кастомный</sub><sub>загрузчик</sub>).  MBR (DOS label) формат: 512b. Последние
+два байта это 0x55AA, необходимы для первоначальной проверки того,
+что шина работает. Кроме того, это индицирует, что диск размечен
+MBR а не чем-то другим. Первые 510б &#x2013; это jump, метаданные,
+загрузчик и TBL. Jump просто перепрыгивает метаданные. Все, что
+делает код &#x2013; загружает нужный кусок памяти и запускает его.  TBL
+(загрузочная таблица) содержит 4 основных (primary) раздела, для
+каждого определено boot bit, тип, старт (адрес) и длина. Boot bit
+показывает, что с этого раздела нужно грузиться. Кроме 4 основных
+разделов можно добавить еще некоторые дополнительные (extended).
+Любой раздел кроме уже перечисленного содержит (в таблице) свой тип
+и другие данные. Linux игнорирует TBL-информацию о типе, но для DOS
+это критично. Обычно ядро лежит по фиксированному адресу на
+диске. Важное замечание: fdisk не дает создать раздел раньше чем
+некоторый оффсет с начала диска по причине того, что начало обычно
+резервируется для MBR + еще потенциально чего-нибудь. Кроме того,
+даже начало MBR не совпадает с началом диска, а есть еще оффсет,
+который свойственен для конкретной модели HDD ввиду того, что
+дорожки близко к центру плохо отцентрованы.  GRUB обычно
+устанавливается как раз сразу за MBR и занимает секцию кода в
+MBR. Также GRUB содержит рядом со своим исполняемым кодом различные
+драйвера. GRUB похож на маленькую OS, которая загружает разделы с
+помощью драйверов которые вот там есть и показывает GUI,
+предоставляя возможность настраивать все, что настраивается.
+Забавный факт: с некоторых пор GRUB начал хранить себя еще и с crc,
+по причине того, что Windows никак не защищает этот кусок памяти, и
+туда могут благополучно писать кто хочет, в том числе и Photoshop,
+который хранит где-то в этом месте свои ключи регистрации, чтобы
+пользователи после переустановки системы не могли сбросить
+лицензию.
+</p>
+
+<p>
+С GPT памяти на то же, что использовалось в MBR, намного больше. В
+начале есть MBR-совместимая таблица, потом располагаются 512 ячеек
+TBL.  Утверждается, что с помощью BIOS без внешнего загрузчика
+нельзя загружать что либо в файловой системе, то есть единственный
+вариант &#x2013; ядро класть прямо по адресу.
+</p>
+
+<p>
+EFI &#x2013; это такой BIOS, который пишет в NVRAM все загрузочные
+данные, а конкретно откуда и с каким оффсетом лежат ядра, всякие
+аргументы и прочее.
+</p>
+
+<p>
+Про то, чем UEFI не BIOS. Подробно, читабельно.
+<a href="https://www.happyassassin.net/2014/01/25/uefi-boot-how-does-that-actually-work-then/">https://www.happyassassin.net/2014/01/25/uefi-boot-how-does-that-actually-work-then/</a>
+</p>
+</div>
+</div>
+<div id="outline-container-sec-17-3" class="outline-3">
+<h3 id="sec-17-3"><span class="section-number-3">17.3</span> <span class="done 3">3</span> initrd</h3>
+<div class="outline-text-3" id="text-17-3">
+<p>
+Initrd &#x2013; это cpio архив, который грузится в память, а ядро затем монтирует это как дефолтную систему. Основная цель initrd &#x2013; обеспечить дополнительную функциональность, когда слишком сложно/лень писать новый модуль ядра. Initramfs &#x2013; это модификация initrd, доступная в linux с 2.6.13, которая монтируется как tmpfs.
+Пусть у нас есть ядро и initrd. Ядро обычно находится по некоторому фиксированному адресу. Ядру передаются параметры, в том числе root={dev|UUID}, который говорит, что монтировать в корень (blkid). Ядро обычно сжато bzImage, с тех пор, как оно стало достаточно большим &#x2013; это довольно специфичный архивный формат (не связан с bzip2), основанный на gzip. В начале этого архива есть программа для разархивации.
+GRUB запускает ядро, распаковывает initrd и монтирует его в корень (/). Затем запускается /init, который дает старт загрузке. Всякие встроенные устройства типа роутеров как раз имеют ровно ядро и initrd, которые лежат в некоторой NVRAM. В таких встроенных системах пользуется популярностью busybox &#x2013; программа, которая имитирует стандартный набор утилит linux (парсит 0 аргумент и запускает что надо). В случае, если установлен busybox, /bin/{ls, mv, cp, cat} &#x2013; symlink'и на busybox (busybox &#x2013;help, busybox &#x2013;install -s dir &#x2013; устанавливает симлинки на себя). Цель busybox &#x2013; иметь кучу всего, при этом не тратя много памяти (стандартные утилиты имеют достаточно ограниченный функционал, меньший, чем оригиналы).
+После этого создаются /dev/{stdin, stdout, stderr, console} и console выставляется на все стандартные std&#x2026; (exec &lt; /dev/console &amp;&amp; exec &gt; /dev/console &amp;&amp; exec 2&gt; /dev/console). Следующим шагом возникает необходимость примонтировать какую-нибудь файловую систему, и это делают двумя способами:
+</p>
+<ol class="org-ol">
+<li>mount -t procfd &#x2026; /proc, mount -t sysfs &#x2026; /sys; launch udev.
+</li>
+<li>Монтируется некоторая специфическая система (Ян не вспомнил названия), которая имеет udev внутри и создает все inod'ы автоматически.
+</li>
+</ol>
+
+<p>
+udev(7) &#x2013; это демон, который создает netlink (socket(2)) сокет с ядром, в которое ядро дампит информацию про устройства, а потом парсит эти данные, классифицирует (connect/disconnect/modify) и согласно правилам в /etc/udev что-то делает (чаще всего создает что-то в /dev, переименовывает или меняет симлинки). Существует также поведение udev, которое называется settle (udevadm(8)) &#x2013; udev обрабатывает всю очередь событий и выходит.
+</p>
+
+<p>
+После этого можно отмонтировать себя и загрузить желаемый раздел (а между тем что-нибудь еще расшифровать или сделать еще что-нибудь интересное, что позволяет initrd). Если используется busybox, то определить файловую систему помогает blkid, если нет, то полноценный mount сам может. Есть еще проблема с инициализацией SATA, так что blkid умеет ждать в цикле инициализации. Альтернативный подход к решению проблемы &#x2013; libsata модуль, которым никто не пользуется, потому что никому не нужен модуль, который ждет SATA и блокирует систему.
+Теперь мы можем примонтировать / и запустить init. Сделать это можно с помощью pivot<sub>root</sub> &amp;&amp; exec /sbin/init. Внутренний init делает что-то специфическое, свойственное для системы. В этом месте как раз мы расшифровываем диск, если он зашифрован. Можно тут загрузить вместо init просто emacs, который умеет делать сам практически все необходимое, тогда в /bin кроме него нужно положить еще mount, а busybox'а с головой должно хватить (тут много шутят про emacs OS still needs a better editor &#x2013; возьмитв evil/viper/vimpulse с собой!).
+</p>
+
+<p>
+Рассмотрим пример с USB:
+</p>
+<ol class="org-ol">
+<li>USB воткнут в порт.
+</li>
+<li>Проходит 300мс, необходимые для того, чтобы убедиться, что USB всунут плотно (лол).
+</li>
+<li>Контроллер на флешке понимает, что он подключился куда-то и отправляет сигнал
+</li>
+<li>Проходит через южный мост
+</li>
+<li>Через северный
+</li>
+<li>В процессор, который получает прерывание
+</li>
+<li>Ядро обрабатывает прерывание, смотрит на контроллер, понимает какой драйвер нужен
+</li>
+<li>Смотрит в табличку специальную, осознает какой модуль за это отвечает (если в ядре нету драйвера)
+</li>
+<li>Hotplugging: в ядро загружается код, который представляет из себя нужный модуль (код мерджится с кодом ядра), с зависимостями. Или все падает, если чего-то нет, хотя обычно утилиты конфигурации ядра (menuconfig в gentoo) такого не допускают, компилируя все зависимости.
+</li>
+<li>создается sys/&#x2026;, в дело вступает udev и создает /dev/sdd{..}
+</li>
+<li>Все последующие прерывания обрабатываются уже из загруженного модуля.
+</li>
+</ol>
+
+<p>
+Все операции во время hotplugging'а происходят с помощью UNIX сокетов, которые должны быть вкомпилированы в ядро, иначе мы получим бесконечный цикл попыток загрузить модуль с UNIX сокетами.
+Все модули загружаются автоматически, но иногда приходится делать это вручную. Например, с помощью /etc/init.d/modules.
+Firmware загружается напрямую в железо (как например драйвер видеокарточки), и затем появляется возможность общаться с картой через стандартный интерфейс (opengl какой-нибудь).
+</p>
+</div>
+</div>
+<div id="outline-container-sec-17-4" class="outline-3">
+<h3 id="sec-17-4"><span class="section-number-3">17.4</span> <span class="done 3">3</span> Инициализация системы: последовательная, учитывая зависимости, resource/socket activation, lazy activation, cтандартные init системы</h3>
+<div class="outline-text-3" id="text-17-4">
+<p>
+Последовательная инициализация &#x2013; запустить все (!!!) последовательно! С зависимостями &#x2013; имеется некоторый набор сервисов, которые превращаются в граф. Resource activation &#x2013; не запускать сервер, пока не будет в том необходимости, то есть клиенты раньше сервера. Lazy activation &#x2013; полагаю, что приоритеты, как в systemd.
+Init системы:
+Первоначально был System V init &#x2013; демон, который создавал /dev/initctl сокет при старте. Можно отправлять в этот сокет команды запускать runlevel'ы (определены в /etc/inittab). Типа ты запускаешь runlevel с помощью rc N команды, и тогда rc запускает /etc/rc&lt;N&gt;.d/*K kill, потом /etc/rcN.d/*S start, смена runlevel'а останавливает все предыдущие процессы. Дефолтно 0 &#x2013; halt, 1 &#x2013; single user, 2 &#x2013; многопользовательский без сети, 3 &#x2013; многопользовательский с сетью, 6 &#x2013; reboot.
+System V init вполне себе ОК, когда задач не очень много, так что его используют на всяких встроенных системах, читалках и тд. Вторая проблема &#x2013; это демоны, их трудно трекать.
+Перед systemd, arch linux пользовался какой-то модификацией systemv с поддержкой асинхронного запуска программ.
+Первое нормальное решение вместо system v &#x2013; это Upstart, штука очень похожая на system v, но умеющая трекать демонов и мультизадачная, на основе событий &#x2013; некоторые скрипты создают евенты, которые другие события слушают, так что можно запускать что-то асинхронно. На события можно подписываться.
+Socket activation &#x2013; решение создавать все сокеты и каналы перед выполнением задач, а потом все сразу запустить. Такая штука использовалась некогда в Mac OS.
+Systemd &#x2013; init с поддержкой мультизадачности на графе сервисов, ребра которых либо сокеты, либо просто непосредственный запуск ресурса. Это более оптимально чем socket activation из-за того, что вершины имеют приоритет + проблемы с демонами решены с помощью механизма cgroups. Cgroups представляет собой набор процессов, объединенных круче, чем обычные группы процессов, а именно: можно ограничить группе доступ к памяти, дать группам разный приоритет по отношении к CPU/IO, можно убивать, чекпоинтить и рестартить всю группу сразу. Проблема демонов решена ровно потому, что из cgroup нельзя просто так выйти.
+Openrc &#x2013; gentoo init, который очень похож на systemd, но без безумных идей.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-17-5" class="outline-3">
+<h3 id="sec-17-5"><span class="section-number-3">17.5</span> <span class="done 3">3</span> Стандартные демоны: init, syslog, klog, cron, at, ssh</h3>
+<div class="outline-text-3" id="text-17-5">
+<ol class="org-ol">
+<li>init daemon &#x2013; уже обсудили
+</li>
+<li>syslog - демон, который читает из ядра логи и пишет их
+Поговаривают, он читает <i>dev/log сокет и делает что-то согласно /etc/syslog.conf
+<a href="http://www.k-max.name/linux/syslogd-and-logrotate">http://www.k-max.name/linux/syslogd-and-logrotate</a></i>
+На gentoo все пользутся syslog-ng или rsyslog, которые умеют делать что-то с логами согласно конфигурации &#x2013; класть их в /var/log или пересылать по сети.
+<a href="https://wiki.gentoo.org/wiki/Rsyslog">https://wiki.gentoo.org/wiki/Rsyslog</a>
+</li>
+<li>klog
+Тоже логгер какой-то видимо, про него ничего нету в интернетах
+</li>
+<li>cron
+Супер-полезная штука, которая делает какие-то вещи по расписанию, будь то бекапы или обновления, или еще что угодно
+</li>
+<li>at
+Демон atd висит и исполняет команды, которые его попросили (единажды).
+</li>
+<li>ssh
+sshd(8) и ssh &#x2013; программы, которые позволяют установить зашифрованное сообщение на незашифрованной сети
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-17-6" class="outline-3">
+<h3 id="sec-17-6"><span class="section-number-3">17.6</span> <span class="done 3">3</span> Стандартные файлы /etc: fstab, mtab, sysctl.conf, motd, issue, nologin.</h3>
+<div class="outline-text-3" id="text-17-6">
+<ol class="org-ol">
+<li>fstab &#x2013; file system table, файл который говорит, какие разделы куда нужно монтировать при init'е
+</li>
+<li>mtab &#x2013; mounted table, там написано что сейчас замонтировано и как
+</li>
+<li>sysctl.conf &#x2013; содержит настройки, которые необходимы sysctl для смены конфигурации ядра в рантайме
+</li>
+<li>motd &#x2013; (message of the day) все что там написано выводится после успешного login
+</li>
+<li>issue &#x2013; выводится до логина
+</li>
+<li>nologin &#x2013; если /etc/login существует, то логиниться можно только root'у
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-18" class="outline-2">
+<h2 id="sec-18"><span class="section-number-2">18</span> <span class="done 3">3</span> Ticket 16   Linking</h2>
+<div class="outline-text-2" id="text-18">
+</div><div id="outline-container-sec-18-1" class="outline-3">
+<h3 id="sec-18-1"><span class="section-number-3">18.1</span> [Sources]</h3>
+<div class="outline-text-3" id="text-18-1">
+<ol class="org-ol">
+<li>Strange, complex
+<a href="http://flint.cs.yale.edu/cs422/doc/ELF_Format.pdf">http://flint.cs.yale.edu/cs422/doc/ELF_Format.pdf</a>
+</li>
+<li>Simple, useful
+<a href="https://github.com/oxij/unix-notes-ru/blob/master/compiled/main.pdf">https://github.com/oxij/unix-notes-ru/blob/master/compiled/main.pdf</a>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-18-2" class="outline-3">
+<h3 id="sec-18-2"><span class="section-number-3">18.2</span> <span class="done 3">3</span> ELF</h3>
+<div class="outline-text-3" id="text-18-2">
+<p>
+Файлы мы умеем компилировать, линковать и запускать. Под компиляцией понимается превращение кода на чем-то в набор op-code'ов, находящихся в некотором формате. Tool chain &#x2013; последовательность действий необходимая для создания рабочего бинарника из кода.
+.h файлы представляют собой типы, методы, оффсеты и прочее. .c файлы хранят другие вещи и компилируются в бинарник, формат которого в подавляющем большинстве случаев ELF (есть еще COFF, но никто его не использует).
+ELF состоит из:
+</p>
+<ol class="org-ol">
+<li>ELF Header
+Содержит информацию про то, что это вообще такое, всякие версии, архитектуру и прочее.
+</li>
+<li>Program header
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">type</td>
+<td class="left">flags</td>
+<td class="left">offset in body</td>
+<td class="left">length in body</td>
+<td class="left">offset in memory&lt;vm, ph&gt;</td>
+<td class="left">length in memory</td>
+</tr>
+</tbody>
+</table>
+<p>
+Оффсет в физической памяти игнорируется, если программа юзерспейсная. Мапить вообще в физическую память полезно если какие-то страницы закэшированы, а какие-то нет. Тип может быть разным, к примеру MEM значит что оно замаплено в память, INTERPRET это сегмент, где находится интерпретатор. DWARF значит дебаг, RPATH содержит перемнные окружения.
+Самый простой интерпретатор ELF парсит программные хедеры и загружает сегменты туда, куда указано (в свое новое адресное пространство).
+</p>
+</li>
+<li>Body
+Sections and code are here
+</li>
+<li>Section table
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">labelname</td>
+<td class="left">type</td>
+<td class="left">&lt;offset, length in body&gt;</td>
+</tr>
+</tbody>
+</table>
+<p>
+Большинство секций &#x2013; это просто функции, но есть специальные:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">.init</td>
+<td class="left">инициализация</td>
+</tr>
+
+<tr>
+<td class="left">.fini</td>
+<td class="left">конец инициализации</td>
+</tr>
+
+<tr>
+<td class="left">.ctor</td>
+<td class="left">конструкторы</td>
+</tr>
+
+<tr>
+<td class="left">.dtor</td>
+<td class="left">деструкторы</td>
+</tr>
+
+<tr>
+<td class="left">.data</td>
+<td class="left">section .data</td>
+</tr>
+
+<tr>
+<td class="left">.text</td>
+<td class="left">section .text</td>
+</tr>
+
+<tr>
+<td class="left">.sym</td>
+<td class="left">таблица символов {name → address}</td>
+</tr>
+
+<tr>
+<td class="left">.rel</td>
+<td class="left">таблица релокаций</td>
+</tr>
+</tbody>
+</table>
+<p>
+Поясним, что символом называется любая глобальная переменная, метка, функция и вообще все, у чего есть имя. Очевидно, что в .sym не может быть коллизий &#x2013; в программе нет функций с одинаковыми именами и т.д.
+</p>
+</li>
+</ol>
+
+<p>
+Насчет аллокаций:
+По дефолту если мы вызываем какую-то внешнюю фукнцию из кода, то в объектнике появляется call 0x0, а в таблицу аллокаций добавляется {оффсет этого call, имя метки}.
+Структура таблицы релокаций:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">name</td>
+<td class="left">type</td>
+<td class="left">offset</td>
+</tr>
+</tbody>
+</table>
+<p>
+Что бы это могло значить &#x2013; хз, дальше понятнее станет.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-18-3" class="outline-3">
+<h3 id="sec-18-3"><span class="section-number-3">18.3</span> <span class="done 3">3</span> Статическая линковка</h3>
+<div class="outline-text-3" id="text-18-3">
+<p>
+Когда ld линкует файлы, он:
+</p>
+<ol class="org-ol">
+<li>Берет кучу .o файлов, с зависимостями,
+</li>
+<li>Добавляет свои специальные объектники, чтобы сегенерировать _start и прочие жизненно важные вещи (crti.o, crtn.o,&#x2026;).
+</li>
+<li>Игнорирует прогрмамные хедеры (выкидывает), мерджит объектники, склеивая секции в том порядке, в котором были даны аргументы,
+</li>
+<li>С каждым новым мерджем генерируeтся новый программный хедер.
+</li>
+<li>Резолвит таблицу релокаций, но пока не подставляет конкретные вызовы.
+</li>
+</ol>
+
+<p>
+Когда наступает время создать бинарник из .o, ld:
+</p>
+<ol class="org-ol">
+<li>проверяет наличие _start, другие вещи
+</li>
+<li>заполняет адреса из таблицы релокаций
+</li>
+<li>выкидывает section table
+</li>
+</ol>
+
+<p>
+То есть смотрит на все дырки, в которых ничего не написано (это хранится в .rel) и суммирует туда те адреса, которые значатся в таблице.
+Еще разок: на этапе компиляции в объектник были дырки и непонятно было, что вставлять, потом при мердже в таблицу добавились нужные записи.
+Линковка на уровне символов (symbol-level linking) это выкидывание ненужных символов на этапе создания бинарника. В Plan 9 это главная идея. С использованием линковки с выбрасыванием ненужного + статической можно легко имплементировать исполнение в контейнерах. Плюс забавно, что статически линковать выгоднее иногда, чем использовать динамическую линковку (пока мы не юзаем чего-нибудь ресурсоемкого типа каких-нибудь firefox).
+</p>
+</div>
+</div>
+<div id="outline-container-sec-18-4" class="outline-3">
+<h3 id="sec-18-4"><span class="section-number-3">18.4</span> <span class="done 3">3</span> Динамическая линковка, GOT, PLT</h3>
+<div class="outline-text-3" id="text-18-4">
+<p>
+Проблемы статической линковки: жирные бинарники, нужно перекомпилировать все подряд.
+Решение: на этапе мерджа мы мерджим то, что можно, а функции из внешних библиотек проверяем на целостность. При динамическом запуске динамический загрузчик кроме нашего кода загружает в память еще и библиотеку, причем расставляет правильные адреса вызовам.
+Есть проблема, что разложение объектников в памяти может портиться, поэтому непонятно, как расставлять адреса на этапе динамической загрузки. В x64 поддерживается relative адресация, а если такого нету, то можно использовать такой хак: Пусть в объектнике все адреса меток располагаются так, будто они начинаются с нуля, тогда при загрузке на адрес N можно ко всем вызовам прибавить N и будет работать. Код который можно так использовать, называют релокабельным.
+Насчет внешних вызовов, следует пользоватся таблицей релокации.
+Пусть у нас есть код, секция данных, и еще две секции &#x2013; таблица внешних вызовов и таблица внешних данных. Все call на внешние функции указывают на записи в таблице внешних вызовов, а там написано "jmp X", где X потом поставит компилятор. Аналогично с глобальными переменными, только вместо jump хранится просто адрес. То есть мы получили блоб кода с двумя табличками, которые нужно поменять и код будет работать. Такой код к тому же можно сделать релокабельным, то есть все внутренние метки имеют адрес как будто они нумеруются с нуля.
+Тогда делаем следующее:
+</p>
+<ol class="org-ol">
+<li>берем кучу объектников, клеим, клеим, клеим (то, что клеится хорошо, то есть не содержит вызовов куда-то туда, что мы не компилируем &#x2013; либы).
+</li>
+<li>получаем несколько бинарников
+</li>
+<li>раскладываем в память, добавляя ко всем вызовам внутри каждого бинарника адрес по которому он кладется (релокативность вот этого блоба) &#x2013; если требуется и у нас не relative раскладывание, оно в x64 из коробки
+</li>
+<li>динамический загрузчик расставляет адреса в 2 таблички каждого бинарника
+</li>
+<li>управление передается _start.
+</li>
+</ol>
+
+<p>
+На деле вместо таблицы внешних вызовов в таблицу внешних данных кладутся адреса функций. После чего ее называют GOT (Global offset table) &#x2013; для каждого бинарника на нее ссылаются все вызовы внутри него, а в самой табличке динамический линковщик проставляет адреса.
+С другой стороны, таблицу внешних вызовов выкидвать не нужно, а стоит поменять в каждом "jmp X" X на соответствующий элемент из GOT, а таблицу назовем PLT (procedure linkage table).
+Еще раз в виде определений:
+</p>
+<ol class="org-ol">
+<li>GOT &#x2013; таблица в которой лежат адреса всех внешних переменных и функций
+</li>
+<li>PLT &#x2013; таблица на которую ссылается код релокабельного бинарника, состоит из jmp на GOT
+</li>
+</ol>
+<p>
+Тогда динамическому линковщику нужно заполнять только GOT.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-18-5" class="outline-3">
+<h3 id="sec-18-5"><span class="section-number-3">18.5</span> <span class="done 3">3</span> PIC</h3>
+<div class="outline-text-3" id="text-18-5">
+<p>
+Иногда хочется (из соображений безопасности) класть бинарник в случайное место памяти. Кроме того, затратно каждый раз прибавлять к каждой инструкции в коде адрес начала бинарника когда мы его куда-то кладем.
+PIC &#x2013; placement independent code &#x2013; код, исполнение которого не зависит от того, куда мы его положили.
+Вопрос в том, как сделать относительную адресацию на архитектуре, на которой это не работает по дефолту. В x64 есть RIP-addressing, который работает из коробки.
+Простое решение &#x2013; хранить ссылку на GOT в ebx, а все обращения к локальным переменным и регистрам проиходит через GOT.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-18-6" class="outline-3">
+<h3 id="sec-18-6"><span class="section-number-3">18.6</span> <span class="todo 2">2</span> Exec magic и интерпретаторы и прочее</h3>
+<div class="outline-text-3" id="text-18-6">
+<p>
+Shebang &#x2013; если файл начинается с #!, то это не ELF, а shebang формат, ядро запускает интерпретатор ровно оттуда, что указано после #!.
+Exec magic &#x2013; это вот это самое #!, которое 0x23 0x21. exec-функции умеют как раз парсить эту магию и понимать, что нужно делать с файлом, как искать интерпретатор и т.д.
+Насчет magic еще есть очень важное замечание, которое есть в magic(1). Вкратце, если я все правильно понимаю, /etc/share/misc/magic* файлы определяют, в каких местах в файлах могут находиться некоторые критичные данные, которые помогают типизировать его. Соответственно, сопоставляется MIME-тип. Утилита file прогоняет 3 теста (проеврка fs, проверка magic, проверка language). Насчет третьего вообще хз, первые два более-менее понятно.
+</p>
+
+<p>
+Кроме того, в Unix есть два динамических загрузчика &#x2013; один в ядре, который осиляет только простые ELF, другой юзерспейсный, очень сложный, но скомпилированный в простой ELF.
+Под динамическим загрузчиком понимают именно второй, он обычно лежит в /lib/ld-linux.so.VERSION, где VERSION &#x2013; его мажорная версия. По дефолту в переменной окружения LD<sub>LIBRARY</sub><sub>PATH</sub> лежат библиотеки, которые ld осматривает при линковке.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-19" class="outline-2">
+<h2 id="sec-19"><span class="section-number-2">19</span> Uncategoriesed</h2>
+<div class="outline-text-2" id="text-19">
+</div><div id="outline-container-sec-19-1" class="outline-3">
+<h3 id="sec-19-1"><span class="section-number-3">19.1</span> Execution levels</h3>
+<div class="outline-text-3" id="text-19-1">
+<p>
+There's -2 level of execution, for example something that governs how to operate with cooler.
+Available protocols for hard drives and stuff:
+</p>
+</div>
+</div>
+<div id="outline-container-sec-19-2" class="outline-3">
+<h3 id="sec-19-2"><span class="section-number-3">19.2</span> Encryption and safety</h3>
+<div class="outline-text-3" id="text-19-2">
+<p>
+TPM &#x2013; hardware, that has 256-bit registers, near 20 items of them, has clear operation and extend reg data operation &#x2013; takes hash from data, hashes it with register and writes to it. TMP has some processor, that can clear, extend, and built-in algorithms of encryption, like AES (very secure, there's a proof, thats energy to decrypt it is more than the energy to melt the Earth: <a href="http://www.eetimes.com/document.asp?doc_id=1279619">http://www.eetimes.com/document.asp?doc_id=1279619</a>). There's also seal operation, that takes registers, data, and uses registers to encrypt data, then puts data into one of hardware box; There's also unseal operation, that does the opposite.
+Hardware encryption: LUKS, 2mb of data in the start of disk, that contains metadata, salt, master-key, header, algorithm for hashing passwords and disk, and then it's some magic. The disk is always encrypted. Hash cache is algorithm of detecting SPAM &#x2013; user that sends email generates hash collisions and it takes lot of computer time.
+That's not clearly secure (LUKS) because one can replace initrd. That's called evil maid strategy. We can encrypt all except grub, but there can be an malware in grub. There can be a solution with outer flash drive, that contains everything but encrypted binary blob (even LUKS header). With TPM it's easier, because things that BIOS does are extended. BIOS CAN HAVE MALWARE TOO!! PARANOID!! TXT is a technology by Intel that allows you to trust your processor, and it uses TMP to extend some hardware id.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-19-3" class="outline-3">
+<h3 id="sec-19-3"><span class="section-number-3">19.3</span> Read</h3>
+<div class="outline-text-3" id="text-19-3">
+<p>
+Что делает read:
+мы делаем read на файловый дескриптор.
+fdtable
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="left">int</td>
+<td class="left">file*</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Первым делом read получает положение указателя в этом файле.
+Вызывается функция "верни мне указатель на функцию которая делает read для конкретной файловой системы".
+</p>
+</div>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">&#1057;&#1085;&#1086;&#1089;&#1082;&#1080;: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" name="fn.1" class="footnum" href="#fnr.1">1</a></sup> <p>DEFINITION NOT FOUND.</p></div>
+
+
+</div>
+</div></div>
+<div id="postamble" class="status">
+<p class="author">&#1040;&#1074;&#1090;&#1086;&#1088;: Volkhov Mikhail</p>
+<p class="date">Created: 2015-11-25 Wed 21:45</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.2 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
