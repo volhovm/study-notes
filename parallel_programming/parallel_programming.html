@@ -1,0 +1,2653 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Конспект по ПП от Елизарова</title>
+<!-- 2015-12-14 Mon 16:11 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Конспект по ПП от Елизарова</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Какие-то материалы:</a></li>
+<li><a href="#sec-2">2. Вступление, модели, их свойства, согласованность</a></li>
+<li><a href="#sec-3">3. Блокировки, взаимное исключение, deadlock'и</a></li>
+<li><a href="#sec-4">4. Алгоритмы/объекты без блокировок, свободы (lock/wait/obstr)</a></li>
+<li><a href="#sec-5">5. Консенсус</a></li>
+<li><a href="#sec-6">6. Практические построения на списке, вступление</a></li>
+<li><a href="#sec-7">7. Типы синхронизации на примере списка (LinkedSet)</a>
+<ul>
+<li><a href="#sec-7-1">7.1. Грубая синхронизация</a></li>
+<li><a href="#sec-7-2">7.2. Тонкая синхронизация</a></li>
+<li><a href="#sec-7-3">7.3. Оптимистичная синхронизация</a></li>
+<li><a href="#sec-7-4">7.4. Ленивая синхронизация</a></li>
+<li><a href="#sec-7-5">7.5. Неблокирующая синхронизация</a></li>
+</ul>
+</li>
+<li><a href="#sec-8">8. Продолжение построений на списках, стеках</a>
+<ul>
+<li><a href="#sec-8-1">8.1. Стек LIFO</a></li>
+<li><a href="#sec-8-2">8.2. Очереди на списках, Майкл-Скотт</a></li>
+<li><a href="#sec-8-3">8.3. ABA problem</a></li>
+</ul>
+</li>
+<li><a href="#sec-9">9. Алгоритмы на массивах</a>
+<ul>
+<li><a href="#sec-9-1">9.1. Стек на массиве</a></li>
+<li><a href="#sec-9-2">9.2. Хэш-таблицы на массиве</a></li>
+</ul>
+</li>
+<li><a href="#sec-10">10. CASN</a></li>
+<li><a href="#sec-11">11. Сложные блокировки</a></li>
+<li><a href="#sec-12">12. STM</a>
+<ul>
+<li><a href="#sec-12-1">12.1. Транзакции с блокировкой:</a></li>
+<li><a href="#sec-12-2">12.2. Транзакции без блокировки</a></li>
+</ul>
+</li>
+<li><a href="#sec-13">13. Мониторы и локи</a></li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Какие-то материалы:</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+<a href="https://www.slideshare.net/secret/6dv9wtl1pDOTgu">https://www.slideshare.net/secret/6dv9wtl1pDOTgu</a>
+<a href="https://www.slideshare.net/secret/h3wT59xRPciKM6">https://www.slideshare.net/secret/h3wT59xRPciKM6</a>
+<a href="https://www.slideshare.net/secret/yDV9vtRs61gEdg">https://www.slideshare.net/secret/yDV9vtRs61gEdg</a>
+</p>
+
+<p>
+<a href="https://www.slideshare.net/secret/E1asIyWYNfvkNv">https://www.slideshare.net/secret/E1asIyWYNfvkNv</a>
+<a href="https://www.slideshare.net/secret/LnSxMJ7JZ25JFe">https://www.slideshare.net/secret/LnSxMJ7JZ25JFe</a>
+Консенсус:
+<a href="https://www.slideshare.net/secret/LnSxMJ7JZ25JFe">https://www.slideshare.net/secret/LnSxMJ7JZ25JFe</a>
+Реализация ссылочных структуры:
+<a href="https://www.slideshare.net/secret/zrtgOfnRQY6K0Z">https://www.slideshare.net/secret/zrtgOfnRQY6K0Z</a>
+Массивы, CASN, R/W Locks, STM:
+<a href="https://www.slideshare.net/secret/8ZkekdbzRSIjsP">https://www.slideshare.net/secret/8ZkekdbzRSIjsP</a>
+</p>
+
+<p>
+Рекомендуемые учебники: · The Art of Multiprocessor Programming,
+Maurice Herlihy, Nir Shavit,
+<a href="http://www.amazon.com/The-Multiprocessor-Programming">http://www.amazon.com/The-Multiprocessor-Programming</a>-..  Это
+основной учебник для осеннего семестра. Его надо знать и любить.
+</p>
+
+<p>
+· Concurrent and Distributed Computing in Java, Vijay K. Garg,
+<a href="http://www.amazon.com/Concurrent-Distributed-Computin">http://www.amazon.com/Concurrent-Distributed-Computin</a>..  Обзор для
+всех частей курса (пригодится так же и для второго семестра).
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> Вступление, модели, их свойства, согласованность</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+SMP (symmetric multiprocessing) &#x2013; два или больше ядра, на каждом по
+потоку.
+SMT (simultaneous multithreading) &#x2013; два или больше потоков
+исполняются одним ядром.
+NUMA &#x2013; not uniform memory access (все знают, что это еще с 1
+курса)
+</p>
+
+<p>
+Операционные системы (классификация по параллельности):
+</p>
+<ol class="org-ol">
+<li>Однозадачные
+</li>
+<li>Пакетные задания (batch processing)
+</li>
+<li>Многозадачные
+<ol class="org-ol">
+<li>Кооперативная (cooperative) многозадачность
+Переход от одной задачи к другой происходит явно, когда
+программа готова передать процессорное время другой.
+</li>
+<li>Вытесняющая (preemptive) многозадачность
+Текущий подвид &#x2013; ОС сама расставляет инструкции как ей этого
+хочется.
+</li>
+</ol>
+</li>
+</ol>
+
+<p>
+Поток и процесс (на практике вперемешку):
+</p>
+<ul class="org-ul">
+<li>Процесс &#x2013; владеет памятью и ресурсами
+</li>
+<li>Поток &#x2013; контекст исполнения внутри процесса.
+</li>
+</ul>
+
+<p>
+Модели программирования:
+</p>
+<ol class="org-ol">
+<li>Однопоточное/однозадачное
+</li>
+<li>Многозадачное
+<ol class="org-ol">
+<li>Модель с общей памятью
+Единственное, что объединяет потоки &#x2013; общие объекты.
+Общий объект &#x2013; переменная (read/write, тип). Иногда зовутся
+регистрами, так как на практике значения лежат как раз в
+регистрах ЦП.
+</li>
+<li>Модель с передачей сообщений
+</li>
+</ol>
+</li>
+</ol>
+
+<p>
+Модели исполнения:
+</p>
+<ol class="org-ol">
+<li>Модель чередований
+Строим дерево, в котором описываем все возможные перестановки
+операций над общими объектами. Такая модель не описывает
+появление пары (0, 0) в следующем примере:
+<div class="org-src-container">
+
+<pre class="src src-text" id="java-no-volatile">thread P {
+       x = 1
+       r1 = y
+}
+thread Q {
+       y = 1
+       r2 = x
+}
+</pre>
+</div>
+<p>
+Но оно может появиться вследствие того факта, что компилятор
+может переставить инструкции или же просто запись обоих значений
+будет отложена процессором.
+Модель чередования не описывает конкретно физических реалий этого
+мира &#x2013; ведь свет за один такт процессора проходит 10см, элементы
+просто физически не могут синхронизоваться.
+Физическая &#x2013; это световой конус.
+</p>
+</li>
+<li>Happens before
+Исполнение системы &#x2013; пара &lt;H,→&gt;
+<ul class="org-ul">
+<li>H &#x2013; множество операций (чтение и запись ячеек памяти)
+</li>
+<li>e → f значит, что e произошло раньше f &#x2013; частичный строгий
+порядок на H
+</li>
+<li>a ∥ b, если ¬(a → b | b → a)
+</li>
+</ul>
+</li>
+<li>Модель глобального времени
+Каждая операция &#x2013; интервал [t<sub>inv</sub>, t<sub>resp]</sub>, и если выражать
+через happens-before, то
+a → b ≡ t<sub>resp</sub>(a) &lt; t<sub>inv</sub>(b)
+</li>
+</ol>
+
+<p>
+Конфликты:
+</p>
+<ul class="org-ul">
+<li>Конфликт (data race) &#x2013; ситуация, когда происходит две
+параллельных операции, и одна из них &#x2013; запись.
+</li>
+<li>Корректно синхронизированная программа &#x2013; программа без
+конфликтов.
+</li>
+</ul>
+
+<p>
+Исполнения:
+</p>
+<ol class="org-ol">
+<li>Последовательное &#x2013; все операции линейно упорядочены отношением
+happens-before (→). В модели глобального времени ничего не
+наслаивается вообще.
+</li>
+<li>Правильное &#x2013; сужение исполнения на один поток (только операции,
+приналежащие конкретному потоку) последовательно.
+Неправильные исполнения &#x2013; вообще какая-то чепуха (параллельность
+в одном потоке). Или "a = (b++) + (c++)" == UB в плюсах.
+</li>
+<li>Допустимое последовательное исполнение &#x2013; выполнены
+последовательные спецификации всех объектов.
+Посл. спецификация объекта &#x2013; последовательность сужения
+исполнения на конкретный объект.
+</li>
+</ol>
+
+<p>
+Условия согласованности:
+</p>
+<ol class="org-ol">
+<li>Последовательная согласованность
+Исполнение посл. согласованно, если можно сопоставить ему
+допустимое последовательное исполнение, причем программный
+порядок (≡ порядок операций на каждом потоке) сохраняется.
+
+<p>
+Кстати последовательная согласованность на каждом объекте не
+влечет за собой последовательную согласованность исполнения.
+</p>
+</li>
+<li>Линеаризуемость
+Исполнение линеаризуемо, если можно сопоставить ему
+допустимое последовательное исполнение, которое сохраняет порядок
+happens-before.
+
+<p>
+Линеаризуемость локальна, линеаризуемость на каждом объекте
+влечет линеаризуемость системы.
+Операции над линеаризуемыми объектами называют атомарными.
+Исполнение системы, выполняющее операции над линеаризуемыми
+объектами, можно анализировать в модели чередования.
+Свойство thread-safe объекта есть ровно линеаризуемость.
+</p>
+
+<p>
+Если в примере java-novolatile сделать x,y volatile, то пара
+(0,0) не будет появляться, то есть исполнение действительно
+соответствует модели чередования.
+</p>
+
+<p>
+Реализуется volatile в java локами памяти (memory lock). Тут мы
+немного теряем производительность, но не страшно.
+</p>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> Блокировки, взаимное исключение, deadlock'и</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+Линеаризуемость &#x2013; суперское свойство, тащемта.
+Даже если в каждом потоке все операции атомарны, мы не можем
+утверждать, что объект линеаризуем (ну представьте себе класс
+очереди с методами push/pop).
+Мы вот хотим линеаризуемую очередь.
+</p>
+
+<p>
+Самый простой метод сделать так &#x2013; это использование блокировок
+(locks, mutex (mutual exclusion)).
+Идея: заведем в объекте member Mutex m, будем его лочить и
+разлочивать. Этот объект будет гарантировать, что объект будет
+застрявать на .lock, если мьютекс уже залочен и т.д.
+Код с mutex'ами будет thread-safe, если операции будут защищены
+одним и тем же мьютексом.
+</p>
+
+<ul class="org-ul">
+<li>Взаимное исключения &#x2013; свойство исполнения, при котором
+критические секции не могут выполняться параллельно &#x2013; это
+требование корректности взаимного исключения.
+</li>
+</ul>
+
+<p>
+При этом взаимное исключение имеет ряд условных условий прогресса:
+</p>
+<ol class="org-ol">
+<li>Свобода взаимной блокировки (deadlock-freedom) &#x2013; свойство
+взаимного исключения, при котором если несколько потоков
+пытаются войти в критическую секцию, то хотя бы один сделает
+это за конечное время (при условии что критические секции сами
+по себе конечны).
+</li>
+<li>Отсутствие голодания (starvation-freedom) &#x2013; если какой-то
+поток пытается войти в критическую секцию, он сделает это за
+конечное время (опять-таки, при условии, что крит. секции
+исп. за конечное время).
+</li>
+<li>Линейное ожидание &#x2013; каждый поток совершает O(n) действий перед
+тем, как войти в критическую секцию (условие аналогично)
+</li>
+<li>First Come First Served (FSFS) &#x2013; свойство сильнее линейного
+ожидания, потоки обслуживаются в порядке утыкания в критическую
+секцию (условие аналогично).
+</li>
+</ol>
+
+<p>
+Как написать mutex, собственно?
+</p>
+<ol class="org-ol">
+<li>Aлгоритм Петерсона &#x2013; гарантирует взаимное исключение, отсутствие
+взаимной блокировки и отсутствие голодания.
+Преимущество &#x2013; самый простой.
+<div class="org-src-container">
+
+<pre class="src src-text">threadlocal int id // 0 or 1
+shared boolean want[2]
+shared int     victim
+
+def lock:
+    want[id] = true
+    victim = id
+    while (want[1-id] and victim == id) {}
+
+def unlock:
+    want[id] = false
+</pre>
+</div>
+</li>
+<li>Aлгоритм Петерсона для N потоков (filter algorithm).
+Все то же самое, но может делать O(N²) ожидания.
+<div class="org-src-container">
+
+<pre class="src src-text">threadlocal int id
+shared int level[N]
+shared int victim[N]
+
+def lock:
+    for j = 1..N-1:
+        level[id] = j
+        victim[j] = id
+        while exist k: k != id and
+                       level[k] &gt;= j and
+                       victim[j] == id:
+                       {}
+
+def unlock:
+    level[id] = 0
+</pre>
+</div>
+</li>
+<li>Алгоритм Лампорта (булочника &#x2013; 1 вариант)
+Обладает свойством FCFS. Это вариант с бесконечными метками
+label. Можно сделать с конечными.
+Первые две строки lock называются doorway.
+<div class="org-src-container">
+
+<pre class="src src-text">threadlocal int id
+shared boolean want[N]  // init false
+shared int     label[N] // init 0
+
+def lock:
+    want[id] = true
+    label[id] = max(label) + 1
+    while exists k: k != id and
+                    want[k] and
+                    (label[k], k) &lt; (label[id], id)
+                    {}
+</pre>
+</div>
+</li>
+</ol>
+
+<p>
+Блокировки бывают грубыми и тонкими. Грубая &#x2013; блокировать всю
+операцию целиком. Тонкая &#x2013; блокировать операции над общими
+объектами внутри, а не вызов, но тогда необходима двухфазовая
+блокировка.
+</p>
+
+<p>
+Есть проблема deadlock'а. Допустим, что есть два mutex'а, мы лочимся
+в одном треде сначала по m1, потом по m2, в другом треде
+наоборот. Можем задедлочиться тут короче.
+</p>
+
+<p>
+Закон Амдала для параллельной работы:
+speedup = 1/(S + (1-S)/N) &#x2013; максимальное ускорение при запуске кода
+в N потоков, если доля кода S выполнена последовательно.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Алгоритмы/объекты без блокировок, свободы (lock/wait/obstr)</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+Алгоритмы без блокировок.
+</p>
+
+<p>
+Безусловные условия прогресса:
+</p>
+<ol class="org-ol">
+<li>Obstruction-free (отсутствие помех) &#x2013; свойство алгоритма, в
+котором если остановить всe потоки кроме одного (любого) в любом
+месте, один должен завершиться за конечное время. Так должно
+работать для каждого объекта.
+Очевидно, что объект с блокировкой не имеет такого свойства.
+</li>
+<li>Lock-freedom &#x2013; если много потоков пытаются сделать операцию, то
+хотя бы один поток должен ее исполнить за конечное время. Плохо
+то, что это условие не исключает голодания.
+</li>
+<li>Wait-freedom (самое сильное условие) &#x2013; если какой-то поток
+пытается выполнить операцию, то он это сделает (вне зависимости
+от действия/бездействия других потоков).
+</li>
+</ol>
+
+<p>
+Объекты без блокировки.
+ОБъекты бывают с lock-freedom, но этот термин перегружен.
+</p>
+<ul class="org-ul">
+<li>Регистры без блокировки
+<ul class="org-ul">
+<li>Свойства физических регистров:
+<ol class="org-ol">
+<li>Неатомарны
+</li>
+<li>Работают без ожидания.
+</li>
+<li>Предполагают только одного читателя и одного писателя
+</li>
+<li>Попытка записать и прочитать одновременно &#x2013; UB
+</li>
+<li>Они безопасные (safe) &#x2013; в смысле, после записи, будет
+прочитано последнее записанное значение.
+</li>
+</ol>
+</li>
+<li>Классификация регистров
+<ol class="org-ol">
+<li>По условиям согласованности:
+<ol class="org-ol">
+<li>Безопасные (safe) &#x2013; гарантирует получение последнего
+записанного значения, если операция чтения не параллельна
+операции записи.
+</li>
+<li>Регулярные (regular) &#x2013; при чтении выдает последнее
+записанное, или то, что уже пишется.
+</li>
+<li>Атомарные (atomic) &#x2013; линеаризуемое (как регулярный,
+только если уже прочитал новое значение, то старое нельзя
+прочитать).
+Как проверить регистр на атомарность в схеме глобального
+времени &#x2013; поставить в каждой полоске точку,
+соответствующую этому конкретному действию. Порядок по
+точкам должен быть атомаррным.
+</li>
+</ol>
+</li>
+<li>По количеству потоков (SR, MR, SW, MW : single/multi
+reader/writer)
+</li>
+</ol>
+</li>
+
+<li>Будем строить более сложные регистры из простых требуя
+wait-free условие.
+Пусть у нас есть Safe SRSW Boolean регистр.
+<ol class="org-ol">
+<li>Regular SRSW Boolean
+<div class="org-src-container">
+
+<pre class="src src-text">safe shared boolean r
+threadlocal boolean last
+
+def write(x):
+  if (x != last)
+    last = x
+    r = x
+
+def read(): return r
+</pre>
+</div>
+</li>
+<li>Regular SRSW M-Valued
+Пусть у нас массив r хранит булевые значения, и число в
+нем хранится последовательностью единиц,
+терминированной нулем. Тогда это реализуется так:
+
+<div class="org-src-container">
+
+<pre class="src src-text">regular shared boolean[M] r
+
+def write(x): // &#1057;&#1087;&#1088;&#1072;&#1074;&#1072; &#1085;&#1072;&#1083;&#1077;&#1074;&#1086;
+  r[x] = 0
+  for i = x-1 downto 0: r[i] = 1
+
+def read(): // &#1057;&#1083;&#1077;&#1074;&#1072; &#1085;&#1072;&#1087;&#1088;&#1072;&#1074;&#1086;
+  for i = 0 to M-1: if r[i] == 0: return i
+</pre>
+</div>
+</li>
+<li>Atomic SRSW M-Valued
+Будем хранить пару &#x2013; значение и версию. Версию можно
+разумно ограничить. Есть алгоритм без жульничества с
+версиями, но он на практике плох.
+
+<div class="org-src-container">
+
+<pre class="src src-text">safe shared (int x, int v) r
+threadlocal (int x, int v) lastRead
+threadlocal int lastWriteV
+
+def write(x):
+  lastWriteV++
+  r = (x, lastWriteV)
+
+def read():
+  cur = r
+  if cur.v &gt; lastRead.v:
+    lastRead = cur
+  return lastRead.x
+</pre>
+</div>
+
+<p>
+Атомарный регистр: проблемы
+</p>
+<ol class="org-ol">
+<li>Версии &#x2013; могут хранить пару в регуярном, но версии
+растут неограниченно.
+</li>
+<li>Блокировки &#x2013; алгоритм Лампорта будет работать на
+регулярных регистрах, но это не дает алгоритм без ожидания
+</li>
+</ol>
+<p>
+Теорема: не существует алгоритма построения атомарного
+регистра без ожидания, который использует конечное число
+регулярных регистров конечного размера так, чтобы их писал
+только писатель, а читал только читатель
+</p>
+<ul class="org-ul">
+<li>Доказательство
+Нужна обратная связь от читателя к писателю.
+</li>
+</ul>
+</li>
+<li>Atomic MRSW M-Valued
+Нужно отслеживать версию записанного значения, храня пару
+(x, v) в каждом из N регистров в которые пишет писатель.
+Наивно сделать это нельзя.
+Заведем N*(N-1) регистров для общения между читателями.
+
+<ol class="org-ol">
+<li>Каждый читатель выбирает более позднее значение из
+записанного писателем и из прочитанных значенией
+других читателей
+</li>
+<li>Читатель записывает свое прочитанное значение и версию для
+всех остальных читателей.
+</li>
+</ol>
+</li>
+<li>Atomic MRMW M-Valued
+Нужна поддержка N писателей
+Отслеживаем версию записанного значения
+<ol class="org-ol">
+<li>Каждый читатель выбирает более позднюю версию
+</li>
+<li>Для проставления версий писателями используем doorway
+секцию из алгоритма булочника (Лампорта)
+<ul class="org-ul">
+<li>Версия состоит из пары номера потока писателя и
+собственно числа
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>Атомарный снимок состояния N регистров
+Наивная реализация не обеспечивает атомарность.
+
+<p>
+Вот этот алгоритм уже lock-free, но достаточно наивный &#x2013;
+читает, пока массивы не совпадут.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-text" id="lock-free-implementation-of-atomic-registers-snapshot">shared (int x, int v) r[N]
+
+// wait-free
+def update(i, x):
+    r[i] = (x, r[i].v + 1)
+
+// lock-free
+def scan():
+    old = copy()
+    loop:
+        cur = copy()
+        if forall i: cur[i].v == old[i].v
+           return cur.x  // we can get starvation here,
+                         // if update is executed too frequent
+        old = cur
+</pre>
+</div>
+
+<p>
+Вот wait-free реализация с костылями.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-text" id="wait-free-implementation">shared (int x, int v, int[N] s) r[N]
+
+def update():
+    s = scan()
+    r[i] = (x, r[i].v + 1, s)
+
+shared (int x, int v, int[N] s) r[N]
+
+// wait-free, O(N^2)
+def scan():
+    old = copy()
+    boolean updated[N]
+    loop:
+        cur = copy()
+        for i = 0..N-1:
+            if cur[i].v != old[i].v:
+               if updated[i]: return cur.s
+               else:
+                update[i] = true
+                old = cur
+                continue loop
+        return cur.x
+</pre>
+</div>
+<ul class="org-ul">
+<li>Лемма: Если значение поменялось второй раз, значит копия
+снимка s была получена вложенной операцией scan.
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> Консенсус</h2>
+<div class="outline-text-2" id="text-5">
+<p>
+Консенсус &#x2013; это объект, который помогает n потокам придти к общему
+мнению.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-text">class Consensus:
+      def decide(val):
+      ...
+      return decision
+</pre>
+</div>
+
+<p>
+Каждый поток использует объект Consensus один раз.
+Требуются две вещи:
+</p>
+<ul class="org-ul">
+<li>Согласованность (consistency): все потоки должны вернуть одно и то
+же значение из метода decide.
+</li>
+<li>Обоснованность (validity): возвращенное значение было входным
+значением какого-то из потоков.
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-text" id="">shared int decision
+Mutex mutex
+
+def decide(val):
+    mutex.lock()
+    if (decision == NA):
+       decision = val
+    mutex.unlock()
+    return decision
+</pre>
+</div>
+<p>
+Но мы хотим без ожидания.
+</p>
+
+<p>
+Все не так просто.
+Консенсусное число:
+</p>
+<ol class="org-ol">
+<li>Если с помощью класса атомарных объектов С и атомарных регистров
+можно реализовать консенсусный протокол без ожидания для N
+потоков (и не больше), то говорят что у класса С консенсусное
+число равно N.
+</li>
+<li>Теорема:
+Атомарные регистры имеют консенсусное число 1.
+<ul class="org-ul">
+<li>То есть с помощью атомарных регистров даже 2 потока не могут
+придти к консенсусу без ожидания (докажем от противного) для 2х
+возможных значений при T = {0, 1}
+</li>
+<li>С ожиданием задача решается очевидно (с помощью любого
+алгоритма взаимного исключения).
+</li>
+</ul>
+</li>
+<li>Определения и леммы для любых классов объектов:
+<ul class="org-ul">
+<li>Определения и концепции
+<ol class="org-ol">
+<li>Исходныe объекты атомарны. Любое исполнение можно
+рассматривать как последовательное в каком-то порядке.
+</li>
+<li>Рассматриваем дерево состояния, листья &#x2013; конечные состояния
+помеченные 0 или 1 (в зависимости от значения консенсуса).
+</li>
+<li>x-валентное состояние системы (x = 0,1) &#x2013; консенсус по всех
+нижестоящих листьях будет x.
+</li>
+<li>Бивалентное состояние &#x2013; возможен консенсус как 0 так и 1
+</li>
+<li>Критическое состояние &#x2013; такое бивалентное состояние, все
+дети которого одновалентны.
+</li>
+</ol>
+</li>
+<li>Лемма: Существует начальное бивалентное состояние
+Это нетривиально следует из того факта, что алгоритм без
+ожиданий.
+Возьмем конечное количество шагов, построим дерево
+???
+Доказательство было на доске и не сохранилось.
+</li>
+<li>Лемма: Существует критическое состояние
+Тоже следует из wait-free. Если есть бивалентное, будем
+смотреть его детей. Если есть хотя бы один бивалентный ребенок,
+то спускаемся в него, пока бивалентных детей больше нету.
+За счет конечности дерева такое будет существовать, и
+валентность детей будет различна (иначе валентность самого узла
+тоже определена).
+</li>
+</ul>
+<p>
+Для атомарных регистров рассмотрим возможные пары операций в
+критическом состоянии:
+</p>
+<ul class="org-ul">
+<li>Операции над разными регистрами коммутируют.
+</li>
+<li>Два чтения коммутируют.
+</li>
+<li>Любая операция + запись &#x2013; состояние пишущего потока не зависит
+от порядка операций. Противоречие (в чем???)
+</li>
+</ul>
+</li>
+<li>Бывают Read-Modify-Write регистры.
+<div class="org-src-container">
+
+<pre class="src src-text" id="read-modify-write-reg">class RMWRegister:
+      private shared int reg
+
+      def read():
+          return reg
+
+      def getAndF(args):
+          do atomically:
+             old = reg
+             reg = F(args)(reg)
+             return old
+</pre>
+</div>
+<p>
+Функция F может быть getAndSet, getAndIncrement,&#x2026;
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-text" id="Consensus-for-RMW-reg-2">threadlocal int id // 0 or 1
+
+shared RMWRegister rmw
+shared int proposed[2]
+
+def decide(val):
+    proposed[id] = val
+    if (rmw.getAndF() == v0)
+        return proposed[i]
+    else:
+        return proposed[1-i]
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Консенсусное число нетривиального RMW регистра &gt;= 2
+Нужно чтобы была хотя бы одна подвижная точка функции F,
+например F(v0) <code>= v1 !</code> v0.
+</li>
+</ul>
+</li>
+
+<li>Common2 RMW регистры
+<ul class="org-ul">
+<li>F1 и F2 коммутируют если F1(F2(x)) == F2(F1(x))
+</li>
+<li>F1 перезаписывает F2 если F1(F2(x)) == F1(x)
+</li>
+<li>Класс С RMW регистров принадлежит Common2 если любая пара
+функций либо коммутирует либо одна из функций перезаписывает
+другую.
+</li>
+<li>Теорема: нетривиальный класс Common2 RMW регистров имеет
+консенсусное число 2
+Третий поток не может отличить глобальное состояние при
+изменении порядка выполнения коммутирующих или перезаписывающих
+операций в критическом состоянии.
+</li>
+</ul>
+</li>
+<li>Универсальные объекты
+Объект с консенсусным числом ∞ называется универсальным объектом.
+По определению, с его помощью можно реализовать консенсусный
+протокол для любого числа потоков.
+
+<div class="org-src-container">
+
+<pre class="src src-text" id="CAS-register">class CASRegister:
+      private shared int reg
+
+      def CAS(expect, update):
+          do atomically:
+             old = reg
+             if old == expect:
+                reg = update
+                return true
+             return false
+</pre>
+</div>
+<p>
+CAS &#x2013; самый популярный универсальный объект, процессоры в том
+или ином виде его реализуют.
+</p>
+
+<ul class="org-ul">
+<li>CAS и консенсус
+<div class="org-src-container">
+
+<pre class="src src-text" id="CAS-READ">def decide(val):
+    if CAS(NA, val):
+        return val
+    else:
+        return read()
+</pre>
+</div>
+</li>
+
+<li>Универсальность консенсуса. Теорема.
+Любой последовательый объект можно реализовать без ожидания для
+N потоков используя консенсусный протокол для N объектов
+
+<ul class="org-ul">
+<li>Такое построение &#x2013; универсальная конструкция
+</li>
+<li>Следствие 1: С помощью любого класса объектов с консенсусным
+числом N можно реализовать любой объект с консенсусным числом
+≤ N
+</li>
+<li>Следствие 2: С помощью универсального объекта можно
+реализовать вообще любой объект
+<ul class="org-ul">
+<li>Сначала реализуем консенсус для любого числа потоков (по
+определению универсального объекта)
+</li>
+<li>Потом через консенсус любой другой объект используя
+универсальную конструкцию.
+</li>
+</ul>
+</li>
+<li>Доказательство теоремы
+<ol class="org-ol">
+<li>Универсальная конструкция без блокировки через CAS
+<div class="org-src-container">
+
+<pre class="src src-text">shared CASRegister reg
+
+def concurrentOperationX(args):
+    loop:
+        old = reg.read()
+        upd = old.deepCopy()
+        res = upd.serialOperationX(args)
+    until reg.CAS(old, upd)
+    return res
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Без блокировки универсальная конструкция проста и
+проктична, если использовать CAS в качестве примитива.
+</li>
+<li>Для реализации через консенсус надо чтобы каждый объект
+консенсуса пользовался потоком один раз
+</li>
+<li>Для реализации без ожидания нужно чтобы потоки помогали
+друг другу.
+</li>
+</ul>
+</li>
+<li>Через консенсус
+ОБъект &#x2013; односвязный список стейтов.
+Последний элемент &#x2013; текущий стейт.
+
+<div class="org-src-container">
+
+<pre class="src src-text" id="">class Node:
+      val               // readonly
+      Consensus next    // init fresh obj
+
+shared Node root        // readonly
+threadlocal Node last   // init rood
+
+def concurrentOperationX(args):
+    loop:
+        old = last.val
+        upd = old.deepCopy()
+        res = upd.serialOperationX(args)
+        node = new Node(upd)
+        last = last.next.decide(node)
+    until last == node
+    return res
+</pre>
+</div>
+
+<ul class="org-ul">
+<li>Но с ожиданием
+</li>
+</ul>
+</li>
+
+<li>Через консенсус без ожидания
+<ul class="org-ul">
+<li>Храним в узле операцию, которую нужно выполнить, а не
+результат &#x2013; каждый поток обновляет и хранит свою
+локальную копию объекта
+</li>
+<li>Нумеруем операции последовательными числами, заведя
+переменную seq. После выполнения прописываем номер
+исполненной операции.
+</li>
+<li>Каждй поток хранит последнее ему известное значение
+конца списка в элементе массива know[id]
+</li>
+<li>Каждый поток будет заранее записывать операцию, которую
+он планирует выполнить &#x2013; в массиве announce
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-text" id="">class Node:
+      int seq           // init 0
+      args              // readonly
+      Consensus next    // init fresh obj
+
+shared Node[] announce // init root
+shared Node[] know // init root
+
+def concunrrentOperationX(args):
+    announce[id] = new Node(args)
+    know[id] = maxSeqFrom(know)
+    while announce[id].seq == 0
+          Node help =
+               announce[know[id].seq % N]
+          Node prev = help if help.seq == 0
+               else announce[id]
+          know[id] = prev.next.decide(node)
+          know[id].seq = prev.seq + 1
+    know[id] = announce[id]
+    return updateMyLastTo(announce[id])
+
+def updateMyLastTo(node):
+    while last != node:
+          res = my.serialOperationX(last.args)
+          last = last.next
+          return res
+</pre>
+</div>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Сводная иерархия
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">Объект</th>
+<th scope="col" class="right">Консенсусное число</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">Атомарные регистры</td>
+<td class="right">1</td>
+</tr>
+
+<tr>
+<td class="left">Снимок состояния нескольких регистров</td>
+<td class="right">&#xa0;</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="left">getAndSet, getAndAdd, очередь, стек</td>
+<td class="right">2</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="left">Атомарная запись m регистров из m(m+1)/2</td>
+<td class="right">m</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="left">compareAndSet, LoadLinked/StoreConditional</td>
+<td class="right">∞</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> Практические построения на списке, вступление</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+Будем смотреть всякие практические построения на списках.
+Будем писать код уже на джаве настоящей.
+</p>
+
+<p>
+Java &#x2013; первый язык, в котором появилась модель памяти (memory
+model). Почему джава? Трюки c++ (if<sub>arch</sub>_&#x2026;) не работают в джаве,
+джава очень WORA, и прочее.
+</p>
+
+<p>
+JMM определяет:
+</p>
+<ol class="org-ol">
+<li>Межпоточные действия &#x2013; чтение и запись,
+синхронизация. Синхронизация &#x2013; volatile/synchronized/запуск или
+остановка потоков.
+</li>
+<li>Отношение синхронизации (synchronizes-with) и отношение
+happens-before.
+Java гарантирует, что если в программе нету гонок, то исполнение
+последовательно согласовано (а значит и линеаризуемо).
+</li>
+<li>Всякие гонки и прочее.
+</li>
+</ol>
+
+<p>
+Выполнение корректно синхронизированной программы будет выглядеть
+последовательно согласовано. Гонки за данными не могут нарушить
+базовые гарантии безопасности платформы (система типов, все кроме
+long/double атомарны, все поля гарантированно инициализированы
+нулями, дополнительные гарантии для final полей).
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java" id="1-volatile"><span style="color: #FFA070;">volatile</span> <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">flag</span>;
+<span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">value</span>;
+
+<span style="color: #EF5C5F;">void</span> <span style="color: #EF5C5F;">int</span>() {
+    value = 2;
+    flag = 1;
+}
+
+<span style="color: #EF5C5F;">int</span> <span style="color: #8AAFFA;">take</span>() {
+    <span style="color: #FFA070;">while</span> (flag == 0); <span style="color: #637579;">// </span><span style="color: #637579;">&#1082;&#1091;&#1096;&#1072;&#1077;&#1084; cpu &#1090;&#1091;&#1090;</span>
+    <span style="color: #FFA070;">return</span> value;
+}
+</pre>
+</div>
+
+<div class="org-src-container">
+
+<pre class="src src-java" id="2-cpu"><span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">flag</span>, <span style="color: #A197BF;">value</span>;
+
+<span style="color: #EF5C5F;">void</span> <span style="color: #FFA070;">synchronized</span> <span style="color: #EF5C5F;">int</span>() {
+    value = 2;
+    flag = 1;
+}
+
+<span style="color: #EF5C5F;">int</span> <span style="color: #FFA070;">synchronized</span> take() {
+    <span style="color: #FFA070;">while</span> (flag == 0); <span style="color: #637579;">// </span><span style="color: #637579;">&#1082;&#1091;&#1096;&#1072;&#1077;&#1084; cpu &#1090;&#1091;&#1090;</span>
+    <span style="color: #FFA070;">return</span> value;
+}
+</pre>
+</div>
+
+<p>
+Таким образом, мы реализовали thread-safe объект.
+</p>
+</div>
+</div>
+
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> Типы синхронизации на примере списка (LinkedSet)</h2>
+<div class="outline-text-2" id="text-7">
+<ul class="org-ul">
+<li>Многопоточные объект &#x2013; это объект, который можно использовать из
+нескольких потоков без дополнительной внешней синхронизации, при
+этом:
+<ol class="org-ol">
+<li>Специфицируется через последовательное поведение.
+</li>
+<li>По умолчанию требуется линеаризуемость операций (редко &#x2013; более
+слабые условия).
+</li>
+<li>Редко удается реализовать все операции wait-free. Чаще всего
+делается с блокировками или без них (что на самом деле
+lock-free).
+</li>
+</ol>
+</li>
+</ul>
+
+<p>
+Типы синхронизации:
+</p>
+<ol class="org-ol">
+<li>Грубая синронизация (Coarse-grained)
+</li>
+<li>Тонкая (fine-grained)
+</li>
+<li>Оптимистичная (optimistic)
+</li>
+<li>Ленивая (lazy)
+</li>
+<li>Неблокирующая (non-blocking)
+</li>
+</ol>
+
+<p>
+Будем строить многопоточные связанные списки. Массивами пользоваться
+намного эффективней, но они сложнее пишутся.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java" id=""><span style="color: #637579;">// </span><span style="color: #637579;">&#1080;&#1085;&#1074;&#1072;&#1088;&#1080;&#1072;&#1085;&#1090; node.key &lt; node.next.key</span>
+<span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">Node</span> {
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">key</span>;
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>;
+    <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">next</span>;
+}
+</pre>
+</div>
+<p>
+Пустой список будет состоять из 2х граничных элементов:
+Node head = Node(Integer.MIN<sub>VALUE</sub>, null);
+head.next = Node(Integer.MAX<sub>VALUE</sub>, null);
+</p>
+</div>
+<div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> Грубая синхронизация</h3>
+<div class="outline-text-3" id="text-7-1">
+<p>
+Обеспечиваем синхронизацию через
+java.util.concurrent.locks.ReentrantLock lock.
+Такой подход дает немножко больше функционала чем секции
+synchronized.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java" id=""><span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">LinkedSet</span> {
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">head</span>;
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">Lock</span> <span style="color: #A197BF;">lock</span>; <span style="color: #637579;">// </span><span style="color: #637579;">mutex</span>
+
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">contains</span>(<span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">key</span>) {
+        lock.lock();
+        <span style="color: #FFA070;">try</span> {
+            <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">curr</span> = head;
+            <span style="color: #FFA070;">while</span> (curr.key &lt; <span style="color: #EF5C5F;">key</span>) {
+                curr = curr.next;
+            }
+            <span style="color: #FFA070;">return</span> key == curr.key;
+        } <span style="color: #FFA070;">finally</span> { lock.unlock() }
+    }
+
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">add</span>(<span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">key</span>, <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>) {
+        lock.lock();
+        <span style="color: #FFA070;">try</span> {
+            <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">pred</span> = head, <span style="color: #A197BF;">curr</span> = pred.next;
+            <span style="color: #FFA070;">while</span> (...) {}
+                <span style="color: #637579;">/// </span><span style="color: #637579;">stuff</span>
+        } <span style="color: #FFA070;">finally</span> { lock.unlock(); }
+    }
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">remove</span> (<span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">key</span>, <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>) {
+        lock.lock();
+        <span style="color: #FFA070;">try</span> {
+            <span style="color: #637579;">// </span><span style="color: #637579;">stuff</span>
+        } <span style="color: #FFA070;">finally</span> { lock.unlock; }
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2"><span class="section-number-3">7.2</span> Тонкая синхронизация</h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+Обеспечиваем синхроизацию взаимным исключением на каждом
+объекте. При любых операциях одновременно удерживаем блокировку
+текущего и предыдущего элемента, чтобы не потерять инвариант
+pred.next == curr.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java" id=""><span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">Node</span> {
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">key</span>;
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>;
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">Lock</span> <span style="color: #A197BF;">lock</span>;
+    <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">next</span>;
+
+    <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">lock</span>() { lock.lock(); }
+    <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">unlock</span>() { lock.unlock(); }
+}
+
+<span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">LinkedSet</span> {
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">contains</span>() {
+        <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">pred</span> = head; pred.lock();
+        <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">curr</span> = pred.next; curr.lock();
+        <span style="color: #FFA070;">try</span> {
+            <span style="color: #FFA070;">while</span> (curr.key &lt; <span style="color: #EF5C5F;">key</span>) {
+                <span style="color: #637579;">// </span><span style="color: #637579;">&#1086;&#1090;&#1087;&#1091;&#1089;&#1082;&#1072;&#1077;&#1084; &#1073;&#1083;&#1086;&#1082;&#1080;&#1088;&#1086;&#1074;&#1082;&#1091; &#1091; &#1087;&#1088;&#1077;&#1076;&#1099;&#1076;&#1091;&#1097;&#1077;&#1075;&#1086; &#1086;&#1073;&#1098;&#1077;&#1082;&#1090;&#1072;</span>
+                <span style="color: #637579;">// </span><span style="color: #637579;">&#1073;&#1077;&#1088;&#1077;&#1084; &#1091; &#1089;&#1083;&#1077;&#1076;&#1091;&#1102;&#1097;&#1077;&#1075;&#1086;.</span>
+                pred.unlock();
+                pred = curr;
+                curr = curr.next;
+                curr.lock();
+            }
+            <span style="color: #FFA070;">return</span> key == curr.key;
+        } <span style="color: #FFA070;">finally</span> { curr.unlock(); pred.unlock(); }
+    }
+
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">add</span>(<span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">key</span>, <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>) {
+        <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">pred</span> = head; pred.lock();
+        <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">curr</span> = pred.next; curr.lock();
+        <span style="color: #FFA070;">try</span> {
+            <span style="color: #637579;">// </span><span style="color: #637579;">addition</span>
+            <span style="color: #FFA070;">while</span> (curr.key &lt; <span style="color: #EF5C5F;">key</span>) {
+                pred.unlock(); pred = curr;
+                curr = curr.next; curr.lock();
+            }
+            <span style="color: #FFA070;">if</span> (key == curr.key) <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">false</span>; <span style="color: #FFA070;">else</span> {
+                <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">node</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">Node</span>(key, item);
+                node.next = curr; pred.next = node;
+                <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">true</span>;
+            }
+        } <span style="color: #FFA070;">finally</span> { curr.unlock; pred.unlock; }
+    }
+
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">remove</span>(<span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">key</span>, <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>) {
+        <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">pred</span> = head; pred.lock();
+        <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">curr</span> = pred.next; curr.lock();
+        <span style="color: #FFA070;">try</span> {
+            <span style="color: #637579;">// </span><span style="color: #637579;">removal</span>
+        } <span style="color: #FFA070;">finally</span> { curr.unlock; pred.unlock; }
+
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7-3" class="outline-3">
+<h3 id="sec-7-3"><span class="section-number-3">7.3</span> Оптимистичная синхронизация</h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+Алгоритм построения:
+</p>
+<ol class="org-ol">
+<li>Ищем элемент без синхронизации, но перепроверяем с
+синхронизацией.
+<ol class="org-ol">
+<li>Если перепроверка сломалась, то начинаем операцию заново
+</li>
+<li>Поиск не зациклится, ибо ключи упорядочены, никогда не
+меняются внутри Node, значения next не могут возникнуть
+ниоткуда даже при чтении без синхронизации
+</li>
+</ol>
+</li>
+<li>Имеет смысл только если обход дешев и быстр, а обход с
+синхронизацией &#x2013; наоборот.
+</li>
+<li>Потоки всегда синхронизируются между собой ("synchronizes with")
+через критические секции, поэтому никаких дополнительных
+механизмов не нужно.
+</li>
+</ol>
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">LinkedSet</span> {
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1087;&#1088;&#1086;&#1074;&#1077;&#1088;&#1103;&#1077;&#1090;, &#1095;&#1090;&#1086; pred &#1103;&#1074;&#1083;&#1103;&#1077;&#1090;&#1089;&#1103; &#1087;&#1088;&#1077;&#1076;&#1099;&#1076;&#1091;&#1097;&#1080;&#1084; &#1076;&#1083;&#1103; curr</span>
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1080;&#1076;&#1077;&#1090; &#1086;&#1090; &#1085;&#1072;&#1095;&#1072;&#1083;&#1072; &#1089;&#1087;&#1080;&#1089;&#1082;&#1072; &#1076;&#1086; pred &#1086;&#1087;&#1090;&#1080;&#1084;&#1080;&#1089;&#1090;&#1080;&#1095;&#1085;&#1086;, &#1090;&#1072;&#1084; &#1089;&#1088;&#1072;&#1074;&#1085;&#1080;&#1074;&#1072;&#1077;&#1090;</span>
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">validate</span>(<span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">pred</span>, <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">curr</span>) {
+        <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">node</span> = head;
+        <span style="color: #FFA070;">while</span> (node.key &lt;= pred.key) {
+            <span style="color: #FFA070;">if</span> (node == pred) {
+                <span style="color: #FFA070;">return</span> pred.next == curr;
+            }
+            node = node.next;
+            <span style="color: #FFA070;">if</span> (node == <span style="color: #6F8FCC;">null</span>) <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">false</span>;
+        }
+    }
+
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">contains</span>(<span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">key</span>) {
+    <span style="color: #6F8FCC;">retry</span>: <span style="color: #FFA070;">while</span> (<span style="color: #6F8FCC;">true</span>) {
+            <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">pred</span> = head, <span style="color: #A197BF;">curr</span> = pred.next;
+            <span style="color: #FFA070;">while</span> (curr.key &lt; <span style="color: #EF5C5F;">key</span>) {
+                pred = curr; curr = curr.next;
+                <span style="color: #FFA070;">if</span> (curr == <span style="color: #6F8FCC;">null</span>) <span style="color: #FFA070;">continue</span> <span style="color: #6F8FCC;">retry</span>;
+            }
+            pred.lock(); curr.lock();
+            <span style="color: #FFA070;">try</span> {
+                <span style="color: #FFA070;">if</span> (!validate(pred, curr)) <span style="color: #FFA070;">continue</span> <span style="color: #6F8FCC;">retry</span>;
+                <span style="color: #FFA070;">return</span> curr.key == key;
+            } <span style="color: #FFA070;">finally</span> { curr.unlock(); pred.unlock();
+            }
+        }
+    }
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">add</span>(<span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">key</span>, <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>) {
+    <span style="color: #6F8FCC;">retry</span>: <span style="color: #FFA070;">while</span> (<span style="color: #6F8FCC;">true</span>) {
+            <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">pred</span> = head, <span style="color: #A197BF;">curr</span> = pred.next;
+            <span style="color: #FFA070;">while</span> (curr.key &lt; <span style="color: #EF5C5F;">key</span>) {
+                pred = curr; curr = curr.next;
+                <span style="color: #FFA070;">if</span> (curr == <span style="color: #6F8FCC;">null</span>) <span style="color: #FFA070;">continue</span> <span style="color: #6F8FCC;">retry</span>;
+            }
+            pred.lock(); curr.lock();
+            <span style="color: #FFA070;">try</span> {
+                <span style="color: #FFA070;">if</span> (!validate(pred, curr)) <span style="color: #FFA070;">continue</span> <span style="color: #6F8FCC;">retry</span>;
+                <span style="color: #FFA070;">if</span> (curr.key == key) <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">false</span>; <span style="color: #FFA070;">else</span> {
+                    <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">node</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">Node</span>(key, item);
+                    node.next = curr; pred.next = node;
+                    <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">true</span>;
+                }
+            } <span style="color: #FFA070;">finally</span> { curr.unlock(); pred.unlock(); }
+        }
+    }
+    <span style="color: #637579;">// </span><span style="color: #637579;">remove &#1072;&#1085;&#1072;&#1083;&#1086;&#1075;&#1080;&#1095;&#1085;&#1086;</span>
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7-4" class="outline-3">
+<h3 id="sec-7-4"><span class="section-number-3">7.4</span> Ленивая синхронизация</h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+Как строить:
+</p>
+<ol class="org-ol">
+<li>Добавляем в Node boolean флажок, в котором будем помечать
+удаленные элементы. Удаление в две фазы &#x2013; флажок помечен
+соответствует логическому удалению, физическое следует позже.
+</li>
+<li>Инвариант: все непомеченные элементы всегда в списке.
+</li>
+<li>Результат: для валидации не надо просматривать список (только
+проверить, что элементы не удалены логически и pred.curr ==
+next), остальное как в оптимистичном варианте.
+</li>
+</ol>
+
+<p>
+Поиск без ожидания:
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java"><span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">Node</span> {
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">key</span>;
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>;
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">Lock</span> <span style="color: #A197BF;">lock</span>;
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #A197BF;">marked</span>;
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1054;&#1095;&#1077;&#1085;&#1100; &#1074;&#1072;&#1078;&#1077;&#1085; volatile &#1076;&#1083;&#1103; &#1083;&#1080;&#1085;&#1077;&#1072;&#1088;&#1080;&#1079;&#1091;&#1077;&#1084;&#1086;&#1089;&#1090;&#1080;!</span>
+    <span style="color: #FFA070;">volatile</span> <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">next</span>;
+
+    <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">lock</span>() { lock.lock(); }
+    <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">unlock</span>() { lock.unlock(); }
+}
+
+<span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">LinkedSet</span> {
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">validate</span>(<span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">prev</span>, <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">next</span>) {
+        <span style="color: #FFA070;">return</span> !pred.marked &amp;&amp;
+            !curr.marked &amp;&amp;
+            pred.next == curr;
+    }
+
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">add</span>(<span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">elem</span>) {
+    <span style="color: #6F8FCC;">retry</span>: <span style="color: #FFA070;">while</span> (<span style="color: #6F8FCC;">true</span>) {
+            <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">pred</span> = head, <span style="color: #A197BF;">curr</span> = pred.next;
+            <span style="color: #FFA070;">while</span> (curr.key &lt; <span style="color: #EF5C5F;">key</span>) {
+                pred = curr; curr = curr.next;
+                <span style="color: #637579;">//                   </span><span style="color: #637579;">^^^^^^</span>
+                <span style="color: #637579;">//            </span><span style="color: #637579;">&#1090;&#1091;&#1090; curr.next != null</span>
+            }
+            pred.lock(); curr.lock();
+            <span style="color: #FFA070;">try</span> {
+                <span style="color: #FFA070;">if</span> (!validate(pred,curr)) <span style="color: #FFA070;">continue</span> <span style="color: #6F8FCC;">retry</span>;
+                <span style="color: #FFA070;">if</span> (curr.key == key) {
+                    curr.marked = <span style="color: #6F8FCC;">true</span>; <span style="color: #637579;">// </span><span style="color: #637579;">&#1076;&#1083;&#1103; validate</span>
+                    pred.next = curr.next; <span style="color: #637579;">// </span><span style="color: #637579;">&#1090;&#1086;&#1095;&#1082;&#1072; &#1083;&#1080;&#1085;&#1077;&#1072;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;</span>
+                    <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">true</span>;
+                } <span style="color: #FFA070;">else</span> <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">false</span>;
+            } <span style="color: #FFA070;">finally</span> { curr.unlock(); pred.unlock(); }
+        }
+    }
+
+    <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">delete</span> (<span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">elem</span>) {
+    <span style="color: #6F8FCC;">retry</span>: <span style="color: #FFA070;">while</span> (<span style="color: #6F8FCC;">true</span>) {
+            <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">pred</span> = head, <span style="color: #A197BF;">curr</span> = pred.next;
+            <span style="color: #FFA070;">while</span> (curr.key &lt; <span style="color: #EF5C5F;">key</span>) {
+                pred = curr; curr = curr.next;
+                <span style="color: #637579;">//                   </span><span style="color: #637579;">^^^^^^</span>
+                <span style="color: #637579;">//            </span><span style="color: #637579;">&#1090;&#1091;&#1090; curr.next != null</span>
+            }
+            pred.lock(); curr.lock();
+            <span style="color: #FFA070;">try</span> {
+                <span style="color: #FFA070;">if</span> (!validate(pred,curr)) <span style="color: #FFA070;">continue</span> <span style="color: #6F8FCC;">retry</span>;
+                <span style="color: #FFA070;">if</span> (curr.key == key) <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">false</span>;
+                <span style="color: #FFA070;">else</span> {
+                    <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">node</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">Node</span>(key, item);
+                    node.next = curr; <span style="color: #637579;">// </span><span style="color: #637579;">&#1089;&#1085;&#1072;&#1095;&#1072;&#1083;&#1072;! &#1087;&#1086;&#1088;&#1103;&#1076;&#1086;&#1082; &#1074;&#1072;&#1078;&#1077;&#1085;</span>
+                    pred.next = node; <span style="color: #637579;">// </span><span style="color: #637579;">&#1090;&#1091;&#1090; &#1090;&#1086;&#1095;&#1082;&#1072; &#1083;&#1080;&#1085;&#1077;&#1072;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;</span>
+                    <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">true</span>;
+                }
+            } <span style="color: #FFA070;">finally</span> { curr.unlock(); pred.unlock(); }
+        }
+    }
+
+    <span style="color: #637579;">// </span><span style="color: #637579;">Wait-free &#1087;&#1086;&#1080;&#1089;&#1082;!</span>
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">contains</span>(<span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">key</span>) {
+        <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">curr</span> = head;
+        <span style="color: #FFA070;">while</span> (curr.key &lt; <span style="color: #EF5C5F;">key</span>) {
+            curr = curr.next; <span style="color: #637579;">// </span><span style="color: #637579;">&#1090;&#1086;&#1095;&#1082;&#1072; &#1083;&#1080;&#1085;&#1077;&#1072;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;</span>
+        }
+        <span style="color: #FFA070;">return</span> key == curr.key;
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7-5" class="outline-3">
+<h3 id="sec-7-5"><span class="section-number-3">7.5</span> Неблокирующая синхронизация</h3>
+<div class="outline-text-3" id="text-7-5">
+<p>
+Сделать синхронизацию без блокировок нетривиально:
+</p>
+<ul class="org-ul">
+<li>Простое использование CAS не помогает &#x2013; удаление двух соседних
+элементов будет конфликтовать
+1, 2, 3, 4, удалим 2, 3 одновременно, но указатель 1 → 3
+сохранится.
+</li>
+<li>Трюк такой: объединим (next, marked) в одну переменную, и будем ее
+изменять CASом атомарно.
+<ul class="org-ul">
+<li>Одновременное удаление соседних двух элементов будет
+конфликтовать
+</li>
+<li>Каждая операция модификации выполняется одним успешным CAS'ом.
+</li>
+<li>Это выполнение CAS'а и есть точка линеаризации
+</li>
+</ul>
+</li>
+<li>Будем пытаться удалять физически, от этого добавление и удаление
+станут lock-free, а поиск вообще wait-free.
+</li>
+<li>В реализации будем использовать для пары
+java.util.concurrent.atomic.AtomicMarkableReference.
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> Продолжение построений на списках, стеках</h2>
+<div class="outline-text-2" id="text-8">
+<p>
+Можно строить структуры универсально, храня на нее указатель и меняя
+его CAS'ом каждый раз. Так, например, работает счетчик &#x2013; в джаве
+это AtomicInteger.
+</p>
+
+<p>
+Персистентные структуры тоже несложно пишутся, достаточно заменить
+CAS'ом root на новый после изменения структуры. Остальное дерево
+остается прежней версии (персистентность, собсна).
+</p>
+</div>
+<div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1"><span class="section-number-3">8.1</span> Стек LIFO</h3>
+<div class="outline-text-3" id="text-8-1">
+<p>
+Рассмотрим частный, вырожденный случай древовидной структуры &#x2013;
+стек. Он не масштабируемый. Если конкуренция очень большая, то
+производительность в многосокетных системах на top будет падать.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java" id="stack-implementation">   <span style="color: #637579;">// </span><span style="color: #637579;">such immutable!</span>
+   <span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">Node</span> {
+       <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>;
+       <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">next</span>;
+   }
+
+   <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">AtomicReference</span>&lt;<span style="color: #EF5C5F;">Node</span>&gt; <span style="color: #A197BF;">top</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">AtomicReference</span>&lt;<span style="color: #EF5C5F;">Node</span>&gt;(<span style="color: #6F8FCC;">null</span>);
+
+   <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">push</span>(<span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>) {
+        <span style="color: #FFA070;">while</span> (<span style="color: #6F8FCC;">true</span>) {
+              <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">node</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">Node</span>(item, top.get());
+              <span style="color: #FFA070;">if</span> (top.compareAndSet(node.next, node)) <span style="color: #637579;">// </span><span style="color: #637579;">&#1083;&#1080;&#1085;&#1077;&#1072;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;</span>
+                 <span style="color: #FFA070;">return</span>;
+        }
+   }
+
+   <span style="color: #EF5C5F;">T</span> <span style="color: #8AAFFA;">pop</span>() {
+     <span style="color: #FFA070;">while</span> (<span style="color: #6F8FCC;">true</span>) {
+           <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">node</span> = top.get();
+
+<span style="color: #FFA070;">if</span> (node == <span style="color: #6F8FCC;">null</span>) <span style="color: #FFA070;">throw</span> <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">EmptyStack</span>();
+           <span style="color: #FFA070;">if</span> (top.compareAndSet(node, node.next)) <span style="color: #637579;">// </span><span style="color: #637579;">&#1083;&#1080;&#1085;&#1077;&#1072;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;</span>
+              <span style="color: #FFA070;">return</span> node.item;
+     }
+   }
+</pre>
+</div>
+
+<p>
+С разделяемой памятью вообще все достаточно сложно, там не только
+race condition'ы в большом количестве, но и куча проблем с
+производительностью. Будем пока считать что стек хороший.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-8-2" class="outline-3">
+<h3 id="sec-8-2"><span class="section-number-3">8.2</span> Очереди на списках, Майкл-Скотт</h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+Будем делать очередь на списках. Наивно с помощью универсальной
+конструкции так себе, а популярный алгоритм &#x2013; Майкла Скотта.
+</p>
+
+<p>
+Делаем список, у очереди есть указатель на голову и хвост, все
+односвязно. Будем элементы добавлять и удалять достаточно
+естественно.
+Добавление: Создаем элемент, ссылаемся на голову, с помощью CAS'а
+меняем указатель на голову в классе.
+Дописать элемент в хвост сложно, потому что нужно поменять сразу две
+ячейки памяти &#x2013; указатель класса на хвост, указатель предыдущего
+элемента хвоста на последний.
+</p>
+
+<p>
+Идея алгоритма Майкла-Скотта такая: будем брать элемент и
+подписывать его в хвост, меняя ссылку предыдущего, а физически
+перемещать tail (указатель из класса) потом.
+Если другой поток увидит, что очередь в состоянии "есть ссылка на
+tail, у которого есть следующий элемент", то он может помочь
+переставить указатель класса на нужный элемент.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java" id=""><span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">Node</span> {
+    <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>;
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">AtomicReference</span>&lt;<span style="color: #EF5C5F;">Node</span>&gt; <span style="color: #A197BF;">next</span>;
+}
+
+<span style="color: #EF5C5F;">AtomicReference</span>&lt;<span style="color: #EF5C5F;">Node</span>&gt; <span style="color: #A197BF;">head</span> =
+    <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">AtomicReference</span>&lt;<span style="color: #EF5C5F;">Node</span>&gt;(<span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">Node</span>(<span style="color: #6F8FCC;">null</span>));
+<span style="color: #EF5C5F;">AtomicReference</span>&lt;<span style="color: #EF5C5F;">Node</span>&gt; <span style="color: #A197BF;">tail</span> =
+    <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">AtomicReference</span>&lt;<span style="color: #EF5C5F;">Node</span>&gt;(head.get());
+
+<span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">enqueue</span>(<span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>) {
+    <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">node</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">Node</span>(item);
+ retry: <span style="color: #FFA070;">while</span> (<span style="color: #6F8FCC;">true</span>) {
+        <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">last</span> = tail.get(),
+            <span style="color: #A197BF;">next</span> = last.next.get();
+        <span style="color: #FFA070;">if</span> (next == <span style="color: #6F8FCC;">null</span>) {
+            <span style="color: #FFA070;">if</span> (!last.next.compareAndSet(<span style="color: #6F8FCC;">null</span>, node))
+                <span style="color: #FFA070;">continue</span> <span style="color: #6F8FCC;">retry</span>;
+            <span style="color: #637579;">// </span><span style="color: #637579;">&#1086;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; -- &#1089;&#1072;&#1084;&#1080; &#1087;&#1077;&#1088;&#1077;&#1089;&#1090;&#1072;&#1074;&#1083;&#1103;&#1077;&#1084; tail</span>
+            tail.compareAndSet(last, node);
+            <span style="color: #FFA070;">return</span>;
+        }
+        <span style="color: #637579;">// </span><span style="color: #637579;">&#1087;&#1086;&#1084;&#1086;&#1075;&#1072;&#1077;&#1084; &#1076;&#1088;&#1091;&#1075;&#1080;&#1084; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;&#1084; enqueue &#1089; tail</span>
+        tail.compareAndSet(last, next);
+    }
+}
+
+<span style="color: #EF5C5F;">T</span> <span style="color: #8AAFFA;">dequeue</span>() {
+ <span style="color: #6F8FCC;">retry</span>: <span style="color: #FFA070;">while</span> (<span style="color: #6F8FCC;">true</span>) {
+        <span style="color: #EF5C5F;">Node</span> <span style="color: #A197BF;">first</span> = head.get(),
+            <span style="color: #A197BF;">last</span> = tail.get(),
+            <span style="color: #A197BF;">next</span> = first.next();
+        <span style="color: #FFA070;">if</span> (first == last) {
+            <span style="color: #FFA070;">if</span> (next == <span style="color: #6F8FCC;">null</span>) <span style="color: #FFA070;">throw</span> <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">EmptyQueue</span>();
+            <span style="color: #637579;">// </span><span style="color: #637579;">&#1055;&#1086;&#1084;&#1086;&#1075;&#1072;&#1077;&#1084; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;&#1084; enqueue &#1089; tail</span>
+            tail.compareAndSet(last, next);
+        } <span style="color: #FFA070;">else</span> {
+            <span style="color: #FFA070;">if</span> (head.compareAndSet(first, next)) <span style="color: #637579;">// </span><span style="color: #637579;">&#1083;&#1080;&#1085;&#1077;&#1072;&#1088;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;</span>
+                <span style="color: #FFA070;">return</span> next.item;
+        }
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-8-3" class="outline-3">
+<h3 id="sec-8-3"><span class="section-number-3">8.3</span> ABA problem</h3>
+<div class="outline-text-3" id="text-8-3">
+<p>
+Есть проблема в средах без сборки мусора, называется ABA. Суть:
+Будем реализовывать самый первый стек этой лекции на C, без Garbage
+collector'а.
+Добавим  в стек несколько элементов &#x2013; A и B.
+Может быть такое, что top стека может быть: A B A.
+Достанем указатель на top, сделаем успешно cas, на return нас
+перебил другой поток, и что-то переаллочилось, теперь в A лежит
+какая-то другая фигня.
+</p>
+
+<p>
+Еще раз: в стеке 1 элемент, по адресу A (top = A).
+Мы делаем ему pop, достаем A. В это время нас прерывают.
+Другой поток делает pop A, push B, pop B, push C на месте A появился
+другой элемент, но CAS сравнивает только указатели, и в этом случае
+он не обнаружит эту проблему.
+В джаве это не работает так, потому что память на A нельзя
+освободить, пока на нее ссылаются.
+</p>
+
+<p>
+Решить ABA проще всего с помощью реализации сборщика мусора.
+Другой способ &#x2013; пользоваться версиями. Хранить в top пару из
+указателя и версии. Таким образом если стек за время top.get и cas
+успел поменяться, мы сравним версии и упадем. Именно поэтому мы
+можем делать cas на 2х последовательных словах, это позволяет нам
+менять одновременно указатель + версию.
+Еще можно пользоваться Hazard Pointers &#x2013; многопоточный сборщик
+мусора, который работает только для наших узлов.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> Алгоритмы на массивах</h2>
+<div class="outline-text-2" id="text-9">
+</div><div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1"><span class="section-number-3">9.1</span> Стек на массиве</h3>
+<div class="outline-text-3" id="text-9-1">
+<p>
+Давайте делать стек на массиве.
+В однопоточном варианте стек на массиве &#x2013; очень просто.
+Типа держим размер, pop/push меняет размер массива и ячейку.
+Но это все равно не взлетит в многопоточном варианте совсем прям
+наивно.
+Вот делаем мы push. Сначала увеличим top cas'ом, а потом проставим
+элемент. Push будет работать, но pop в такой реализации упадет &#x2013;
+если мы уже увеличили top, но не положили элемент, то достанет
+какой-то мусор.
+Аналогично если сначала проставляем элемент, а потом увеличиваем
+top, то там будет что-то старое.
+С очередями проблемы те же.
+</p>
+
+<p>
+Будем писать дек, пытаясь реализовать obstruction-free свойство.
+Дек будет циклическим.  Храним в элементе пару &#x2013; значение и
+версия. Там где дек пустой, будем хранить (left<sub>null</sub>, version),
+справа (right<sub>null</sub>, version).
+Для корректности алгоритма не будем полагаться на указатели left и
+right в классе дека &#x2013; они будут типа для производительности, а
+индексироваться будем за O(n).
+</p>
+
+<p>
+На практике этим никто не пользуется, потому что все равно
+медленнее, чем на ссылочном листе.
+</p>
+<div class="org-src-container">
+
+<pre class="src src-java" id=""><span style="color: #EF5C5F;">int</span> <span style="color: #8AAFFA;">rightOracle</span>() {
+    <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">k</span> = right; <span style="color: #637579;">// </span><span style="color: #637579;">&#1076;&#1083;&#1103; &#1086;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;</span>
+    <span style="color: #FFA070;">while</span> (a[k] != RN) k++;
+    <span style="color: #FFA070;">while</span> (a[k-1] == RN) k--;
+    right = k; <span style="color: #637579;">// </span><span style="color: #637579;">&#1079;&#1072;&#1087;&#1086;&#1084;&#1085;&#1080;&#1083;&#1080; &#1076;&#1083;&#1103; &#1086;&#1087;&#1090;&#1080;&#1084;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;</span>
+    <span style="color: #FFA070;">return</span> k;
+}
+
+<span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">rightPush</span>(<span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>) {
+ <span style="color: #6F8FCC;">retry</span>: <span style="color: #FFA070;">while</span> (<span style="color: #6F8FCC;">true</span>) {
+        <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">k</span> = rightOracle();
+        {<span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>, <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">ver</span>} prev = a[k-1], cur = a[k];
+        <span style="color: #FFA070;">if</span> (prev.item == RN || cur.item != RN) <span style="color: #FFA070;">continue</span>;
+        <span style="color: #FFA070;">if</span> (k == MAX-1) <span style="color: #FFA070;">throw</span> <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">FullDeque</span>();
+        <span style="color: #FFA070;">if</span> (CAS(a[k-1], prev, {prev.item, prev.ver+1} &amp;&amp;
+                CAS(a[k], cur, {item, cur.ver+1}))) <span style="color: #FFA070;">return</span>;
+    }
+}
+
+<span style="color: #EF5C5F;">T</span> <span style="color: #8AAFFA;">rightPop</span>() {
+ <span style="color: #6F8FCC;">retry</span>: <span style="color: #FFA070;">while</span> (<span style="color: #6F8FCC;">true</span>) {
+        <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">k</span> = oracleRight();
+        {<span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>, <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">ver</span>} cur = a[k-1], next = a[k];
+        <span style="color: #FFA070;">if</span> (cur.itim == RN || next.item != RN) <span style="color: #FFA070;">continue</span>;
+        <span style="color: #FFA070;">if</span> (cur.item == LN) <span style="color: #FFA070;">throw</span> <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">EmptyDeque</span>();
+        <span style="color: #FFA070;">if</span> (CAS(a[k], next, {RN, next.ver+1}) &amp;&amp;
+            CAS(a[k-1], cur, {RN, cur.ver + 1}))
+            <span style="color: #FFA070;">return</span> cur.item;
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2"><span class="section-number-3">9.2</span> Хэш-таблицы на массиве</h3>
+<div class="outline-text-3" id="text-9-2">
+<p>
+Бывают с прямой адресацией (по хэшу находим ведро, и все элементы с
+таким хэшом попадают в это ведро &#x2013; там дальше список или дерево).
+На практике с прямой адресацией все медленно, потому что там опять
+массивы или списки.
+Бывают с открытой, это самый лучший вариант.
+Но со списками намного проще.
+</p>
+
+<p>
+Будем пользоваться алгоритмом Split-Ordered lists.
+Засунем все элементы в одно большое связанео множество. Упорядочим
+их по хэшу. Для ускорения заведем слева хэш-таблицу, адресующую те
+элементы листа с заданным хэшом. Эта дополнительная таблица делается
+только для ускорения.
+Когда будем хотеть расширить таблицу, создадим вторую, скопируем ее
+черезстрочно, будем по мере обращений к хэшу ее обновлять (вторую).
+</p>
+
+
+<p>
+Открытая адресация.
+Делаем на массиве, будем считать ведро по хэшкоду, если занято, то
+дальше.
+Добавлять из нескольких потоков легко &#x2013; просто делаем cas. Удалять
+из такой таблицы можно прописывая некоторое особенное
+значение T. Нельзя прудмать алгоритм, который бы многопоточно
+закрывал дырки в этих списках.
+Ну, допустим мы забиваем элементы T, но как перевыделять память со
+временем &#x2013; для освобождения элементов T или расширения таблицы.
+</p>
+
+<p>
+Сделаем так, что таблица хранит указатель на "реальную" внутреннюю
+таблицу. Когда копируем, создаем новую таблицу, а указатель поставим
+в конце. Операция изменения ищет в новой таблице, если нету, то ищет
+в старой, если находит &#x2013; копирует в новую.
+Таким образом мы перенесем все элементы в новую таблицу.
+Как переносить, собственно?
+</p>
+
+<p>
+Если собираемся переносить, то пометим битиком значение. После этого
+мы занимаем слот в новой таблице, после этого копируем значение в
+новой таблице. Затем в старой пометим, что мы уже скопировали.
+(0, 0)
+↓
+{Claim key}
+↓
+(K, 0)
+↓
+{Set value}
+↓
+(K, V)            → Start copy → (K, V')
+↕                                  ↑
+{insert/delete}                  Moved
+↕                                  ↑
+(K, T)            → Moved      → (K, T')
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> CASN</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+Этот алгоритм с переносом таблиц есть частный случай.
+Хотим чтобы работало корректно (линеаризуемо) и:
+</p>
+<ol class="org-ol">
+<li>Lock-free
+</li>
+<li>Disjoint-Access Parallel (непересекающиеся доступы параллельны).
+</li>
+</ol>
+
+<div class="org-src-container">
+
+<pre class="src src-java" id="CASN"><span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">CASN</span>(<span style="color: #EF5C5F;">CASEntry</span>... <span style="color: #A197BF;">entries</span>) atomic {
+    <span style="color: #FFA070;">for</span> (<span style="color: #EF5C5F;">CASEntry</span> <span style="color: #A197BF;">entry</span>: entries)
+        <span style="color: #FFA070;">if</span> (entry.a.value != entry.expect)
+            <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">false</span>;
+    <span style="color: #FFA070;">for</span> (<span style="color: #EF5C5F;">CASEntry</span> <span style="color: #A197BF;">entry</span>: entries)
+        entry.a.value = entry.update;
+    <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">true</span>;
+}
+</pre>
+</div>
+
+<p>
+Если мы сделаем CASN, то сделаем стек на массиве &#x2013; будем
+одновременно делать CAS 2 раза.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java" id="CASN"><span style="color: #FFA070;">import</span> <span style="color: #6F8FCC;">java</span>.<span style="color: #6F8FCC;">util</span>.<span style="color: #6F8FCC;">concurrent</span>.<span style="color: #6F8FCC;">atomic</span>.<span style="color: #EF5C5F;">AtomicReferenceFieldUpdater</span>;
+
+<span style="color: #FFA070;">public</span> <span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">CASEntry</span>&lt;<span style="color: #EF5C5F;">T</span>&gt; {
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">DataReference</span>&lt;<span style="color: #EF5C5F;">T</span>&gt; <span style="color: #A197BF;">a</span>; <span style="color: #637579;">// </span><span style="color: #637579;">&#1095;&#1090;&#1086; &#1087;&#1086;&#1084;&#1077;&#1085;&#1103;&#1090;&#1100;</span>
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">expect</span>; <span style="color: #637579;">// </span><span style="color: #637579;">&#1086;&#1078;&#1080;&#1076;&#1072;&#1077;&#1084;&#1086;&#1077; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1077;</span>
+    <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">update</span>; <span style="color: #637579;">// </span><span style="color: #637579;">&#1085;&#1072; &#1095;&#1090;&#1086; &#1079;&#1072;&#1084;&#1077;&#1085;&#1080;&#1090;&#1100;</span>
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1048; &#1090;&#1091;&#1090; &#1087;&#1088;&#1086;&#1089;&#1090;&#1086;&#1081; &#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1086;&#1088; &#1076;&#1083;&#1103; &#1074;&#1089;&#1077;&#1093; &#1090;&#1088;&#1077;&#1093; &#1087;&#1086;&#1083;&#1077;&#1081;</span>
+}
+
+<span style="color: #637579;">// </span><span style="color: #637579;">RDCSS &#1089;&#1083;&#1086;&#1078;&#1085;&#1072;, &#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1077;&#1089;&#1083;&#1080; &#1103;&#1095;&#1077;&#1081;&#1082;&#1072; &#1084;&#1086;&#1078;&#1077;&#1090; &#1089;&#1090;&#1088;&#1072;&#1076;&#1072;&#1090;&#1100; &#1086;&#1090; ABA.</span>
+<span style="color: #637579;">// </span><span style="color: #637579;">&#1045;&#1089;&#1083;&#1080; &#1085;&#1077;&#1090;, &#1090;&#1086; &#1087;&#1088;&#1086;&#1097;&#1077;.</span>
+<span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">RDCSSDescriptor</span> {
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">DataReference</span> <span style="color: #A197BF;">a1</span>;
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">expect1</span>;
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">DataReference</span> <span style="color: #A197BF;">a2</span>;
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">expect2</span>;
+
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">update2</span>;
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1080; &#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1086;&#1088;</span>
+
+    <span style="color: #EF5C5F;">Object</span> <span style="color: #8AAFFA;">invoke</span>() {
+        <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">r</span>;
+        <span style="color: #FFA070;">do</span> {
+            r = a2.getAndCAS(expect2, <span style="color: #FFA070;">this</span>);
+            <span style="color: #FFA070;">if</span> (r <span style="color: #FFA070;">instanceof</span> RDCSSDescriptor)
+                ((<span style="color: #EF5C5F;">RDCSSDescriptor</span>)r).complete();
+        } <span style="color: #FFA070;">while</span> (r <span style="color: #FFA070;">instanceof</span> RDCSSDescriptor);
+        <span style="color: #FFA070;">if</span> (r == expect2) complete();
+        <span style="color: #FFA070;">return</span> r;
+    }
+
+    <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">complete</span>() {
+        <span style="color: #FFA070;">if</span> (a1.value == expect1) <span style="color: #6F8FCC;">a2</span>.CAS(<span style="color: #FFA070;">this</span>, update2);
+        <span style="color: #FFA070;">else</span> <span style="color: #6F8FCC;">a2</span>.CAS(<span style="color: #FFA070;">this</span>.expect2);
+    }
+}
+
+<span style="color: #FFA070;">enum</span> <span style="color: #EF5C5F;">Status</span> {
+    <span style="color: #A197BF;">UNDECINED</span>, <span style="color: #A197BF;">SUCCEEDED</span>, <span style="color: #A197BF;">FAILED</span>
+}
+
+<span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">CASNDescriptor</span> {
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">DataReference</span> <span style="color: #A197BF;">status</span> =
+        <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">DataReference</span>(<span style="color: #6F8FCC;">Status</span>.UNDECINED);
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">CASEntry</span>[] <span style="color: #A197BF;">entries</span>;
+
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1085;&#1072;&#1076;&#1086; &#1075;&#1072;&#1088;&#1072;&#1085;&#1090;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100; &#1086;&#1076;&#1080;&#1085;&#1072;&#1082;&#1086;&#1074;&#1099;&#1081; &#1087;&#1086;&#1088;&#1103;&#1076;&#1086;&#1082; &#1086;&#1073;&#1088;&#1072;&#1073;&#1086;&#1090;&#1082;&#1080;</span>
+    <span style="color: #637579;">// </span><span style="color: #637579;">DataReference &#1082;&#1072;&#1078;&#1076;&#1099;&#1084; CASN, &#1080;&#1093; &#1085;&#1072;&#1076;&#1086; &#1082;&#1072;&#1082;-&#1090;&#1086; &#1091;&#1087;&#1086;&#1088;&#1103;&#1076;&#1086;&#1095;&#1080;&#1090;&#1100;</span>
+    <span style="color: #8AAFFA;">CASNDescriptor</span>(<span style="color: #EF5C5F;">CASEntry</span>[] <span style="color: #A197BF;">entries</span>) {
+        <span style="color: #FFA070;">this</span>.entries = entries;
+        Arrays.sort(<span style="color: #FFA070;">this</span>.entries);
+    }
+
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">complete</span>() {
+        <span style="color: #FFA070;">if</span> (status.value == <span style="color: #6F8FCC;">Status</span>.UNDECINED) {
+            <span style="color: #EF5C5F;">Status</span> <span style="color: #A197BF;">newStatus</span> = <span style="color: #6F8FCC;">Status</span>.SUCCEEDED;
+            <span style="color: #FFA070;">for</span> (<span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">i</span> = 0; i &lt; entries.<span style="color: #EF5C5F;">length</span>;) {
+                <span style="color: #EF5C5F;">CASEntry</span> <span style="color: #A197BF;">entry</span> = entries[i];
+                <span style="color: #637579;">// </span><span style="color: #637579;">AQUIRE ENTRY</span>
+                <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">val</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">RDCSSDescriptor</span>(<span style="color: #FFA070;">this</span>.status,
+                                                 <span style="color: #6F8FCC;">Status</span>.UNDECIDED,
+                                                 entry.a,
+                                                 entry.expect,
+                                                 <span style="color: #FFA070;">this</span>).invoke();
+                <span style="color: #637579;">// </span><span style="color: #637579;">AQUIRE ENTRY END</span>
+
+                <span style="color: #FFA070;">if</span> (val <span style="color: #FFA070;">instanceof</span> CASNDescriptor) {
+                    <span style="color: #FFA070;">if</span> (val != <span style="color: #FFA070;">this</span>) {
+                        ((<span style="color: #EF5C5F;">CASNDescriptor</span>)val).complete();
+                        <span style="color: #FFA070;">continue</span>; <span style="color: #637579;">// </span><span style="color: #637579;">retry this entry</span>
+                    }
+                } <span style="color: #FFA070;">else</span> <span style="color: #FFA070;">if</span> (val != entry.expect) {
+                    newStatus = <span style="color: #6F8FCC;">Status</span>.FAILED;
+                    <span style="color: #FFA070;">break</span>;
+                }
+                i++; <span style="color: #637579;">// </span><span style="color: #637579;">go to next entry</span>
+            }
+            <span style="color: #FFA070;">this</span>.<span style="color: #6F8FCC;">status</span>.CAS(<span style="color: #6F8FCC;">Status</span>.UNDECIDED, newStatus);
+        }
+        <span style="color: #EF5C5F;">boolean</span> <span style="color: #A197BF;">succeeded</span> = status.value == <span style="color: #6F8FCC;">Status</span>.SUCCEEDED;
+        <span style="color: #FFA070;">for</span> (<span style="color: #EF5C5F;">CASEntry</span> <span style="color: #A197BF;">entry</span> : entries) {
+            <span style="color: #637579;">// </span><span style="color: #637579;">RELEASE</span>
+            <span style="color: #6F8FCC;">entry</span>.<span style="color: #6F8FCC;">a</span>.CAS(<span style="color: #FFA070;">this</span>, succeeded ? entry.update : entry.expect);
+        }
+        <span style="color: #FFA070;">return</span> succeeded;
+    }
+}
+
+<span style="color: #FFA070;">public</span> <span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">DataReference</span>&lt;<span style="color: #EF5C5F;">T</span>&gt; {
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1093;&#1088;&#1072;&#1085;&#1080;&#1084;&#1086;&#1077; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1077;</span>
+    <span style="color: #FFA070;">volatile</span> <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">value</span>;
+
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">static</span> <span style="color: #FFA070;">final</span>
+      <span style="color: #EF5C5F;">AtomicReferenceFieldUpdater</span>&lt;<span style="color: #EF5C5F;">DataReference</span>, <span style="color: #EF5C5F;">Object</span>&gt;
+        <span style="color: #A197BF;">VALUE_UPDATER</span> =
+          AtomicReferenceFieldUpdater.newUpdater(
+            DataReference.<span style="color: #FFA070;">class</span>, Object.<span style="color: #FFA070;">class</span>, <span style="color: #868B44;">"value"</span>);
+
+    <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">CAS</span>(<span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">expect</span>, <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">update</span>) {
+        <span style="color: #FFA070;">return</span> VALUE_UPDATER.compareAndSet(<span style="color: #FFA070;">this</span>, expect, update);
+    }
+
+    <span style="color: #EF5C5F;">Object</span> <span style="color: #8AAFFA;">getAndCAS</span>(<span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">expect</span>, <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">update</span>) {
+        <span style="color: #FFA070;">do</span> {
+            <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">curval</span> = value;
+            <span style="color: #FFA070;">if</span> (curval != expect) <span style="color: #FFA070;">return</span> curval;
+        } <span style="color: #FFA070;">while</span> (!CAS(expect, update));
+        <span style="color: #FFA070;">return</span> expect;
+    }
+
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">T</span> <span style="color: #8AAFFA;">get</span>() {
+        <span style="color: #FFA070;">while</span> (<span style="color: #6F8FCC;">true</span>) {
+            <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">curval</span> = value;
+            <span style="color: #FFA070;">if</span> (curval <span style="color: #FFA070;">instanceof</span> RDCSSDescriptor) {
+                ((<span style="color: #EF5C5F;">RDCSSDescriptor</span>)curval).complete();
+                <span style="color: #FFA070;">continue</span>;
+            }
+            <span style="color: #FFA070;">if</span> (curval <span style="color: #FFA070;">instanceof</span> CASNDescriptor) {
+                ((<span style="color: #EF5C5F;">CASNDescriptor</span>)curval).complete();
+                <span style="color: #FFA070;">continue</span>; <span style="color: #637579;">// </span><span style="color: #637579;">retry</span>
+            }
+            <span style="color: #FFA070;">return</span> (<span style="color: #EF5C5F;">T</span>)curval;
+        }
+    }
+
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">T</span> <span style="color: #8AAFFA;">get</span>();
+    <span style="color: #FFA070;">public</span> <span style="color: #FFA070;">static</span> <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">CASN</span>(<span style="color: #EF5C5F;">CASEntry</span>... <span style="color: #A197BF;">entries</span>);
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> Сложные блокировки</h2>
+<div class="outline-text-2" id="text-11">
+<p>
+Проведем анализ конфликтов (data race) &#x2013; два несинхронизированных
+доступа к одной ячейке данных, один из которых запись.
+Матрица конфликтов (для регистра) &#x2013; какие методы конфликтуют:
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="left" />
+
+<col  class="left" />
+
+<col  class="left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="left">&#xa0;</th>
+<th scope="col" class="left">R</th>
+<th scope="col" class="left">W</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="left">R</td>
+<td class="left">&#xa0;</td>
+<td class="left">×</td>
+</tr>
+</tbody>
+<tbody>
+<tr>
+<td class="left">W</td>
+<td class="left">×</td>
+<td class="left">×</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Подход этой матрицы позволяет чисто автоматизированно составить
+матрицу для сложной структуры с большим количеством методов.
+</p>
+
+<p>
+Можно тривиально убрать конфликты с помощью грубой блокировки на
+каждом конфликтующем методе.
+С другой стороны, жиненная ситуация &#x2013; после грубой блокировки
+некоторые методы могут работать одновременно (к примеру только
+читающие методы).
+</p>
+
+<p>
+Эту проблему решают read-write locks.
+Можем создать класс, который умеет лочиться по read или по write.
+Такой класс будет принимать сколько угодно локов по read, но
+остальные не будут совместимы.
+</p>
+
+<p>
+Другое решение &#x2013; делать структуру данных, используя тонкую
+блокировку. Например, с помощью CASN.
+</p>
+
+<p>
+Как сделать линеаризуемый многопоточный объект?
+</p>
+<ol class="org-ol">
+<li>Блокировки (aka synchronized): грубая, тонкая, &#x2026;, read-write
+</li>
+<li>Без блокировки
+<ol class="org-ol">
+<li>Универсальная конструкция (Copy-on-write + CAS, частичное
+копирование + CAS)
+</li>
+<li>CASN
+</li>
+<li>Специфичные для структуры алгоритмы
+</li>
+</ol>
+</li>
+</ol>
+
+<p>
+Проблемы блокировки:
+</p>
+<ol class="org-ol">
+<li>В системе нет прогресса, пока объект заблокирован
+</li>
+<li>Требуются дополнительные переключения контекста чтобы дать
+закончить работу блокирующему потоку. Это может сильно жрать
+CPU.
+</li>
+<li>Минимальный параллелизм работы, причем параллелизм обратно
+пропорционален количеству блокировок.
+</li>
+<li>Deadlocks
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> STM</h2>
+<div class="outline-text-2" id="text-12">
+<p>
+Как делать сложные вещи и не думать? STM!
+Типа навешиваем какие-то вещи на кусок кода, и он выполняется
+атомарно. Такое есть, например, в Clojure. Проблема &#x2013; оно работает
+медленно и поэтому не подходит для плюсов/джавы.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java" id="STM"><span style="color: #FFA070;">public</span> <span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">Employees</span> {
+    <span style="color: #EF5C5F;">Set</span> <span style="color: #A197BF;">working</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">ConcurrentSet</span>();
+    <span style="color: #EF5C5F;">Set</span> <span style="color: #A197BF;">vacating</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">ConcurrentSet</span>();
+
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1087;&#1089;&#1077;&#1074;&#1076;&#1086;&#1082;&#1086;&#1076;</span>
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">contains</span>(<span style="color: #EF5C5F;">Employee</span> <span style="color: #A197BF;">e</span>) {
+        atomic {
+            <span style="color: #FFA070;">return</span> working.contains(e) ||
+                vaccating.contains(e);
+        }
+    }
+
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">startVacation</span>(<span style="color: #EF5C5F;">Employee</span> <span style="color: #A197BF;">e</span>) {
+        atomic {
+            working.remove(e);
+            vacating.add(e);
+        }
+    }
+}
+</pre>
+</div>
+
+<p>
+Будем писать класс транзакций и класс переменной для транзакции.
+</p>
+</div>
+<div id="outline-container-sec-12-1" class="outline-3">
+<h3 id="sec-12-1"><span class="section-number-3">12.1</span> Транзакции с блокировкой:</h3>
+<div class="outline-text-3" id="text-12-1">
+<ul class="org-ul">
+<li>Можно двухфазовой блокировкой. Все конфликтующие блокировки
+защищаются локами, в начале транзакции локи накапливаются, в
+конце отпускаются.
+</li>
+<li>Тогда любое исполнение такой системы будет линеаризуемо
+</li>
+</ul>
+<div class="org-src-container">
+
+<pre class="src src-java" id=""><span style="color: #FFA070;">public</span> <span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">Transaction</span> {
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">static</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">ThreadLocal</span>&lt;<span style="color: #EF5C5F;">Transaction</span>&gt; <span style="color: #A197BF;">CURRENT</span> =
+        <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">ThreadLocal</span>&lt;<span style="color: #EF5C5F;">Transaction</span>&gt;();
+
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">List</span>&lt;<span style="color: #EF5C5F;">Lock</span>&gt; <span style="color: #A197BF;">locks</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">ArrayList</span>&lt;<span style="color: #EF5C5F;">Lock</span>&gt;();
+
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">Set</span>&lt;<span style="color: #EF5C5F;">TVar</span>&lt;?&gt;&gt; <span style="color: #A197BF;">writes</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">HashSet</span>&lt;<span style="color: #EF5C5F;">TVar</span>&lt;?&gt;&gt;();
+
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">addWrite</span>(<span style="color: #EF5C5F;">TVar</span>&lt;?&gt; <span style="color: #A197BF;">var</span>) {
+        writes.add(var);
+    }
+
+    <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">addLock</span>(<span style="color: #EF5C5F;">Lock</span> <span style="color: #A197BF;">lock</span>) { locks.add(lock); }
+
+    <span style="color: #637579;">// </span><span style="color: #637579;">commit &#1089; &#1073;&#1083;&#1086;&#1082;&#1080;&#1088;&#1086;&#1074;&#1082;&#1086;&#1081;</span>
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">commit</span>() {
+        <span style="color: #FFA070;">for</span> (<span style="color: #EF5C5F;">Lock</span> <span style="color: #A197BF;">lock</span> : locks) lock.unlock();
+        <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">true</span>;
+    }
+
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">rollback</span>() {
+        <span style="color: #FFA070;">for</span> (<span style="color: #EF5C5F;">TVar</span>&lt;?&gt; <span style="color: #A197BF;">var</span> : writes) var.rollback();
+        <span style="color: #FFA070;">for</span> (<span style="color: #EF5C5F;">Lock</span> <span style="color: #A197BF;">lock</span> : locks) lock.unlock();
+    }
+
+    <span style="color: #FFA070;">public</span> <span style="color: #FFA070;">static</span> <span style="color: #EF5C5F;">Transaction</span> <span style="color: #8AAFFA;">beginTransaction</span>() {
+        <span style="color: #EF5C5F;">Transaction</span> <span style="color: #A197BF;">t</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">Transaction</span>();
+        CURRENT.set(t);
+        <span style="color: #FFA070;">return</span> t;
+    }
+
+    <span style="color: #FFA070;">public</span> <span style="color: #FFA070;">static</span> <span style="color: #EF5C5F;">Transaction</span> <span style="color: #8AAFFA;">currentTransaction</span>() {
+        <span style="color: #FFA070;">return</span> CURRENT.get();
+    }
+
+    <span style="color: #FFA070;">public</span> <span style="color: #FFA070;">static</span> &lt;<span style="color: #EF5C5F;">R</span>&gt; <span style="color: #EF5C5F;">R</span> <span style="color: #8AAFFA;">atomic</span>(<span style="color: #EF5C5F;">AtomicBlock</span>&lt;<span style="color: #EF5C5F;">R</span>&gt; <span style="color: #A197BF;">call</span>) {
+        <span style="color: #FFA070;">for</span> (;;) {
+            <span style="color: #EF5C5F;">Transacion</span> <span style="color: #A197BF;">t</span> = beginTransaction();
+            <span style="color: #FFA070;">try</span> {
+                <span style="color: #EF5C5F;">R</span> <span style="color: #A197BF;">result</span> = call.call();
+                <span style="color: #FFA070;">if</span> (t.commit()) <span style="color: #FFA070;">return</span> result;
+            } <span style="color: #FFA070;">catch</span> (RuntimeException | Error e) {
+                t.rollback();
+                <span style="color: #FFA070;">throw</span> e;
+            }
+        }
+    }
+}
+
+<span style="color: #FFA070;">public</span> <span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">TVar</span>&lt;<span style="color: #EF5C5F;">T</span>&gt; {
+    <span style="color: #FFA070;">private</span> <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">value</span>;
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">ReadWriteLock</span> <span style="color: #A197BF;">lock</span> =
+        <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">ReentrantReadWriteLock</span>();
+
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1076;&#1083;&#1103; rollback &#1074; Transaction</span>
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">static</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">UNDEFINED</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">Object</span>();
+    <span style="color: #FFA070;">private</span> <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">oldValue</span> = UNDEFINED;
+
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">T</span> <span style="color: #8AAFFA;">get</span>() {
+        lock.readLock().lock();
+        Transaction.currentTransaction().addLock(lock.readLock());
+        <span style="color: #FFA070;">return</span> value;
+    }
+
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">set</span>(<span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">value</span>) {
+        <span style="color: #FFA070;">if</span> (oldValue = UNDEFINED) {
+            lock.writeLock().lock();
+            <span style="color: #FFA070;">this</span>.oldValue = <span style="color: #FFA070;">this</span>.value;
+            Transaction.currentTransaction().addWrite(<span style="color: #FFA070;">this</span>);
+        }
+        <span style="color: #FFA070;">this</span>.value = value;
+    }
+
+    <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">rollback</span>() {
+        value = (<span style="color: #EF5C5F;">T</span>)oldValue;
+        oldValue = UNDEFINED;
+        lock.writeLock().unlock();
+    }
+}
+</pre>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-12-2" class="outline-3">
+<h3 id="sec-12-2"><span class="section-number-3">12.2</span> Транзакции без блокировки</h3>
+<div class="outline-text-3" id="text-12-2">
+<p>
+Предоставим реализацию без помех. Разные потоки могут бесконечно
+долго мешать друг другу закончить транзакцию без прогресса, но если
+активен только один поток, то прогресс гарантирован.
+Проблематика &#x2013; даже читающие транзакции конфликтуют.
+В этом смысле решение с блокировкой лучше.
+</p>
+
+<div class="org-src-container">
+
+<pre class="src src-java" id="obstruction-free"><span style="color: #FFA070;">public</span> <span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">Transaction</span> {
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">static</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">ACTIVE</span> = 0;
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">static</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">COMITED</span> = 1;
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">static</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">ABORTED</span> = -1;
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">AtomicInteger</span> <span style="color: #A197BF;">state</span> = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">AtomicInteger</span>(ACTIVE);
+
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">isCommited</span>() {
+        <span style="color: #FFA070;">return</span> state.get() == COMMITED;
+    }
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">commit</span>() {
+        <span style="color: #FFA070;">return</span> state.compareAndSet(ACTIVE, COMMITED);
+    }
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">rollback</span>() {
+        state.compareAndSet(ACTIVE, ABORTED);
+    }
+    <span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">VarHolder</span>&lt;<span style="color: #EF5C5F;">T</span>&gt; {
+        <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">Transaction</span> <span style="color: #A197BF;">owner</span>;
+        <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">value</span>;
+        <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">newValue</span>; <span style="color: #637579;">// </span><span style="color: #637579;">updated by owner</span>
+
+        <span style="color: #8AAFFA;">VarHolder</span>(<span style="color: #EF5C5F;">Transaction</span> <span style="color: #A197BF;">owner</span>, <span style="color: #EF5C5F;">Object</span> <span style="color: #A197BF;">value</span>) {
+            <span style="color: #FFA070;">this</span>.owner = owner;
+            <span style="color: #FFA070;">this</span>.value = value;
+            <span style="color: #FFA070;">this</span>.newValue = value;
+        }
+
+        <span style="color: #637579;">// </span><span style="color: #637579;">&#1090;&#1077;&#1082;&#1091;&#1097;&#1077;&#1077; &#1079;&#1085;&#1072;&#1095;&#1077;&#1085;&#1080;&#1077; &#1079;&#1072;&#1074;&#1080;&#1089;&#1080;&#1090; &#1086;&#1090; &#1089;&#1086;&#1089;&#1090;&#1086;&#1103;&#1085;&#1080;&#1103; &#1074;&#1083;&#1072;&#1076;&#1077;&#1083;&#1100;&#1094;&#1072;</span>
+        <span style="color: #EF5C5F;">T</span> <span style="color: #8AAFFA;">current</span>() {
+            <span style="color: #FFA070;">return</span> owner.isCommited() ? (<span style="color: #EF5C5F;">T</span>)newValue : (<span style="color: #EF5C5F;">T</span>)value;
+        }
+    }
+}
+
+<span style="color: #FFA070;">public</span> <span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">TVar</span>&lt;<span style="color: #EF5C5F;">T</span>&gt; {
+    <span style="color: #FFA070;">private</span> <span style="color: #EF5C5F;">AtomicReference</span>&lt;<span style="color: #EF5C5F;">VarHolder</span>&lt;<span style="color: #EF5C5F;">T</span>&gt;&gt; <span style="color: #A197BF;">holder</span> =
+        <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">AtomicReference</span>&lt;<span style="color: #EF5C5F;">VarHolder</span>&lt;<span style="color: #EF5C5F;">T</span>&gt;&gt;();
+
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">T</span> <span style="color: #8AAFFA;">get</span>() {
+        <span style="color: #FFA070;">return</span> (<span style="color: #EF5C5F;">T</span>)open().newValue;
+    }
+
+    <span style="color: #FFA070;">public</span> <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">set</span>(<span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">value</span>) {
+        open().newValue = value;
+    }
+
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1087;&#1077;&#1088;&#1077;&#1084;&#1077;&#1085;&#1085;&#1091;&#1102; &#1085;&#1091;&#1078;&#1085;&#1086; &#1086;&#1090;&#1082;&#1088;&#1099;&#1090;&#1100; &#1087;&#1077;&#1088;&#1077;&#1076; &#1083;&#1102;&#1073;&#1099;&#1084; &#1076;&#1086;&#1089;&#1090;&#1091;&#1087;&#1086;&#1084;</span>
+    <span style="color: #EF5C5F;">VarHolder</span>&lt;<span style="color: #EF5C5F;">T</span>&gt; <span style="color: #8AAFFA;">open</span>() {
+        <span style="color: #EF5C5F;">Transaction</span> <span style="color: #A197BF;">tx</span> = Transaction.current();
+        <span style="color: #EF5C5F;">VarHolder</span>&lt;<span style="color: #EF5C5F;">T</span>&gt; <span style="color: #A197BF;">old</span>, <span style="color: #A197BF;">upd</span>;
+        <span style="color: #FFA070;">do</span> {
+            old = holder.get();
+            <span style="color: #FFA070;">if</span> (old.owner == tx) <span style="color: #FFA070;">return</span> old;
+            old.owner.rollback(); <span style="color: #637579;">// </span><span style="color: #637579;">&#1077;&#1089;&#1083;&#1080; &#1072;&#1082;&#1090;&#1080;&#1074;&#1077;&#1085;</span>
+            upd = <span style="color: #FFA070;">new</span> <span style="color: #EF5C5F;">VarHolder</span>&lt;<span style="color: #EF5C5F;">T</span>&gt;(tx, old.current());
+        } <span style="color: #FFA070;">while</span> (!holder.compareAndSet(old, upd));
+        <span style="color: #FFA070;">return</span> upd
+    }
+}
+</pre>
+</div>
+
+<p>
+Параллельно читать можно, для этого необходимо в TVar при чтении не
+открывать переменную. Значение тогда сможет поменяться в процессе
+транзакции, и линеаризуемость пропадает.
+Решить это можно с помощью пост-проверки транзакции на
+корректность. Или с помощью многоверсионного контроля корректности.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13"><span class="section-number-2">13</span> Мониторы и локи</h2>
+<div class="outline-text-2" id="text-13">
+<p>
+Представим операцию как функцию над парой из состояния и
+аргументов. Раньше мы рассматривали функции тлоько всюду
+определенные.
+</p>
+
+<p>
+Возьмем блокирующую очередь. Пусть put кладет только, если есть
+место. Если нету, то она зависает, то есть put частично
+определена. Аналогично предтсавим себе take, который может
+вытаскивать элемент из очереди только, если очередь не пуста. Будем
+поддерживать, с другой стороны, и не блокирующиеся операции &#x2013; size,
+offer, poll (возвращает null если пуста).
+</p>
+
+<p>
+Примечание: тут блокировка обозначает нечто другое &#x2013; определенность
+функции.
+</p>
+
+<p>
+Тут нужно переопределить линеаризуемость и исполнение:
+</p>
+<ol class="org-ol">
+<li><code>inv(A)</code> &#x2013; это вызов, но не всегда есть <code>resp(A)</code>. A называется
+незавершенной операцией, а <code>inv(A)</code> незавершенным вызовомм
+</li>
+<li>Исполнение линеаризуемо, если в исполнении можно:
+<ul class="org-ul">
+<li>добавить такие ответы для незавершенных вызовов
+</li>
+<li>выкинуть остальные незавершенные вызовы
+</li>
+<li>можно упорядочить, получить допустимое последовательное
+исполнение:
+
+<p>
+<code>inv(A₁) → resp(A₁) → ...</code>
+</p>
+</li>
+</ul>
+</li>
+</ol>
+
+<p>
+Монитор &#x2013; это пара из mutex'а и набора условных переменных:
+</p>
+<ol class="org-ol">
+<li>Взаимное исключение для защиты данных от одновременного изменения.
+</li>
+<li>Условные переменные для ожидания.
+</li>
+<li>Придумано Энтони Хоаром.
+</li>
+</ol>
+
+<p>
+В java каждый объект имеет монитор с одной условной переменной:
+</p>
+<ul class="org-ul">
+<li><code>synchronized == monitorenter + monitorexit.</code>
+</li>
+<li><code>wait</code>, <code>notify</code>, <code>notifyAll</code> &#x2013; для работы с условной переменной.
+</li>
+</ul>
+
+<p>
+Что такое wait?
+</p>
+<ul class="org-ul">
+<li>Может выходить из критической секции (монитора), чтобы другие
+потоки могли в нее попасть и поменять состояние объекта
+</li>
+<li>Дожидается сигнала через условную переменную
+</li>
+<li>Снова входит в критическую секцию (в монитор), чтобы этот поток
+мог перепроверить состояние объекта и выполнить свою операцию если
+состояние подходящее
+</li>
+<li>Сигнал посылается через <code>notify</code> (сигнал одному ждущему потоку),
+<code>notifyAll</code> (сигнал всем ждущим потокам).
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-java" id="java"><span style="color: #FFA070;">public</span> <span style="color: #FFA070;">class</span> <span style="color: #EF5C5F;">BlockingQueue</span>&lt;<span style="color: #EF5C5F;">T</span>&gt; {
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">T</span>[] <span style="color: #A197BF;">items</span>;
+    <span style="color: #FFA070;">private</span> <span style="color: #FFA070;">final</span> <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">n</span>;
+    <span style="color: #FFA070;">private</span> <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">head</span>;
+    <span style="color: #FFA070;">private</span> <span style="color: #EF5C5F;">tail</span>;
+
+    <span style="color: #FFA070;">public</span> <span style="color: #FFA070;">synchronized</span> <span style="color: #EF5C5F;">int</span> <span style="color: #8AAFFA;">size</span>() {
+        <span style="color: #FFA070;">return</span> (tail - head + n) % n;
+    }
+
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1045;&#1089;&#1083;&#1080; &#1086;&#1095;&#1077;&#1088;&#1077;&#1076;&#1100; &#1087;&#1091;&#1089;&#1090;&#1072;, &#1074;&#1086;&#1079;&#1074;&#1088;&#1072;&#1097;&#1072;&#1077;&#1090; null</span>
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1087;&#1086;&#1083;&#1085;&#1086;&#1089;&#1090;&#1100;&#1102; &#1086;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085; &#1074; &#1083;&#1102;&#1073;&#1086;&#1084; &#1089;&#1086;&#1089;&#1090;&#1086;&#1103;&#1085;&#1080;&#1080;</span>
+    <span style="color: #FFA070;">public</span> <span style="color: #FFA070;">synchronized</span> <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">poll0</span> {
+        <span style="color: #FFA070;">if</span> (head == tail) <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">null</span>;
+        <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">result</span> = items[head];
+        items[head] = <span style="color: #6F8FCC;">null</span>;
+        head = (head + 1) % n;
+        <span style="color: #FFA070;">return</span> result;
+    }
+
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1085;&#1077; &#1086;&#1087;&#1088;&#1077;&#1076;&#1077;&#1083;&#1077;&#1085; &#1076;&#1083;&#1103; &#1087;&#1091;&#1089;&#1090;&#1086;&#1081; &#1086;&#1095;&#1077;&#1088;&#1077;&#1076;&#1080;</span>
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1045;&#1089;&#1083;&#1080; &#1086;&#1095;&#1077;&#1088;&#1077;&#1076;&#1100; &#1087;&#1091;&#1089;&#1090;&#1072; -- &#1078;&#1076;&#1077;&#1090;. &#1050;&#1080;&#1076;&#1072;&#1077;&#1090; exception == &#1084;&#1086;&#1078;&#1077;&#1090; &#1073;&#1083;&#1086;&#1082;&#1080;&#1088;&#1086;&#1074;&#1072;&#1090;&#1100;&#1089;&#1103;.</span>
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1062;&#1080;&#1082;&#1083; &#1079;&#1072;&#1095;&#1077;&#1084;? &#1057;&#1084;. Object.wait: spurious wakeups are possible...</span>
+    <span style="color: #FFA070;">public</span> <span style="color: #FFA070;">synchronized</span> <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">poll</span> <span style="color: #FFA070;">throws</span> <span style="color: #EF5C5F;">Interruptedexception</span> {
+        <span style="color: #FFA070;">while</span> (head == tail) wait(); <span style="color: #637579;">// </span><span style="color: #637579;">&#1082;&#1088;&#1080;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1072;&#1103; &#1088;&#1072;&#1079;&#1085;&#1080;&#1094;&#1072;</span>
+        <span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">result</span> = items[head];
+        items[head] = <span style="color: #6F8FCC;">null</span>;
+        <span style="color: #FFA070;">if</span> ((tail + 1) % n == head) notifyAll(); <span style="color: #637579;">// </span><span style="color: #637579;">&#1086;&#1095;&#1077;&#1088;&#1077;&#1076;&#1100; &#1073;&#1099;&#1083;&#1072; &#1087;&#1086;&#1083;&#1085;&#1072;</span>
+        head = (head + 1) % n;
+        <span style="color: #FFA070;">return</span> result;
+    }
+
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1057;&#1072;&#1084; &#1084;&#1077;&#1090;&#1086;&#1076; &#1085;&#1077; &#1073;&#1083;&#1086;&#1082;&#1080;&#1088;&#1091;&#1077;&#1090;&#1089;&#1103;, &#1085;&#1086; &#1073;&#1091;&#1076;&#1080;&#1090; &#1087;&#1086;&#1090;&#1086;&#1082;&#1080;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1077; &#1078;&#1076;&#1091;&#1090;</span>
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1087;&#1086;&#1082;&#1072; &#1086;&#1095;&#1077;&#1088;&#1077;&#1076;&#1100; &#1089;&#1090;&#1072;&#1085;&#1077;&#1090; &#1085;&#1077; &#1087;&#1091;&#1089;&#1090;&#1072;</span>
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1053;&#1091;&#1078;&#1085;&#1086; &#1073;&#1091;&#1076;&#1080;&#1090;&#1100; &#1076;&#1088;&#1091;&#1075;&#1080;&#1077; &#1087;&#1086;&#1090;&#1086;&#1082;&#1080;, &#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1077;&#1089;&#1083;&#1080; &#1076;&#1077;&#1081;&#1089;&#1090;&#1074;&#1080;&#1090;&#1077;&#1083;&#1100;&#1085;&#1086;</span>
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1086;&#1095;&#1077;&#1088;&#1077;&#1076;&#1100; &#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1080;&#1090;&#1089;&#1103; &#1085;&#1077; &#1087;&#1091;&#1089;&#1090;&#1072;.</span>
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1057;&#1080;&#1075;&#1085;&#1072;&#1083; &#1087;&#1086;&#1081;&#1076;&#1077;&#1090; &#1090;&#1086;&#1083;&#1100;&#1082;&#1086; &#1087;&#1086;&#1089;&#1083;&#1077; &#1074;&#1099;&#1093;&#1086;&#1076;&#1072; &#1080;&#1079; &#1084;&#1086;&#1085;&#1080;&#1090;&#1086;&#1088;&#1072; (&#1082;&#1088;&#1080;&#1090;&#1080;&#1095;&#1077;&#1089;&#1082;&#1086;&#1081; &#1089;&#1077;&#1082;&#1094;&#1080;&#1080;).</span>
+    <span style="color: #FFA070;">public</span> <span style="color: #FFA070;">synchronized</span> <span style="color: #EF5C5F;">boolean</span> <span style="color: #8AAFFA;">offer</span>(<span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>) {
+        <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">next</span> = (tail + 1) % n;
+        <span style="color: #FFA070;">if</span> (next == head) <span style="color: #FFA070;">return</span> <span style="color: #6F8FCC;">false</span>;
+        items[tail] = item;
+        <span style="color: #FFA070;">if</span> (head == tail) notifyAll();
+        tail = next;
+    }
+
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1078;&#1076;&#1077;&#1090; &#1087;&#1086;&#1082;&#1072; &#1086;&#1095;&#1077;&#1088;&#1077;&#1076;&#1100; &#1085;&#1077; &#1087;&#1086;&#1083;&#1085;&#1072; &#1080; &#1073;&#1091;&#1076;&#1077;&#1090; &#1087;&#1086;&#1090;&#1086;&#1082;&#1080;, &#1082;&#1086;&#1090;&#1086;&#1088;&#1099;&#1077; &#1084;&#1086;&#1075;&#1091;&#1090; &#1078;&#1076;&#1072;&#1090;&#1100; &#1087;&#1086;&#1082;&#1072;</span>
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1086;&#1095;&#1077;&#1088;&#1077;&#1076;&#1100; &#1089;&#1090;&#1072;&#1085;&#1077;&#1090; &#1085;&#1077; &#1087;&#1091;&#1089;&#1090;&#1072;</span>
+    <span style="color: #FFA070;">public</span> <span style="color: #FFA070;">synchronized</span> <span style="color: #EF5C5F;">void</span> <span style="color: #8AAFFA;">put</span>(<span style="color: #EF5C5F;">T</span> <span style="color: #A197BF;">item</span>) <span style="color: #FFA070;">throws</span> <span style="color: #EF5C5F;">Interruptedexception</span> {
+        <span style="color: #FFA070;">while</span> (<span style="color: #6F8FCC;">true</span>) {
+            <span style="color: #EF5C5F;">int</span> <span style="color: #A197BF;">next</span> = (tail + 1) % n;
+            <span style="color: #FFA070;">if</span> (next == head) { wait(); <span style="color: #FFA070;">continue</span>; }
+            items[tail] = item;
+            <span style="color: #FFA070;">if</span> (head == tail) notifyAll();
+            tail = next;
+            <span style="color: #FFA070;">return</span>;
+        }
+    }
+
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1074; &#1084;&#1077;&#1090;&#1086;&#1076;&#1077; take &#1090;&#1086;&#1078;&#1077; &#1085;&#1091;&#1078;&#1085;&#1086; &#1087;&#1099;&#1090;&#1072;&#1090;&#1100;&#1089;&#1103; &#1073;&#1091;&#1076;&#1080;&#1090;&#1100; put, &#1082;&#1086;&#1075;&#1076;&#1072; &#1084;&#1099; &#1079;&#1072;&#1073;&#1088;&#1072;&#1083;&#1080; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1081;</span>
+    <span style="color: #637579;">// </span><span style="color: #637579;">&#1101;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;</span>
+}
+</pre>
+</div>
+
+<p>
+Рассмотрим еще раз разницу <code>notify</code> и <code>notifyAll</code>:
+</p>
+<ul class="org-ul">
+<li>Нам нужно было использовать одну условную пееменную для двух
+условий: очередь не пуста и очередь не полна, поэтому пользуемся
+<code>notifyAll</code>.
+</li>
+<li>Если бы для каждого условия использовалась бы отдельная
+переменная, notify было бы достаточно. Но у java есть только одна
+условная переменная на каждый монитор.
+</li>
+</ul>
+
+<p>
+<code>j.u.c.ReentrantLock</code> спасает! Там есть методы всякие, которые
+предоставляет интерфейс <code>Condition</code> с методами <code>await</code>, <code>signal</code>,
+<code>signalAll</code>. Можно таким образом сделать эффективным <code>take</code>, в котом мы
+делаем все то же самое, что с интерфейсом <code>wait/notify</code>, но на локе и
+методами с похожими названиями. Но тут можно сделать два condition'а
+и делать на каждом <code>signal</code>, а не <code>signalAll</code>.
+</p>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2015.10.19</p>
+<p class="date">Created: 2015-12-14 Mon 16:11</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.2 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
