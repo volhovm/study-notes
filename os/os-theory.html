@@ -4,7 +4,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="ru" xml:lang="ru">
 <head>
 <title>Notes on OS lectures given by Jan Malakhovski, 4th term, 2015</title>
-<!-- 2015-12-14 Mon 20:55 -->
+<!-- 2015-12-15 Tue 02:37 -->
 <meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta  name="generator" content="Org-mode" />
 <meta  name="author" content="Volkhov Mikhail, Dmitry Mukhutdinov" />
@@ -597,6 +597,12 @@ Cons:
 Кэш разбит на кэш-линии. Структура кэш-линии:
 </p>
 
+
+<div class="figure">
+<p><img src="ditaa-cacheline.png" alt="ditaa-cacheline.png" />
+</p>
+</div>
+
 <p>
 Кроме этого мы знаем номер каждой кэш-линии.
 </p>
@@ -621,6 +627,12 @@ Cons:
 <p>
 Обычный адрес в памяти интерпретируется в следующем виде:
 </p>
+
+
+<div class="figure">
+<p><img src="ditaa-address.png" alt="ditaa-address.png" />
+</p>
+</div>
 
 <ul class="org-ul">
 <li>tag - как раз тот кусок, который матчится с tag в кэше.
@@ -1433,6 +1445,13 @@ sources:
 Память процесса устроена так:
 </p>
 
+
+<div class="figure">
+<p><img src="ditaa-virtmemory.png" alt="ditaa-virtmemory.png" />
+</p>
+</div>
+
+
 <p>
 Но это в Линуксе примерно так, а вообще, конечно, везде по-разному.
 </p>
@@ -1595,6 +1614,12 @@ Memory map процесса имеет как минимум следующие 
 Посмотреть активные маппинги &#x2013; <code>cat /proc/PID/maps</code>.
 Каждый маппинг состоит из:
 </p>
+
+
+<div class="figure">
+<p><img src="ditaa-virtmemory.png" alt="ditaa-virtmemory.png" />
+</p>
+</div>
 
 <p>
 Каждому новому маппингу соответствует VMA. Структура называется
@@ -3313,16 +3338,11 @@ Keyboard---&gt;Keyboard driver-&gt;-&#9496;
 </p>
 
 <p>
-Вот как работает утилита <code>script(1)</code>: Она фактически запускает
-внутри себя баш, который посылает все наверх, а в это время script
-пишет всякий инпут/аутпут в файл.
+Вот как работает утилита <code>script(1)</code>: <a href="https://upload.wikimedia.org/wikipedia/commons/e/ef/Termios-script-diagram.png">Тут</a> (очень большая, решил не
+встраивать). Она фактически запускает внутри себя баш, который
+посылает все наверх, а в это время script пишет всякий инпут/аутпут
+в файл.
 </p>
-
-
-<div class="figure">
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/e/ef/Termios-script-diagram.png" alt="Termios-script-diagram.png" />
-</p>
-</div>
 
 <p>
 Sources:
@@ -4522,7 +4542,7 @@ uses TMP to extend some hardware id.
 </div>
 <div id="postamble" class="status">
 <p class="author">&#1040;&#1074;&#1090;&#1086;&#1088;: Volkhov Mikhail, Dmitry Mukhutdinov</p>
-<p class="date">Created: 2015-12-14 Mon 20:55</p>
+<p class="date">Created: 2015-12-15 Tue 02:37</p>
 <p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.2 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
 <p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
