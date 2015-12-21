@@ -1,13 +1,37 @@
 #+TODO: X 0 1 2 | 3
 #+LANGUAGE: ru
-#+LaTeX_HEADER: \usepackage[a4paper, total={6in, 8in}]{geometry}
-#+LaTeX_HEADER: \usepackage[russian]{babel}
-#+LaTeX_HEADER: \newcommand{\vect}{\overrightarrow}
-#+LaTeX_HEADER: \usepackage{bbold}
-#+TITLE:  Конспект по вычислительной геометрии (Ковалев)
+#+LaTeX_HEADER: \usepackage[a4paper, left=2.5cm,right=2cm,top=2cm,bottom=2cm]{geometry}
+#+LaTeX_HEADER: \usepackage[russian]{babel}             % Russian translations
+#+LaTeX_HEADER: \usepackage{amssymb,amsmath,amsthm}     % Mathematic symbols, theorems, etc.
+#+LaTeX_HEADER: \usepackage{styling}                    % Styling for theorems (local)
+#+TITLE:  Конспект по вычислительной геометрии (Ковалёв)
 
-# Use (org-toggle-pretty-entities) to view latex as unicode
 
+* Как пользоваться этим документом
+  1. Писать билетики параллельно
+  2. Все формулы оформлять в латехе.
+     * http://www.math.uiuc.edu/~hildebr/tex/course/intro2.html
+     * https://en.wikibooks.org/wiki/LaTeX/Advanced_Mathematics
+     * Рекомендуется смотреть конспект Сугака [[https://github.com/sugakandrey/Functional-analysis/blob/master/hahnbanach.tex][тут]].
+  3. Можно пользоваться ~(org-toggle-pretty-entities)~ чтобы latex
+     отображался юникодом в emacs'е.
+  4. *TODO* обозначают степень написанности материала. Положительное
+     значение интерпретируется как процент. X -- метка для "тут нифига
+     не ясно и проблемы".
+  5. Смотреть превью формул с помощью ~C-c C-x C-l~.
+  6. Экспортить с помощью ~C-c C-e l p~. Если не работает -- сначала в
+     `tex`, а потом уже экспортировать `pdflatex`'ом. Экспорт
+     игнорирует ошибки, поэтому сделать это руками и пофиксить их --
+     не так плохо.
+  7. Если что-то не собирается, писать ~@volhovm~.
+  8. Синтаксис теха смотреть хз где, но есть
+     http://detexify.kirelabs.org/classify.html для непонятных
+     символов.
+  9. Синтаксис орга -- это тут:
+     * http://orgmode.org/manual/Emphasis-and-monospace.html
+     * http://orgmode.org/manual/LaTeX-and-PDF-export.html#LaTeX-and-PDF-export
+     * http://orgmode.org/tmp/worg/org-tutorials/org-latex-export.html
+     * Остальное (списки, хедеры, блабла) очевидно.
 * Tickets
 |  4 |  1 | Принадлежность точки выпуклому и невыпуклому многоугольникам                         |
 | 21 |  1 | Триангуляция Делоне.                                                                 |
@@ -58,16 +82,16 @@
 * 0 3:  Пересечение отрезков и поворот
   Рассмотрим задачу проверить пересечение отрезков.
 
-  Вот есть у нас $S_{1}=(p_{11},p_{12}), S_{2}=(p_{21},p_{22})$.
+  Вот есть у нас \(S_{1}=(p_{11},p_{12}), S_{2}=(p_{21},p_{22})\).
 
   В общем случае с Евклидовым пространством возникакуют какие-то
   проблемы, поэтому рассмотрим следующее определение Афинного
   пространства:
 
   A -- аффинное пространство, если A -- такой набор точек, что:
-  1. \exists хотя бы одна точка.
-  2. $A, B, \leftrightarrow v = \overrightarrow{A B}$, причем $B = A + v$.
-  3. Точка + вектор = точка
+  1. В пространстве существует хотя бы одна точка.
+  2. \(A, B, \leftrightarrow v = \overrightarrow{A B}\), причем \(B = A + v\).
+  3. Точка + вектор = точка.
   4. ... и еще 40 аксиом векторного пространства
 
   Аффинное пространство отличается от стандартного евклидового тем,
@@ -77,7 +101,7 @@
   Рассмотрим гиперплоскость в n-мерном аффинном пространстве. Она,
   очевидно, задается $n-1$ вектором, или как минимум $n$ точками.
 
-  Рассмотрим произвольную точку *A* и набор векторов: $AP_1....AP_n$. Тогда
+  Рассмотрим произвольную точку $A$ и набор векторов: $AP_1....AP_n$. Тогда
   если точка $A$ принадлежит гиперплоскости, то такой набор, очевидно,
   линейно зависим.
 
@@ -86,33 +110,31 @@
   систему, связанную с $B$ (очевидно, что такой набор векторов может
   задавать базис, если он ЛНЗ).
 
-  \[ log^2{n} > \text{TVOYA MAMKA} \]
+  \begin{thm}
+  Короче типа хех мемосы вот шмяк шмяк фигакс
+  \end{thm}
 
-  \[
+  \begin{proof}
+  \begin{align*}
   X = X_A^1\vect{A P_1} +
       X_A^2\vect{A P_2} +
       ... +
-      X_A^n\vect{A P_n}
+      X_A^n\vect{A P_n}\\
     = X_B^1\vect{B P_1} +
       X_B^2\vect{B P_2} +
       ... +
       X_B^n\vect{B P_n}
-  \]
+  \end{align*}
 
-
-  \[
+  \begin{align*}
   AP_1 = \alpha_1^1\vect{B P_1} +
          ... +
-         \alpha_1^n\vect{B P_n}
-  \]
-
-  \[ ... \]
-
-  \[
+         \alpha_1^n\vect{B P_n}\\
+  ...\\
   AP_n = \alpha_n^1\vect{B P_1} +
          ... +
          \alpha_n^n\vect{B P_n}
-  \]
+  \end{align*}
 
   Подставим выраженные $AP_i$ в первые уравнение.
 
@@ -125,6 +147,17 @@
   \left(\sum_{i=1}^n a_i^2\right)^{1/2}
   \left(\sum_{i=1}^n b_i^2\right)^{1/2}
   \]
+
+  \end{proof}
+
+  \begin{thm}[о саси]
+  кокойтотекст))
+  \end{thm}
+
+  \begin{thm}[о саси2]
+  кокойтотекст2))
+  \end{thm}
+
 
 * 0 4:  Локализация в многоугольнике
 * 0 5:  Статические выпуклые оболочки в $\mathbb{R}$

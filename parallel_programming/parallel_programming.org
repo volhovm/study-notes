@@ -1,7 +1,7 @@
 # -*- org-src-fontify-natively t -*-
 #+TITLE: Конспект по ПП от Елизарова
 
-* Какие-то материалы:
+ Какие-то материалы:
   * https://www.slideshare.net/secret/6dv9wtl1pDOTgu
   * https://www.slideshare.net/secret/h3wT59xRPciKM6
   * https://www.slideshare.net/secret/yDV9vtRs61gEdg

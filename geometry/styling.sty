@@ -1,0 +1,27 @@
+\ProvidesPackage{styling}
+
+
+
+% Stealed from sugak funcan repo
+
+\theoremstyle{def}
+\newtheorem*{defn}{Definition}
+\newtheorem*{note}{Note}
+\newtheorem{ex}{Example}[section]
+\newtheorem{stm}{Statement}[section]
+
+\newtheoremstyle{break}
+  {}
+  {}
+  {\itshape}
+  {}
+  {\bfseries}
+  {.}
+  {\newline}
+  {}
+\theoremstyle{break}
+\newtheorem{thm}{Theorem}
+
+\theoremstyle{plain}
+\newtheorem{cor}{Corollary}[thm]
+\newtheorem{lemma}{Lemma}
