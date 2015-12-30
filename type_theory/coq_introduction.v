@@ -427,7 +427,6 @@ Definition head'' (A : Set) (l : List A) : Maybe :=
   | new x xs => Just x
   end.
 
-
 Definition head''' (A : Set) (l: List A) (proof : l /= null A) : A.
 Proof.
   unfold not' in proof.
