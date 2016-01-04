@@ -1,4 +1,4 @@
-+TODO: X 0 1 2 | 3
+#+TODO: X 0 1 2 | 3
 #+LANGUAGE: ru
 #+LaTeX_HEADER: \usepackage[a4paper, left=2.5cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 #+LaTeX_HEADER: \usepackage[russian]{babel}             % Russian translations
@@ -173,7 +173,7 @@
      \alpha_n^1 & \cdots & \alpha_n^n
     \end{pmatrix}
   + \left(\vect{BA}^1,\cdots,\vect{BA}^n\right)
-  \end{align*}
+  \end{align}
 
   Последнее ─ вектор перехода из точки $B$ в $A$.
   Пусть дана точка $O$, которая воспринимается как ноль координат. Пусть
