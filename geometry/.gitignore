@@ -3,3 +3,5 @@ ltxpng
 *.toc
 *.aux
 *.log
+*.tex
+*.pdf
