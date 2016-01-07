@@ -5,3 +5,4 @@ ltxpng
 *.log
 *.tex
 *.pdf
+!figures/*.jpg
