@@ -3,6 +3,7 @@
 #+LaTeX_HEADER: \usepackage[a4paper, left=2.5cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 #+LaTeX_HEADER: \usepackage[russian]{babel}             % Russian translations
 #+LaTeX_HEADER: \usepackage{amssymb,amsmath,amsthm}     % Mathematic symbols, theorems, etc.
+#+LaTeX_HEADER: \usepackage[boxed]{algorithm2e} % Algorithm listings
 #+LaTeX_HEADER: \usepackage{styling}                    % Styling for theorems (local)
 #+TITLE:  Конспект по вычислительной геометрии (Ковалёв)
 #+AUTHOR: Volkhov M., Mukhutdinov D., Belyy A.
@@ -173,15 +174,15 @@
    \emptyset \}$
 
    Разобьем это множество на три множества-подзадачи:
-   \begin{multline} \\
-   S = A \cup B \cup C \\
-   A = \{ p \in P : \exists i: p_i \in corners(p), p_i \in q \} \\
-   B = \{ p \in P : \exists i: s_i \in sides(p), s_i \cap q \neq \emptyset \} \\
-   C = \{ p \in P : \exists i: p_i \in corners(q), p_i \in p \} \\
-   \end{multline}
+   \begin{align*}
+   S &= A \cup B \cup C \\
+   A &= \{ p \in P : \exists i: p_i \in corners(p), p_i \in q \} \\
+   B &= \{ p \in P : \exists i: s_i \in sides(p), s_i \cap q \neq \emptyset \} \\
+   C &= \{ p \in P : \exists i: p_i \in corners(q), p_i \in p \} \\
+   \end{align*}
 
-   Иначе говоря, $A$ - это случай, когда $p$ целиком лежит в $q$,
-   $B$ - когда $p$ и $q$ пересекаются, $C$ - когда $q$ целиком лежит в
+   Иначе говоря, $A$ -- это случай, когда $p$ целиком лежит в $q$, $B$
+   -- когда $p$ и $q$ пересекаются, $C$ -- когда $q$ целиком лежит в
    $p$. Разберем все три случая отдельно.
 *** 1 Нахождение множества точек, попадающих в прямоугольник запроса.
 
@@ -1611,3 +1612,53 @@
    за log(n). Типа на каждом шаге есть step, мы рассматриваем текущего
    кандидата на касательную + step и -step. Выбираем лучшего,
    переходим к нему и делим шаг на два.
+** Масшатбирование дорог
+   #+CAPTION: Пример решения задачи о масштабировании дороги
+   [[./figures/ROAD_SCALING.png]]
+
+   Задача поставлена так: существует некоторый масштаб карты, в
+   условиях которого выражена дорога, представляющая собой
+   полилинию. Требуется выразить эту дорогу в более мелком масштабе,
+   то есть так сократить количество точек, чтобы новая полилиния в
+   некотором смысле была похожа на старую. Сглаженность определяется
+   рациональным числом \epsilon: необходимо, чтобы новая прямая не
+   выходила из \epsilon-коридора старой прямой. Пример показан на
+   изображении, в нашем случае красная прямая -- решение.
+
+   Предлагается два решения этой задачи:
+   1. Будем использовать сумму Минковского и уже разобранные алгоритмы
+      планирования движения. С помощью суммы расширим прямую
+      правильным многоугольником, выбрав радиус описанной окружности
+      соответствующий нужному масштабу, а затем решим задачу об
+      оптимальном прохождении роботом коридора, который и представляет
+      собой расширение. Напомним, что в этом случае при использовании,
+      например, графа видимости, асимптотика решения составит
+      $O(n^2\log{n})$ на препроцессинг и $O(n)$ на решение.
+   2. Применим стандартную тактику "разделяй и властвуй" и решим
+      задачу за амортизированное $O(n\log{n})$ ($O(n^2)$ в худшем
+      случае, алгоритм Дугласа-Пекера):
+
+      \begin{algorithm}[H]
+      \SetKwFunction{DougPeuck}{Douglas-Peucker}%
+      \Fn{\DougPeuck{points, $\epsilon$}}{
+        \KwData{Набор точек, задающих полилинию $\{p_i\}$\\
+                Коэффициент расширения $\epsilon$}
+        \KwResult{Набор точек, задающих решение (полилинию)}
+        $range \longleftarrow [1, n]$\;
+        \While{$range.length > 0$}{
+          $segment \longleftarrow \langle points[range.start],
+                                          points[range.end]
+                                  \rangle$\;
+          $p_{max} \longleftarrow min(points[range.start],
+            points[range.end],$ компаратор по дистанции до $seg)$\;
+          \eIf{$dist(p_{max}, segment) < \epsilon$}{
+            return $(segment.start, segment.end)$\;
+          }{
+            $p_1 \longleftarrow $Douglas-Peucker$(points[0..p_{max}], \epsilon)$\;
+            $p_2 \longleftarrow $Douglas-Peucker$(points[p_{max}..n], \epsilon)$\;
+            return $union(p_1, p_2)$\;
+          }
+        }
+      }
+      \caption{Алгоритм Дугласа-Пекера для масштабирования полилинии}
+      \end{algorithm}
