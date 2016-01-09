@@ -491,7 +491,7 @@
 
      \begin{algorithm}[H]
       \SetKwFunction{BuildPST}{BuildPST}%
-      \Fn{\BuildPST{P}}{
+      \func{\BuildPST{P}}{
         \KwData{Набор точек $\{p_i\}$, отсортированный по $x$ - координате}
         \KwResult{Корректное PST на точках}
         $V_p \longleftarrow p_1$\;
@@ -530,7 +530,7 @@
 
     \begin{algorithm}[H]
       \SetKwFunction{QueryPST}{QueryPST}%
-      \Fn{\QueryPST{$v$, $(-\infty, q_x] \times [q_y, q_y']$}}{
+      \func{\QueryPST{$v$, $(-\infty, q_x] \times [q_y, q_y']$}}{
         \KwData{Корень PST и область запроса ('стакан')}
         \KwResult{Набор всех точек из дерева, удовлетворяющих запросу}
         Идем вниз дерева, ищем $q_y$ и $q_y'$. Обозначим как $v_{split}$ узел, на котором пути поиска разделятся\;
