@@ -33,3 +33,15 @@
 \renewcommand{\listalgorithmcfname}{Список алгоритмов}%
 \renewcommand{\algorithmcfname}{Алгоритм}%
 \renewcommand{\algorithmautorefname}{алгоритм}%
+
+\newcommand\addpicture[3]{%
+\setbox\mybox=\hbox{\includegraphics[scale=#3]{#2}}
+\myboxwidth\wd\mybox
+\renewcommand\windowpagestuff{%
+\includegraphics[scale=#3]{#2}
+\captionof{figure}{A test figure.}}
+\parpic[#1]{%
+\begin{minipage}{\myboxwidth}
+ \windowpagestuff
+\end{minipage}
+} }
