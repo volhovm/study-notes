@@ -36,6 +36,7 @@
      * http://orgmode.org/manual/Embedded-LaTeX.html#Embedded-LaTeX
      * Остальное (списки, хедеры, блабла) очевидно.
 * Tickets
+#+ATTR_LATEX: :environment longtable
 |----+----+--------------------------------------------------------------------------------------|
 |  4 |  1 | Принадлежность точки выпуклому и невыпуклому многоугольникам                         |
 | 21 |  1 | Триангуляция Делоне.                                                                 |
@@ -81,6 +82,7 @@
 |    |    | - k-d tree.        van Kreveld, de Berg, Overmars, Cheong                            |
 | 16 | 11 | Диаметр множества точек (вращающиеся калиперы)                                       |
 |----+----+--------------------------------------------------------------------------------------|
+\clearpage
 * 2 1:  Skip quadtree 						    :avbelyy:
   Сперва поймем, что такое [[http://neerc.ifmo.ru/wiki/index.php?title=Квадродеревья][квадродерево]] и [[http://neerc.ifmo.ru/wiki/index.php?title=Квадродеревья#.D0.A1.D0.B6.D0.B0.D1.82.D0.BE.D0.B5_.D0.BA.D0.B2.D0.B0.D0.B4.D1.80.D0.BE.D0.B4.D0.B5.D1.80.D0.B5.D0.B2.D0.BE][сжатое квадродерево]].
 
@@ -751,7 +753,7 @@
             \InsertSegment{$v_l$, $[x, Int(v_l)_r]$}
           }
           \If{$Int(v_r) \cap [x, x'] \neq \emptyset$}{
-            \InsertSegment{$v_r$, $[x, Int(v_r)_l]$}
+            \InsertSegment{$v_r$, $[Int(v_r)_l, x']$}
           }
         }
       }
@@ -2711,6 +2713,12 @@
   }
   \caption{Алгоритм поиска минимальной охватывающей окружности}
   \end{algorithm}
+
+  \begin{wrapfigure}{l}{0.3\textwidth}
+    \centering
+    \includegraphics[width=0.3\textwidth]{./figures/CIRCLES.png}
+    \caption{Иллюстрация к доказательству единственности}
+    \end{wrapfigure}
 
   *Корректность*
 
