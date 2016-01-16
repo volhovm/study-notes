@@ -1812,6 +1812,9 @@
 
    Про то, чем UEFI не BIOS. Подробно, читабельно (советую).
    * https://www.happyassassin.net/2014/01/25/uefi-boot-how-does-that-actually-work-then/
+
+   Как работает GRUB, подробно:
+   * http://0xax.github.io/how-does-gnu-grub-work.html#.Vpo4AJRRW02
 ** 3 initrd
    Initrd -- это cpio архив, который грузится в память, а ядро затем
    монтирует это как дефолтную систему. Основная цель initrd --
