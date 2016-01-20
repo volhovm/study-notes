@@ -1,6 +1,5 @@
 #+TODO: X 0 1 2 | 3
 #+LANGUAGE: ru
-#+LaTeX_CLASS_OPTIONS: [a4paper]
 #+LaTeX_HEADER: \usepackage[a4paper, left=2.5cm,right=2cm,top=2cm,bottom=2cm]{geometry}
 #+LaTeX_HEADER: \usepackage[russian]{babel}             % Russian translations
 #+LaTeX_HEADER: \usepackage{amssymb,amsmath,amsthm}     % Mathematic symbols, theorems, etc.
@@ -2334,7 +2333,7 @@
   памяти алгоритма.
   #+BEGIN_thm
   Алгоритм поиска фигуры пересечения двух планарных графов работает за
-  $((n + k) \log{n})$ времени и потребляет $O(n + k)$ памяти, где
+  $O((n + k) \log{n})$ времени и потребляет $O(n + k)$ памяти, где
   $n$ - общее количество вершин в $S1$ и $S2$, $k$ - количество новых
   вершин.
   #+END_thm
