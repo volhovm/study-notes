@@ -4,5 +4,4 @@ ltxpng
 *.aux
 *.log
 *.tex
-*.pdf
 !figures/*.jpg
