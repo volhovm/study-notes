@@ -1,0 +1,3328 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>Notes on functional analysis (given by Dodonov)</title>
+<!-- 2016-01-23 Sat 05:33 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="generator" content="Org-mode" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.right  { text-align: center;  }
+  th.left   { text-align: center;   }
+  th.center { text-align: center; }
+  td.right  { text-align: right;  }
+  td.left   { text-align: left;   }
+  td.center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara:nth-child(2) { display: inline; }
+  .footpara { display: block; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Notes on functional analysis (given by Dodonov)</h1>
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1. Tickets</a></li>
+<li><a href="#sec-2">2. <span class="todo 1">1</span> Метрические пространства</a>
+<ul>
+<li><a href="#sec-2-1">2.1. <span class="done OK">OK</span> Метрика, метрическое пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-2">2.2. <span class="done OK">OK</span> Предел по метрике&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-3">2.3. <span class="todo 2">2</span> Топологическое пространство, топология&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-4">2.4. <span class="todo 2">2</span> Открытое множество&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-5">2.5. <span class="todo 1">1</span> Предел в смысле ТП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-6">2.6. <span class="todo 2">2</span> Замкнутость через открытость&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-7">2.7. <span class="todo 1">1</span> Открытый шар, представимость T&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-8">2.8. <span class="todo 2">2</span> Связь МП и ТП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></a></li>
+<li><a href="#sec-2-9">2.9. <span class="todo 2">2</span> Примеры МП (ℝ, ℝⁿ, ℝ∞, м.Урысона)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></a></li>
+<li><a href="#sec-2-10">2.10. <span class="done OK">OK</span> Внутренность, замыкание, граница&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-11">2.11. <span class="todo 2">2</span> Расстояние до множества, между множествами&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-12">2.12. <span class="todo 1">1</span> Непрерывность расстояния до множества&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a>
+<ul>
+<li><a href="#sec-2-12-1">2.12.1. Скетч</a></li>
+<li><a href="#sec-2-12-2">2.12.2. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-13">2.13. <span class="todo X">X</span> Связь Cl, ρ&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></a>
+<ul>
+<li><a href="#sec-2-13-1">2.13.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-14">2.14. <span class="todo 2">2</span> Нормальность МП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-2-14-1">2.14.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-15">2.15. <span class="done OK">OK</span> МП-Полнота&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-16">2.16. <span class="todo 2">2</span> Принцип вложенности шаров&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-2-16-1">2.16.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-17">2.17. <span class="done OK">OK</span> Всюду плотность, всюду не плотность&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-18">2.18. <span class="todo 2">2</span> Категории по Бэру&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-19">2.19. <span class="todo 1">1</span> Теорема Бэра о категориях&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-2-19-1">2.19.1. Скетч</a></li>
+<li><a href="#sec-2-19-2">2.19.2. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-20">2.20. <span class="todo 2">2</span> Следствие из теоремы Бэра о категориях&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a>
+<ul>
+<li><a href="#sec-2-20-1">2.20.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-21">2.21. <span class="todo 1">1</span> Компакты и предкомпакты&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-2-22">2.22. <span class="todo 1">1</span> Теорема Хаусдорфа&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-2-22-1">2.22.1. Скетч</a></li>
+<li><a href="#sec-2-22-2">2.22.2. Доказательство</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-3">3. <span class="todo 1">1</span> Нормированные пространства</a>
+<ul>
+<li><a href="#sec-3-1">3.1. <span class="todo 2">2</span> Нормированное пространство, норма&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-3-2">3.2. <span class="todo 2">2</span> Пределы в НП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-3-3">3.3. <span class="todo 2">2</span> Непрерывность линейных операций в топологии НП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a>
+<ul>
+<li><a href="#sec-3-3-1">3.3.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-4">3.4. <span class="todo 1">1</span> Примеры НП (lₚ, Lₚ)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></a></li>
+<li><a href="#sec-3-5">3.5. <span class="todo 1">1</span> Эквивалентность норм&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-3-6">3.6. <span class="todo 2">2</span> Пример эквивалентных метрик в ℝⁿ&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></a></li>
+<li><a href="#sec-3-7">3.7. <span class="todo 1">1</span> Теорема Рисса&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-3-7-1">3.7.1. Скетч</a></li>
+<li><a href="#sec-3-7-2">3.7.2. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-8">3.8. <span class="todo 2">2</span> Линейное подмножество, линейное подпространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-3-9">3.9. <span class="todo 2">2</span> Следствие из теоремы Рисса о замкнутости&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-3-9-1">3.9.1. Скетч</a></li>
+<li><a href="#sec-3-9-2">3.9.2. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-10">3.10. <span class="todo 2">2</span> Банахово пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-3-11">3.11. <span class="todo 2">2</span> Абсолютная сходимость в B-пространствах&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a>
+<ul>
+<li><a href="#sec-3-11-1">3.11.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-12">3.12. <span class="todo 2">2</span> Лемма Рисса о перпендикуляре&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-3-12-1">3.12.1. Скетч</a></li>
+<li><a href="#sec-3-12-2">3.12.2. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-13">3.13. <span class="todo 1">1</span> Некомпактность единичное сферы в бесконечномерном пространстве&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-3-13-1">3.13.1. Доказательство</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-4">4. Унитарные пространства</a>
+<ul>
+<li><a href="#sec-4-1">4.1. <span class="todo 2">2</span> Унитарное пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-4-2">4.2. <span class="todo 2">2</span> Пример унитарного пространства&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></a></li>
+<li><a href="#sec-4-3">4.3. <span class="todo 2">2</span> Неравенство Шварца&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a>
+<ul>
+<li><a href="#sec-4-3-1">4.3.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-4">4.4. <span class="todo 2">2</span> Порождение нормы скалярным произведением&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a></li>
+<li><a href="#sec-4-5">4.5. <span class="todo 2">2</span> Ортогональность, р-во Пифагора&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-4-6">4.6. <span class="todo 1">1</span> Равенство параллелограмма&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a>
+<ul>
+<li><a href="#sec-4-6-1">4.6.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-7">4.7. <span class="todo 2">2</span> Ортонормированная система векторов, ЛНЗ&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-4-8">4.8. <span class="todo 2">2</span> Ортогональный ряд&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-4-9">4.9. <span class="todo 1">1</span> Коэффициент, ряд Фурье&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-4-10">4.10. <span class="todo 2">2</span> Наилучшее приближение&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-4-11">4.11. <span class="todo 2">2</span> Теорема Бореля&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-4-11-1">4.11.1. Скетч</a></li>
+<li><a href="#sec-4-11-2">4.11.2. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-12">4.12. <span class="todo 1">1</span> Экстремальное свойство частичных сумм ряда Фурье&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-4-12-1">4.12.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-13">4.13. <span class="todo 2">2</span> Неравенство Бесселя&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a>
+<ul>
+<li><a href="#sec-4-13-1">4.13.1. Доказательство</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-5">5. <span class="todo 2">2</span> Пространства Гильберта</a>
+<ul>
+<li><a href="#sec-5-1">5.1. <span class="todo 2">2</span> Гильбертово пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-5-2">5.2. <span class="todo 2">2</span> Примеры гильбертовых пространств (l₂, L₂)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></a></li>
+<li><a href="#sec-5-3">5.3. <span class="todo 2">2</span> Теорема Рисса-Фишера&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-5-3-1">5.3.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-4">5.4. <span class="todo 2">2</span> Равенство Парсеваля&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-5-4-1">5.4.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-5">5.5. <span class="todo 2">2</span> Полная, замкнутая ОНС&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-5-6">5.6. <span class="todo 1">1</span> Лемма о связи полноты и замкнутости&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a>
+<ul>
+<li><a href="#sec-5-6-1">5.6.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-7">5.7. <span class="todo 2">2</span> Сепарабельность топологического пространства&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-5-8">5.8. <span class="todo 2">2</span> Связь сепарабельности и существования базиса&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a>
+<ul>
+<li><a href="#sec-5-8-1">5.8.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-9">5.9. <span class="todo 1">1</span> О наилучшем приближении в H&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-5-9-1">5.9.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-10">5.10. <span class="todo 2">2</span> Разложение в прямую сумму&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-5-11">5.11. <span class="todo 0">0</span> Следствие о приближении в прямой сумме&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a></li>
+</ul>
+</li>
+<li><a href="#sec-6">6. <span class="todo X">X</span> Счетно-нормированные пространства</a>
+<ul>
+<li><a href="#sec-6-1">6.1. <span class="todo 2">2</span> Счетно-нормированное пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-6-2">6.2. <span class="todo 2">2</span> Предел в СНП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-6-3">6.3. <span class="todo 2">2</span> Вложение СНП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></a></li>
+<li><a href="#sec-6-4">6.4. <span class="todo 2">2</span> Метрика в СЧП (Урысона)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-6-5">6.5. <span class="todo 2">2</span> Непрервыность и топология&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></a></li>
+<li><a href="#sec-6-6">6.6. <span class="todo 2">2</span> Пример СНП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></a></li>
+<li><a href="#sec-6-7">6.7. <span class="todo 2">2</span> Монотонная система полунорм, эквивалентность, существенность&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-6-8">6.8. <span class="todo 2">2</span> Сведение к монотонной&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a>
+<ul>
+<li><a href="#sec-6-8-1">6.8.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-6-9">6.9. <span class="todo 2">2</span> Теорема об эквивалентности и мажорируемости&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-6-9-1">6.9.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-6-10">6.10. <span class="todo X">X</span> Критерий нормируемости&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-6-10-1">6.10.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-6-11">6.11. <span class="todo 1">1</span> Ненормируемость ℝ∞&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></a></li>
+</ul>
+</li>
+<li><a href="#sec-7">7. <span class="todo 2">2</span> Функционал Минковского</a>
+<ul>
+<li><a href="#sec-7-1">7.1. <span class="todo 2">2</span> Поглощение, радиальность, закругленность&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-7-2">7.2. <span class="done OK">OK</span> Шар как закругленное множество&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></a></li>
+<li><a href="#sec-7-3">7.3. <span class="todo 2">2</span> Функционал Минковского&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-7-4">7.4. <span class="todo 2">2</span> Норма как функционал Минковского&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></a></li>
+<li><a href="#sec-7-5">7.5. <span class="todo 1">1</span> Функционал Минковского и полунорма&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a>
+<ul>
+<li><a href="#sec-7-5-1">7.5.1. Доказательство</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-8">8. <span class="todo 2">2</span> Линейные функционалы и коразмерность</a>
+<ul>
+<li><a href="#sec-8-1">8.1. <span class="todo 2">2</span> Фактор-множество, коразмерность&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-8-2">8.2. <span class="todo 2">2</span> Связь конечности коразмерности и разложения по базису&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a></li>
+<li><a href="#sec-8-3">8.3. <span class="todo 2">2</span> Гиперплоскость, линейный функционал, ядро&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-8-4">8.4. <span class="todo 2">2</span> Аналитическое задание гиперплоскости&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-8-4-1">8.4.1. Доказательство</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-9">9. Теорема Колмогорова</a>
+<ul>
+<li><a href="#sec-9-1">9.1. Топологическое векторное пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-9-2">9.2. Место ТВП в систематике&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></a></li>
+<li><a href="#sec-9-3">9.3. Лемма о сохранении открытости сдвига&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a></li>
+<li><a href="#sec-9-4">9.4. База окрестностей нуля&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-9-5">9.5. Всякие свойства базы окрестности нуля&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></a></li>
+<li><a href="#sec-9-6">9.6. Теорема Колмогорова&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-9-6-1">9.6.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-9-7">9.7. ℝ∞ как ненормируемое пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></a></li>
+</ul>
+</li>
+<li><a href="#sec-10">10. Непрерывные функционалы, теорема Хана-Банаха</a>
+<ul>
+<li><a href="#sec-10-1">10.1. Связь непрерывности л.функционала на X и в нуле.&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a></li>
+<li><a href="#sec-10-2">10.2. Норма функционала, ограниченность&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-10-3">10.3. Ограниченность и непрерывность функционала&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a></li>
+<li><a href="#sec-10-4">10.4. Связь непрерывности функционала и замкнутости ядра&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-10-4-1">10.4.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-10-5">10.5. Пример плотного всюду многообразия&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></a></li>
+<li><a href="#sec-10-6">10.6. Продолжение с непрерывного линейного множества&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-10-6-1">10.6.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-10-7">10.7. Лемма Банаха&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-10-7-1">10.7.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-10-8">10.8. Теорема Хана-Банаха (полная, без д-ва)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></a></li>
+<li><a href="#sec-10-9">10.9. Теорема Хана-Банаха для сепарабельных пр-в&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-10-9-1">10.9.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-10-10">10.10. Следствия из теоремы Х-Б&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a></li>
+<li><a href="#sec-10-11">10.11. Теорема Рисса&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-10-11-1">10.11.1. Доказательство</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-11">11. Линейные ограниченные операторы</a>
+<ul>
+<li><a href="#sec-11-1">11.1. Определения и свойства&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-11-2">11.2. Пространство линейных операторов&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-11-3">11.3. Банаховость в линейных операторах&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-11-3-1">11.3.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-11-4">11.4. Сопряженное пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-11-5">11.5. Теорема Банаха-Штейнгауза&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-11-5-1">11.5.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-11-6">11.6. Следствие&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></a>
+<ul>
+<li><a href="#sec-11-6-1">11.6.1. Доказательство</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#sec-12">12. Непрерывно обратимые операторы</a>
+<ul>
+<li><a href="#sec-12-1">12.1. Непрерывно обратимый оператор&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-12-2">12.2. Теорема Банаха&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a>
+<ul>
+<li><a href="#sec-12-2-1">12.2.1. Доказательство</a></li>
+</ul>
+</li>
+<li><a href="#sec-12-3">12.3. Range, априорная оценка&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></a></li>
+<li><a href="#sec-12-4">12.4. Теорема об априорной оценке&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> Tickets</h2>
+<div class="outline-text-2" id="text-1">
+
+<div class="figure">
+<p><img src="https://pp.vk.me/c624829/v624829650/b3de3/xDXw-F664tk.jpg" alt="xDXw-F664tk.jpg" />
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> <span class="todo 1">1</span> Метрические пространства</h2>
+<div class="outline-text-2" id="text-2">
+</div><div id="outline-container-sec-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> <span class="done OK">OK</span> Метрика, метрическое пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-1">
+<p>
+X, ρ: X×X → ℝ+ &#x2013; метрика, если:
+</p>
+<ol class="org-ol">
+<li>ρ(x, y) ≥ 0; ρ(x, y) = 0 ⇔ x = y
+</li>
+<li>ρ(x, y) = ρ(y, x)
+</li>
+<li>ρ(x, y) ≤ ρ(x, z) + ρ(z, y)
+</li>
+</ol>
+
+<p>
+Метрическое пространство &#x2013; пара &lt;X, ρ&gt;.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> <span class="done OK">OK</span> Предел по метрике&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-2">
+<p>
+x = lim(xₙ) ⇔ ρ(xₙ, x) → 0
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> <span class="todo 2">2</span> Топологическое пространство, топология&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-3">
+<p>
+Топологическое пространство (ТП) &#x2013; пара &lt;X, Τ&gt;, где X &#x2013;
+множество, T ⊃ 2ˣ &#x2013; топология, если выполнено:
+</p>
+<ol class="org-ol">
+<li>Замкнутость T по объединению
+</li>
+<li>Замкнутость T по конечному пересечению
+</li>
+<li>X, ∅ ∈ T
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> <span class="todo 2">2</span> Открытое множество&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-4">
+<p>
+Множество открыто, если принадлежит топологии T.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> <span class="todo 1">1</span> Предел в смысле ТП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-5">
+<p>
+&lt;X,T&gt;
+x = lim(xₙ) ⇔ ∀G ∈ T : x ∈ G, ∃N: ∀n &gt; N xₙ ∈ G
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> <span class="todo 2">2</span> Замкнутость через открытость&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-6">
+<p>
+G &#x2013; открытое в T, тогда F = X \ G замкнутое
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> <span class="todo 1">1</span> Открытый шар, представимость T&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-7">
+<ul class="org-ul">
+<li>Bᵣ открытый шар в центре a = {x: ρ(x, a) &lt; r}
+</li>
+<li>T = {∪Bᵣ(a)}
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-2-8" class="outline-3">
+<h3 id="sec-2-8"><span class="section-number-3">2.8</span> <span class="todo 2">2</span> Связь МП и ТП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></h3>
+<div class="outline-text-3" id="text-2-8">
+<p>
+Будем называть G открытым, если ∀x ∈ G, ∃Bᵣ(x) ⊂ G. Множество всех
+открытых множеств будет образовывать топологию. Открытые шары в МП
+&#x2013; открытые множества.
+</p>
+
+<p>
+В этом смысле метрические пространства оказываются частным случаем
+топологических.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-9" class="outline-3">
+<h3 id="sec-2-9"><span class="section-number-3">2.9</span> <span class="todo 2">2</span> Примеры МП (ℝ, ℝⁿ, ℝ∞, м.Урысона)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></h3>
+<div class="outline-text-3" id="text-2-9">
+<ol class="org-ol">
+<li>ℝ, ρ(x, y) = |x - y|
+</li>
+<li>ℝⁿ, x~ = (x₁&#x2026;xₙ) ∈ ℝⁿ
+ρ(x~, y~) ≡ √(∑{n}(xᵢ - yᵢ)²)
+αx~ = (αx₁&#x2026;αxₙ)
+x~ + y~ = (x₁ + y₁, &#x2026;)
+xₙ~ → x~ ⇔ ∀j=1..n xⱼᵐ → xⱼ
+</li>
+<li>ℝ∞, xₘ~ → x~ ≡ ∀i=1,2,3&#x2026;, xⱼᵐ → xⱼ
+Метрика Урысона:
+ρ(x~, y~) ≡ ∑{∞}(1/2ⁿ * |xₙ - yₙ|/(1 + |xₙ - yₙ|), где
+φ(t) = t/(1+t), то есть ρ(x~, y~) = ∑{∞}(1/2ⁿ * φ(|xₙ-yₙ|)).
+
+<p>
+Кстати, для φ верно:
+Φ(t₁ + t₂) ≤ φ(t₁) + φ(t₂)
+</p>
+
+<p>
+ρ(xₘ~, x~) → 0 ⇔ ∀j xⱼᵐ → xⱼ
+Таким образом ℝᵐ метризуемо.
+</p>
+</li>
+<li>Дискретная метрика
+ρ(x,y) = if x = 0 then 0 else 1
+xₘ → x, ε = 1/2, ∃M : ∀m &gt; M ⇒ ρ(xₘ,x) &lt; 1/2 ⇒ ρ(xₘ, x) = 0 ⇒
+xₘ = x
+То есть в такой метрике сходятся только последовательности,
+стабилизирующиеся после некоторого элемента &#x2013; стационарные.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-2-10" class="outline-3">
+<h3 id="sec-2-10"><span class="section-number-3">2.10</span> <span class="done OK">OK</span> Внутренность, замыкание, граница&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-10">
+<p>
+(X, T), ∀A ⊂ X:
+</p>
+<ol class="org-ol">
+<li>Int(A) ≡ ∪{G | G ⊂ A, G открытое}
+</li>
+<li>Cl(A)  ≡ ∩{F | F ⊃ A, F замкнутое}
+</li>
+<li>Fr(A)  ≡ Cl(A) \ Int(A)
+</li>
+</ol>
+
+<p>
+По аксиомам топологии ∀A Int(A) открытое, Cl(A) замкнутое
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-11" class="outline-3">
+<h3 id="sec-2-11"><span class="section-number-3">2.11</span> <span class="todo 2">2</span> Расстояние до множества, между множествами&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-11">
+<p>
+ρ(x, A) ≡ inf{ρ(x, a) | a ∈ A}
+ρ(A, B} ≡ inf{ρ(a, b) | a ∈ A, b ∈ B}
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-12" class="outline-3">
+<h3 id="sec-2-12"><span class="section-number-3">2.12</span> <span class="todo 1">1</span> Непрерывность расстояния до множества&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-2-12">
+<p>
+Пусть f(x) ≡ ρ(x, A), x ∈ X.
+Тогда f непрерывно на X
+</p>
+</div>
+
+<div id="outline-container-sec-2-12-1" class="outline-4">
+<h4 id="sec-2-12-1"><span class="section-number-4">2.12.1</span> Скетч</h4>
+<div class="outline-text-4" id="text-2-12-1">
+<p>
+Показать, что ∀x,y ∈ X, |f(x)-f(y)| ≤ ρ(x,y) с помощью ε → 0.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-12-2" class="outline-4">
+<h4 id="sec-2-12-2"><span class="section-number-4">2.12.2</span> Доказательство</h4>
+<div class="outline-text-4" id="text-2-12-2">
+<p>
+∀x, y ∈ X, a ∈ A: f(x) = ρ(x, A) ≤ ρ(x, a) ≤ ρ(x, y) + ρ(y, a)
+</p>
+
+<p>
+∀ε &gt; 0  ∃aₑ ∈ A : ρ(y, aₑ) &lt; ρ(y, A) + ε = f(y) + ε
+</p>
+
+<p>
+f(x) &lt; ρ(x, y) + f(y) + ε
+ε → 0,
+f(x) ≤ f(y) + ρ(x, y).
+</p>
+
+<p>
+Аналогично по симметричности
+f(y) ≤ f(x) + ρ(x, y)
+</p>
+
+<p>
+Отсюда: |f(x) - f(y)| ≤ ρ(x, y)
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-13" class="outline-3">
+<h3 id="sec-2-13"><span class="section-number-3">2.13</span> <span class="todo X">X</span> Связь Cl, ρ&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></h3>
+<div class="outline-text-3" id="text-2-13">
+<p>
+x ∈ Cl(A) ⇔ ρ(x, A) = 0
+</p>
+</div>
+
+<div id="outline-container-sec-2-13-1" class="outline-4">
+<h4 id="sec-2-13-1"><span class="section-number-4">2.13.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-2-13-1">
+<p>
+Рассмотрим метрическое пространство с точки зрения отделимости
+множеств друг от друга открытыми множествами.
+x ≠ y, r = ρ(x, y) &gt; 0
+B(x), B(y) &#x2013; 2/3, r/3 соответственно.
+Выполнена аксиома Хаусдорфа.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-14" class="outline-3">
+<h3 id="sec-2-14"><span class="section-number-3">2.14</span> <span class="todo 2">2</span> Нормальность МП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-2-14">
+<p>
+Любое МП &#x2013; нормальное пространство.
+∀ F₁, F₂ ∈ X (F₁ ∩ F₂ = ∅, оба замкнутые)
+∃ открытые непересекающиеся G₁ G₂, что F₁ ⊂ G₁, F₂ ⊂ G₂.
+</p>
+</div>
+
+<div id="outline-container-sec-2-14-1" class="outline-4">
+<h4 id="sec-2-14-1"><span class="section-number-4">2.14.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-2-14-1">
+<p>
+g(x) = ρ(x, F₁) / (ρ(x, F₁) + ρ(x, F₂))
+Их предыдущего утверждения понятно, что функция корректно
+определена. Ее непрерывность тоже можно как-то показать.
+</p>
+
+<p>
+x ∈ F₁, Cl(F₁) = F₁
+ρ(x, F₁) = 0, g(x) = 0
+x ∈ F₂, g(x) = 1
+(-∞, 1/3); (2/3, +∞)
+</p>
+
+<p>
+G₁ = g⁻¹(-∞, 1/3)
+G₂ = g⁻¹(2/3, ∞)
+</p>
+
+<p>
+Тогда G₁ G₂ &#x2013; требуемые открытые множества.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-15" class="outline-3">
+<h3 id="sec-2-15"><span class="section-number-3">2.15</span> <span class="done OK">OK</span> МП-Полнота&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-15">
+<p>
+ρ(xₙ, xₘ) → 0 ⇒ ∃x = lim xₙ
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-16" class="outline-3">
+<h3 id="sec-2-16"><span class="section-number-3">2.16</span> <span class="todo 2">2</span> Принцип вложенности шаров&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-2-16">
+<p>
+X &#x2013; полное МП, V<sub>2m</sub> : V<sub>2n</sub>+1 ⊂ V<sub>2n</sub>, 2n → 0 &#x2013; система замкнутых
+шаров.
+</p>
+
+<p>
+Тогда ∩V<sub>2n</sub> = {a}.
+</p>
+</div>
+
+<div id="outline-container-sec-2-16-1" class="outline-4">
+<h4 id="sec-2-16-1"><span class="section-number-4">2.16.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-2-16-1">
+<p>
+∃ bₙ &#x2013; центр V<sub>2n</sub> шаров, тогда ∀m ≥ n, bₘ ∈ V<sub>2n</sub>.
+Тогда ρ(bₙ,bₘ) ≤ 2ₙ → 0 по условию.
+</p>
+
+<p>
+Очевидно, что существует точка a ∈ шары (по полноте ℝ), одна
+единственная в силу замкнутости шаров.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-17" class="outline-3">
+<h3 id="sec-2-17"><span class="section-number-3">2.17</span> <span class="done OK">OK</span> Всюду плотность, всюду не плотность&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-17">
+<ul class="org-ul">
+<li>А всюду плотно в X если X &#x2013; МП, A ⊂ X, Cl(A) = X.
+</li>
+<li>А нигде не плотно, если Int(Cl(A)) = ∅.
+</li>
+</ul>
+
+<p>
+Легко показать, что в МП нигде не плотность значит, что в любом
+шаре V ∃V' ⊂ V, что в V' нету точек множества A.
+</p>
+
+<p>
+Пример: Int(ℝ) = ∅.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-18" class="outline-3">
+<h3 id="sec-2-18"><span class="section-number-3">2.18</span> <span class="todo 2">2</span> Категории по Бэру&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-18">
+<p>
+X &#x2013; множество 1 категории по Бэру, если его можно записать в виде
+не более чем счетного объединения Xₙ, где каждый xᵢ не плотен в X.
+Любой другой X &#x2013; множество 2 категории.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-19" class="outline-3">
+<h3 id="sec-2-19"><span class="section-number-3">2.19</span> <span class="todo 1">1</span> Теорема Бэра о категориях&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-2-19">
+<p>
+Полное МП является множеством 2 категории. (в себе).
+</p>
+</div>
+
+<div id="outline-container-sec-2-19-1" class="outline-4">
+<h4 id="sec-2-19-1"><span class="section-number-4">2.19.1</span> Скетч</h4>
+<div class="outline-text-4" id="text-2-19-1">
+<p>
+От противного. Будем применять определение нигда не плотного
+каждый раз в предыдущем множестве Vᵢ. Найдем пересечение вложенных
+шаров a и поймем, что оно должно принадлежать хоть какому-то X<sub>i</sub>.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-19-2" class="outline-4">
+<h4 id="sec-2-19-2"><span class="section-number-4">2.19.2</span> Доказательство</h4>
+<div class="outline-text-4" id="text-2-19-2">
+<p>
+От противного: пусть X первой категории, тогда:
+X = ∪Xₙ, Xₙ нигде не плотно в X.
+Отсюда ∀V X₁, ∃V₁ ⊂ V, V₁ ∩ X₁ ≠ 0.
+X₂, V₂ ⊂ V₁ : V₂ ∩ X₂ ≠ 0, r₂ ≤ r₁/2.
+&#x2026;
+</p>
+
+<p>
+По индукции получаем {Vᵢ}, r(Vᵢ) → 0, тогда a = ∩Vᵢ по принципу
+вложенности шаров.
+</p>
+
+<p>
+Тогда ∃ N₀, что a ∈ X<sub>N₀</sub>, который X<sub>N₀</sub> ∩ V<sub>N₀</sub> = ∅, a ∈ V<sub>r₀</sub>, что
+приводит к противоречию, потому что a ∈ ∩.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-20" class="outline-3">
+<h3 id="sec-2-20"><span class="section-number-3">2.20</span> <span class="todo 2">2</span> Следствие из теоремы Бэра о категориях&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-2-20">
+<p>
+Полное МП без изолированных точек несчетно
+</p>
+</div>
+
+<div id="outline-container-sec-2-20-1" class="outline-4">
+<h4 id="sec-2-20-1"><span class="section-number-4">2.20.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-2-20-1">
+<p>
+Предположим обратное, то есть счетность множества. Тогда каждая
+точка нигда не плотна в нем ⇒ у него 1 категория, что протиоречит
+теореме Бэра. Этому выбору может помешать только изолированность,
+так как если все точки изолированны, то любая сходящаяся в себе
+посл. сходится.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-2-21" class="outline-3">
+<h3 id="sec-2-21"><span class="section-number-3">2.21</span> <span class="todo 1">1</span> Компакты и предкомпакты&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-2-21">
+<p>
+Множество K, удовлетворяющее обеим аксиомам &#x2013; компакт, а только
+второй &#x2013; предкомпакт:
+</p>
+<ol class="org-ol">
+<li>K &#x2013; замкнуто (K = Cl(K))
+</li>
+<li>xₙ ∈ K, ∃ n₁ &lt; n₂ &lt; &#x2026;
+xₙⱼ &#x2013; сходится в K по метрике ρ
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-2-22" class="outline-3">
+<h3 id="sec-2-22"><span class="section-number-3">2.22</span> <span class="todo 1">1</span> Теорема Хаусдорфа&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-2-22">
+<p>
+X &#x2013; полное МП, K ⊂ X, K замкнуто.
+Тогда:
+K компактно ⇔ K вполне ограничено
+</p>
+
+<p>
+Вполне ограниченность: ∀ε&gt;0 ∃a₁..aₙ, что ∀b∈K ∃aⱼ ρ(b,aⱼ) &lt; ε;
+построение для вполне ограниченности называется конечной ε-сетью.
+</p>
+</div>
+
+<div id="outline-container-sec-2-22-1" class="outline-4">
+<h4 id="sec-2-22-1"><span class="section-number-4">2.22.1</span> Скетч</h4>
+<div class="outline-text-4" id="text-2-22-1">
+<p>
+Слева направо ищем шарики с беск. элементами и сужаем Kᵢ.
+</p>
+
+<p>
+Справа налево от противного по определению строим {xᵢ}
+инкрементально и она не сходится в себе
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2-22-2" class="outline-4">
+<h4 id="sec-2-22-2"><span class="section-number-4">2.22.2</span> Доказательство</h4>
+<div class="outline-text-4" id="text-2-22-2">
+<ol class="org-ol">
+<li>Будем доказывать справа налево
+Пусть K вполне ограничено
+Хотим: xₙ ∈ K =&gt; xₙₖ сходится.
+
+<p>
+Выберем одпоследовательность εₖ → 0.
+</p>
+<ul class="org-ul">
+<li>Рассмотрим ε₁; по вполне ограниченности строим e₁-сеть, тогда
+из ее определения ясно:
+K покрыто конечной системой замкнутых шаров Vⱼ с радиусом ε₁.
+K ⊂ ∪Vⱼ
+
+<p>
+Шаров конечное множество, тогда в каком-то ∞ элементов xₙ.
+Назовем такой шар Vⱼ₀.
+K₁ = Vⱼ₀ ∩ K, K₁ вполне ограниченный, diam(K₁) ≤ 2ε₁.
+</p>
+</li>
+<li>Аналогично строим:
+ε₂, K₁ ⊂ ∪Vⱼ, радиуса ε₂
+K₂ = Vⱼ₀ ∩ K₁, diam K₂ ≤ 2ε₂.
+</li>
+<li>По индукции получаем {Kᵢ} &#x2013; систему вложенных замкнутых
+множеств, в силу полноты пространства с непустым
+пересечением.
+Тогда выберем подпоследовательность любую, в которой берем
+элементы из шаров.
+</li>
+</ul>
+</li>
+<li>Слева направо.
+Пусть K &#x2013; компакт.
+Хотим: ∀ε ∃ конечная ε-сеть.
+
+<p>
+От противного: ∃ε₀, что ∄конечной ε-сети.
+</p>
+<ul class="org-ul">
+<li>∀x₁ ∈ K, ∃x₂ ∈ K, ρ(x₁, x₂) &gt; ε₀.
+Если это утверждение неверно, то система из x₁, x₂ &#x2013;
+конечная ε₀-сеть.
+</li>
+<li>{x₁,x₂} ∃x₃, ρ(x₃, xᵢ) &gt; ε₀, i ∈ {1, 2}
+</li>
+<li>Так по индукции получаем xₙ, из которой не выделить
+сходящейся подпоследовательности, а значит K не компакт.
+</li>
+</ul>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> <span class="todo 1">1</span> Нормированные пространства</h2>
+<div class="outline-text-2" id="text-3">
+</div><div id="outline-container-sec-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> <span class="todo 2">2</span> Нормированное пространство, норма&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-3-1">
+<p>
+Нормированное пространство &#x2013; (X, ∥ ∥), где второе &#x2013; норма:
+φ: X → ℝ &#x2013; норма на X (φ(x) = ∥x∥), если:
+</p>
+<ol class="org-ol">
+<li>φ(x) ≥ 0; φ(x) = 0 ⇔ x = ∅
+</li>
+<li>φ(αx) = |α|φ(x)
+</li>
+<li>φ(x+y) ≤ φ(x) + φ(y)
+</li>
+</ol>
+
+<p>
+Заметим, что в нормированных пространствах метрика порождается
+нормой, то есть:
+ρ(x, y) ‌≡ ∥x - y∥.
+Тогда НП &#x2013; частный случай МП.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> <span class="todo 2">2</span> Пределы в НП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-3-2">
+<p>
+x = lim(xₙ) ⇔ ρ(xₙ, x) → 0 ⇔ ∥xₙ - x∥ → 0.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> <span class="todo 2">2</span> Непрерывность линейных операций в топологии НП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-3-3">
+<p>
+В топологии НП линейные операции на X непрерывны.
+</p>
+</div>
+
+<div id="outline-container-sec-3-3-1" class="outline-4">
+<h4 id="sec-3-3-1"><span class="section-number-4">3.3.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-3-3-1">
+<ol class="org-ol">
+<li>xₙ → x, yₙ → y,
+∥(xₙ + yₙ) - (x + y)∥ ≤ ∥xₙ - x∥ + ∥yₙ - y∥ → 0
+</li>
+<li>αₙ → α, xₙ → x
+∥αₙxₙ - αx∥ = ∥αₙ(xₙ - x) + x(αₙ - α)∥ ≤
+≤ |αₙ|*∥xₙ - x∥ + (αₙ - α)∥x∥ → 0
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> <span class="todo 1">1</span> Примеры НП (lₚ, Lₚ)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></h3>
+<div class="outline-text-3" id="text-3-4">
+<ol class="org-ol">
+<li>ℝⁿ, метрики l₁, l₂, l∞ &#x2013; в общем случае по lₚ варианту:
+∥x∥ₚ = (∑(xₖ)ᵖ)<sup>(1/p)</sup>.
+∥x∥∞ = sup{x₁&#x2026;xₙ}
+</li>
+<li>C[a, b] &#x2013; функции непрерывные на отрезке.
+∥f∥ = max{x∈[a,b]}|f(x)|
+</li>
+<li>Lₚ(E) &#x2013; известный пример, метрика &#x2013; (∫X |f|ᵖ)<sup>(1/p)</sup>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> <span class="todo 1">1</span> Эквивалентность норм&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-3-5">
+<p>
+Нормы φ₁ и φ₂ экивалентны (φ₁ ~ φ₂), если у них одинаковая
+сходимость, то есть ∀{xₙ} (xₙ →φ₁ x) &amp; (xₙ →φ₂ x).
+Проверка на экивалентность также можно сделать следующим образом:
+∃a,b &gt; 0, ∀x∈ X a∥x∥₁ ≤ ∥x∥₂ &lt; b∥x∥₁, где нижний индекс &#x2013; номер
+метрики.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> <span class="todo 2">2</span> Пример эквивалентных метрик в ℝⁿ&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></h3>
+<div class="outline-text-3" id="text-3-6">
+<p>
+Построим единичную окружность по метрикам l₁, l₂, l∞.
+Нетрудно проверить, что все они эквивалентны, то есть множества
+сходимых по ним последовательностей равны.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> <span class="todo 1">1</span> Теорема Рисса&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-3-7">
+<p>
+dim(X) &lt; +∞, тогда любые 2 нормы в X эквивалентны.
+</p>
+</div>
+
+<div id="outline-container-sec-3-7-1" class="outline-4">
+<h4 id="sec-3-7-1"><span class="section-number-4">3.7.1</span> Скетч</h4>
+<div class="outline-text-4" id="text-3-7-1">
+<p>
+Покажем a∥x∥₁ ≤ ∥x∥ ≤ b∥x∥₁ для евкл. нормы. Правое ≤ по н-ву
+Коши. Левое через f(α₁&#x2026;αₙ) ≡ ∥∑αₖeₖ∥, ед. сферу и Вейерштрасса.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-7-2" class="outline-4">
+<h4 id="sec-3-7-2"><span class="section-number-4">3.7.2</span> Доказательство</h4>
+<div class="outline-text-4" id="text-3-7-2">
+<p>
+Возьмем {eᵢ} &#x2013; ЛНЗ базис из X.
+∀x ↔ (α₁&#x2026;αₙ) = α~ &#x2013; коээффициенты по базису.
+Пусть ∥ ∥ &#x2013; норма в X.
+</p>
+
+<p>
+∥x∥₁ ≡ √(∑αₖ²)
+будем показывать a∥x∥₁ ≤ ∥x∥ ≤ b∥x∥₁ из определения экв. норм.
+</p>
+
+<ol class="org-ol">
+<li>∥x∥ ≤ (неравенство треугольника) ≤ ∑∥eₖ∥*|αₖ| ≤ (Коши) ≤
+≤ √(∑∥eₖ∥²) * √(∑αₖ²) = {первое константа b} = b*∥α~∥ =
+= b*∥x∥₁.
+
+<p>
+∥x∥ ≤ b*∥x∥₁.
+</p>
+</li>
+<li>f(α₁&#x2026;αₙ) ≡ ∥∑αₖeₖ∥;
+Тогда |f(α~ + Δα~) - f(α~)| = | ∥∑αₖeₖ + ∑Δαₖeₖ∥ - ∥∑αₖeₖ∥ | ≤
+≤ ∥∑Δαₖeₖ∥ ≤ ∑∥eₖ∥*|Δαₖ| → 0.
+Значит f непрерывна в ℝⁿ.
+
+<p>
+S₁ ≡ {x | ∑|αₙ|² = 1} &#x2013; единичная сфера.
+По теореме Вейерштрасса S₁ &#x2013; компакт.
+f непрерывна на S₁, тогда по теореме Вейерштрасса существует
+минимум: ∃α'~ ∈ S₁, что f(α'<code>) -- минимум, то есть все остальные
+       f(α</code>) ≥ f(α'~).
+</p>
+
+<p>
+f(α'~) ≠ 0. Если бы была равна, тогда ∥∑α'ₖeₖ∥ = 0, а отсюда по
+ЛНЗ все αᵢ = 0, но α'~ ∈ S₁, там таких нету.
+</p>
+
+<p>
+Отсюда f(α'<code>) = m &gt; 0, и тогда: ∥x∥ = ∥∑αₖeₖ∥ = f(α</code>) =
+√(∑αₖ²) * ∥ ∑(αₖ/√(∑αₖ²))eₖ ∥ ≥ m * ∥x∥₁. (то, что вынеслось
+под большой модуль, как раз в S₁).
+</p>
+
+<p>
+m и есть искомое a.
+</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-8" class="outline-3">
+<h3 id="sec-3-8"><span class="section-number-3">3.8</span> <span class="todo 2">2</span> Линейное подмножество, линейное подпространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-3-8">
+<ol class="org-ol">
+<li>Линейное подмножество &#x2013; множество точек замкнутых относительно
+операций умножения на скаляр и сложения.
+</li>
+<li>Линейное подпространство &#x2013; замкнутое линейное подмножество.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-3-9" class="outline-3">
+<h3 id="sec-3-9"><span class="section-number-3">3.9</span> <span class="todo 2">2</span> Следствие из теоремы Рисса о замкнутости&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-3-9">
+<p>
+X &#x2013; НП, Y &#x2013; линейное подмножество X, dim Y &lt; +∞.
+Тогда Y = Cl(Y), то есть Y замкнуто.
+</p>
+</div>
+
+<div id="outline-container-sec-3-9-1" class="outline-4">
+<h4 id="sec-3-9-1"><span class="section-number-4">3.9.1</span> Скетч</h4>
+<div class="outline-text-4" id="text-3-9-1">
+<p>
+Сходимость эквивалентна сходимости по l₂, которая сходится
+покоординатно. Тогда предел &#x2013; это ЛО векторов.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-9-2" class="outline-4">
+<h4 id="sec-3-9-2"><span class="section-number-4">3.9.2</span> Доказательство</h4>
+<div class="outline-text-4" id="text-3-9-2">
+<p>
+y = L(e₁&#x2026;eₙ) &#x2013; ЛНЗ набор = {∑αᵢeᵢ | αᵢ ∈ ℝ}.
+yₘ ∈ Y.
+Хотим: yₘ → y ⇒ y ∈ Y.
+</p>
+
+<p>
+∥yₘ - y∥ → 0 ⇒ ∥yₘ - yₚ∥ →{mp → ∞}→ 0.
+Y конечномерно, тогда по теореме Рисса все нормы эквивалентны.
+</p>
+
+<p>
+∥y∥₀ ≡ √(∑αᵢ²) &#x2013; определим такую норму.
+По теореме Рисса ∥ ∥ ~ ∥ ∥₀.
+</p>
+
+<p>
+∥yₘ - yₚ∥ → 0 ⇒ ∥yₘ - yₚ∥₀ → 0. Заметим, что ∥yₘ - yₚ∥ ∈ Y.
+Тогда пусть α~ = (α₁&#x2026;αₙ) ∈ ℝⁿ.
+Отсюда yₘ = ∑αᵢ<sup>(m)</sup> * eᵢ, где верхний индекс &#x2013; номер α~., а
+нижний &#x2013; координата α~.
+</p>
+
+<p>
+Тогда есть покоординатная сходимость:
+∀i ∈ 1..n  |αᵢ<sup>m</sup> - αᵢ<sup>p|</sup> → 0.
+Тогда αₘ~ = (α₁<sup>m</sup>&#x2026;αₙ<sup>m</sup>) → α*.
+y* = ∑αᵢ*eᵢ ∈ Y.
+</p>
+
+<p>
+∥yₘ - y∥ → 0.
+∥yₘ - y*∥ → 0 (следует из ∥yₘ - y*∥₀ → 0 по экв. норм).
+Тогда y = y*, и поскольку y* ∈ Y, y ∈ Y.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-10" class="outline-3">
+<h3 id="sec-3-10"><span class="section-number-3">3.10</span> <span class="todo 2">2</span> Банахово пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-3-10">
+<p>
+Банахово пространство &#x2013; НП, полное в смысле метрического
+пространства. Сокращенно &#x2013; B-пространство.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-11" class="outline-3">
+<h3 id="sec-3-11"><span class="section-number-3">3.11</span> <span class="todo 2">2</span> Абсолютная сходимость в B-пространствах&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-3-11">
+<p>
+X &#x2013; B-пространство. Тогда ∑∥xₙ∥ → 0 ⇒ ∑xₙ сходится.
+</p>
+</div>
+
+<div id="outline-container-sec-3-11-1" class="outline-4">
+<h4 id="sec-3-11-1"><span class="section-number-4">3.11.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-3-11-1">
+<p>
+∥Sₙ - Sₘ∥ = ∥∑{m+1..n}xₖ∥ ≤ ∑∥xₖ∥ →{n,m → ∞}→ 0.
+Отсюда существует предел Sₙ. что значит сходимость ∑xₙ.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-12" class="outline-3">
+<h3 id="sec-3-12"><span class="section-number-3">3.12</span> <span class="todo 2">2</span> Лемма Рисса о перпендикуляре&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-3-12">
+<ul class="org-ul">
+<li>X &#x2013; НП.
+</li>
+<li>Y &#x2013; собственное подпространство (линейное замкнутое множество)
+</li>
+</ul>
+
+<p>
+Тогда ∀ε ∈ (0,1), ∃zₑ ∈ X:
+</p>
+<ol class="org-ol">
+<li>zₑ ∉ Y
+</li>
+<li>∥zₑ∥ = 1
+</li>
+<li>ρ(zₑ, Y) &gt; 1 - ε
+</li>
+</ol>
+</div>
+
+<div id="outline-container-sec-3-12-1" class="outline-4">
+<h4 id="sec-3-12-1"><span class="section-number-4">3.12.1</span> Скетч</h4>
+<div class="outline-text-4" id="text-3-12-1">
+<p>
+zₑ = (x - yₑ)/∥x - yₑ∥. Остальное доказать через расстояние до
+множества.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3-12-2" class="outline-4">
+<h4 id="sec-3-12-2"><span class="section-number-4">3.12.2</span> Доказательство</h4>
+<div class="outline-text-4" id="text-3-12-2">
+<p>
+∃x∉Y, d = ρ(x, Y). Тогда d &gt; 0.
+</p>
+<ul class="org-ul">
+<li>Если d = 0, то ∃yₙ ∈ Y: ∥x - yₙ∥ &lt; 1/n.
+Y замкнутое, тогда x ∈ Y, что противоречит условию.
+</li>
+</ul>
+
+<p>
+Возьмем ε ∈ (0, 1), 1/(1 - ε) &gt; 1.
+По определению расстояния:
+∃yₑ ∈ Y: ∥x - yₑ∥ &lt; d/(1 - ε)
+zₑ = (x - yₑ)/∥x - yₑ∥, ∥zₑ∥ = 1;
+∀y ∈ Y, ∥zₑ - y∥ = ∥(x - yₑ)/∥x - yₑ∥ - y∥
+= (∥x - (yₑ + ∥x - yₑ∥ * y)∥ / ∥x - yₑ∥)
+В последнем выражени числитель ≥ d.
+Знаменатель &lt; (1/1-ε)d.
+Отсюда: ∥zₑ - y∥ &gt; 1 - ε.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-3-13" class="outline-3">
+<h3 id="sec-3-13"><span class="section-number-3">3.13</span> <span class="todo 1">1</span> Некомпактность единичное сферы в бесконечномерном пространстве&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-3-13">
+<p>
+Пусть dimX = +∞.
+S &#x2013; единичная сфера.
+Тогда S &#x2013; не компакт.
+</p>
+</div>
+
+<div id="outline-container-sec-3-13-1" class="outline-4">
+<h4 id="sec-3-13-1"><span class="section-number-4">3.13.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-3-13-1">
+<p>
+∀x₁ ∈ S, Y₁ = L(x₁),
+Y &#x2013; конечномерное линейное множество, значит оно замкнуто в X и
+подпространство.
+По теореме Рисса ∃x₂ ∈ S, что ∥x₂ - x₁∥ &gt; 1/2.
+</p>
+
+<p>
+Y₂ = L(x₁,x₂). Y₂ &#x2013; собственное подпространство.
+Тогда ∃x₃ ∥x₃ - xⱼ∥ &gt; 1/2, j={1,2}.
+</p>
+
+<p>
+Процесс не остановится в силу dimX=+∞.
+</p>
+
+<p>
+Получим {xₙ ∈ S | ∥xₙ - xₘ∥ &gt; 1/2, n ≠ m}.
+Тогда не можем выделить сходящуюся подпоследовательность.
+Тогда сфера &#x2013; не компакт.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> Унитарные пространства</h2>
+<div class="outline-text-2" id="text-4">
+</div><div id="outline-container-sec-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> <span class="todo 2">2</span> Унитарное пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-4-1">
+<p>
+X &#x2013; линейное множество над полем ℝ, φ: X×X → ℝ.
+φ удовлетворяет свойствам:
+</p>
+<ol class="org-ol">
+<li>φ(x, x) ≥ 0. φ = 0 ⇔ x = 0.
+</li>
+<li>φ(x, y) = φ(y, x)
+</li>
+<li>φ(αx + βy,z) = αφ(x, z) + βφ(y, z).
+</li>
+</ol>
+
+<p>
+φ называется скалярным произведением, нотация: &lt;x,y&gt; ≡ φ(x,y).
+Пара (X, &lt;,&gt;) &#x2013; унитарное пространство.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> <span class="todo 2">2</span> Пример унитарного пространства&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></h3>
+<div class="outline-text-3" id="text-4-2">
+<p>
+ℝⁿ: &lt;x,y&gt; = ∑{i=1..n}xᵢyᵢ.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> <span class="todo 2">2</span> Неравенство Шварца&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-4-3">
+<p>
+∀x,y ∈ X, |&lt;x,y&gt;| ≤ √(&lt;x,x&gt;) * √(&lt;y,y&gt;).
+</p>
+
+<p>
+Отметим, что для ℝⁿ неравенство Шварца есть неравенство Коши для
+сумм:
+</p>
+<ul class="org-ul">
+<li>|∑aᵢbᵢ| ≤ √(∑aᵢ) * √(∑bᵢ)
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-4-3-1">
+<p>
+∀λ ∈ ℝ, f(λ) ≡ &lt;λx + y, λx + y&gt; ≥ 0 (по аксиоме).
+f(λ) = λ²&lt;x,x&gt; + 2λ&lt;x,y&gt; + &lt;y,y&gt;.
+У последней функции дискриминант ≤ 0.
+4&lt;x,y&gt;² - 4&lt;x,x&gt;&lt;y,y&gt; ≤ 0.
+Это и есть неравенство Шварца.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> <span class="todo 2">2</span> Порождение нормы скалярным произведением&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-4-4">
+<p>
+Определим ∥x∥ следующим образом:
+</p>
+<ul class="org-ul">
+<li>∥x∥ = √(&lt;x,x&gt;).
+</li>
+<li>Доказательство аксиомы 3 (первые две тривиально):
+∥x + y∥² = ∥x∥² + 2&lt;x,y&gt; + ∥y∥² ≤ {Шварц} ≤ (∥x∥ + ∥y∥)².
+</li>
+<li>Отсюда УП &#x2013; частный случай НП. Заметим, что не всякая норма
+удовлетворяет свойству скалярного произведения, так что обратное
+неверно.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-5" class="outline-3">
+<h3 id="sec-4-5"><span class="section-number-3">4.5</span> <span class="todo 2">2</span> Ортогональность, р-во Пифагора&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-4-5">
+<p>
+Определим отношение ортогональности на векторах:
+</p>
+<ul class="org-ul">
+<li>x ⊥ y ≡ &lt;x,y&gt; = 0.
+</li>
+</ul>
+<p>
+Отсюда мгновенно (с помощью Шварца) получаем:
+</p>
+<ul class="org-ul">
+<li>x ⊥ y ⇒ ∥x+y∥² = ∥x∥² + ∥y∥².
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-4-6" class="outline-3">
+<h3 id="sec-4-6"><span class="section-number-3">4.6</span> <span class="todo 1">1</span> Равенство параллелограмма&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-4-6">
+<p>
+∀x,y ∥x+y∥² + ∥x-y∥² = 2∥x∥² + 2∥y∥².
+</p>
+
+<p>
+Отдельно отметим, что:
+</p>
+<ul class="org-ul">
+<li>Метрика порождает скалярное произведение ⇔ для нее выполнено
+равенство параллелограмма.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-4-6-1" class="outline-4">
+<h4 id="sec-4-6-1"><span class="section-number-4">4.6.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-4-6-1">
+<p>
+Тривиально. Раскрыть по определению &lt;x+y, x+y&gt;, дальше все само
+зайдет.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-7" class="outline-3">
+<h3 id="sec-4-7"><span class="section-number-3">4.7</span> <span class="todo 2">2</span> Ортонормированная система векторов, ЛНЗ&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-4-7">
+<p>
+{eᵢ&#x2026;eₙ(&#x2026;)} &#x2013; возможно бесконечный набор векторов со
+свойствами:
+</p>
+<ol class="org-ol">
+<li>∥eᵢ∥ = 1.
+</li>
+<li>∀i,j, i ≠ j ⇒ eᵢ ⊥ eⱼ
+</li>
+</ol>
+
+<p>
+Что такое ЛНЗ все знают. Напомним, что существует процесс
+нормализации Грамма-Шмидта (курс линейной алгебры 1-2 сем. КТ),
+который любой ЛНЗ набор превращает в ортонормированный.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-8" class="outline-3">
+<h3 id="sec-4-8"><span class="section-number-3">4.8</span> <span class="todo 2">2</span> Ортогональный ряд&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-4-8">
+<p>
+∑xⱼ ортогональный, если ∀i≠j xᵢ ⊥ xⱼ.
+Удобное свойства ортогонального ряда (Sₘ &#x2013; частичная сумма):
+∥Sₘ∥² = &lt;∑, ∑&gt; = ∑∥xᵢ∥².
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-9" class="outline-3">
+<h3 id="sec-4-9"><span class="section-number-3">4.9</span> <span class="todo 1">1</span> Коэффициент, ряд Фурье&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-4-9">
+<p>
+Пусть x ∈ X, {eᵢ} &#x2013; ОНС.
+Тогда &lt;x,eᵢ&gt; &#x2013; коээфициент Фурье элемента x.
+∑{eᵢ} &lt;x,eᵢ&gt;eᵢ &#x2013; ряд Фурье.
+Ряд фурье &#x2013; частный случай ортогональных рядов.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-10" class="outline-3">
+<h3 id="sec-4-10"><span class="section-number-3">4.10</span> <span class="todo 2">2</span> Наилучшее приближение&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-4-10">
+<p>
+X &#x2013; НП, Y &#x2013; его подпространство.
+∀x ∈ X, E<sub>Y</sub>(x) ≡ ρ(x, Y) = inf{y ∈ Y}∥x-y∥.
+E<sub>Y</sub>(x) &#x2013; наилучшее приближение x точками из Y.
+</p>
+
+<p>
+При этом элемент наилучшего приближения:
+∀x ∈ X, E<sub>Y</sub>(x) = ∥x - y*∥.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-11" class="outline-3">
+<h3 id="sec-4-11"><span class="section-number-3">4.11</span> <span class="todo 2">2</span> Теорема Бореля&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-4-11">
+<p>
+dimX &lt; +∞ ⇒ ∀x ∈ X, ∃y* ∈ Y &#x2013; элемент наилучшего приближения.
+</p>
+</div>
+
+<div id="outline-container-sec-4-11-1" class="outline-4">
+<h4 id="sec-4-11-1"><span class="section-number-4">4.11.1</span> Скетч</h4>
+<div class="outline-text-4" id="text-4-11-1">
+<p>
+Y=ЛО, опр.f(α~), она будет большой вне шара + Вейерштрасс.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4-11-2" class="outline-4">
+<h4 id="sec-4-11-2"><span class="section-number-4">4.11.2</span> Доказательство</h4>
+<div class="outline-text-4" id="text-4-11-2">
+<p>
+Y = L(e₁&#x2026;eₙ), тогда f(α₁&#x2026;αₙ) = ∥x - ∑{n} αₖeₖ∥.
+</p>
+
+<p>
+Найдем минимум f, некоторый вектор α~. Из неравенства треугольника
+f(α~) непрерывна на ℝⁿ.
+</p>
+
+<p>
+f ≥ 0 по построению. E<sub>Y</sub>(x) = inf{ℝⁿ}f(α~).
+</p>
+
+<p>
+Легко установить (тут нужно доказать), что можно найти шар B(0, r)
+∈ ℝ², вне пределов которого f &gt; 2E<sub>Y</sub>(x).  Значит само лучшее
+приближение нужно искать в шаре.  Шар &#x2013; компакт, f непрерывна на
+нем, тогда по теореме Вейерштрасса f имеет минимум на шаре.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-12" class="outline-3">
+<h3 id="sec-4-12"><span class="section-number-3">4.12</span> <span class="todo 1">1</span> Экстремальное свойство частичных сумм ряда Фурье&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-4-12">
+<p>
+{eᵢ} &#x2013; ОНС. Hₙ = L(e₁&#x2026;eₙ). Sₙ(x) &#x2013; частичная сумма ряда фурье
+до элемента N элемента x. Тогда E<sub>Hₙ</sub>(x) = ∥x - Sₙ(x)∥.
+</p>
+</div>
+
+<div id="outline-container-sec-4-12-1" class="outline-4">
+<h4 id="sec-4-12-1"><span class="section-number-4">4.12.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-4-12-1">
+<p>
+∀y = ∑αᵢeᵢ ∈ Hₙ;
+∥x-y∥² = &lt;x - ∑αᵢeᵢ, x - ∑αᵢeᵢ&gt; = ∥x∥² - 2∑&lt;x,eᵢ&gt;αᵢ + ∑αᵢ²
+= {последнее по ортогональности, выделили полный квадрат}
+= ∥x∥² + ∑(αᵢ - &lt;x,eᵢ&gt;)² - ∑&lt;x,eᵢ&gt;².
+В последнем выражении первый и последний член &#x2013; константы.
+Средняя сумма минимальна когда:
+αᵢ=&lt;x,eᵢ&gt;
+Отсюда элемент наилучшего приближения действительно сумма Фурье.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-4-13" class="outline-3">
+<h3 id="sec-4-13"><span class="section-number-3">4.13</span> <span class="todo 2">2</span> Неравенство Бесселя&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-4-13">
+<p>
+Для коэффициентов Фурье верно:
+</p>
+<ol class="org-ol">
+<li>∑&lt;x,eᵢ&gt;² ≤ ∥x∥².
+</li>
+<li>Ряд из квадратов коэфф. Фурье сходится (д-во из 1 пункта).
+</li>
+</ol>
+</div>
+
+<div id="outline-container-sec-4-13-1" class="outline-4">
+<h4 id="sec-4-13-1"><span class="section-number-4">4.13.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-4-13-1">
+<p>
+0 ≤ ∥x-y*∥² = ∥x-∑&lt;x,eᵢ&gt;∥² = ∥x∥² - ∑&lt;x,eᵢ&gt;².
+Это почти по Пифагору, только с разностью.
+Последннее больше нуля, от туда и неравенство Бесселя.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> <span class="todo 2">2</span> Пространства Гильберта</h2>
+<div class="outline-text-2" id="text-5">
+</div><div id="outline-container-sec-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> <span class="todo 2">2</span> Гильбертово пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+Пространство Гильберта (H) &#x2013; полное бесконечномерное унитарное
+пространство.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> <span class="todo 2">2</span> Примеры гильбертовых пространств (l₂, L₂)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></h3>
+<div class="outline-text-3" id="text-5-2">
+<ul class="org-ul">
+<li>L₂(E), &lt;f,g&gt; = ∫E (f∙g)dμ.
+</li>
+<li>l₂ - {{x₁&#x2026;xₙ..} | ∑xₙ² &lt; +∞}
+&lt;x,y&gt; = ∑xₙyₙ.
+l₂ &#x2013; частный случай L₂ при E = ℕ и μ(m} = 1 (считающая мера).
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-3" class="outline-3">
+<h3 id="sec-5-3"><span class="section-number-3">5.3</span> <span class="todo 2">2</span> Теорема Рисса-Фишера&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-5-3">
+<p>
+Ряд фурье в Гильбертовом (полном унитарном, бесконечномерном)
+пространстве любой точки всегда сходится.
+</p>
+</div>
+
+<div id="outline-container-sec-5-3-1" class="outline-4">
+<h4 id="sec-5-3-1"><span class="section-number-4">5.3.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-5-3-1">
+<p>
+По полноте нам необходимо доказать, что частичные суммы сходятся в
+смысле Коши. Квадрат нормы разности двух частичных сумм фурье &#x2013;
+частичная сумма квадратов модулей, которая сходится по Бесселю.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-4" class="outline-3">
+<h3 id="sec-5-4"><span class="section-number-3">5.4</span> <span class="todo 2">2</span> Равенство Парсеваля&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-5-4">
+<p>
+∥x∥² = ∑|&lt;x,eᵢ&gt;|².
+</p>
+</div>
+
+<div id="outline-container-sec-5-4-1" class="outline-4">
+<h4 id="sec-5-4-1"><span class="section-number-4">5.4.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-5-4-1">
+<p>
+По непрерывности скалярного произведения:
+</p>
+
+<p>
+∥x∥² = &lt;x,x&gt; = lim&lt;Sₙ,Sₙ&gt; = lim ∑|&lt;x,eₖ&gt;| = ∑|&lt;x,eₖ&gt;|.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-5" class="outline-3">
+<h3 id="sec-5-5"><span class="section-number-3">5.5</span> <span class="todo 2">2</span> Полная, замкнутая ОНС&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-5-5">
+<ol class="org-ol">
+<li>ОНС {eᵢ} замкнута, если H = Cl(L({eᵢ})).
+(Замыкание тут необходимо, потому что по определению линейная
+оболочка L &#x2013; это конечная сумма).
+</li>
+<li>ОНС {eᵢ} полна, если: ∀x &lt;x,eₘ&gt; = 0 ⇒ x = 0.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-5-6" class="outline-3">
+<h3 id="sec-5-6"><span class="section-number-3">5.6</span> <span class="todo 1">1</span> Лемма о связи полноты и замкнутости&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-5-6">
+<p>
+{eᵢ} полна ⇔ {eᵢ} замкнута.
+</p>
+</div>
+
+<div id="outline-container-sec-5-6-1" class="outline-4">
+<h4 id="sec-5-6-1"><span class="section-number-4">5.6.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-5-6-1">
+<ol class="org-ol">
+<li>Сначала покажем общий факт, из которого будут верны оба
+утверждения:
+∑yₙ в H ортогональны.
+∥Sₙ - Sₘ∥² = ∑{∞}∥yₙ∥²;
+∥Sₙ - Sₘ∥ → 0 ⇔ ∑{∞}∥yₙ∥² → 0;
+Отсюда в H сходится ряд, если сходится ∑∥yₙ∥².
+
+<p>
+Если есть ОНС, то мы можем сопоставить:
+x → ∑&lt;x,eₖ&gt;eₖ =: ∑yₖ;
+∑&lt;x,eₖ&gt;² ≤ ∥x∥² &lt; +∞ по неравенству Бесселя.
+</p>
+
+<p>
+В H ряд Фурье у любой ОНС сходится. Поэтому если система
+полная, то:
+∀x ∈ H , ∀ε &gt; 0, ∃∑{j=1..p}αₖⱼeₖⱼ, что ∥x - ∑αₖⱼeₖⱼ∥ ≤ ε².
+</p>
+
+<p>
+Но частичные суммы ряда Фурье обладают экстремальным свойством:
+∥x - ∑xₖⱼeₖⱼ∥² ≥ ∥x - ∑&lt;x,eⱼ&gt;eⱼ∥²
+</p>
+
+<p>
+Более того, если Sₘ частичная сумма, то:
+∣x - Sₘ₊ₚ(x)∥² ≤ ∥x - Sₘ(x)∥² ≤ ε².
+</p>
+
+<p>
+Отсюда x действительно всегда раскладывается в ряд Фурье.
+</p>
+</li>
+<li>Если ∀x &lt;x,eₘ&gt; = 0 то автоматически x = 0 (из свойства суммы).
+</li>
+<li>Аналогично, в H ряд по любой ОНС сходится.
+y = ∑&lt;x,eⱼ&gt;eⱼ, то есть &lt;x,eⱼ&gt; = &lt;y,eⱼ&gt;.
+Тогда по линейности скалярного произведения y - x = 0.
+Значит y = x, значит x = ∑∞ &lt;x,eⱼ&gt;eⱼ, значит система замкнута
+(содержит все свои пределы).
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-7" class="outline-3">
+<h3 id="sec-5-7"><span class="section-number-3">5.7</span> <span class="todo 2">2</span> Сепарабельность топологического пространства&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-5-7">
+<p>
+Топологическое пространство сепарабельно, если в нем существует
+счетное всюду полное множество точек.
+</p>
+<ul class="org-ul">
+<li>X = Cl{a₁&#x2026;aₙ..}.
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-5-8" class="outline-3">
+<h3 id="sec-5-8"><span class="section-number-3">5.8</span> <span class="todo 2">2</span> Связь сепарабельности и существования базиса&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-5-8">
+<p>
+H сепарабельно ⇔ ∃ базис в H.
+</p>
+</div>
+
+<div id="outline-container-sec-5-8-1" class="outline-4">
+<h4 id="sec-5-8-1"><span class="section-number-4">5.8.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-5-8-1">
+<p>
+Из предыдущей леммы:
+</p>
+<ol class="org-ol">
+<li>Пусть H сепарабельно, тогда применим Грамма-Шмидта и оно будет
+базисом (тут что-то гарантирует предыдущая лемма).
+</li>
+<li>Если есть базис, то H сепарабельно &#x2013; возьмем в качестве aᵢ
+коээфициенты, суммы с αᵢ ∈ ℝ.
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-9" class="outline-3">
+<h3 id="sec-5-9"><span class="section-number-3">5.9</span> <span class="todo 1">1</span> О наилучшем приближении в H&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-5-9">
+<p>
+H &#x2013; пространство, M &#x2013; замкнутое выпуклое подмножество.
+Тогда ∀x ∈ H ∃!y ∈ M, что ∥x-y∥ = inf{z∈M}∥x-z∥.
+То есть в M у любого элемента есть единственный элемент наилучшего
+приближения.
+</p>
+</div>
+
+<div id="outline-container-sec-5-9-1" class="outline-4">
+<h4 id="sec-5-9-1"><span class="section-number-4">5.9.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-5-9-1">
+<p>
+d ≡ inf{z∈M}∥x-z∥.
+По определению нижней грани:
+∀n ∈ ℕ, ∃yₙ ∈ M, d ≤ ∥x+yₙ∥ &lt; d + 1/n.
+</p>
+
+<p>
+Пусть ∃y = lim yₙ. По замкнутости M y∈M и предельный переход в
+последнем неравенстве ∥x - y∥ = d.
+</p>
+
+<p>
+Покажем, что у yₙ есть предел.
+Возьмем yₙ,yₘ ∈ M. Из выпуклости (yₙ+yₘ)/2 ∈ M.
+Значит:
+d ≤ ∥(yₘ-yₙ)/2 - x∥² = 1/4 ∥yₘ - yₙ - 2x∥²
+= 1/4 ∥(yₘ - x) + (yₙ - x)∥².
+Рассмотрим равенство параллелограмма.
+∥(yₘ - x) + (yₙ - x)∥² + ∥(yₘ - x) - (yₙ - x)∥
+= 2∥yₘ - x∥² + 2∥yₙ - x∥².
+Оценим второй член:
+∥yₘ - y∥ ≤ 2∥yₘ - x∥² + 2∥yₙ - x∥² - 4(d + 1/n).
+∥yₘ - y∥ → 0.
+</p>
+
+<p>
+Единственность вытекает из равенства параллелограмма (можно
+проверить).
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-5-10" class="outline-3">
+<h3 id="sec-5-10"><span class="section-number-3">5.10</span> <span class="todo 2">2</span> Разложение в прямую сумму&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-5-10">
+<p>
+H &#x2013; гильбертово пространство, H₁ &#x2013; замкнутое линейное
+подмножество H (подпространство).
+</p>
+
+<p>
+H₂ ≡ H₁⊥ (верхний индекс ⊥) = {y ∈ H | y ⊥ x, x ∈ H₁}.
+Тогда H = H₁ ⊕ H₂.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5-11" class="outline-3">
+<h3 id="sec-5-11"><span class="section-number-3">5.11</span> <span class="todo 0">0</span> Следствие о приближении в прямой сумме&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-5-11">
+<p>
+x ∈ H₁, H₂ = H₁⊥.
+∃x₁ ∈ H₁ : ∥x - x₁∥ = inf{u ∈ H₁}∥x - u∥
+x₂ = x - x₁ ∈ H₂?
+∀y ∈ H₁ y ⊥ x₁, λ &gt; 0, x₁ + λy ∈ H₁
+Отсюда:
+∀ λ &gt; 0 ∥x - (x₁ + λy)∥² ≥ ∥x - x₁∥²
+&lt;x - x₁ - λy, x - x₁ - λy&gt; ≥ &lt;x - x₁, x - x₁&gt;
+&lt;x₂ - λy, x₂ - λy&gt; ≥ &lt;x₂, x₂&gt; ⇒
+&lt;x₂, x₂&gt; - 2&lt;λy, x₂&gt; + λ²&lt;y, y&gt; ≥ &lt;x₂, x₂&gt;
+Итого имеем: 2&lt;y, x₂&gt; ≤ λ&lt;y, y&gt;
+Устремим λ к нулю: &lt;y, x₂&gt; ≤ 0.
+В силу произвольности y также верно:
+&lt;-y, x₂&gt; ≤ 0.
+Отсюда &lt;y, x₂&gt; = 0.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> <span class="todo X">X</span> Счетно-нормированные пространства</h2>
+<div class="outline-text-2" id="text-6">
+</div><div id="outline-container-sec-6-1" class="outline-3">
+<h3 id="sec-6-1"><span class="section-number-3">6.1</span> <span class="todo 2">2</span> Счетно-нормированное пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-6-1">
+<p>
+X &#x2013; линейное множество. Полунорма p на X &#x2013; это функционал,
+удовлетворяющий 2 и 3 условиям нормы, но имеющий ослабленное первое
+условие:
+</p>
+<ol class="org-ol">
+<li>p(x) ≥ 0. (не обязательно нулевая на нулевых элементах)
+</li>
+</ol>
+
+<p>
+Пусть на X задана {pᵢ} &#x2013; счетное множество полунорм, и они
+согласованы:
+</p>
+<ul class="org-ul">
+<li>∀n pₙ(x) = 0 ⇒ x = 0.
+</li>
+</ul>
+<p>
+Тогда &lt;X, {pᵢ}&gt; &#x2013; счетно-нормированное пространство.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> <span class="todo 2">2</span> Предел в СНП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-6-2">
+<p>
+x = lim{xₙ} ≡ ∀n ∈ ℕ lim{m→∞}(pₙ(xₘ - x)) = 0
+</p>
+</div>
+</div>
+<div id="outline-container-sec-6-3" class="outline-3">
+<h3 id="sec-6-3"><span class="section-number-3">6.3</span> <span class="todo 2">2</span> Вложение СНП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></h3>
+<div class="outline-text-3" id="text-6-3">
+<p>
+Нормированное пространство &#x2013; частный случай СЧП
+Согласованность {pᵢ} необходима для единственности предела.
+Можно показать, что без этого условия единственности не будет.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-6-4" class="outline-3">
+<h3 id="sec-6-4"><span class="section-number-3">6.4</span> <span class="todo 2">2</span> Метрика в СЧП (Урысона)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-6-4">
+<p>
+Если ρ(x, y) = ∑{inf}(1/2ⁿ)(pₙ(x - y) / (1 + pₙ(x - y))), то СНП
+метризуеммо всегда.
+Это, кстати, метрика в ℝ∞.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-6-5" class="outline-3">
+<h3 id="sec-6-5"><span class="section-number-3">6.5</span> <span class="todo 2">2</span> Непрервыность и топология&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></h3>
+<div class="outline-text-3" id="text-6-5">
+<p>
+Сложение и умножение на скаляр непрерывны. В этом смысле СНП = ТВП
+(Топологическое векторное пространство).
+</p>
+</div>
+</div>
+<div id="outline-container-sec-6-6" class="outline-3">
+<h3 id="sec-6-6"><span class="section-number-3">6.6</span> <span class="todo 2">2</span> Пример СНП&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></h3>
+<div class="outline-text-3" id="text-6-6">
+<p>
+Возьмем C∞[a,b] = {x(t), t ∈ [a,b], бесконечно дифференцируемо}.
+Тогдa pₙ = max[a,b] |x⁽ⁿ⁾(t)|, n = 0,1,&#x2026;
+Кстати, C∞ не нормируемо.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-6-7" class="outline-3">
+<h3 id="sec-6-7"><span class="section-number-3">6.7</span> <span class="todo 2">2</span> Монотонная система полунорм, эквивалентность, существенность&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-6-7">
+<ol class="org-ol">
+<li>{pₙ} монотонна, если ∀x ∈ X ∀n ∈ ℕ pₙ(x) ≤ pₙ₊₁(x)
+</li>
+<li>{pₙ} ~ {qₙ}, если в них одинаковая сходимость
+</li>
+<li>pₘ мажорирует pₙ, если ∃c ∀x∈X pₙ(x) ≤ c * pₘ(x)
+</li>
+<li>pᵢ ∈ {pₙ} существенна, если она не мажорируется любой pⱼ |j&lt;n.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-6-8" class="outline-3">
+<h3 id="sec-6-8"><span class="section-number-3">6.8</span> <span class="todo 2">2</span> Сведение к монотонной&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-6-8">
+<p>
+Для любой системы полунорм существует эквивалентная ей монотонная
+система.
+</p>
+
+<p>
+Далее будем считать, что любая система полунорм монотонна.
+</p>
+</div>
+
+<div id="outline-container-sec-6-8-1" class="outline-4">
+<h4 id="sec-6-8-1"><span class="section-number-4">6.8.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-6-8-1">
+<p>
+Пусть qₙ(x) = ∑{n}pₙ(x) : {qₙ} полунормы.
+Их монотонность очевидна. Насчет эквивалентности:
+pₙ(xₘ - x) → 0 ⇒ ∑pₖ(xₘ - x) → 0.
+Обратное аналогично.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6-9" class="outline-3">
+<h3 id="sec-6-9"><span class="section-number-3">6.9</span> <span class="todo 2">2</span> Теорема об эквивалентности и мажорируемости&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-6-9">
+<p>
+{pᵢ} ~ {qᵢ} ⇔ {pᵢ} мажорирует {qᵢ} и наоборот.
+({qᵢ} мажорирует {pᵢ} := ∀i∃j qⱼ мажорирует pᵢ)
+</p>
+</div>
+
+<div id="outline-container-sec-6-9-1" class="outline-4">
+<h4 id="sec-6-9-1"><span class="section-number-4">6.9.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-6-9-1">
+<ol class="org-ol">
+<li>Справа налево очевидно. Если мажорирование есть, то по
+определению эквивалентности полунорм сходимость будет
+совпадать.
+</li>
+<li>Хотим: ∀pₙ ∃pₙ', ∃c = const, ∀x ∈ X, pₙ(x) ≤ c*pₘ'(x).
+
+<p>
+Докажем от противного, взяв константу c равную m. Тогда:
+</p>
+
+<p>
+∃pₙ₀ ∀pₘ' ∃xₘ ∈ X : pₙ₀(xₘ) ≥ m * pₘ'(xₘ).
+</p>
+
+<p>
+Перепишем это неравенство:
+</p>
+
+<p>
+pₘ'(xₘ/pₙ₀(xₘ)) ≤ 1/m.
+</p>
+
+<p>
+Обозначим yₘ ≡ xₘ / pₙ₀(xₘ), для таких yₘ очевидно верно:
+</p>
+
+<p>
+pₘ'(yₘ) ≤ 1/m, pₙ₀(yₘ) = 1.
+</p>
+
+<p>
+Зафиксируем m₀, по монотонности нормы m ≥ m₀:
+</p>
+
+<p>
+pₘ₀'(yₘ) ≤ pₘ'(yₘ) ≤ 1/m.
+</p>
+
+<p>
+тогда при m → ∞: ∀m₀ p'ₘ₀(yₘ) → 0. Но ведь у нас есть pₙ₀(yₘ) =
+1, и тогда последовательность не может стремиться к нулю. →←
+</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6-10" class="outline-3">
+<h3 id="sec-6-10"><span class="section-number-3">6.10</span> <span class="todo X">X</span> Критерий нормируемости&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-6-10">
+<p>
+X &#x2013; счетно-нормированное пространство с монотонной системой
+полунорм P. Тогда: X нормируется ⇔ в P конечное число существенных
+полунорм.
+</p>
+</div>
+
+<div id="outline-container-sec-6-10-1" class="outline-4">
+<h4 id="sec-6-10-1"><span class="section-number-4">6.10.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-6-10-1">
+<ol class="org-ol">
+<li>⇐. Пусть {pₙⱼ} &#x2013; существенные (конечное число полунорм).
+Положим ∥x∥ = ∑pₖ(x), эта норма подходит (и исходная система с
+такой нормой мажорируется).
+</li>
+<li>⇒. Пусть X нормируемо и p &#x2013; норма. Тогда p ~ {p<sub>i</sub>}, отсюда они
+мажорируют друг друга (по пред.теореме). То есть p мажорирует
+все p<sub>i</sub> и есть какая-то p<sub>k</sub>, которая мажорирует p. Отсюда ∀i
+p<sub>k</sub> мажорирует p<sub>i</sub>. То есть p<sub>k</sub> &#x2013; существенна. Из определения
+существенности никакая p<sub>r</sub>, r &gt; k не может быть
+существенной. Возможно, какие-то p<sub>i</sub> i &lt; k
+существенны. Суммарно имеем конечное количество сущ. полунорм.
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-6-11" class="outline-3">
+<h3 id="sec-6-11"><span class="section-number-3">6.11</span> <span class="todo 1">1</span> Ненормируемость ℝ∞&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></h3>
+<div class="outline-text-3" id="text-6-11">
+<p>
+x~ = (x₁&#x2026;xₙ..), pₙ(x~) = |xₙ|. Все полунормы существенны, отсюда
+ℝ∞ не нормируемо.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> <span class="todo 2">2</span> Функционал Минковского</h2>
+<div class="outline-text-2" id="text-7">
+</div><div id="outline-container-sec-7-1" class="outline-3">
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> <span class="todo 2">2</span> Поглощение, радиальность, закругленность&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-7-1">
+<ol class="org-ol">
+<li>X &#x2013; линейное множество. M ⊂ X, M выпукло (∀x,y ∈ M αx+βy ∈ M,
+α+β = 1, α,β ≥ 0). М поглощает A ⊂ X, если ∃λ₀, что ∀λ |λ|≥λ₀ A
+⊂ λM = {λx | x ∈ M}}.
+</li>
+<li>Если M поглощает любое конечное число точек, то M радиальное
+множество.
+</li>
+<li>М закругленное, если ∀λ |λ| &lt; 1 λM ⊂ M.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-7-2" class="outline-3">
+<h3 id="sec-7-2"><span class="section-number-3">7.2</span> <span class="done OK">OK</span> Шар как закругленное множество&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></h3>
+<div class="outline-text-3" id="text-7-2">
+<p>
+X &#x2013; НП, V~ = {∥x∥ ≤ 1}, тогда V~ радиально и закругленно.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-7-3" class="outline-3">
+<h3 id="sec-7-3"><span class="section-number-3">7.3</span> <span class="todo 2">2</span> Функционал Минковского&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-7-3">
+<p>
+М &#x2013; радиальное множество, тогда:
+</p>
+<ul class="org-ul">
+<li>∀x ∈ X, φₘ(x) = inf{λ ≥ 0 | x ∈ λM}.
+</li>
+</ul>
+<p>
+Такой функционал φₘ называется функционалом Минковского.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-7-4" class="outline-3">
+<h3 id="sec-7-4"><span class="section-number-3">7.4</span> <span class="todo 2">2</span> Норма как функционал Минковского&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></h3>
+<div class="outline-text-3" id="text-7-4">
+<p>
+На шаре V~ φₘ(x) &#x2013; норма x = ∥x∥. Можно смотреть вообще
+на норму как на частный случай φₘ, так и делают обычно.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-7-5" class="outline-3">
+<h3 id="sec-7-5"><span class="section-number-3">7.5</span> <span class="todo 1">1</span> Функционал Минковского и полунорма&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-7-5">
+<p>
+φₘ &#x2013; полунорма на X ⇔ M радиально, выпукло, закруглено.
+</p>
+</div>
+
+<div id="outline-container-sec-7-5-1" class="outline-4">
+<h4 id="sec-7-5-1"><span class="section-number-4">7.5.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-7-5-1">
+<p>
+Очевидно проделать самим хех кек))))))))000000
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> <span class="todo 2">2</span> Линейные функционалы и коразмерность</h2>
+<div class="outline-text-2" id="text-8">
+</div><div id="outline-container-sec-8-1" class="outline-3">
+<h3 id="sec-8-1"><span class="section-number-3">8.1</span> <span class="todo 2">2</span> Фактор-множество, коразмерность&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-8-1">
+<ol class="org-ol">
+<li>X &#x2013; линейное множество, Y ⊂ X линейно.
+Введем эквивалентность на X:;
+∀x, y ∈ X, x ~ y ⇔(def) x - y ∈ Y.
+[x] = {y : y ~ x} &#x2013; будем так обозначать класс эквивалентности.
+</li>
+<li>X / Y = {[x]} &#x2013; фактор-множество.
+Фактор-множество линейно, очевидно (достаточно ввести [x] + [y] =
+[x+y] и то же самое для умножения на константу).
+</li>
+<li>codimₓY ≡ dim(X/Y)
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-8-2" class="outline-3">
+<h3 id="sec-8-2"><span class="section-number-3">8.2</span> <span class="todo 2">2</span> Связь конечности коразмерности и разложения по базису&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-8-2">
+<p>
+codimₓY = p &lt; +∞, тогда ∃e₁&#x2026;eₚ ∈ X, что ∀x ∈ X.
+</p>
+
+<p>
+x =! ∑αₖeₖ + y, где y ∈ Y.
+</p>
+
+<p>
+Доказательство очевидное по свойству линейности [x].
+</p>
+</div>
+</div>
+<div id="outline-container-sec-8-3" class="outline-3">
+<h3 id="sec-8-3"><span class="section-number-3">8.3</span> <span class="todo 2">2</span> Гиперплоскость, линейный функционал, ядро&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-8-3">
+<ol class="org-ol">
+<li>Y &#x2013; гиперплоскость, если codimₓY = 1. Достаточно логичное
+определение &#x2013; чтобы выразить что угодно из икса, нам кроме
+вектора из Y нужен еще один вектор.
+</li>
+<li>Аналитическое описание гиперплоскости дается с помощью линейных
+функционалов.
+f: X → ℝ, f линейно ∀ x,y,α, f(0) = 0, тогда f линейный
+функционал
+</li>
+<li>Ker f = {x | f(x) = 0}.
+Если f линейно, то Ker f линейно.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-8-4" class="outline-3">
+<h3 id="sec-8-4"><span class="section-number-3">8.4</span> <span class="todo 2">2</span> Аналитическое задание гиперплоскости&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-8-4">
+<p>
+Любая гиперплоскость может быть записана как Ker(f) для некоторого
+f.
+</p>
+</div>
+
+<div id="outline-container-sec-8-4-1" class="outline-4">
+<h4 id="sec-8-4-1"><span class="section-number-4">8.4.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-8-4-1">
+<ol class="org-ol">
+<li>Пусть f &#x2013; нетривиальный линейный функционал (нетривиальность
+&#x2013; хотя бы для какой-то x f(x) ≠ 0).
+<ul class="org-ul">
+<li>Y := Ker(f).
+</li>
+</ul>
+<p>
+Проверим, что codim(Y) = 1.
+</p>
+
+<p>
+В силу нетривиальности f возьмум ту самую x₀, что f(x₀) ≠ 0.
+</p>
+<ul class="org-ul">
+<li>e = x₀/f(x₀), f(e) = 1.
+</li>
+</ul>
+<p>
+∀x ∈ X подберем t ∈ ℝ, что x - te ∈ Kerf. Тогда y := x - te, x
+= te - y, тогда codimY = 1.
+</p>
+
+<p>
+Подбор t прост: возьмем f(x-te) = 0, тогда f(x) = tf(e),
+отсюда t = f(x) подойдет.
+</p>
+</li>
+<li>Если codimY = 1, то ∀x ∈ X, x = te + y, y ∈ Y. Определим тогда
+f(x) = t. Отсюда f(x) = 0 ⇒ x ∈ Y.
+</li>
+</ol>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> Теорема Колмогорова</h2>
+<div class="outline-text-2" id="text-9">
+</div><div id="outline-container-sec-9-1" class="outline-3">
+<h3 id="sec-9-1"><span class="section-number-3">9.1</span> Топологическое векторное пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-9-1">
+<p>
+X &#x2013; множество, τ &#x2013; топология на X, операции умножения на
+константу и сумма непрерывны.
+</p>
+
+<p>
+E(x) &#x2013; окрестность x, если ∃G ∈ τ : x ∈ G ⊂ E(x).
+</p>
+
+<p>
+Тогда (X, τ) &#x2013; ТВП.
+</p>
+
+<ul class="org-ul">
+<li>Непрерывность умножения на скаляр:
+<ul class="org-ul">
+<li>∀E(α₀X₀) ∃δ&gt;0, ∃E(x₀): |α-α₀|&lt;δ, x ∈ E(x₀) ⇒ αx ∈ E(α₀x₀)
+</li>
+</ul>
+<p>
+Это то же самое, что и нотация: α₀x₀ = lim{α→α₀,x→x₀}αx.
+</p>
+</li>
+<li>Непрерывность суммы:
+∀E(x₀+y₀) ∃E(x₀), E(y₀): x ∈ E(x₀), y ∈ E(y₀), x+y ∈ E(x₀+y₀)
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-9-2" class="outline-3">
+<h3 id="sec-9-2"><span class="section-number-3">9.2</span> Место ТВП в систематике&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></h3>
+<div class="outline-text-3" id="text-9-2">
+<p>
+Нормированные и счетно-нормированные пространства &#x2013; частные
+случаи ТВП.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-9-3" class="outline-3">
+<h3 id="sec-9-3"><span class="section-number-3">9.3</span> Лемма о сохранении открытости сдвига&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-9-3">
+<p>
+Возьмем x₀, f(x) ≡ x + x₀, f &#x2013; очевидно биекция X на X.
+f⁻¹(y) = y - x₀.
+В силу непрерывности сложения f и f⁻¹ непрерывны. Тогда f &#x2013;
+гомеоморфизм (биекция, непрерывная в обе стороны).
+</p>
+
+<p>
+Так как непрерывные функции сохраняют открытость множеств,
+∀G открытое, x₀ + G = {x₀ + x | x ∈ G} тоже открыто.
+Тогда сдвиг сохраняет открытость.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-9-4" class="outline-3">
+<h3 id="sec-9-4"><span class="section-number-3">9.4</span> База окрестностей нуля&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-9-4">
+<p>
+σ = {B, B &#x2013; окрестность нуля}, что ∀C &#x2013; окрестность нуля, C ∉ σ,
+C = ∪{Bᵢ}, Bᵢ ∈ σ.
+σ &#x2013; это база окрестностей нуля.
+Сдвигая элементы σ на константу, получаем базу окрестности любой
+другой точки.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-9-5" class="outline-3">
+<h3 id="sec-9-5"><span class="section-number-3">9.5</span> Всякие свойства базы окрестности нуля&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></h3>
+<div class="outline-text-3" id="text-9-5">
+<p>
+x → 0, тогда x + x → 0 + 0 = 0.
+∀V ∈ σ, ∃U ∈ σ, 2*U ⊂ U+U ⊂ V
+∀V ∈ σ, ∃ε &gt; 0, ∃U ∈ σ, |λ|≤ε ⇒ λU ⊂ V.
+</p>
+
+<p>
+Отсюда видно, что ⋃{|λ|≤ε} λU &#x2013; закругленное.
+</p>
+
+<p>
+Тогда система открытых множеств инварианта по сдвигу и всегда можно
+создать такое σ, что:
+</p>
+<ol class="org-ol">
+<li>∀V ∈ σ, ∃U ∈ σ, U+U ⊂ V
+</li>
+<li>все элемент σ радиальные и закругленные
+</li>
+</ol>
+
+<p>
+Эти условия полностью характеризуют топологию векторного
+пространства, то есть обеспечивают непрерываность +, ∙.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-9-6" class="outline-3">
+<h3 id="sec-9-6"><span class="section-number-3">9.6</span> Теорема Колмогорова&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-9-6">
+<p>
+Хаусдорфово ТВП нормируется ⇔ 0 имеет хотя бы одну ограниченную
+выпуклую окрестность.
+</p>
+<ul class="org-ul">
+<li>Хаусдорфово &#x2013; для любых двух точек можно найти их
+непересекающиеся окрестности.
+</li>
+<li>Ограниченная &#x2013; полглощается любой окрестностью нуля.
+</li>
+</ul>
+</div>
+
+<div id="outline-container-sec-9-6-1" class="outline-4">
+<h4 id="sec-9-6-1"><span class="section-number-4">9.6.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-9-6-1">
+<ol class="org-ol">
+<li>(⇐)
+Очевидно, единичный шар будет ограниченной выпуклой
+окрестностью нуля.
+</li>
+<li>(⇒)
+Имея выпуклую ограниченную окрестность нуля, можно считать, что
+мы имеем радиальную закругленную окрестность.
+Построим функционал Минковского относительно этого множества.
+Согласно последней теореме в главе про функционал Минковского,
+мы можем считать, что φₘ &#x2013; полунорма.
+
+<p>
+Докажем, что φₘ честная норма:
+</p>
+<ol class="org-ol">
+<li>База окрестности нуля сохраняется в исходной топологии
+V &#x2013; ограниченное выпуклое зааакругленное множество.
+
+<p>
+{1/n V, n ∈ ℕ} &#x2013; база.
+</p>
+
+<p>
+∀W &#x2013; окрестность 0, она входит в базу:
+W поглощает V, так как можно найти λ₀, что
+∀λ &gt; |λ₀| V ⊂ λW.
+</p>
+</li>
+<li>φ(x) = 0 ⇒ x = 0
+
+<p>
+φ(x) = 0, значит x = ∩{∞}(1/n V) = {0} по хаусдорфовости
+пространства (не может быть ничего кроме нуля).
+</p>
+</li>
+</ol>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-9-7" class="outline-3">
+<h3 id="sec-9-7"><span class="section-number-3">9.7</span> ℝ∞ как ненормируемое пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></h3>
+<div class="outline-text-3" id="text-9-7">
+<p>
+Рассмотрим ℝ∞ = {(x₁, x₂, &#x2026;)}. Посмотрим на множество вида:
+</p>
+
+<p>
+{x~, xᵢ₁ ∈ (-δ₁, δ₁), &#x2026; xᵢₚ∈(-δₚ, δₚ)}, все дельты &gt; 0.
+</p>
+
+<p>
+Тут нету ни одной ограниченной выпуклой окрестности нуля.
+</p>
+
+<p>
+От противного: если есть, то должна быть поглощена любым элементом
+базы. Возьмем такие элементы базы: {x~, -δ &lt; x₁ &lt; δ}. Они, очевидно,
+окрестности нуля, но не поглощают некоторые ограниченные
+окрестности ввиду того, что наши элементы базы определены только с
+констрейнтом для первого элемента вектора.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> Непрерывные функционалы, теорема Хана-Банаха</h2>
+<div class="outline-text-2" id="text-10">
+</div><div id="outline-container-sec-10-1" class="outline-3">
+<h3 id="sec-10-1"><span class="section-number-3">10.1</span> Связь непрерывности л.функционала на X и в нуле.&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-10-1">
+<p>
+X &#x2013; нормированное пространство, f &#x2013; непрерывный на X функционал
+(xₙ → x ⇒ f(xₙ) → f(x)).
+f непрерывна на X ⇔ f непрерывна в нуле.
+</p>
+
+<p>
+Доказательство тривиальное.
+В силу непрерывности умножения на скаляр и суммы в нормированном
+пространстве по линейности фукнционала имеем:
+</p>
+
+<p>
+f(xₙ) - f(x) = f(xₙ - x), xₙ → x ⇔ xₙ - x → 0. Тогда f(0) = 0.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-2" class="outline-3">
+<h3 id="sec-10-2"><span class="section-number-3">10.2</span> Норма функционала, ограниченность&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-10-2">
+<ol class="org-ol">
+<li>∥f∥ ≡ sup{∥x∥ &lt; 1}|f(x)|.
+
+<p>
+Заметим также, что очевидно из определения:
+</p>
+
+<p>
+∀x ≠ 0, ∥x/∥x∥∥ = 1, отсюда |f(x/∥x∥)| ≤ ∥f∥ ⇒ |f(x)| ≤ ∥f∥*∥x∥.
+</p>
+</li>
+<li>f ограничена ≡ ∥f∥ &lt; +∞.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-10-3" class="outline-3">
+<h3 id="sec-10-3"><span class="section-number-3">10.3</span> Ограниченность и непрерывность функционала&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-10-3">
+<p>
+f &#x2013; линейный функционал. f ограничен ⇔ f непрерывен.
+</p>
+<ol class="org-ol">
+<li>(⇒)
+∥f∥ &lt; +∞, |f(x)| ≤ ∥f∥*∥x∥, xₙ → 0 ⇒ ∥xₙ∥ → 0.
+Тогда |f(xₙ)| ≤ ∥f∥*∥xₙ∥ ⇒ f(xₙ) → 0.
+</li>
+<li>(⇐) От противного.
+Пусть ∥f∥ = ∞ = sup{∥x∥≤1} |f(x)|. Раскроем определение
+супремума.
+∀n ∈ ℕ ∃xₙ: ∥xₙ∥ ≤ 1, |f(xₙ)| &gt; n. |f(xₙ/n)| &gt; 1,
+∥xₙ/n∥ = ∥xₙ∥/n ≤ 1/n. Отсюда xₙ/n → 0.
+Тогда по непрерывности f(xₙ/n) → 0, что
+противоречит |f(xₙ/n)|&gt;1.
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-10-4" class="outline-3">
+<h3 id="sec-10-4"><span class="section-number-3">10.4</span> Связь непрерывности функционала и замкнутости ядра&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-10-4">
+<p>
+Линейный функционал f непрерывен ⇔ Ker(f) замкнут в X.
+</p>
+</div>
+
+<div id="outline-container-sec-10-4-1" class="outline-4">
+<h4 id="sec-10-4-1"><span class="section-number-4">10.4.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-10-4-1">
+<ol class="org-ol">
+<li>(⇒) Если f непрерывна, xₙ ∈ Ker(f), тогда по непрерывности
+f(xₙ) → f(x), но f(xₙ) = 0, значит f(x) = 0, тогда x ∈ Ker(f).
+</li>
+<li>(⇐) Ker(f) замкнуто.
+В силу того, что codim(Ker(f)) = 1, мы можем найти такую e ∈ X,
+что:
+
+<p>
+∀x, x = y + te, y ∈ Ker(f), t∈ℝ.
+</p>
+
+<p>
+Отсюда по линейности:
+</p>
+
+<p>
+f(x) = f(y) + tf(e) = tf(e), так как y ∈ Ker(f).
+</p>
+
+<p>
+Тогда если мы проверим, что tₙ → t, смрдем показать, что tₙf(e)
+→ tf(e) = f(x), а значит f(xₙ) → f(x).
+</p>
+
+<p>
+Выделим эти xₙ = yₙ + tₙe, x = y + te; xₙ → x; y, yₙ ∈ Ker(f).
+Если, следуя логике анализа, доказать, что все сходящиеся
+подпоследовательности tₙₖ → t, тогда и tₙ → t.
+</p>
+
+<p>
+tₙₖ → t~, yₙₖ = xₙₖ - tₙₖ*e → x - t~*e ∈ Ker(f) так как ядро
+замкнуто.
+Тем самым по единственности записи t~ будет единственно для
+всех таких подпоследовательностей.
+</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10-5" class="outline-3">
+<h3 id="sec-10-5"><span class="section-number-3">10.5</span> Пример плотного всюду многообразия&#xa0;&#xa0;&#xa0;<span class="tag"><span class="example">example</span></span></h3>
+<div class="outline-text-3" id="text-10-5">
+<p>
+Рассмотрим C[0, 1], теорему Вейерштрасса о равномерном приближении
+функции полиномами. Утверждается, что:
+</p>
+
+<p>
+∀ε&gt;0, ∃Pₙ(x), ∀x∈[0,1], |f(x)-Pₙ(x)|&lt;ε.
+</p>
+
+<p>
+Теорема Вейетштрасса долгое время существовала исключительно в
+неконструктивном виде, но С.Н.Бернштейн в начале 20 века показал,
+как полиномы можно строить конструктивно:
+</p>
+
+<p>
+Bₙ(f,x) = ∑{k=0..n}Cᵏₙf(k/n)xᵏ(1-x)ⁿ⁻ᵏ &#x2013; на них реализуется
+теорема Вейерштрасса.
+</p>
+
+<p>
+С точки зрения функционального анализа Y = {Pₙ(x)} &#x2013; линейное
+множество в C[0,1]. Тогда ClY = C[0,1] &#x2013; пример плотного всюду
+многообразия.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-6" class="outline-3">
+<h3 id="sec-10-6"><span class="section-number-3">10.6</span> Продолжение с непрерывного линейного множества&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-10-6">
+<p>
+X &#x2013; НП, Y &#x2013; линейное множество в X, ClY = X. Y везде плотно в X.
+На Y задан f₀ &#x2013; непрерывный линейный функционал.
+</p>
+
+<p>
+Тогда существует непрерывный линейный фукнционал f на X, что:
+</p>
+<ol class="org-ol">
+<li>f|\<sub>y</sub> = f₀
+</li>
+<li>∥f∥ₓ = ∥f₀∥<sub>y</sub>
+</li>
+</ol>
+</div>
+
+<div id="outline-container-sec-10-6-1" class="outline-4">
+<h4 id="sec-10-6-1"><span class="section-number-4">10.6.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-10-6-1">
+</div><ol class="org-ol"><li><a id="sec-10-6-1-1" name="sec-10-6-1-1"></a>Единственность<br  /><div class="outline-text-5" id="text-10-6-1-1">
+<p>
+f, g &#x2013; непрерывные на X функционалы, равны на сужении Y.
+Тогда ∀x ∈ X, ClY = X, ∃yₙ ∈ Y: yₙ → x.
+</p>
+
+<p>
+f(yₙ) → f(x), g(yₙ) → g(x), значит по единственности предела
+f(x) = g(x).
+</p>
+</div>
+</li>
+<li><a id="sec-10-6-1-2" name="sec-10-6-1-2"></a>Существование<br  /><div class="outline-text-5" id="text-10-6-1-2">
+<p>
+Так как Cl(Y) = X, то ∀x∈X, ∃yₙ∈Y, что yₙ → x.
+</p>
+
+<p>
+f₀ непрерывен на Y, значит ∥f₀∥<sub>y</sub> &lt; +∞.
+</p>
+
+<p>
+Тогда |f₀(yₘ) - f₀(yₙ)| = |f₀(yₘ-yₙ)| ≤ ∥f₀∥<sub>y</sub> * ∥yₘ - yₙ∥ → 0.
+То есть {f₀(yₙ)} сходится в себе на ℝ.
+</p>
+
+<p>
+Тогда по критерию Коши исходя из полноты ℝ у f₀(yₙ) есть предел
+f(x). f(x) = lim(f₀(yₙ)).
+</p>
+
+<p>
+Проверим, что если yₙ → x, yₙ' → x, то lim(yₙ) = lim(yₙ').
+</p>
+
+<p>
+Тогда |f₀(yₙ) - f₀(yₙ')| ≤ ∥f₀∥<sub>y</sub> * ∥yₙ-yₙ'∥ → 0. Отсюда предел
+единственный.
+</p>
+
+<p>
+В силу арифметики предела f(x) &#x2013; линейный функционал. Очевидно,
+что на Y f(x) = f₀(x).
+</p>
+
+<p>
+Докажем, что ∥f∥ₓ = ∥f₀∥<sub>y</sub>.
+</p>
+
+<ol class="org-ol">
+<li>Так как Y ⊂ X, по определению ∥∙∥ и sup, получаем ∥f₀∥<sub>y</sub> ≤ ∥f∥ₓ.
+</li>
+<li>Покажем обратное неравенство:
+<ul class="org-ul">
+<li>Sup достигается на единичной сфере
+Пусть это не так, и есть x, что ∥x∥ &lt; 1. Тогда x' = x/∥x∥, и
+∥x'∥ = 1.
+
+<p>
+Оценим: |f(x)| = ∥x∥*|f(x/∥x∥)| ≤ |f(x')|.
+</p>
+</li>
+</ul>
+<p>
+Возьмем x, ∥x∥ = 1. ∃yₖ ∈ Y, yₙ → x.
+Отнормируем: ∥yₙ∥ → ∥x∥ = 1, тогда определим
+yₙ' = yₙ/∥yₙ∥ → x/1 = x. ∥yₙ'∥ = 1. yₙ' ∈ Y.
+</p>
+
+<p>
+Не теряя общности, y: = y'.
+</p>
+
+<p>
+По определению предела f₀(yₙ) → f(x).
+</p>
+
+<p>
+С другой стороны, |f₀(yₙ)| ≤ ∥f₀∥<sub>y</sub>; ∥yₙ∥ = 1.
+Поскольку |f(x)| ≤ ∥f₀∥<sub>y</sub>, то сразу ∥f∥ₓ ≤ ∥f₀∥<sub>y</sub>.
+</p>
+</li>
+</ol>
+</div>
+</li></ol>
+</div>
+</div>
+<div id="outline-container-sec-10-7" class="outline-3">
+<h3 id="sec-10-7"><span class="section-number-3">10.7</span> Лемма Банаха&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-10-7">
+<p>
+X &#x2013; линейное множество, p(x): Y → ℝ &#x2013; полунорма, Y &#x2013; собственное
+линейное подмножество X.
+</p>
+
+<p>
+f₀: Y → ℝ линейно. |f₀(y)| ≤ p(y).
+</p>
+
+<p>
+e ∉ Y. Y₁ = L(Y,e) = {αy + βe, y ∈ Y, α,β ∈ ℝ}.
+</p>
+
+<p>
+Тогда ∃f: Y₁ → ℝ, линейное, что:
+</p>
+<ol class="org-ol">
+<li>f|<sub>y</sub> = f₀
+</li>
+<li>|f(y)| ≤ p(y) на Y₁
+</li>
+</ol>
+</div>
+
+<div id="outline-container-sec-10-7-1" class="outline-4">
+<h4 id="sec-10-7-1"><span class="section-number-4">10.7.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-10-7-1">
+<p>
+Если хотим, чтобы f было линейным и f|<sub>Y</sub> = f₀, то будем искать
+решение в виде f(αy + βe) = αf₀(y) + βf(e). Не будем писать α без
+потери общности.
+</p>
+
+<p>
+Тут f(e) единственная неизвестная, так как на Y f
+определена. Пусть c := f(e).
+</p>
+
+<p>
+В выборе 'c' воспользуемся условием продолжения: |f₀(y) + tc | ≤
+p(y + βe).
+</p>
+
+<p>
+Заменим y + te на y - te без потери общности.
+</p>
+<ul class="org-ul">
+<li>f₀(y) - p(y-te) ≤ t*c ≤ f₀(y) + p(y - te), t &gt; 0.
+</li>
+</ul>
+
+<p>
+Поделим все на t, раскроем по линейности и переобозначим y:=y/t.
+</p>
+<ul class="org-ul">
+<li>f₀(y) - p(y-e) ≤ c ≤ f₀(y) + p(y-e).                          (1)
+</li>
+
+<li>∀y₁,y₂ ∈ Y, f₀(y₁)-p(y₁-e) ≤ f₀(y₂)+p(y₂-e).
+
+<p>
+Это утверждение доказывается просто (правило треугольника +
+условие мажорирования первоначальное):
+</p>
+
+<ul class="org-ul">
+<li>f₀(y₁ - y₂) ≤ p(y₁ - y₂ + e - e).
+</li>
+<li>f₀(y₁) - f₀(y₂) ≤ p(y₁ - e) + p(y₂ - e).
+</li>
+</ul>
+</li>
+</ul>
+
+<p>
+Тогда с помощью последнего правила получим:
+</p>
+
+<ul class="org-ul">
+<li>sup{y∈Y}(f₀(y) - p(y-e)) ≤ f₀(y₂) + p(y₂ - e).
+</li>
+<li>sup{y∈Y}(f₀(y) - p(y-e)) ≤ inf{y∈Y}(f₀(y) + p(y - e)).
+</li>
+</ul>
+
+<p>
+Рассмотрим (‌1). Обозначим a := sup(&#x2026;), b := inf(&#x2026;) из
+последнего утверждения. Тогда (1) истинна для любой c ∈ [a,b].
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10-8" class="outline-3">
+<h3 id="sec-10-8"><span class="section-number-3">10.8</span> Теорема Хана-Банаха (полная, без д-ва)&#xa0;&#xa0;&#xa0;<span class="tag"><span class="statement">statement</span></span></h3>
+<div class="outline-text-3" id="text-10-8">
+<p>
+X, p(x) &#x2013; полунорма. Y &#x2013; линейное множество в X.
+f₀ &#x2013; линейный функционал, удовлетворяющий условию подчиненности
+полунорме (∀y∈Y, |f₀(y)| ≤ p(y)).
+</p>
+
+<p>
+Тогда мы можем продлить f₀ на X с сохранением условия
+подчиненности:
+</p>
+
+<p>
+∃f: X → ℝ, что:
+</p>
+<ol class="org-ol">
+<li>f|<sub>Y</sub> = f₀.
+</li>
+<li>∀x ∈ X |f(x)| ≤ p(x)
+</li>
+</ol>
+
+<p>
+Доказательство не приведено, но оно существенно пользуется леммой
+Цорна, которую никто не хочет доказывать. С помощью леммы Банаха мы
+проводим этот итеративный процесс, а лемма Цорна гарантирует нам
+заполнение всего множества x.
+</p>
+
+<p>
+И без аксиомы выбора эта теорема тоже не доказывается.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-10-9" class="outline-3">
+<h3 id="sec-10-9"><span class="section-number-3">10.9</span> Теорема Хана-Банаха для сепарабельных пр-в&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-10-9">
+<p>
+X &#x2013; сепарабельно, нормировано (то есть содержит всюду плотное
+множество).
+</p>
+
+<p>
+Y &#x2013; линейное множество в X, f₀ &#x2013; непрерывный линейный функционал
+на Y.
+</p>
+
+<p>
+Тогда ∃ непрерывный линейный функционал на x, что:
+</p>
+<ol class="org-ol">
+<li>f|<sub>Y</sub> = f₀.
+</li>
+<li>∥f∥ₓ = ∥f₀∥<sub>Y</sub>
+</li>
+</ol>
+
+<p>
+Примечание: условие сепарабельности &#x2013; это самый частый юзкейс.
+</p>
+</div>
+
+<div id="outline-container-sec-10-9-1" class="outline-4">
+<h4 id="sec-10-9-1"><span class="section-number-4">10.9.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-10-9-1">
+<p>
+Раз X сепарабелен, то A = {a₁&#x2026;aₙ..}, что Cl(A) = X.
+</p>
+
+<p>
+Будем считать, что в A все точки разные и линейно независимые
+(повыкидываем что-нибудь).
+</p>
+
+<p>
+Сепарабельность обеспечивает возможность создать:
+</p>
+<ul class="org-ul">
+<li>Lₙ = L(Y, a₁&#x2026;aₙ)
+</li>
+<li>Lₙ ⊂ Lₙ₊₁.
+</li>
+</ul>
+
+<p>
+Тогда L = ⋃Lₙ &#x2013; тоже линейное множество + Cl(L) = X.
+</p>
+
+<p>
+Отсюда по лемме Банаха продолжаем с Y на L₁, с L₁ на L₂ и так
+дальше. Получим на L функционал и тогда по непрерывности продолжим
+его на X (по теореме о продолжении с линейного множества), так как
+L плотно в X.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-10-10" class="outline-3">
+<h3 id="sec-10-10"><span class="section-number-3">10.10</span> Следствия из теоремы Х-Б&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-10-10">
+<ol class="org-ol">
+<li>∀x₀ ≠ 0, ∃ линейный непрерывный функционал f, что:
+<ol class="org-ol">
+<li>∥f∥ = 1.
+</li>
+<li>f(x₀) = ∥x₀∥.
+</li>
+</ol>
+<p>
+Доказательство: возьмем Y = {tx₀, t∈ℝ}. Построим с помощью
+f₀(tx₀) = tf₀(x₀), где f₀(x₀) = ∥x₀∥, линейный функционал f₀.
+</p>
+
+<p>
+∥f₀∥<sub>Y</sub> = 1, f₀(x₀) = ∥x₀∥.
+</p>
+
+<p>
+Тогда по теореме Х-Б продолжим на X.
+</p>
+</li>
+<li>∀x₁ ≠ x₂ ∃ линейный функционал f(x₁) ≠ f(x₂).
+
+<p>
+В качестве доказательства обратимся к предыдущему следствию с
+x₀ = x₂ - x₁.
+</p>
+</li>
+<li>Два предыдущих следствия принадлежат категории "какой функцией
+можно записывать линейный ограниченный функционал в наперед
+заданном пространстве"
+
+<p>
+Что бы это ни значило.
+</p>
+</li>
+</ol>
+</div>
+</div>
+<div id="outline-container-sec-10-11" class="outline-3">
+<h3 id="sec-10-11"><span class="section-number-3">10.11</span> Теорема Рисса&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-10-11">
+<p>
+H, f &#x2013; даны. Тогда существует y ∈ H, что:
+</p>
+<ol class="org-ol">
+<li>∀x ∈ H  f(x) = &lt;x,y&gt;
+</li>
+<li>∥f∥ = ∥y∥
+</li>
+</ol>
+</div>
+
+<div id="outline-container-sec-10-11-1" class="outline-4">
+<h4 id="sec-10-11-1"><span class="section-number-4">10.11.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-10-11-1">
+<ul class="org-ul">
+<li>Сначала докажем, что из первого следует второе.
+
+<p>
+f(x) = &lt;x,y&gt;. Тогда по неравенству Шварца: |f(x)| ≤ ∥y∥*∥x∥.
+Отсюда ∥f∥ ≤ ∥y∥.
+</p>
+
+<p>
+Возьмем x₀ = y/∥y∥. ∥x₀∥ = 1, |f(x₀)| = ∥y∥.
+</p>
+
+<p>
+Поскольку ∥f∥ = sup|f(x)|, ∥x₀∥ = 1, ∥f∥ ‌≤ ∥y∥, верно также
+и равенство ∥y∥ = ∥f∥.
+</p>
+</li>
+<li>H₁ = Ker(f) &#x2013; замкнуто. H₁ подпространство H. Возьмем H₂ как
+ортогональное дополнение к H₁.
+
+<p>
+H₂ ≡ H₁⊥.
+</p>
+
+<p>
+Тогда H = H₁ ⊕ H₂. Codim(H₂) = Codim(H₁) = 1.
+</p>
+
+<p>
+Рассмотрим H₂ = {te, t∈ℝ, e∈H₂}. ∀x ∈ H, x = x₁ + te, где x₁ ∈
+H₁.
+</p>
+
+<p>
+f(x) = f(x₁) + tf(e) = tf(e).
+</p>
+
+<p>
+Рассмотрим y = αe, α∈ℝ; &lt;x,αe&gt; = &lt;x₁+te,αe&gt; = αt∥e∥².
+</p>
+
+<p>
+Тогда подберем такое α, чтобы ∀x ∈ H было верно f(x) = &lt;x,αe&gt;.
+</p>
+
+<p>
+Проверим tf(e) = αt∥e∥², откуда α = f(e)/∥e∥². Отсюда возьмем
+y = f(e)/∥e∥²*e. y будет искомым.
+</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> Линейные ограниченные операторы</h2>
+<div class="outline-text-2" id="text-11">
+</div><div id="outline-container-sec-11-1" class="outline-3">
+<h3 id="sec-11-1"><span class="section-number-3">11.1</span> Определения и свойства&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-11-1">
+<ul class="org-ul">
+<li>X, Y &#x2013; нормированные пространства, тогда A: X → Y называется
+линейным оператором, если A линейно. Если Y = ℝ, то A есть
+линенйый фукнционал.
+
+<p>
+Все свойства функционала переносятся на оператор.
+</p>
+</li>
+<li>Следующие утверждения эквивалентны:
+<ol class="org-ol">
+<li>A &#x2013; непрерывно
+</li>
+<li>∀xₙ x, xₙ → x ⇒ Axₙ → Ax
+</li>
+<li>∀xₙ, xₙ → 0 ⇒ Axₙ → 0 = A0.
+</li>
+</ol>
+</li>
+<li>А ограничен, если существует M, что ∀x ∈ X, ∥Ax∥ ≤ M∥x∥.
+</li>
+<li>Ограниченность эквивалентна конечности ∥A∥ ≡ sup{∥x∥&lt;1}∥Ax∥.
+</li>
+<li>∀x, ∥Ax∥ ≤ ∥A∥∥x∥. Доказательство эквивалентно тому для
+функцоналов.
+</li>
+<li>Норма оператора &#x2013; норма.
+
+<p>
+Проверяется руками. Например, ∥(A+B)(x)∥ ≤ ∥A∥∥x∥ + ∥B∥∥x∥ ≤
+∥A∥ + ∥B∥ из линейности. Перейдем к sup, получим правило
+треугольника.
+</p>
+</li>
+<li>Непрерывность A эквивалентна ограниченности
+
+<p>
+Доказательство копируется из предыдущего параграфа.
+</p>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-11-2" class="outline-3">
+<h3 id="sec-11-2"><span class="section-number-3">11.2</span> Пространство линейных операторов&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-11-2">
+<p>
+L(X,Y) &#x2013; линейное пространство линейных ограниченных операторов из
+X в Y, нормированное операторной нормой.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11-3" class="outline-3">
+<h3 id="sec-11-3"><span class="section-number-3">11.3</span> Банаховость в линейных операторах&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-11-3">
+<p>
+Y &#x2013; B-пространство. Тогда L(X, Y) &#x2013; тоже B-пространство.
+</p>
+
+<p>
+В том числе верно и важное частное следствие:
+</p>
+
+<p>
+X &#x2013; нормированное пространство. ℝ &#x2013; полно. L(X, ℝ) &#x2013; тоже.
+</p>
+</div>
+
+<div id="outline-container-sec-11-3-1" class="outline-4">
+<h4 id="sec-11-3-1"><span class="section-number-4">11.3.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-11-3-1">
+<p>
+Aₙ ∈ L(X, Y). ∥Aₙ - Aₘ∥ → 0, хотим показать, что ∃A ∈ L(X, Y):
+∥Aₙ - A∥ → 0.
+</p>
+
+<p>
+Нам дана полнота (банаховость) Y: ∥Aₙ - A∥ → 0 ⇔ Aₙ ⇉V A,
+V = {x | ∥x∥ ≤ 1}.
+</p>
+
+<p>
+Напомним, что равномерная сходимость, это: ∀ε&gt;0 ∃N, ∀n&gt;N, ∀x ∈ V
+∥Aₙx - Ax∥ &lt; ε.
+</p>
+
+<p>
+∀x ∈ X, ∥Aₙx - Ax∥ = ∥(Aₙ - A)x∥ ≤ ∥Aₙ - A∥∥x∥. Поскольку ∥Aₙ - A∥
+→ 0, то Aₙx - Ax → 0. Отсюда по банаховости ∃limAₙx =: Ax.
+</p>
+
+<p>
+По арифметике предела A &#x2013; линейный оператор. Проверим, что он
+ограничен и является пределом Aₙ в L(X,Y).
+</p>
+
+<p>
+Возьмем x ∈ V. ∥Ax∥ ≤ ∥Aₙx - Ax∥ + ∥Aₙx∥, ∥Aₙx - Aₘx∥ ≤ ε (в силу
+сходимости в себе).
+</p>
+
+<p>
+Устремим тогда m → ∞. По непрерывности нормы и определению A
+имеем:
+</p>
+
+<p>
+∥Aₙx - Ax∥ ≤ ε ⇒ ∥(Aₙ - A)x∥ ≤ ε. ∀x ∈ V.
+</p>
+
+<p>
+По открытости нормы оператора: ∀n &gt; N, ∥Aₙ - A∥ ≤ ε.
+</p>
+
+<p>
+Отсюда Aₙ - A ограничен. Тогда A = Aₙ - (Aₙ - A). Разность
+ограниченых ограничена.
+</p>
+
+<p>
+Поскольку ∥Aₙ - A∥ ≤ ε и оба оператора ограничены, то A &#x2013; предел
+Aₙ.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-11-4" class="outline-3">
+<h3 id="sec-11-4"><span class="section-number-3">11.4</span> Сопряженное пространство&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-11-4">
+<p>
+X* = L(X, ℝ) &#x2013; пространство, сопряженное с X. В смысле предыдущей
+теоремы сопряжение любого пространства полно.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11-5" class="outline-3">
+<h3 id="sec-11-5"><span class="section-number-3">11.5</span> Теорема Банаха-Штейнгауза&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-11-5">
+<p>
+X &#x2013; полное пространство. Y &#x2013; нормированное пространство. Aₙ ∈
+L(X,Y).
+∀x∈X, sup∥Aₙx∥ &lt; +∞. &#x2013; последовательность операторов поточечно
+ограничена.
+</p>
+
+<p>
+Тогда sup{n}∥Aₙ∥ &lt; +∞ &#x2013; равномерная ограниченность.
+</p>
+</div>
+
+<div id="outline-container-sec-11-5-1" class="outline-4">
+<h4 id="sec-11-5-1"><span class="section-number-4">11.5.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-11-5-1">
+<p>
+По определению нормы покажем ∀x ∈ V, ∀n ∈ ℕ, ∥Aₙx∥ ≤ M.
+</p>
+
+<p>
+Пусть ∃Vᵣ(a): ∀x∈Vᵣ(a), n ∈ N ⇒ ∥Aₙx∥ ≤ P.
+</p>
+
+<p>
+Тогда x = ry + a, y ∈ V, x~ ∈ Vᵣ(a), y = (x - a)/2.
+</p>
+
+<p>
+∥Aₙy∥ = 1/r∥Aₙx - Aₙa∥ ≤ 1/r(∥Aₙx∥ + ∥Aₙa∥) ≤ 2P/r. Тогда теорема
+доказана. Нужно лишь показать факт с существованием сферы размера
+r.
+</p>
+
+<p>
+Докажем от противного: пусть такой сферы не существует, то есть
+для любой сферы значение ∥Aₙx∥ на ней неограничено.
+</p>
+
+<p>
+∀Vᵣ₁(a₁) ∃n₁, ∃x₁∈Vᵣ₁(a), ∥Aₙ₁(x₁)∥ &gt; 1. Но оператор Aₙ₁
+непрерывен. Тогда по непрерывности множество сохраняется в
+некотором шаре в x₁. Если же точка x₁ попала на границу множества,
+то немножко сузим шар, на котором мы ищем x₁, и тогда когда-нибудь
+он не будет на границе.
+</p>
+
+<p>
+∃Vᵣ₂(x₁): ∀x ∈Vᵣ₂(x₁) ⇒ ∥Aₙ₁(x)∥ &gt; 1.
+</p>
+
+<p>
+В нем тоже неверно, тогда ∃x₂∈Vᵣ₂(x₁): ∥Aₙ₂(x₂)∥ &gt; 2, Vᵣ₃(x₂)&#x2026;
+</p>
+
+<p>
+Можно считать, что радиусы уменьшаются всегда в два раза (все
+равно мы выбираем сами шары). По индукции получаем
+последовательность вложенных шаров с r → 0. Учитывая Банаховость
+пространства, есть принцип вложенности. Тогда на точке a = ∩Vᵢ
+выполняется:
+∥Aₙₖ(a)∥ &gt; k → ∞. Но sup∥Aₙx∥&lt;+∞. Противоречие.
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-11-6" class="outline-3">
+<h3 id="sec-11-6"><span class="section-number-3">11.6</span> Следствие&#xa0;&#xa0;&#xa0;<span class="tag"><span class="lemma">lemma</span></span></h3>
+<div class="outline-text-3" id="text-11-6">
+<p>
+X, Y &#x2013; банаховы пространства. Aₙ ∈ L(X,Y). ∀x ∈ X Aₙx-Aₘx → 0.
+</p>
+
+<p>
+Тогда ∃A ∈ L(X,Y), что ∀x ∈ X Aₙx → Ax.
+</p>
+</div>
+
+<div id="outline-container-sec-11-6-1" class="outline-4">
+<h4 id="sec-11-6-1"><span class="section-number-4">11.6.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-11-6-1">
+<p>
+Провести самостоятельно с помощью теоремы Б-Ш.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12"><span class="section-number-2">12</span> Непрерывно обратимые операторы</h2>
+<div class="outline-text-2" id="text-12">
+</div><div id="outline-container-sec-12-1" class="outline-3">
+<h3 id="sec-12-1"><span class="section-number-3">12.1</span> Непрерывно обратимый оператор&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-12-1">
+<p>
+A ∈ L(X,Y), A:X → Y есть биекция. Тогда ∃A⁻¹:Y → X.
+Если A⁻¹ ограничен как оператор, то A &#x2013; непрерывно обратим.
+</p>
+</div>
+</div>
+<div id="outline-container-sec-12-2" class="outline-3">
+<h3 id="sec-12-2"><span class="section-number-3">12.2</span> Теорема Банаха&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-12-2">
+<p>
+C ∈ L(X) := L(X,Y), ∥C∥ &lt; 1. X &#x2013; банахово (тут и <b>далее</b>).
+</p>
+
+<p>
+Тогда I-C, где Ix = x непрерывно обратим.
+</p>
+</div>
+<div id="outline-container-sec-12-2-1" class="outline-4">
+<h4 id="sec-12-2-1"><span class="section-number-4">12.2.1</span> Доказательство</h4>
+<div class="outline-text-4" id="text-12-2-1">
+<p>
+Рассмотрим ∑{∞}Cⁿ, Sₙ = ∑{k=0..n}Cᵏ. Sₙ(I-C) = Sₙ - Sₙ*C
+= I - Cⁿ⁺¹.
+</p>
+
+<p>
+Очевидно, если поменять местами множители, то ничего не изменится.
+</p>
+
+<p>
+∥Cⁿ∥ ≤ ∥C∥ⁿ, ∑{∞}∥Cⁿ∥ ≤ ∑{∞}∥C∥ⁿ &lt; +∞, так как ∥C∥ &lt; 1.
+</p>
+
+<p>
+Тогда ∃S = ∑Cⁿ, S ограничен (по банаховости). Cⁿ → 0.
+Тогда рассмотрим равенство Sₙ(I-C)=I-Cⁿ⁺¹. Устремим n→∞.
+</p>
+
+<p>
+Получим S(I-C) = I. Аналогично (I-C)S = I.
+</p>
+
+<p>
+Тогда S = (I-C)⁻¹ ∈ L(X).
+</p>
+</div>
+</div>
+</div>
+<div id="outline-container-sec-12-3" class="outline-3">
+<h3 id="sec-12-3"><span class="section-number-3">12.3</span> Range, априорная оценка&#xa0;&#xa0;&#xa0;<span class="tag"><span class="definition">definition</span></span></h3>
+<div class="outline-text-3" id="text-12-3">
+<ul class="org-ul">
+<li>A: X → Y, тогда R(A) = {Ax, x ∈ X} &#x2013; линейное множество в Y.
+</li>
+<li>Априорная оценка решения операторного уравнения.
+
+<p>
+y ∈ R(A) ⇒ Ax = y имеет решение.
+</p>
+
+<p>
+Тогда говорят, что Ax = y имеет априорную оценку решения, если
+∃α ∈ ℝ &gt; 0, ∃решение x~, Ax=y, ∀y∈R(A), ∥x~∥ &lt; α∥y∥.
+</p>
+</li>
+</ul>
+</div>
+</div>
+<div id="outline-container-sec-12-4" class="outline-3">
+<h3 id="sec-12-4"><span class="section-number-3">12.4</span> Теорема об априорной оценке&#xa0;&#xa0;&#xa0;<span class="tag"><span class="theorem">theorem</span></span></h3>
+<div class="outline-text-3" id="text-12-4">
+<p>
+Ax = y имеет априорную оценку для своих решений, тогда множество
+R(A) замкнуто.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="date">Date: 2015, term 5</p>
+<p class="date">Created: 2016-01-23 Sat 05:33</p>
+<p class="creator"><a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.5.2 (<a href="http://orgmode.org">Org</a> mode 8.2.10)</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>
