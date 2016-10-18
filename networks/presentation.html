@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Network security</title>
+<meta name="author" content="("Mikhail Volkhov")"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="file:///home/volhovm/programs/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="file:///home/volhovm/programs/reveal.js/css/theme/simple.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'file:///home/volhovm/programs/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Network security</h1><h2 class="author">"Mikhail Volkhov"</h2><p class="date">Created: 2016-10-18 Tue 04:14</p>
+</section>
+<section id="table-of-contents">
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#/slide-orgheadline1">Disclaimer</a></li>
+<li><a href="#/slide-orgheadline6">Network security in general</a></li>
+<li><a href="#/slide-orgheadline24">IPsec</a></li>
+<li><a href="#/slide-orgheadline27">TLS/SSL</a></li>
+<li><a href="#/slide-orgheadline32">Testing</a></li>
+<li><a href="#/slide-orgheadline33">Материалы</a></li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<section id="slide-orgheadline1">
+<h2 id="orgheadline1">Disclaimer</h2>
+<p>
+I'm by no means a computer security specialist. Both these slides
+and the lecture itself can contain pure bullshit.
+</p>
+
+<p>
+BTW these slides &amp; plain html version are available here:
+</p>
+
+<p>
+<code>&lt;TODO insert link&gt;</code>
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline6">
+<h2 id="orgheadline6">Network security in general</h2>
+<p>
+Network security by definition is a set of policies that are used to
+prevent and monitor unauthorised access, misuse, &#x2026; or denial of
+network-accessible resources.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline2">
+<h3 id="orgheadline2">Different types of attacks</h3>
+<ul>
+<li>Passive
+Intercepts data traveling through the network:
+<ul>
+<li>Tapping (wiretapping)</li>
+<li>Port scanning</li>
+
+</ul></li>
+<li>Active
+Intruder initates commands to disrupt network's normal state.
+<ul>
+<li>Denial-of-service</li>
+<li>MITM (Man-in-the-middle)</li>
+<li>Injections (SQL)</li>
+<li>DNS spoofing</li>
+<li>.. lots of them</li>
+
+</ul></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline3">
+<h3 id="orgheadline3">What do we have do to then?</h3>
+<p>
+Different attacks need different solutions. Most general advices:
+</p>
+<ul>
+<li>OS level: Using OS that is aware of last CVE updates (last
+kernels etc). Using different environments for service
+nodes. Hiring good system administrator.</li>
+<li>Application level sanity (e.g. blocking arbitrary user to make
+you allocate GBs of memory on a simple HTTP request).</li>
+<li>Transport/network security: using solutions that
+encrypt/route/mix your traffic.</li>
+<li>IT security audits. Automatic testing with audit software
+(argmitage's hail mary etc).</li>
+
+</ul>
+<p>
+We'll mostly speak about cryptography applications further.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline4">
+<h3 id="orgheadline4">Security on different network levels</h3>
+
+<div class="figure">
+<p><img src="./security_levels.png" alt="security_levels.png" height="250" align="center" style="border:none; box-shadow:none;" />
+</p>
+</div>
+<ul>
+<li>Network level security (IPsec) works with everything IP carries
+inside (UDP, TCP, ICMP).</li>
+<li>IPsec protects <i>whole</i> IP payload, including headers.</li>
+<li>Both are independent of content inside (payload).</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline5">
+<h3 id="orgheadline5">Topics for today</h3>
+<ol>
+<li>IPsec: how to encrypt ip and build VPNs (network level security)</li>
+<li>TLS/SSL: security on the transport level.</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline24">
+<h2 id="orgheadline24">IPsec</h2>
+<div class="outline-text-2" id="text-orgheadline24">
+</div></section>
+</section>
+<section>
+<section id="slide-orgheadline7">
+<h3 id="orgheadline7">In general</h3>
+<ul>
+<li>Set of protocols for securing network connection on ip level.</li>
+<li>Very complicated, lots of different knobs and modes.</li>
+<li>AH (Authentication header) and ESP (Encapsulating Security
+Payload) protocols.</li>
+<li>Wide range of cryptography primitives for auth/encryption
+supported.</li>
+<li>Tunnel mode versus Transport mode.</li>
+<li>Manual keys exchange vs IKE.</li>
+
+</ul>
+
+</section>
+<section>
+<p>
+Security on ip level encompasses three functional areas:
+</p>
+<ol>
+<li>Authentication and integrity checks
+<ul>
+<li>Data is sent from the user you think it's sent from.</li>
+<li>It's not altered.</li>
+<li>Something is done to prevent replay attacks.</li>
+
+</ul></li>
+<li>Encryption &#x2013; anything between is secured.</li>
+<li>Key management &#x2013; secure exchange of keys to encrypt.</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline8">
+<h3 id="orgheadline8">Motivation</h3>
+<p>
+Companies often want private networks for security.
+</p>
+<ol>
+<li>Physical local network &#x2013; expensive. Separate routers, links,
+DNS infrastructure.</li>
+<li>VPN &#x2013; all traffic is sent over the Internet, encrypted outside
+of local networks, logically separated from the other traffic.</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline9">
+<h3 id="orgheadline9">Benefits of IPsec:</h3>
+<ol>
+<li>Absolutely transparent to applications:
+<ul>
+<li>No need to have explicit authentication system as it's done in
+VPN solutions (which includes issuing auth info and then
+revoking it when, for example, employee leaves organization).</li>
+<li>Software independence &#x2013; IPsec is implemented on OS level and
+routers don't have much to do with one's userspace (compare
+with (SSL-/SSH-/PGP-based VPN system).</li>
+
+</ul></li>
+<li>Adding cool features to routing architecture (can ensure that
+router and neighbour advertisements come from authorized
+routers; same for redirect messages, routing updates)</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline10">
+<h3 id="orgheadline10">IP Header</h3>
+
+<div class="figure">
+<p><img src="./ip_header.gif" alt="ip_header.gif" style="border:none; box-shadow:none; margin-right:20px; float:left; width: 36%;" />
+</p>
+</div>
+
+<ul style="float:right; width:55%; font-size:70%;">
+<li><code>ver = 4</code>. IPsec supports IPv6 as well, but it won't be covered
+in this lecture.</li>
+<li><code>hlen</code> &#x2013; length of header (minimum 5, can be more to include ip options).</li>
+<li><code>pkt len</code> &#x2013; length of payload (up to \(2^{16}\) bytes).</li>
+<li><code>ID</code>, <code>frag offset</code> &#x2013; fragmentation-related fields.</li>
+<li><code>proto</code> &#x2013; protocol of carried data.</li>
+<li>Checksum is non-secure trivial algorithm (fast &amp; simple tho).</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline11">
+<h3 id="orgheadline11">Proto codes</h3>
+<p style="font-size: 80%;">
+Defined by Internet Assigned Numbers Authority (IANA): <a href="https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers" style="font-size: 80%;">Full list</a>
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides" style="font-size: 70%;">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">Protocol code</th>
+<th scope="col" class="org-left">Protocol Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">1</td>
+<td class="org-left">ICMP — Internet Control Message Protocol</td>
+</tr>
+
+<tr>
+<td class="org-right">2</td>
+<td class="org-left">IGMP — Internet Group Management Protocol</td>
+</tr>
+
+<tr>
+<td class="org-right">4</td>
+<td class="org-left">IP within IP (a kind of encapsulation)</td>
+</tr>
+
+<tr>
+<td class="org-right">6</td>
+<td class="org-left">TCP — Transmission Control Protocol</td>
+</tr>
+
+<tr>
+<td class="org-right">17</td>
+<td class="org-left">UDP — User Datagram Protocol</td>
+</tr>
+
+<tr>
+<td class="org-right">41</td>
+<td class="org-left">IPv6 — next-generation TCP/IP</td>
+</tr>
+
+<tr>
+<td class="org-right">47</td>
+<td class="org-left">GRE — Generic Router Encapsulation (used by PPTP)</td>
+</tr>
+
+<tr>
+<td class="org-right">50</td>
+<td class="org-left">IPsec: ESP — Encapsulating Security Payload</td>
+</tr>
+
+<tr>
+<td class="org-right">51</td>
+<td class="org-left">IPsec: AH — Authentication Header</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline12">
+<h3 id="orgheadline12">IPsec protocol types</h3>
+<ul>
+<li>Authentication Header (AH) protocol:
+<ul>
+<li>Source authentication, data integrity</li>
+
+</ul></li>
+<li>Encapsulation Security Protocol (ESP)
+<ul>
+<li>Authentication, integrity, confidentiality</li>
+<li>Much more popular</li>
+
+</ul></li>
+<li>Host/transport mode &#x2013; data is exchanged between two hosts.</li>
+<li>Tunnel mode &#x2013; inner payload is IP datagram, so after it's
+unwrapped (decrypted, checked), it's sent to the destination ip.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline13">
+<h3 id="orgheadline13">Four combinations of protocol modes</h3>
+
+<div class="figure">
+<p><img src="./ipsec_modes.png" alt="ipsec_modes.png" style="border:none; box-shadow:none; width: 90%;" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline14">
+<h3 id="orgheadline14">Authentication header</h3>
+
+<div class="figure">
+<p><img src="./ipsec_ah.gif" alt="ipsec_ah.gif" style="border:none; box-shadow:none; float:center; width: 32%" />
+</p>
+</div>
+
+<ul style="font-size:70%;">
+<li><code>next hdr</code> &#x2013; protocol type of the payload.</li>
+<li><code>reserved</code> &#x2013; must be filled by zero by sender, ignored by
+recepient. For the future use.</li>
+<li><code>SPI</code> &#x2013; value used to identify the security association. That
+implies a choose of hash algorithm, secret data and other
+parameters.</li>
+<li><code>Sequence number</code> &#x2013; antireplay protection, included in the
+Authentication Data</li>
+<li><code>Authentication Data</code> &#x2013; hash of many packet fields (including
+both payload and IP headers).</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline15">
+<h3 id="orgheadline15">Security associations (SA)</h3>
+<ul style="font-size:80%;">
+<li>Establishment of shared security atributes between two
+entities. <i>Simplex</i> (one-way).</li>
+<li>Unlike IP, IPsec is connection-oriented.</li>
+<li>SA is uniquely identified by the following tuple: \(SA ~ (SPI, IPdest, protId)\)
+<ul>
+<li>SPI (Security Parameters Index): local significance id of SA
+set on receiver side.</li>
+<li>IPDest &#x2013; router address, broadcast,..</li>
+<li>\(protId \in \{AH, ESP\}\)</li>
+
+</ul></li>
+<li>Internet Key Exchange (IKE) is a protocol used for setting SA.</li>
+<li>Security Association Database (SAD) &#x2013; local database that stores
+\(≈ 2n\) entries for \(n\) neighbours (\(n\) for sending, \(n\) for
+receiving).</li>
+
+</ul>
+
+</section>
+<section>
+<p>
+Parameters associated with SA:
+</p>
+<ul>
+<li>AH/ESP Information &#x2013; authentication, encryption methods and
+algorithms, keys, their lifetimes.</li>
+<li>Sequence number counter.</li>
+<li>Lifetime of the SA.</li>
+<li>IPsec protocol mode (tunnel/transport).</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline16">
+<h3 id="orgheadline16">IPsec AH Transport mode</h3>
+
+<div class="figure">
+<p><img src="./ipsec_ah_transport.gif" alt="ipsec_ah_transport.gif" height="540" style="border:none; box-shadow:none; float:center;" />
+</p>
+</div>
+</section>
+<section>
+<ul>
+<li>Just a secure IP connection, no tunneling.</li>
+<li>Unwrap the packet, replace <code>proto</code> field of IP package and you're
+ready.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline17">
+<h3 id="orgheadline17">IPSec AH Tunnell mode</h3>
+
+<div class="figure">
+<p><img src="./ipsec_ah_tunnel.gif" alt="ipsec_ah_tunnel.gif" height="600" style="border:none; box-shadow:none; float:center;" />
+</p>
+</div>
+</section>
+<section>
+<ul>
+<li>Fair tunnel mode.</li>
+<li>Authentication Data secures whole encapsulated IP datagram.</li>
+<li>After the packet is processed and unpacked, it's routed
+elsewhere.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline18">
+<h3 id="orgheadline18">Transport/tunnel difference</h3>
+<ul>
+<li>There's no explicit mode field in IPsec. What distinguishes modes
+is <code>next</code> field in IPsec header.</li>
+<li>Any value that doesn't equal <code>IP</code> (e.g. <code>TCP</code>, <code>ICMP</code>, <code>UDP</code>) is
+transport mode.</li>
+<li>Top level of IP datagram doesn't change \(⇒\) intermediate routers
+treat all kinds of IPsec/AH traffic identically without deeper
+inspection.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline19">
+<h3 id="orgheadline19">Authentication algorithms</h3>
+<ul>
+<li>AH carries Integrity Check Value in Authentication Data field of
+the header. It's usually MD5 or SHA1.</li>
+<li>Because users share keys with the help of CA, they can use wider
+range of crypto algorithms. HMAC (Hashed Message Authentication
+Code) is popular one.</li>
+<li>HMAC computes hash given message and a shared symmetric secret
+key, so noone without its knowledge can check the hash.</li>
+
+</ul>
+
+</section>
+<section>
+
+<div class="figure">
+<p><img src="./ipsec_hmac.png" alt="ipsec_hmac.png" height="500" style="border:none; box-shadow:none; float:center;" />
+</p>
+</div>
+
+</section>
+<section>
+
+<div class="figure">
+<p><img src="./ipsec_hmac.gif" alt="ipsec_hmac.gif" height="600" style="border:none; box-shadow:none; float:center;" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline20">
+<h3 id="orgheadline20">AH/Nat incompatibility</h3>
+
+<div class="figure">
+<p><img src="./ipsec_ah_nat.gif" alt="ipsec_ah_nat.gif" style="border:none; box-shadow:none; margin-right:20px; float:right; width: 36%;" />
+</p>
+</div>
+
+<ul style="float:left; width:55%; font-size:75%;">
+<li>TTL is <i>always</i> changed so it's not included into Authentication
+Data field. Header checksum is re-calculated on hop, it's not in
+the AD field either.</li>
+<li>NAT requires IP source/destination rewriting, but they are
+included into Authentication Data.</li>
+<li>Therefore AH in both transport and tunnel modes is completely
+incompatible with NAT</li>
+<li>ESP handles NAT way better, but it's still challenging (e.g. NAT
+requires TCP info which is encrypted and thus not accessible).</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline21">
+<h3 id="orgheadline21">How does it work</h3>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline22">
+<h3 id="orgheadline22">Tunneling mode</h3>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline23">
+<h3 id="orgheadline23">VPN</h3>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline27">
+<h2 id="orgheadline27">TLS/SSL</h2>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline25">
+<h3 id="orgheadline25">Blablabla</h3>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline26">
+<h3 id="orgheadline26">Kekeke</h3>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline32">
+<h2 id="orgheadline32">Testing</h2>
+<ul>
+<li>I rolled in.</li>
+<li>I will shrink.</li>
+<li><p>
+I will grow.
+</p></li>
+<li>I will fade out.</li>
+<li>I don't fragment.</li>
+
+</ul>
+
+<p>
+Different levels &#x2013; different encryption mechanisms:
+</p>
+<ul>
+<li>IPsec</li>
+<li>TLS</li>
+<li>GPG over email</li>
+
+</ul>
+<aside class="notes">
+<p>
+Enter speaker notes here.
+</p>
+
+</aside>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline28">
+<h3 id="orgheadline28">Picture test</h3>
+
+<div class="figure">
+<p><img src="./pic.jpg" alt="pic.jpg" height="450" title="Action!" align="center" />
+</p>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline29">
+<h3 id="orgheadline29">Introduction</h3>
+<p>
+Вот тут мы видим очень интересную формулу:
+</p>
+
+<p>
+\({n! \over k!(n-k)!} = {n \choose k}\)
+</p>
+
+<p>
+Такс-такс-такс
+</p>
+</section>
+<section>
+<p>
+Ха &#x2013; код на хачкеле
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-haskell"><span style="color: #8AAFFA;">main</span><span style="color: #333333;"> </span><span style="color: #A197BF;">=</span><span style="color: #333333;"> </span><span style="color: #FFA070;">do</span>
+<span style="color: #333333;">  </span>kek<span style="color: #333333;"> </span><span style="color: #A197BF;">&lt;-</span><span style="color: #333333;"> </span>getDonuts
+<span style="color: #333333;">  </span>foo<span style="color: #333333;"> </span><span style="color: #A197BF;">&lt;$&gt;</span><span style="color: #333333;"> </span>kek
+<span style="color: #333333;">  </span>undefined<span style="color: #333333;"> </span><span style="color: #868B44;">"mamka"</span>
+</pre>
+</div>
+
+<p>
+Хуяк-хуяк
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline30">
+<h3 id="orgheadline30">Some Shit</h3>
+<p>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
+pretium cursus. Mauris eget purus semper, sagittis ipsum iaculis,
+accumsan erat. Cras nisl magna, porta at rhoncus eu, iaculis a
+orci. Morbi at euismod diam. Quisque vel tempus lectus. Suspendisse
+potenti. Integer non commodo augue. In eu mauris in risus dignissim
+viverra eu ut velit. Ut iaculis ipsum orci, at semper tellus viverra
+</p>
+</section>
+<section>
+<p>
+nec. Pellentesque habitant morbi tristique senectus et netus et
+malesuada fames ac turpis egestas. Mauris aliquam dui eget magna
+maximus feugiat. Sed semper, ipsum sit amet tempus scelerisque, nisi
+lectus maximus dui, a fermentum nibh ligula non est.
+</p>
+
+<p>
+Proin nisl ipsum, consectetur ut placerat id, pulvinar ac
+diam. Maecenas sed congue risus, eget porta ex. Maecenas malesuada
+</p>
+</section>
+<section>
+<p>
+purus eu porttitor finibus. Ut cursus at massa at semper. Phasellus
+interdum maximus consequat. Sed tincidunt ipsum ac vulputate
+aliquam. Nunc ornare pharetra ipsum commodo efficitur.
+</p>
+
+<p>
+Donec non auctor leo. Maecenas et quam erat. Nulla dignissim augue in
+leo auctor placerat. Sed sodales risus vel quam convallis
+tristique. Praesent ut lorem ex. Mauris tempus, libero at rhoncus
+</p>
+</section>
+<section>
+<p>
+auctor, ante odio lobortis urna, ut aliquet mi felis id massa. Ut
+venenatis consequat mi vel vulputate. In lobortis sem vel lacinia
+cursus.
+</p>
+
+<p>
+Duis non pretium tortor. Suspendisse a aliquet magna, quis vehicula
+leo. Aenean malesuada diam nec efficitur molestie. Ut risus tortor,
+auctor ac aliquam sed, ultricies vitae felis. Cras magna enim,
+vehicula quis nibh sed, porta pharetra ipsum. Sed quis elementum
+</p>
+</section>
+<section>
+<p>
+neque. Maecenas in ex mauris. Praesent aliquet lacus sit amet viverra
+egestas. In erat nunc, malesuada pharetra tempor vel, scelerisque vel
+orci. Sed rhoncus libero ac tortor tincidunt finibus. Maecenas
+tincidunt vel dui vitae fringilla. Pellentesque volutpat velit ut arcu
+facilisis fermentum. Mauris posuere nisl metus, sit amet venenatis
+ligula fringilla ut.
+</p>
+
+<p>
+Nunc et commodo metus. Aliquam ac rutrum nunc. Fusce non vehicula
+nisl, vitae egestas libero. Curabitur nec nibh vestibulum,
+imperdiet justo sed, efficitur lorem. Fusce non lectus
+</p>
+</section>
+<section>
+<p>
+lacus. Praesent eu massa odio. Vestibulum elit diam, aliquam vel
+viverra ac, maximus id justo. Donec a mi a magna pellentesque
+volutpat. Ut cursus massa nec malesuada gravida. Interdum et
+malesuada fames ac ante ipsum primis in faucibus. Aliquam erat
+volutpat. Sed sit amet lacus nisi. Vestibulum vitae efficitur
+augue, vel accumsan nunc. Phasellus nec purus nibh.  aoeuaoeu
+aoeuaoeu aoeuaoeu aoeuaoeu aoeuaoeu aoeuaoeu aoeuaoeu aoeuaoeu
+aoeuaoeu aoeuaoeu aoeuaoeu aoeuaoeu aoeuaoeu
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline31">
+<h3 id="orgheadline31">Слайд с русским</h3>
+<p>
+Во-первых:
+</p>
+<ul>
+<li>Вы думаете что это слайд с русским языком</li>
+<li>На самом деле нет</li>
+
+</ul>
+
+<p>
+Вот еще какой-то текст
+</p>
+<ol>
+<li>И список</li>
+<li>С разной хуйней</li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-orgheadline33">
+<h2 id="orgheadline33">Материалы</h2>
+<ul>
+<li><a href="http://www.montefiore.ulg.ac.be/~leduc/cours/ISIR/GSRI-ch5.pdf">http://www.montefiore.ulg.ac.be/~leduc/cours/ISIR/GSRI-ch5.pdf</a></li>
+<li><a href="http://unixwiz.net/techtips/iguide-ipsec.html">http://unixwiz.net/techtips/iguide-ipsec.html</a></li>
+<li>[<a href="https://tools.ietf.org/html/rfc4302%5D%5BIP">https://tools.ietf.org/html/rfc4302%5D%5BIP</a> authentication header]]</li>
+<li><a href="http://unix.stackexchange.com/questions/97244/list-all-available-ssl-ca-certificates">http://unix.stackexchange.com/questions/97244/list-all-available-ssl-ca-certificates</a></li>
+<li><a href="http://serverfault.com/questions/62496/ssl-certificate-location-on-unix-linux">http://serverfault.com/questions/62496/ssl-certificate-location-on-unix-linux</a></li>
+<li><a href="http://www.zytrax.com/tech/survival/ssl.html">http://www.zytrax.com/tech/survival/ssl.html</a></li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="file:///home/volhovm/programs/reveal.js/lib/js/head.min.js"></script>
+<script src="file:///home/volhovm/programs/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+margin: 0.10,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'slide', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'file:///home/volhovm/programs/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'file:///home/volhovm/programs/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'file:///home/volhovm/programs/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'file:///home/volhovm/programs/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'file:///home/volhovm/programs/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>

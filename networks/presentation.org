@@ -1,0 +1,246 @@
+# #+LANGUAGE: en
+#+REVEAL_THEME: simple
+#+REVEAL_TRANS: slide
+#+REVEAL_HLEVEL: 2
+#+REVEAL_MARGIN: 0.1
+#+OPTIONS: num:nil
+#+OPTIONS: text-align:left
+#+OPTIONS: toc:1
+#+AUTHOR: "Mikhail Volkhov"
+#+TITLE: Network security
+
+* Disclaimer
+  I'm by no means a computer security specialist. Both these slides
+  and the lecture itself can contain pure bullshit.
+
+#  Go ask somebody
+#  else if you're not sure you're competent enough to build software
+#  that doesn't leak user's private data.
+
+  BTW these slides & plain html version are available here:
+
+  ~<TODO insert link>~
+* Network security in general
+  Network security by definition is a set of policies that are used to
+  prevent and monitor unauthorised access, misuse, ... or denial of
+  network-accessible resources.
+** Different types of attacks
+   * Passive
+     Intercepts data traveling through the network:
+     * Tapping (wiretapping)
+     * Port scanning
+   * Active
+     Intruder initates commands to disrupt network's normal state.
+     * Denial-of-service
+     * MITM (Man-in-the-middle)
+     * Injections (SQL)
+     * DNS spoofing
+     * .. lots of them
+** What do we have do to then?
+   Different attacks need different solutions. Most general advices:
+   * OS level: Using OS that is aware of last CVE updates (last
+     kernels etc). Using different environments for service
+     nodes. Hiring good system administrator.
+   * Application level sanity (e.g. blocking arbitrary user to make
+     you allocate GBs of memory on a simple HTTP request).
+   * Transport/network security: using solutions that
+     encrypt/route/mix your traffic.
+   * IT security audits. Automatic testing with audit software
+     (argmitage's hail mary etc).
+   We'll mostly speak about cryptography applications further.
+** Security on different network levels
+   #+ATTR_HTML: :height 250 :align center :style border:none; box-shadow:none;
+   [[file:./security_levels.png]]
+   * Network level security (IPsec) works with everything IP carries
+     inside (UDP, TCP, ICMP).
+   * IPsec protects /whole/ IP payload, including headers.
+   * Both are independent of content inside (payload).
+** Topics for today
+   1. IPsec: how to encrypt ip and build VPNs (network level security)
+   2. TLS/SSL: security on the transport level.
+* IPsec
+** In general
+   * Set of protocols for securing network connection on ip level.
+   * Very complicated, lots of different knobs and modes.
+   * AH (Authentication header) and ESP (Encapsulating Security
+     Payload) protocols.
+   * Wide range of cryptography primitives for auth/encryption
+     supported.
+   * Tunnel mode versus Transport mode.
+   * Manual keys exchange vs IKE.
+
+   #+REVEAL: split
+   Security on ip level encompasses three functional areas:
+   1. Authentication and integrity checks
+      * Data is sent from the user you think it's sent from.
+      * It's not altered.
+      * Something is done to prevent replay attacks.
+   2. Encryption -- anything between is secured.
+   3. Key management -- secure exchange of keys to encrypt.
+** Motivation
+   Companies often want private networks for security.
+   1. Physical local network -- expensive. Separate routers, links,
+      DNS infrastructure.
+   2. VPN -- all traffic is sent over the Internet, encrypted outside
+      of local networks, logically separated from the other traffic.
+** Benefits of IPsec:
+   1. Absolutely transparent to applications:
+      * No need to have explicit authentication system as it's done in
+        VPN solutions (which includes issuing auth info and then
+        revoking it when, for example, employee leaves organization).
+      * Software independence -- IPsec is implemented on OS level and
+        routers don't have much to do with one's userspace (compare
+        with (SSL-/SSH-/PGP-based VPN system).
+   2. Adding cool features to routing architecture (can ensure that
+      router and neighbour advertisements come from authorized
+      routers; same for redirect messages, routing updates)
+** IP Header
+   #+ATTR_HTML: :style border:none; box-shadow:none; margin-right:20px; float:left; width: 36%;
+   [[file:./ip_header.gif]]
+
+   #+ATTR_HTML: :style float:right; width:55%; font-size:70%;
+   * ~ver = 4~. IPsec supports IPv6 as well, but it won't be covered
+     in this lecture.
+   * ~hlen~ -- length of header (minimum 5, can be more to include ip options).
+   * ~pkt len~ -- length of payload (up to $2^{16}$ bytes).
+   * ~ID~, ~frag offset~ -- fragmentation-related fields.
+   * ~proto~ -- protocol of carried data.
+   * Checksum is non-secure trivial algorithm (fast & simple tho).
+** Proto codes
+   #+ATTR_HTML: :style font-size: 80%;
+   Defined by Internet Assigned Numbers Authority (IANA): [[https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers][Full list]]
+   #+ATTR_HTML: :style font-size: 70%;
+   |---------------+---------------------------------------------------|
+   | Protocol code | Protocol Description                              |
+   |---------------+---------------------------------------------------|
+   |             1 | ICMP — Internet Control Message Protocol          |
+   |             2 | IGMP — Internet Group Management Protocol         |
+   |             4 | IP within IP (a kind of encapsulation)            |
+   |             6 | TCP — Transmission Control Protocol               |
+   |            17 | UDP — User Datagram Protocol                      |
+   |            41 | IPv6 — next-generation TCP/IP                     |
+   |            47 | GRE — Generic Router Encapsulation (used by PPTP) |
+   |            50 | IPsec: ESP — Encapsulating Security Payload       |
+   |            51 | IPsec: AH — Authentication Header                 |
+   |---------------+---------------------------------------------------|
+** IPsec protocol types
+   * Authentication Header (AH) protocol:
+     * Source authentication, data integrity
+   * Encapsulation Security Protocol (ESP)
+     * Authentication, integrity, confidentiality
+     * Much more popular
+   * Host/transport mode -- data is exchanged between two hosts.
+   * Tunnel mode -- inner payload is IP datagram, so after it's
+     unwrapped (decrypted, checked), it's sent to the destination ip.
+** Four combinations of protocol modes
+   #+ATTR_HTML: :style border:none; box-shadow:none; width: 90%;
+   [[file:./ipsec_modes.png]]
+** Authentication header
+   #+ATTR_HTML: :style border:none; box-shadow:none; float:center; width: 32%
+   [[file:./ipsec_ah.gif]]
+
+   #+ATTR_HTML: :style font-size:70%;
+   * ~next hdr~ -- protocol type of the payload.
+   * ~reserved~ -- must be filled by zero by sender, ignored by
+     recepient. For the future use.
+   * ~SPI~ -- value used to identify the security association. That
+     implies a choose of hash algorithm, secret data and other
+     parameters.
+   * ~Sequence number~ -- antireplay protection, included in the
+     Authentication Data
+   * ~Authentication Data~ -- hash of many packet fields (including
+     both payload and IP headers).
+** Security associations (SA)
+   #+ATTR_HTML: :style font-size:80%;
+   * Establishment of shared security atributes between two
+     entities. /Simplex/ (one-way).
+   * Unlike IP, IPsec is connection-oriented.
+   * SA is uniquely identified by the following tuple: $SA ~ (SPI, IPdest, protId)$
+     * SPI (Security Parameters Index): local significance id of SA
+       set on receiver side.
+     * IPDest -- router address, broadcast,..
+     * $protId \in \{AH, ESP\}$
+   * Internet Key Exchange (IKE) is a protocol used for setting SA.
+   * Security Association Database (SAD) -- local database that stores
+     $≈ 2n$ entries for $n$ neighbours ($n$ for sending, $n$ for
+     receiving).
+
+   #+REVEAL: split
+   Parameters associated with SA (lots of them):
+   * AH/ESP Information -- authentication, encryption methods and
+     algorithms, keys, their lifetimes.
+   * Sequence number counter.
+   * Lifetime of the SA.
+   * IPsec protocol mode (tunnel/transport).
+   * Routing restrictions.
+   * /Many/ key-exchange parameters.
+** IPsec AH Transport mode
+   #+ATTR_HTML: :height 540 :style border:none; box-shadow:none; float:center;
+   [[file:./ipsec_ah_transport.gif]]
+   #+REVEAL: split
+   * Just a secure IP connection, no tunneling.
+   * Unwrap the packet, replace ~proto~ field of IP package and you're
+     ready.
+** IPSec AH Tunnell mode
+   #+ATTR_HTML: :height 600 :style border:none; box-shadow:none; float:center;
+   [[file:./ipsec_ah_tunnel.gif]]
+   #+REVEAL: split
+   * Fair tunnel mode.
+   * Authentication Data secures whole encapsulated IP datagram.
+   * After the packet is processed and unpacked, it's routed
+     elsewhere.
+** Transport/tunnel difference
+   * There's no explicit mode field in IPsec. What distinguishes modes
+     is ~next~ field in IPsec header.
+   * Any value that doesn't equal ~IP~ (e.g. ~TCP~, ~ICMP~, ~UDP~) is
+     transport mode.
+   * Top level of IP datagram doesn't change $⇒$ intermediate routers
+     treat all kinds of IPsec/AH traffic identically without deeper
+     inspection.
+** Authentication algorithms
+   * AH carries Integrity Check Value in Authentication Data field of
+     the header. It's usually MD5 or SHA1.
+   * Because users share keys with the help of CA, they can use wider
+     range of crypto algorithms. HMAC (Hashed Message Authentication
+     Code) is popular one.
+   * HMAC computes hash given message and a shared symmetric secret
+     key, so noone without its knowledge can check the hash.
+
+   #+REVEAL: split
+   #+ATTR_HTML: :height 500 :style border:none; box-shadow:none; float:center;
+   [[file:./ipsec_hmac.png]]
+
+   #+REVEAL: split
+   #+ATTR_HTML: :height 600 :style border:none; box-shadow:none; float:center;
+   [[file:./ipsec_hmac.gif]]
+** AH/Nat incompatibility
+   #+ATTR_HTML: :style border:none; box-shadow:none; margin-right:20px; float:right; width: 36%;
+   [[file:./ipsec_ah_nat.gif]]
+
+   #+ATTR_HTML: :style float:left; width:55%; font-size:75%;
+   * TTL is /always/ changed so it's not included into Authentication
+     Data field. Header checksum is re-calculated on hop, it's not in
+     the AD field either.
+   * NAT requires IP source/destination rewriting, but they are
+     included into Authentication Data.
+   * Therefore AH in both transport and tunnel modes is completely
+     incompatible with NAT
+   * ESP handles NAT way better, but it's still challenging (e.g. NAT
+     requires TCP info which is encrypted and thus not accessible).
+** Encapsulating Security Payload (ESP)
+** VPN
+   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
+* TLS/SSL
+   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
+** Blablabla
+
+   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
+** Kekeke
+   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
+* Материалы
+  * http://www.montefiore.ulg.ac.be/~leduc/cours/ISIR/GSRI-ch5.pdf
+  * http://unixwiz.net/techtips/iguide-ipsec.html
+  * [https://tools.ietf.org/html/rfc4302][IP authentication header]]
+  * http://unix.stackexchange.com/questions/97244/list-all-available-ssl-ca-certificates
+  * http://serverfault.com/questions/62496/ssl-certificate-location-on-unix-linux
+  * http://www.zytrax.com/tech/survival/ssl.html
