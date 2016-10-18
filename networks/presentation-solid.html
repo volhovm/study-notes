@@ -1,53 +1,188 @@
-<!DOCTYPE html>
-<html lang="en">
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<meta charset="utf-8"/>
+<!-- 2016-10-18 Tue 16:36 -->
+<meta  http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta  name="viewport" content="width=device-width, initial-scale=1" />
 <title>Network security</title>
-<meta name="author" content="("Mikhail Volkhov")"/>
+<meta  name="generator" content="Org-mode" />
+<meta  name="author" content="&quot;Mikhail Volkhov&quot;" />
 <style type="text/css">
-.underline { text-decoration: underline; }
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  pre.src-sh:before    { content: 'sh'; }
+  pre.src-bash:before  { content: 'sh'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-R:before     { content: 'R'; }
+  pre.src-perl:before  { content: 'Perl'; }
+  pre.src-java:before  { content: 'Java'; }
+  pre.src-sql:before   { content: 'SQL'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  /*]]>*/-->
 </style>
-<link rel="stylesheet" href="file:///home/volhovm/programs/reveal.js/css/reveal.css"/>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
 
-<link rel="stylesheet" href="file:///home/volhovm/programs/reveal.js/css/theme/simple.css" id="theme"/>
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
 
 
-<!-- If the query includes 'print-pdf', include the PDF print sheet -->
-<script>
-    if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = 'file:///home/volhovm/programs/reveal.js/css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-    }
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
 </script>
-<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        displayAlign: "center",
+        displayIndent: "0em",
+
+        "HTML-CSS": { scale: 100,
+                        linebreaks: { automatic: "false" },
+                        webFont: "TeX"
+                       },
+        SVG: {scale: 100,
+              linebreaks: { automatic: "false" },
+              font: "TeX"},
+        NativeMML: {scale: 100},
+        TeX: { equationNumbers: {autoNumber: "AMS"},
+               MultLineWidth: "85%",
+               TagSide: "right",
+               TagIndent: ".8em"
+             }
+});
+</script>
+<script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
 </head>
 <body>
-<div class="reveal">
-<div class="slides">
-<section id="sec-title-slide"><h1 class="title">Network security</h1><h2 class="author">"Mikhail Volkhov"</h2><p class="date">Created: 2016-10-18 Tue 16:35</p>
-</section>
-<section id="table-of-contents">
+<div id="content">
+<h1 class="title">Network security</h1>
 <div id="table-of-contents">
 <h2>Table of Contents</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#/slide-orgheadline1">Disclaimer</a></li>
-<li><a href="#/slide-orgheadline6">Network security in general</a></li>
-<li><a href="#/slide-orgheadline27">IPsec</a></li>
-<li><a href="#/slide-orgheadline38">TLS/SSL</a></li>
-<li><a href="#/slide-orgheadline39">That's all, thank you</a></li>
-<li><a href="#/slide-orgheadline40">Resources</a></li>
+<li><a href="#orgheadline1">Disclaimer</a></li>
+<li><a href="#orgheadline2">Network security in general</a></li>
+<li><a href="#orgheadline7">IPsec</a></li>
+<li><a href="#orgheadline28">TLS/SSL</a></li>
+<li><a href="#orgheadline39">That's all, thank you</a></li>
+<li><a href="#orgheadline40">Resources</a></li>
 </ul>
 </div>
 </div>
-</section>
 
-<section>
-<section id="slide-orgheadline1">
+<div id="outline-container-orgheadline1" class="outline-2">
 <h2 id="orgheadline1">Disclaimer</h2>
+<div class="outline-text-2" id="text-orgheadline1">
 <p>
 I'm by no means a computer security specialist. Both these slides
 and the lecture itself can contain pure bullshit.
@@ -60,50 +195,46 @@ BTW these slides &amp; plain html version are available here:
 <p>
 <a href="https://github.com/volhovM/study-notes/blob/master/networks/presentation-solid.html">github:volhovm/study-notes/networks</a>
 </p>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline6" data-background="#bfceff">
-<h2 id="orgheadline6">Network security in general</h2>
+</div>
+</div>
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2">Network security in general</h2>
+<div class="outline-text-2" id="text-orgheadline2">
 <p style="float:left; font-size:75%;">
 Network security by definition is a set of policies that are used to
 prevent and monitor unauthorized access, misuse, &#x2026; or denial of
 network-accessible resources.
 </p>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline2">
-<h3 id="orgheadline2">Different types of attacks</h3>
-<ul>
+</div>
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3">Different types of attacks</h3>
+<div class="outline-text-3" id="text-orgheadline3">
+<ul class="org-ul">
 <li>Passive
 Intercepts data traveling through the network:
-<ul>
+<ul class="org-ul">
 <li>Tapping (wiretapping)</li>
 <li>Port scanning</li>
-
 </ul></li>
 <li>Active
 Intruder imitates commands to disrupt network's normal state.
-<ul>
+<ul class="org-ul">
 <li>Denial-of-service</li>
 <li>MITM (Man-in-the-middle)</li>
 <li>Injections (SQL)</li>
 <li>DNS spoofing</li>
 <li>.. lots of them</li>
-
 </ul></li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline3">
-<h3 id="orgheadline3">What do we have do to then?</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline4" class="outline-3">
+<h3 id="orgheadline4">What do we have do to then?</h3>
+<div class="outline-text-3" id="text-orgheadline4">
 <p style="font-size:95%;">
 Different attacks need different solutions. Most general advices:
 </p>
-<ul>
+<ul class="org-ul">
 <li>OS level: Using OS that is aware of last CVE updates (last
 kernels etc). Using different environments for service
 nodes. Hiring good system administrator.</li>
@@ -113,49 +244,46 @@ you allocate GBs of memory on a simple HTTP request).</li>
 encrypt/route/mix your traffic.</li>
 <li>IT security audits. Automatic testing with audit software
 (argmitage's hail mary etc).</li>
-
 </ul>
 <p>
 We'll mostly speak about cryptography applications further.
 </p>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline4">
-<h3 id="orgheadline4">Security on different network levels</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline5" class="outline-3">
+<h3 id="orgheadline5">Security on different network levels</h3>
+<div class="outline-text-3" id="text-orgheadline5">
 
 <div class="figure">
 <p><img src="./security_levels.png" alt="security_levels.png" height="250" align="center" style="border:none; box-shadow:none;" />
 </p>
 </div>
-<ul>
+<ul class="org-ul">
 <li>Network level security (IPsec) works with everything IP carries
 inside (UDP, TCP, ICMP).</li>
 <li>IPsec protects <i>whole</i> IP payload, including headers.</li>
 <li>Both are independent of content inside (payload).</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline5">
-<h3 id="orgheadline5">Topics for today</h3>
-<ol>
+</div>
+</div>
+<div id="outline-container-orgheadline6" class="outline-3">
+<h3 id="orgheadline6">Topics for today</h3>
+<div class="outline-text-3" id="text-orgheadline6">
+<ol class="org-ol">
 <li>IPsec: how to encrypt ip and build VPNs (network level security)</li>
 <li>TLS/SSL: security on the transport level.</li>
-
 </ol>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline27" data-background="#bfceff">
-<h2 id="orgheadline27">IPsec</h2>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline7">
-<h3 id="orgheadline7">In general</h3>
-<ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline7" class="outline-2">
+<h2 id="orgheadline7">IPsec</h2>
+<div class="outline-text-2" id="text-orgheadline7">
+</div>
+<div id="outline-container-orgheadline8" class="outline-3">
+<h3 id="orgheadline8">In general</h3>
+<div class="outline-text-3" id="text-orgheadline8">
+<ul class="org-ul">
 <li>Set of protocols for securing network connection on ip level.</li>
 <li>Very complicated, lots of different knobs and modes.</li>
 <li>AH (Authentication header) and ESP (Encapsulating Security
@@ -164,74 +292,66 @@ Payload) protocols.</li>
 supported.</li>
 <li>Tunnel mode versus Transport mode.</li>
 <li>Manual keys exchange vs IKE.</li>
-
 </ul>
 
-</section>
-<section>
 <p>
 Security on ip level encompasses three functional areas:
 </p>
-<ol>
+<ol class="org-ol">
 <li>Authentication and integrity checks
-<ul>
+<ul class="org-ul">
 <li>Data is sent from the user you think it's sent from.</li>
 <li>It's not altered.</li>
 <li>Something is done to prevent replay attacks.</li>
-
 </ul></li>
 <li>Encryption &#x2013; anything between is secured.</li>
 <li>Key management &#x2013; secure exchange of keys to encrypt.</li>
-
 </ol>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline8">
-<h3 id="orgheadline8">Motivation</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline9" class="outline-3">
+<h3 id="orgheadline9">Motivation</h3>
+<div class="outline-text-3" id="text-orgheadline9">
 <p>
 Companies often want private networks for security.
 </p>
-<ol>
+<ol class="org-ol">
 <li>Physical local network &#x2013; expensive. Separate routers, links,
 DNS infrastructure.</li>
 <li>VPN &#x2013; all traffic is sent over the Internet, encrypted outside
 of local networks, logically separated from the other traffic.</li>
-
 </ol>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline9">
-<h3 id="orgheadline9">Benefits of IPsec:</h3>
-<ol>
+</div>
+</div>
+<div id="outline-container-orgheadline10" class="outline-3">
+<h3 id="orgheadline10">Benefits of IPsec:</h3>
+<div class="outline-text-3" id="text-orgheadline10">
+<ol class="org-ol">
 <li>Absolutely transparent to applications:
-<ul>
+<ul class="org-ul">
 <li>No need to have explicit authentication system as it's done in
 VPN solutions (which includes issuing auth info and then
 revoking it when, for example, employee leaves organization).</li>
 <li>Software independence &#x2013; IPsec is implemented on OS level and
 routers don't have much to do with one's userspace (compare
 with (SSL-/SSH-/PGP-based VPN system).</li>
-
 </ul></li>
 <li>Adding cool features to routing architecture (can ensure that
 router and neighbour advertisements come from authorized
 routers; same for redirect messages, routing updates)</li>
-
 </ol>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline10">
-<h3 id="orgheadline10">IP Header</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline11" class="outline-3">
+<h3 id="orgheadline11">IP Header</h3>
+<div class="outline-text-3" id="text-orgheadline11">
 
 <div class="figure">
 <p><img src="./ip_header.gif" alt="ip_header.gif" style="border:none; box-shadow:none; margin-right:20px; float:left; width: 36%;" />
 </p>
 </div>
 
-<ul style="float:right; width:55%; font-size:70%;">
+<ul class="org-ul">
 <li><code>ver = 4</code>. IPsec supports IPv6 as well, but it won't be covered
 in this lecture.</li>
 <li><code>hlen</code> &#x2013; length of header (minimum 5, can be more to include ip options).</li>
@@ -239,13 +359,12 @@ in this lecture.</li>
 <li><code>ID</code>, <code>frag offset</code> &#x2013; fragmentation-related fields.</li>
 <li><code>proto</code> &#x2013; protocol of carried data.</li>
 <li>Checksum is non-secure trivial algorithm (fast &amp; simple tho).</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline11">
-<h3 id="orgheadline11">Proto codes</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline12" class="outline-3">
+<h3 id="orgheadline12">Proto codes</h3>
+<div class="outline-text-3" id="text-orgheadline12">
 <p style="font-size: 80%;">
 Defined by Internet Assigned Numbers Authority (IANA): <a href="https://en.wikipedia.org/wiki/List_of_IP_protocol_numbers" style="font-size: 80%;">Full list</a>
 </p>
@@ -310,50 +429,47 @@ Defined by Internet Assigned Numbers Authority (IANA): <a href="https://en.wikip
 </tr>
 </tbody>
 </table>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline12">
-<h3 id="orgheadline12">IPsec protocol types</h3>
-<ul>
+</div>
+</div>
+<div id="outline-container-orgheadline13" class="outline-3">
+<h3 id="orgheadline13">IPsec protocol types</h3>
+<div class="outline-text-3" id="text-orgheadline13">
+<ul class="org-ul">
 <li>Authentication Header (AH) protocol:
-<ul>
+<ul class="org-ul">
 <li>Source authentication, data integrity</li>
-
 </ul></li>
 <li>Encapsulation Security Protocol (ESP)
-<ul>
+<ul class="org-ul">
 <li>Authentication, integrity, confidentiality</li>
 <li>Much more popular</li>
-
 </ul></li>
 <li>Host/transport mode &#x2013; data is exchanged between two hosts.</li>
 <li>Tunnel mode &#x2013; inner payload is IP datagram, so after it's
 unwrapped (decrypted, checked), it's sent to the destination ip.</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline13">
-<h3 id="orgheadline13">Four combinations of protocol modes</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline14" class="outline-3">
+<h3 id="orgheadline14">Four combinations of protocol modes</h3>
+<div class="outline-text-3" id="text-orgheadline14">
 
 <div class="figure">
 <p><img src="./ipsec_modes.png" alt="ipsec_modes.png" style="border:none; box-shadow:none; width: 90%;" />
 </p>
 </div>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline14">
-<h3 id="orgheadline14">Authentication header</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline15" class="outline-3">
+<h3 id="orgheadline15">Authentication header</h3>
+<div class="outline-text-3" id="text-orgheadline15">
 
 <div class="figure">
 <p><img src="./ipsec_ah.gif" alt="ipsec_ah.gif" style="border:none; box-shadow:none; float:center; width: 32%" />
 </p>
 </div>
 
-<ul style="font-size:70%;">
+<ul class="org-ul">
 <li><code>next hdr</code> &#x2013; protocol type of the payload.</li>
 <li><code>reserved</code> &#x2013; must be filled by zero by sender, ignored by
 recipient. For the future use.</li>
@@ -364,38 +480,33 @@ parameters.</li>
 Authentication Data</li>
 <li><code>Authentication Data</code> &#x2013; hash of many packet fields (including
 both payload and IP headers).</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline15">
-<h3 id="orgheadline15">Security associations (SA)</h3>
-<ul style="font-size:80%;">
+</div>
+</div>
+<div id="outline-container-orgheadline16" class="outline-3">
+<h3 id="orgheadline16">Security associations (SA)</h3>
+<div class="outline-text-3" id="text-orgheadline16">
+<ul class="org-ul">
 <li>Establishment of shared security atributes between two
 entities. <i>Simplex</i> (one-way): one SA per algorithm/direction.</li>
 <li>Unlike IP, IPsec is connection-oriented.</li>
 <li>SA is uniquely identified by the following tuple: \(SA ~ (SPI, IPdest, protId)\)
-<ul>
+<ul class="org-ul">
 <li>SPI (Security Parameters Index): local significance id of SA
 set on receiver side.</li>
 <li>IPDest &#x2013; router address, broadcast,..</li>
 <li>\(protId \in \{AH, ESP\}\)</li>
-
 </ul></li>
 <li>Internet Key Exchange (IKE) is a protocol used for setting SA.</li>
 <li>Security Association Database (SAD) &#x2013; local database that stores
 \(≈ 2n\) entries for \(n\) neighbours (\(n\) for sending, \(n\) for
 receiving).</li>
-
 </ul>
 
-</section>
-<section>
 <p>
 Parameters associated with SA (lots of them):
 </p>
-<ul>
+<ul class="org-ul">
 <li>AH/ESP Information &#x2013; authentication, encryption methods and
 algorithms, keys, their lifetimes.</li>
 <li>Sequence number counter.</li>
@@ -403,51 +514,44 @@ algorithms, keys, their lifetimes.</li>
 <li>IPsec protocol mode (tunnel/transport).</li>
 <li>Routing restrictions.</li>
 <li><i>Many</i> key-exchange parameters.</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline16">
-<h3 id="orgheadline16">IPsec AH Transport mode</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline17" class="outline-3">
+<h3 id="orgheadline17">IPsec AH Transport mode</h3>
+<div class="outline-text-3" id="text-orgheadline17">
 
 <div class="figure">
 <p><img src="./ipsec_ah_transport.gif" alt="ipsec_ah_transport.gif" height="540" style="border:none; box-shadow:none; float:center;" />
 </p>
 </div>
-</section>
-<section>
-<ul>
+<ul class="org-ul">
 <li>Just a secure IP connection, no tunneling.</li>
 <li>Unwrap the packet, replace <code>proto</code> field of IP package and you're
 ready.</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline17">
-<h3 id="orgheadline17">IPSec AH Tunnel mode</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline18" class="outline-3">
+<h3 id="orgheadline18">IPSec AH Tunnel mode</h3>
+<div class="outline-text-3" id="text-orgheadline18">
 
 <div class="figure">
 <p><img src="./ipsec_ah_tunnel.gif" alt="ipsec_ah_tunnel.gif" height="600" style="border:none; box-shadow:none; float:center;" />
 </p>
 </div>
-</section>
-<section>
-<ul>
+<ul class="org-ul">
 <li>Fair tunnel mode.</li>
 <li>Authentication Data secures whole encapsulated IP datagram.</li>
 <li>After the packet is processed and unpacked, it's routed
 elsewhere.</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline18">
-<h3 id="orgheadline18">Transport/tunnel difference</h3>
-<ul>
+</div>
+</div>
+<div id="outline-container-orgheadline19" class="outline-3">
+<h3 id="orgheadline19">Transport/tunnel difference</h3>
+<div class="outline-text-3" id="text-orgheadline19">
+<ul class="org-ul">
 <li>There's no explicit mode field in IPsec. What distinguishes modes
 is <code>next</code> field in IPsec header.</li>
 <li>Any value that doesn't equal <code>IP</code> (e.g. <code>TCP</code>, <code>ICMP</code>, <code>UDP</code>) is
@@ -455,14 +559,13 @@ transport mode.</li>
 <li>Top level of IP datagram doesn't change \(⇒\) intermediate routers
 treat all kinds of IPsec/AH traffic identically without deeper
 inspection.</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline19">
-<h3 id="orgheadline19">Authentication algorithms</h3>
-<ul>
+</div>
+</div>
+<div id="outline-container-orgheadline20" class="outline-3">
+<h3 id="orgheadline20">Authentication algorithms</h3>
+<div class="outline-text-3" id="text-orgheadline20">
+<ul class="org-ul">
 <li>AH carries Integrity Check Value in Authentication Data field of
 the header. It's usually MD5 or SHA1.</li>
 <li>Because users share keys with the help of CA, they can use wider
@@ -470,36 +573,31 @@ range of crypto algorithms. HMAC (Hashed Message Authentication
 Code) is popular one.</li>
 <li>HMAC computes hash given message and a shared symmetric secret
 key, so noone without its knowledge can check the hash.</li>
-
 </ul>
 
-</section>
-<section>
 
 <div class="figure">
 <p><img src="./ipsec_hmac.png" alt="ipsec_hmac.png" height="500" style="border:none; box-shadow:none; float:center;" />
 </p>
 </div>
 
-</section>
-<section>
 
 <div class="figure">
 <p><img src="./ipsec_hmac.gif" alt="ipsec_hmac.gif" height="600" style="border:none; box-shadow:none; float:center;" />
 </p>
 </div>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline20">
-<h3 id="orgheadline20">AH/Nat incompatibility</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline21" class="outline-3">
+<h3 id="orgheadline21">AH/Nat incompatibility</h3>
+<div class="outline-text-3" id="text-orgheadline21">
 
 <div class="figure">
 <p><img src="./ipsec_ah_nat.gif" alt="ipsec_ah_nat.gif" style="border:none; box-shadow:none; margin-right:20px; float:right; width: 32%;" />
 </p>
 </div>
 
-<ul style="float:left; width:60%; font-size:70%;">
+<ul class="org-ul">
 <li>TTL is <i>always</i> changed so it's not included into Authentication
 Data field. Header checksum is re-calculated on hop, it's not in
 the AD field either.</li>
@@ -509,20 +607,19 @@ included into Authentication Data.</li>
 incompatible with NAT</li>
 <li>ESP handles NAT way better, but it's still challenging (e.g. NAT
 requires TCP info which is encrypted and thus not accessible).</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline21">
-<h3 id="orgheadline21">Encapsulating Security Payload (ESP)</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline22" class="outline-3">
+<h3 id="orgheadline22">Encapsulating Security Payload (ESP)</h3>
+<div class="outline-text-3" id="text-orgheadline22">
 
 <div class="figure">
 <p><img src="./ipsec_esp_w_auth.gif" alt="ipsec_esp_w_auth.gif" style="border:none; box-shadow:none; margin-right:20px; float:left; width: 32%; vertical-align:middle;" />
 </p>
 </div>
 
-<ul style="float:right; width:60%; font-size:65%; vertical-align:middle;">
+<ul class="org-ul">
 <li>Provides authenticity, integrity and confidentiality. ESP
 Auth-only or Encryption-only modes can be used (e.g. no
 Authentication data field or using <code>NULL</code> encryption algorithm),
@@ -535,44 +632,43 @@ size. <code>pad len</code> is length of a padding.</li>
 <li>Authentication Header covers ESP Header and encrypted payload.</li>
 <li>Type of payload (<code>next</code> field) is encrypted inside too. Headers
 don't reveal any info about the type.</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline22">
-<h3 id="orgheadline22">ESP Transport mode</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline23" class="outline-3">
+<h3 id="orgheadline23">ESP Transport mode</h3>
+<div class="outline-text-3" id="text-orgheadline23">
 
 <div class="figure">
 <p><img src="./ipsec_esp_transport.gif" alt="ipsec_esp_transport.gif" height="540" style="border:none; box-shadow:none;" />
 </p>
 </div>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline23">
-<h3 id="orgheadline23">ESP Tunnel mode</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline24" class="outline-3">
+<h3 id="orgheadline24">ESP Tunnel mode</h3>
+<div class="outline-text-3" id="text-orgheadline24">
 
 <div class="figure">
 <p><img src="./ipsec_esp_tunnel.gif" alt="ipsec_esp_tunnel.gif" height="540" style="border:none; box-shadow:none;" />
 </p>
 </div>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline24">
-<h3 id="orgheadline24">VPN</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline25" class="outline-3">
+<h3 id="orgheadline25">VPN</h3>
+<div class="outline-text-3" id="text-orgheadline25">
 
 <div class="figure">
 <p><img src="./ipsec_traditional_vpn.gif" alt="ipsec_traditional_vpn.gif" style="border:none; box-shadow:none; margin-right:20px; float:left; width: 30%; vertical-align:middle;" />
 </p>
 </div>
 
-<ul style="float:right; width:65%; font-size:65%;">
+<ul class="org-ul">
 <li>Purpose: join two trusted networks across an untrusted
 intermediate network.</li>
 <li>Which modes are available?
-<ol style="font-size:80%;">
+<ol class="org-ol">
 <li>ESP with authentication: doesn't authenticate mutable parts
 of IP header, applies encryption before authentication.</li>
 <li>ESP w/o authentication inside AH: authenticates mutable parts
@@ -580,10 +676,9 @@ of IP header, but 2 CA.</li>
 <li>AH inside ESP w/o authentication: authentication header is
 protected by encryption, authentication applies to the
 plaintext (no need to recompute if reencrypted).</li>
-
 </ol></li>
 <li>Which one is best?
-<ul style="font-size:80%;">
+<ul class="org-ul">
 <li>AH NAT whoop-whoop \(⇒\) definitely not the thing we want to have
 outside, so (2) is out.</li>
 <li>(3) is too complex, plus still 2 CA.</li>
@@ -592,81 +687,73 @@ outside, so (2) is out.</li>
 HMAC, anyway ESP can provide this security by wrapping IP
 datagram).</li>
 <li>Full ESP in tunnel mode is a winner.</li>
-
 </ul></li>
 <li>There are three major families of VPN in wide usage today: SSL
 (OpenVPN, Cisco's AnyConnect), IPSec (OS level, ipsec-tools,
 libre/open/strongSwan), PPTP (<a href="http://security.stackexchange.com/a/45510">Vulnerabilities list</a>).</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline25">
-<h3 id="orgheadline25">IKE in short</h3>
-<ul style="font-size:80%;">
+</div>
+</div>
+<div id="outline-container-orgheadline26" class="outline-3">
+<h3 id="orgheadline26">IKE in short</h3>
+<div class="outline-text-3" id="text-orgheadline26">
+<ul class="org-ul">
 <li>Manual establishment of IPsec SAs is impractical, so automated
 secret exchange algorithms come in handy.</li>
 <li>Authentication can be done it two ways:
-<ol>
+<ol class="org-ol">
 <li>Pre-Shared Secret (PSK): 2 SAs (authentication &amp; encryption
 keys) are generated with symmetric encrypted connection.</li>
 <li>Public Key Infrastructure (PKI) (X.509/PKCS#12 certificates +
 asymmetric cryptography) &#x2013; same as TLS handshake.</li>
-
 </ol></li>
 <li>Two-phased algorithm:
-<ol>
+<ol class="org-ol">
 <li>Establishing bi-directional IKE SA (not IPsec SA):
-<ul>
+<ul class="org-ul">
 <li>Based on DH exchange (Oakley) &#x2013; expensive, but done once.</li>
 <li>Main mode vs aggressive mode &#x2013; security/speed balance.</li>
 <li>Derives 3 keys: for phase 2, for encryption and for
 authentication.</li>
-
 </ul></li>
 <li>Using random and key from phase 1 to create IPSec shared keys
 for AH and ESP SAs. Quick, can be done often.</li>
-
 </ol></li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline26">
-<h3 id="orgheadline26">Summary</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline27" class="outline-3">
+<h3 id="orgheadline27">Summary</h3>
+<div class="outline-text-3" id="text-orgheadline27">
 <p>
 Features:
 </p>
-<ul>
+<ul class="org-ul">
 <li>IKE to establish shared keys, algorithms, SPI numbers.</li>
 <li>AH vs ESP, Tunnel vs Transport, ESP tunnel is used mostly.</li>
 <li>Security Associations (SA) &#x2013; network-level logical channel.</li>
-
 </ul>
 
 <p>
 Disadvantages:
 </p>
-<ul>
+<ul class="org-ul">
 <li>Excessive complexity of protocol \(⇒\) compatibility issues, broken
 algorithms.</li>
 <li>AH doesn't work with NAT.</li>
 <li>Authenticates host, not user.</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline38" data-background="#bfceff">
-<h2 id="orgheadline38">TLS/SSL</h2>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline28">
-<h3 id="orgheadline28">General properties</h3>
-<ul>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline28" class="outline-2">
+<h2 id="orgheadline28">TLS/SSL</h2>
+<div class="outline-text-2" id="text-orgheadline28">
+</div>
+<div id="outline-container-orgheadline29" class="outline-3">
+<h3 id="orgheadline29">General properties</h3>
+<div class="outline-text-3" id="text-orgheadline29">
+<ul class="org-ul">
 <li>Transport/application-level security protocol (encryption,
 authentication, integrity), over TCP (DTLS &#x2013; over UDP).</li>
 <li>SSL 1.0 &#x2013; 3.0 (up to 1996) &#x2013; old standards, TLS 1.0-1.2
@@ -677,17 +764,16 @@ removing support for broken older elliptic curves.</li>
 <li>Libraries: openssl (2/3 of all web servers usage), libressl
 (openssl fork), gnutls. Browsers use their own implementation
 (NSS in firefox, SChannel (proprietary) on win).</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline29">
-<h3 id="orgheadline29">Establishing a secure connection</h3>
-<ul>
+</div>
+</div>
+<div id="outline-container-orgheadline30" class="outline-3">
+<h3 id="orgheadline30">Establishing a secure connection</h3>
+<div class="outline-text-3" id="text-orgheadline30">
+<ul class="org-ul">
 <li>Client always initiates the connection.</li>
 <li>Handshake protocol, that has achieves following objectives:
-<ol>
+<ol class="org-ol">
 <li>Establish protocol variant to be used from the supported list
 (SSLv3, TLSv1, TLSv1.1, TLSv1.2). Client suggests, server
 chooses.</li>
@@ -697,16 +783,14 @@ chooses.</li>
 encryption algo. Key exchange usually uses RSA/DSA/ECC
 (expensive), so bulk data is encrypted with symmetric
 encryption algo (key is transferred using asymmetric).</li>
-
 </ol></li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline34">
-<h3 id="orgheadline34">X.509 Certificate</h3>
-<ul style="font-size:80%;">
+</div>
+</div>
+<div id="outline-container-orgheadline31" class="outline-3">
+<h3 id="orgheadline31">X.509 Certificate</h3>
+<div class="outline-text-3" id="text-orgheadline31">
+<ul class="org-ul">
 <li>Digital certificate &#x2013; handy way to state somebody owns a public
 key.</li>
 <li>Issued by Certificate Authority (CA): GlobalSign, Comodo,
@@ -719,52 +803,51 @@ found under <code>/etc/ssl/certs/ca-certificates.crt</code>. Browsers use
 their own lists.</li>
 <li>Certificates are signed by other certificates, that propagates
 trust.</li>
-
 </ul>
 
-</section>
-<section>
-<ul>
+<ul class="org-ul">
 <li>Certificates can be revoked, system holds list of revoked certs
 (CRL &#x2013; certificate revocation list). This list is held on CA
 side and updated every N (~12) hours.</li>
 <li>File format of owned keys:
-<ol>
+<ol class="org-ol">
 <li>Key is <code>.pem</code>, <code>.key</code> &#x2013; PEM format of DER, <code>.der</code> &#x2013; raw, not
 widely used. PEM is ascii shielded.</li>
 <li>Certificate is <code>.crt</code>, <code>.cer</code>, <code>.pem</code>, <code>.der</code> or <code>.p12</code>.</li>
 <li>Files can be encrypted (private with AES) or unencrypted.</li>
 <li>Sometimes cert chain is also attached.</li>
-
 </ol></li>
-
 </ul>
-</section>
-<section id="slide-orgheadline30">
-<h4 id="orgheadline30">Obtaining certificate</h4>
-<ol>
+</div>
+<div id="outline-container-orgheadline32" class="outline-4">
+<h4 id="orgheadline32">Obtaining certificate</h4>
+<div class="outline-text-4" id="text-orgheadline32">
+<ol class="org-ol">
 <li>User generates keypair and requests CA server.</li>
 <li>CA responds with its certificate.</li>
 <li>User collects information to obtain cert: email address,
 fingerprints, etc. Pays moneyz (&lt;100$ or free).</li>
 <li>User sends this data to CA signing with CA's public key.</li>
 <li>CA verifies user's data and sends this certificate to user.</li>
-
 </ol>
-</section>
-<section id="slide-orgheadline31">
-<h4 id="orgheadline31">Certificate structure</h4>
+</div>
+</div>
+<div id="outline-container-orgheadline33" class="outline-4">
+<h4 id="orgheadline33">Certificate structure</h4>
+<div class="outline-text-4" id="text-orgheadline33">
 
 <div class="figure">
 <p><img src="./x509_cert.jpg" alt="x509_cert.jpg" height="550" style="border:none; box-shadow:none;" />
 </p>
 </div>
-</section>
-<section id="slide-orgheadline32">
-<h4 id="orgheadline32">Certificate example (1)</h4>
+</div>
+</div>
+<div id="outline-container-orgheadline34" class="outline-4">
+<h4 id="orgheadline34">Certificate example (1)</h4>
+<div class="outline-text-4" id="text-orgheadline34">
 <div class="org-src-container">
 
-<pre  class="src src-haskell"><span style="color: #EF5C5F;">Certificate</span><span style="color: #8AAFFA;">:</span>
+<pre class="src src-haskell"><span style="color: #EF5C5F;">Certificate</span><span style="color: #8AAFFA;">:</span>
 <span style="color: #333333;">  </span><span style="color: #EF5C5F;">Data:</span>
 <span style="color: #333333;">   </span><span style="color: #EF5C5F;">Version:</span><span style="color: #333333;"> </span>3<span style="color: #333333;"> </span>(0x2)
 <span style="color: #333333;">   </span><span style="color: #EF5C5F;">Serial</span><span style="color: #333333;"> </span><span style="color: #EF5C5F;">Number:</span>
@@ -786,12 +869,14 @@ fingerprints, etc. Pays moneyz (&lt;100$ or free).</li>
 <span style="color: #333333;">    </span><span style="color: #EF5C5F;">Exponent:</span><span style="color: #333333;"> </span>65537<span style="color: #333333;"> </span>(0x10001)
 </pre>
 </div>
-</section>
-<section id="slide-orgheadline33">
-<h4 id="orgheadline33">Certificate example (2)</h4>
+</div>
+</div>
+<div id="outline-container-orgheadline35" class="outline-4">
+<h4 id="orgheadline35">Certificate example (2)</h4>
+<div class="outline-text-4" id="text-orgheadline35">
 <div class="org-src-container">
 
-<pre  class="src src-haskell"><span style="color: #EF5C5F;">X509v3</span><span style="color: #333333;"> </span>extensions<span style="color: #EF5C5F;">:</span>
+<pre class="src src-haskell"><span style="color: #EF5C5F;">X509v3</span><span style="color: #333333;"> </span>extensions<span style="color: #EF5C5F;">:</span>
 <span style="color: #333333;"> </span><span style="color: #EF5C5F;">X509v3</span><span style="color: #333333;"> </span><span style="color: #EF5C5F;">Basic</span><span style="color: #333333;"> </span><span style="color: #EF5C5F;">Constraints:</span>
 <span style="color: #333333;">  </span><span style="color: #EF5C5F;">CA:FALSE</span>
 <span style="color: #EF5C5F;">Netscape</span><span style="color: #333333;"> </span><span style="color: #EF5C5F;">Comment:</span>
@@ -808,55 +893,48 @@ fingerprints, etc. Pays moneyz (&lt;100$ or free).</li>
 <span style="color: #333333;"> </span>b8<span style="color: #EF5C5F;">:</span>74
 </pre>
 </div>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline35">
-<h3 id="orgheadline35">TLS handshake</h3>
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline36" class="outline-3">
+<h3 id="orgheadline36">TLS handshake</h3>
+<div class="outline-text-3" id="text-orgheadline36">
 
 <div class="figure">
 <p><img src="./tls_handshake.png" alt="tls_handshake.png" height="550" style="border:none; box-shadow:none;" />
 </p>
 </div>
 
-</section>
-<section>
-<ul style="font-size: 90%;">
+<ul class="org-ul">
 <li>ClientHello: list of protocol versions/variants supported, the
 supported cipher suites in preferred order and a list of
 compression algorithms (typically NULL).</li>
 <li>ServerHello
-<ul>
+<ul class="org-ul">
 <li>Returns the selected protocol variant/version number, cipher
 suite and compression algorithm.</li>
 <li>Also sends 32 byte nonce to compute symmetric keys.</li>
 <li>Creates a session ID if it was 0 in ClientHello, or uses
 proposed session ID if it was not recently used.</li>
-
 </ul></li>
 <li>Certificate:
-<ul>
+<ul class="org-ul">
 <li>Server sends X.509 certificate to user.</li>
 <li>Bundle or cert chain (cross-signed cert).</li>
 <li>Validation on user side.</li>
-
 </ul></li>
-
 </ul>
 
-</section>
-<section>
-<ul style="font-size: 90%;">
+<ul class="org-ul">
 <li>ServerDone: end of the server part, invites the Client to
 continue the protocol sequence.</li>
 <li>ClientKeyExchange:
-<ul>
+<ul class="org-ul">
 <li>Computes pre-master key using the server and client nonces.</li>
 <li>Client shares this key, encrypting it with server's cert
 public key.</li>
 <li>Both sides then independently compute master key. Required
 session keys are derived from it.</li>
-
 </ul></li>
 <li>ChangeCipherSpec: message that states that every subsequent
 traffic will be encrypted using selected algo. Usually
@@ -865,56 +943,54 @@ concatenated with ClientKeyExchange message.</li>
 encrypted using negotiated bulk encryption protocol. If server
 can verify it, the connection is set up. If not good, response is
 Alert.</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline36">
-<h3 id="orgheadline36">TLS record</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline37" class="outline-3">
+<h3 id="orgheadline37">TLS record</h3>
+<div class="outline-text-3" id="text-orgheadline37">
 
 <div class="figure">
 <p><img src="./tls_record.png" alt="tls_record.png" height="300" style="border:none; box-shadow:none;" />
 </p>
 </div>
 
-<ul style="font-size: 80%;">
+<ul class="org-ul">
 <li><code>content type</code> defines type of message &#x2013; handshake (22),
 application (23), alert (21).</li>
 <li><code>version</code>: SSL/TLS version.</li>
 <li><code>length</code>: the length of Payload, Mac and Padding.</li>
 <li>With application type, everything `length` covers is encrypted.</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline37">
-<h3 id="orgheadline37">TLS applications</h3>
+</div>
+</div>
+<div id="outline-container-orgheadline38" class="outline-3">
+<h3 id="orgheadline38">TLS applications</h3>
+<div class="outline-text-3" id="text-orgheadline38">
 <p>
 Everything related to data transfer itself is specific to tls
 application. Usually payload is encrypted using symmetric
 encryption scheme.
 </p>
-<ul>
+<ul class="org-ul">
 <li>HTTPS: 45% of page loads uses it (measured by Firefox Telemetry)</li>
 <li>Mail over TLS: SMTPS, POP3S, IMAPS</li>
 <li>File Transfer Protocol (FTP) over TLS: FTPS</li>
 <li>Secure web sockets (WSS).</li>
 <li>LDAPS to store your passwords.</li>
-
 </ul>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline39" data-background="./adyhai.jpg" data-background-size="900px" data-background-transition="slide">
+</div>
+</div>
+</div>
+<div id="outline-container-orgheadline39" class="outline-2">
 <h2 id="orgheadline39">That's all, thank you</h2>
-</section>
-</section>
-<section>
-<section id="slide-orgheadline40">
+<div class="outline-text-2" id="text-orgheadline39">
+</div>
+</div>
+<div id="outline-container-orgheadline40" class="outline-2">
 <h2 id="orgheadline40">Resources</h2>
-<ul style="font-size: 70%;">
+<div class="outline-text-2" id="text-orgheadline40">
+<ul class="org-ul">
 <li><a href="http://www.montefiore.ulg.ac.be/~leduc/cours/ISIR/GSRI-ch5.pdf">http://www.montefiore.ulg.ac.be/~leduc/cours/ISIR/GSRI-ch5.pdf</a></li>
 <li><a href="http://unixwiz.net/techtips/iguide-ipsec.html">http://unixwiz.net/techtips/iguide-ipsec.html</a></li>
 <li><a href="https://tools.ietf.org/html/rfc4302">https://tools.ietf.org/html/rfc4302</a></li>
@@ -924,47 +1000,14 @@ encryption scheme.
 <li><a href="https://www.symantec.com/connect/blogs/how-does-ssl-work-what-ssl-handshake">https://www.symantec.com/connect/blogs/how-does-ssl-work-what-ssl-handshake</a></li>
 <li><a href="https://sites.google.com/site/amitsciscozone/home/security/digital-certificates-explained">https://sites.google.com/site/amitsciscozone/home/security/digital-certificates-explained</a></li>
 <li><a href="http://blog.fourthbit.com/2014/12/23/traffic-analysis-of-an-ssl-slash-tls-session">http://blog.fourthbit.com/2014/12/23/traffic-analysis-of-an-ssl-slash-tls-session</a></li>
-
 </ul>
-</section>
-</section>
 </div>
 </div>
-<script src="file:///home/volhovm/programs/reveal.js/lib/js/head.min.js"></script>
-<script src="file:///home/volhovm/programs/reveal.js/js/reveal.js"></script>
-
-<script>
-// Full list of configuration options available here:
-// https://github.com/hakimel/reveal.js#configuration
-Reveal.initialize({
-
-controls: true,
-progress: true,
-history: false,
-center: true,
-slideNumber: 'c',
-rollingLinks: false,
-keyboard: true,
-overview: true,
-margin: 0.10,
-
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'slide', // default/cube/page/concave/zoom/linear/fade/none
-transitionSpeed: 'default',
-multiplex: {
-    secret: '', // null if client
-    id: '', // id, obtained from socket.io server
-    url: '' // Location of socket.io server
-},
-
-// Optional libraries used to extend on reveal.js
-dependencies: [
- { src: 'file:///home/volhovm/programs/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
- { src: 'file:///home/volhovm/programs/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: 'file:///home/volhovm/programs/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: 'file:///home/volhovm/programs/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: 'file:///home/volhovm/programs/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
-});
-</script>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: "Mikhail Volkhov"</p>
+<p class="date">Created: 2016-10-18 Tue 16:36</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
 </body>
 </html>

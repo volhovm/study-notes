@@ -1,4 +1,4 @@
-# #+LANGUAGE: en
+#+LANGUAGE: en
 #+REVEAL_THEME: simple
 #+REVEAL_TRANS: slide
 #+REVEAL_HLEVEL: 2
@@ -19,10 +19,16 @@
 
   BTW these slides & plain html version are available here:
 
-  ~<TODO insert link>~
+  [[https://github.com/volhovM/study-notes/blob/master/networks/presentation-solid.html][github:volhovm/study-notes/networks]]
 * Network security in general
+  :PROPERTIES:
+  :reveal_background: #bfceff
+  :END:
+
+
+  #+ATTR_HTML: :style float:left; font-size:75%;
   Network security by definition is a set of policies that are used to
-  prevent and monitor unauthorised access, misuse, ... or denial of
+  prevent and monitor unauthorized access, misuse, ... or denial of
   network-accessible resources.
 ** Different types of attacks
    * Passive
@@ -30,13 +36,14 @@
      * Tapping (wiretapping)
      * Port scanning
    * Active
-     Intruder initates commands to disrupt network's normal state.
+     Intruder imitates commands to disrupt network's normal state.
      * Denial-of-service
      * MITM (Man-in-the-middle)
      * Injections (SQL)
      * DNS spoofing
      * .. lots of them
 ** What do we have do to then?
+   #+ATTR_HTML: :style font-size:95%;
    Different attacks need different solutions. Most general advices:
    * OS level: Using OS that is aware of last CVE updates (last
      kernels etc). Using different environments for service
@@ -59,6 +66,9 @@
    1. IPsec: how to encrypt ip and build VPNs (network level security)
    2. TLS/SSL: security on the transport level.
 * IPsec
+  :PROPERTIES:
+  :reveal_background: #bfceff
+  :END:
 ** In general
    * Set of protocols for securing network connection on ip level.
    * Very complicated, lots of different knobs and modes.
@@ -142,18 +152,18 @@
    #+ATTR_HTML: :style font-size:70%;
    * ~next hdr~ -- protocol type of the payload.
    * ~reserved~ -- must be filled by zero by sender, ignored by
-     recepient. For the future use.
+     recipient. For the future use.
    * ~SPI~ -- value used to identify the security association. That
      implies a choose of hash algorithm, secret data and other
      parameters.
-   * ~Sequence number~ -- antireplay protection, included in the
+   * ~Sequence number~ -- anti replay protection, included in the
      Authentication Data
    * ~Authentication Data~ -- hash of many packet fields (including
      both payload and IP headers).
 ** Security associations (SA)
    #+ATTR_HTML: :style font-size:80%;
    * Establishment of shared security atributes between two
-     entities. /Simplex/ (one-way).
+     entities. /Simplex/ (one-way): one SA per algorithm/direction.
    * Unlike IP, IPsec is connection-oriented.
    * SA is uniquely identified by the following tuple: $SA ~ (SPI, IPdest, protId)$
      * SPI (Security Parameters Index): local significance id of SA
@@ -181,7 +191,7 @@
    * Just a secure IP connection, no tunneling.
    * Unwrap the packet, replace ~proto~ field of IP package and you're
      ready.
-** IPSec AH Tunnell mode
+** IPSec AH Tunnel mode
    #+ATTR_HTML: :height 600 :style border:none; box-shadow:none; float:center;
    [[file:./ipsec_ah_tunnel.gif]]
    #+REVEAL: split
@@ -214,10 +224,10 @@
    #+ATTR_HTML: :height 600 :style border:none; box-shadow:none; float:center;
    [[file:./ipsec_hmac.gif]]
 ** AH/Nat incompatibility
-   #+ATTR_HTML: :style border:none; box-shadow:none; margin-right:20px; float:right; width: 36%;
+   #+ATTR_HTML: :style border:none; box-shadow:none; margin-right:20px; float:right; width: 32%;
    [[file:./ipsec_ah_nat.gif]]
 
-   #+ATTR_HTML: :style float:left; width:55%; font-size:75%;
+   #+ATTR_HTML: :style float:left; width:60%; font-size:70%;
    * TTL is /always/ changed so it's not included into Authentication
      Data field. Header checksum is re-calculated on hop, it's not in
      the AD field either.
@@ -228,19 +238,258 @@
    * ESP handles NAT way better, but it's still challenging (e.g. NAT
      requires TCP info which is encrypted and thus not accessible).
 ** Encapsulating Security Payload (ESP)
-** VPN
-   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
-* TLS/SSL
-   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
-** Blablabla
+   #+ATTR_HTML: :style border:none; box-shadow:none; margin-right:20px; float:left; width: 32%; vertical-align:middle;
+   [[file:./ipsec_esp_w_auth.gif]]
 
-   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
-** Kekeke
-   Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi luctus
-* Материалы
+   #+ATTR_HTML: :style float:right; width:60%; font-size:65%; vertical-align:middle;
+   * Provides authenticity, integrity and confidentiality. ESP
+     Auth-only or Encryption-only modes can be used (e.g. no
+     Authentication data field or using ~NULL~ encryption algorithm),
+     but strongly discouraged. Presense/absense of Authentication Data
+     is determined by looking at SPI.
+   * Surrounds the payload rather then preceeding.
+   * ~padding~ is used for encryption algorithms to match their block
+     size. ~pad len~ is length of a padding.
+   * Different supported encryption algorithms: AES, 3DES, Blowfish.
+   * Authentication Header covers ESP Header and encrypted payload.
+   * Type of payload (~next~ field) is encrypted inside too. Headers
+     don't reveal any info about the type.
+** ESP Transport mode
+   #+ATTR_HTML: :height 540 :style border:none; box-shadow:none;
+   [[file:./ipsec_esp_transport.gif]]
+** ESP Tunnel mode
+   #+ATTR_HTML: :height 540 :style border:none; box-shadow:none;
+   [[file:./ipsec_esp_tunnel.gif]]
+** VPN
+   #+ATTR_HTML: :style border:none; box-shadow:none; margin-right:20px; float:left; width: 30%; vertical-align:middle;
+   [[file:./ipsec_traditional_vpn.gif]]
+
+   #+ATTR_HTML: :style float:right; width:65%; font-size:65%;
+   * Purpose: join two trusted networks across an untrusted
+     intermediate network.
+   * Which modes are available?
+     #+ATTR_HTML: :style font-size:80%;
+     1. ESP with authentication: doesn't authenticate mutable parts
+        of IP header, applies encryption before authentication.
+     2. ESP w/o authentication inside AH: authenticates mutable parts
+        of IP header, but 2 CA.
+     3. AH inside ESP w/o authentication: authentication header is
+        protected by encryption, authentication applies to the
+        plaintext (no need to recompute if reencrypted).
+   * Which one is best?
+     #+ATTR_HTML: :style font-size:80%;
+     * AH NAT whoop-whoop $⇒$ definitely not the thing we want to have
+       outside, so (2) is out.
+     * (3) is too complex, plus still 2 CA.
+     * In fact, IP header protection doesn't matter so much
+       (intermediate routers can't check header integrity because of
+       HMAC, anyway ESP can provide this security by wrapping IP
+       datagram).
+     * Full ESP in tunnel mode is a winner.
+   * There are three major families of VPN in wide usage today: SSL
+     (OpenVPN, Cisco's AnyConnect), IPSec (OS level, ipsec-tools,
+     libre/open/strongSwan), PPTP ([[http://security.stackexchange.com/a/45510][Vulnerabilities list]]).
+** IKE in short
+   #+ATTR_HTML: :style font-size:80%;
+   * Manual establishment of IPsec SAs is impractical, so automated
+     secret exchange algorithms come in handy.
+   * Authentication can be done it two ways:
+     1. Pre-Shared Secret (PSK): 2 SAs (authentication & encryption
+        keys) are generated with symmetric encrypted connection.
+     2. Public Key Infrastructure (PKI) (X.509/PKCS#12 certificates +
+        asymmetric cryptography) -- same as TLS handshake.
+   * Two-phased algorithm:
+     1. Establishing bi-directional IKE SA (not IPsec SA):
+        * Based on DH exchange (Oakley) -- expensive, but done once.
+        * Main mode vs aggressive mode -- security/speed balance.
+        * Derives 3 keys: for phase 2, for encryption and for
+          authentication.
+     2. Using random and key from phase 1 to create IPSec shared keys
+        for AH and ESP SAs. Quick, can be done often.
+** Summary
+   Features:
+   * IKE to establish shared keys, algorithms, SPI numbers.
+   * AH vs ESP, Tunnel vs Transport, ESP tunnel is used mostly.
+   * Security Associations (SA) -- network-level logical channel.
+
+   Disadvantages:
+   * Excessive complexity of protocol $⇒$ compatibility issues, broken
+     algorithms.
+   * AH doesn't work with NAT.
+   * Authenticates host, not user.
+* TLS/SSL
+  :PROPERTIES:
+  :reveal_background: #bfceff
+  :END:
+** General properties
+   * Transport/application-level security protocol (encryption,
+     authentication, integrity), over TCP (DTLS -- over UDP).
+   * SSL 1.0 -- 3.0 (up to 1996) -- old standards, TLS 1.0-1.2
+     current. Both refered to as SSL sometimes. TLS 1.2 is mostly
+     used, TLS 1.3 features x25519, removing md5/SHA-224 support,
+     removing support for broken older elliptic curves.
+   * /Lots/ of different supported algorithms.
+   * Libraries: openssl (2/3 of all web servers usage), libressl
+     (openssl fork), gnutls. Browsers use their own implementation
+     (NSS in firefox, SChannel (proprietary) on win).
+** Establishing a secure connection
+   * Client always initiates the connection.
+   * Handshake protocol, that has achieves following objectives:
+     1. Establish protocol variant to be used from the supported list
+        (SSLv3, TLSv1, TLSv1.1, TLSv1.2). Client suggests, server
+        chooses.
+     2. Send authentication data to user (X.509 certificate).
+     3. Establish a session ID.
+     4. Negotiate a Cipher Suite: key-exchange algo, bulk-data
+        encryption algo. Key exchange usually uses RSA/DSA/ECC
+        (expensive), so bulk data is encrypted with symmetric
+        encryption algo (key is transferred using asymmetric).
+** X.509 Certificate
+   #+ATTR_HTML: :style font-size:80%;
+   * Digital certificate -- handy way to state somebody owns a public
+     key.
+   * Issued by Certificate Authority (CA): GlobalSign, Comodo,
+     LetsEncrypt (cross-signed by IdenTrust).
+   * PKI (public key infrastructure) -- policy that regulates
+     certificate distribution and usage (including creation, web of
+     trust, revocation).
+   * Trusted CA list is maintained by application. On linux can be
+     found under ~/etc/ssl/certs/ca-certificates.crt~. Browsers use
+     their own lists.
+   * Certificates are signed by other certificates, that propagates
+     trust.
+
+   #+REVEAL: split
+   * Certificates can be revoked, system holds list of revoked certs
+     (CRL -- certificate revocation list). This list is held on CA
+     side and updated every N (~12) hours.
+   * File format of owned keys:
+     1. Key is ~.pem~, ~.key~ -- PEM format of DER, ~.der~ -- raw, not
+        widely used. PEM is ascii shielded.
+     2. Certificate is ~.crt~, ~.cer~, ~.pem~, ~.der~ or ~.p12~.
+     3. Files can be encrypted (private with AES) or unencrypted.
+     4. Sometimes cert chain is also attached.
+*** Obtaining certificate
+    1. User generates keypair and requests CA server.
+    2. CA responds with its certificate.
+    3. User collects information to obtain cert: email address,
+       fingerprints, etc. Pays moneyz (<100$ or free).
+    4. User sends this data to CA signing with CA's public key.
+    5. CA verifies user's data and sends this certificate to user.
+*** Certificate structure
+    #+ATTR_HTML: :height 550 :style border:none; box-shadow:none;
+    [[file:./x509_cert.jpg]]
+*** Certificate example (1)
+    #+BEGIN_SRC haskell
+    Certificate:
+      Data:
+       Version: 3 (0x2)
+       Serial Number:
+        bb:7c:54:9b:75:7b:28:9d
+       Signature Algorithm: sha1WithRSAEncryption
+       Issuer: C=MY, ST=STATE, O=CA COMPANY NAME, L=CITY, OU=X.509, CN=CA ROOT
+       Validity
+        Not Before: Apr 15 22:21:10 2008 GMT
+        Not After : Mar 10 22:21:10 2011 GMT
+       Subject: C=MY, ST=STATE, L=CITY, O=ONE INC, OU=IT, CN=www.example.com
+       Subject Public Key Info:
+        Public Key Algorithm: rsaEncryption
+         RSA Public Key: (1024 bit)
+          Modulus (1024 bit):
+           00:ae:19:86:44:3c:dd...
+           ...
+           99:20:b8:f7:c0:9c:e8...
+           38:c8:52:97:cc:76:c9...
+        Exponent: 65537 (0x10001)
+    #+END_SRC
+*** Certificate example (2)
+    #+BEGIN_SRC haskell
+      X509v3 extensions:
+       X509v3 Basic Constraints:
+        CA:FALSE
+      Netscape Comment:
+       OpenSSL Generated Certificate
+      X509v3 Subject Key Identifier:
+       EE:D9:4A:74:03:AC:FB...
+      X509v3 Authority Key Identifier:
+       keyid:54:0D:DE:E3:37...
+
+      Signature Algorithm: sha1WithRSAEncryption
+       52:3d:bc:bd:3f:50:92...
+       ...
+       51:35:49:8d:c3:9a:bb...
+       b8:74
+    #+END_SRC
+** TLS handshake
+   #+ATTR_HTML: :height 550 :style border:none; box-shadow:none;
+   [[file:./tls_handshake.png]]
+
+   #+REVEAL: split
+   #+ATTR_HTML: :style font-size: 90%;
+   * ClientHello: list of protocol versions/variants supported, the
+     supported cipher suites in preferred order and a list of
+     compression algorithms (typically NULL).
+   * ServerHello
+     * Returns the selected protocol variant/version number, cipher
+       suite and compression algorithm.
+     * Also sends 32 byte nonce to compute symmetric keys.
+     * Creates a session ID if it was 0 in ClientHello, or uses
+       proposed session ID if it was not recently used.
+   * Certificate:
+     * Server sends X.509 certificate to user.
+     * Bundle or cert chain (cross-signed cert).
+     * Validation on user side.
+
+   #+REVEAL: split
+   #+ATTR_HTML: :style font-size: 90%;
+   * ServerDone: end of the server part, invites the Client to
+     continue the protocol sequence.
+   * ClientKeyExchange:
+     * Computes pre-master key using the server and client nonces.
+     * Client shares this key, encrypting it with server's cert
+       public key.
+     * Both sides then independently compute master key. Required
+       session keys are derived from it.
+   * ChangeCipherSpec: message that states that every subsequent
+     traffic will be encrypted using selected algo. Usually
+     concatenated with ClientKeyExchange message.
+   * Finished: contains every previous message (sent/received)
+     encrypted using negotiated bulk encryption protocol. If server
+     can verify it, the connection is set up. If not good, response is
+     Alert.
+** TLS record
+   #+ATTR_HTML: :height 300 :style border:none; box-shadow:none;
+   [[file:./tls_record.png]]
+
+   #+ATTR_HTML: :style font-size: 80%;
+   * ~content type~ defines type of message -- handshake (22),
+     application (23), alert (21).
+   * ~version~: SSL/TLS version.
+   * ~length~: the length of Payload, Mac and Padding.
+   * With application type, everything `length` covers is encrypted.
+** TLS applications
+   Everything related to data transfer itself is specific to tls
+   application. Usually payload is encrypted using symmetric
+   encryption scheme.
+   * HTTPS: 45% of page loads uses it (measured by Firefox Telemetry)
+   * Mail over TLS: SMTPS, POP3S, IMAPS
+   * File Transfer Protocol (FTP) over TLS: FTPS
+   * Secure web sockets (WSS).
+   * LDAPS to store your passwords.
+* That's all, thank you
+  :PROPERTIES:
+  :reveal_background: ./adyhai.jpg
+  :reveal_background_size: 900px
+  :reveal_background_trans: slide
+  :END:
+* Resources
+   #+ATTR_HTML: :style font-size: 70%;
   * http://www.montefiore.ulg.ac.be/~leduc/cours/ISIR/GSRI-ch5.pdf
   * http://unixwiz.net/techtips/iguide-ipsec.html
-  * [https://tools.ietf.org/html/rfc4302][IP authentication header]]
+  * https://tools.ietf.org/html/rfc4302
   * http://unix.stackexchange.com/questions/97244/list-all-available-ssl-ca-certificates
   * http://serverfault.com/questions/62496/ssl-certificate-location-on-unix-linux
   * http://www.zytrax.com/tech/survival/ssl.html
+  * https://www.symantec.com/connect/blogs/how-does-ssl-work-what-ssl-handshake
+  * https://sites.google.com/site/amitsciscozone/home/security/digital-certificates-explained
+  * http://blog.fourthbit.com/2014/12/23/traffic-analysis-of-an-ssl-slash-tls-session
