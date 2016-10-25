@@ -1,4 +1,5 @@
 #+LANGUAGE: en
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
 #+REVEAL_THEME: simple
 #+REVEAL_TRANS: slide
 #+REVEAL_HLEVEL: 2
