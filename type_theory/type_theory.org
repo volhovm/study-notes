@@ -22,8 +22,8 @@
      http://starling.rinet.ru/~goga/tapl/tapl.pdf
   7. Денотационная семантика Лямбда-исчисления
      http://math.nsc.ru/~asm256/lambda/LambdaDec2012.pdf
-  8. The taste of linear logic
-     http://r.duckduckgo.com/l/?kh=-1&uddg=http://homepages.inf.ed.ac.uk/wadler/papers/lineartaste/lineartaste-revised.pdf
+  8. Wadler's "the taste of linear logic"
+     http://homepages.inf.ed.ac.uk/wadler/papers/lineartaste/lineartaste-revised.pdf
   9. Stanford encyclopedia -- linear logic
      http://plato.stanford.edu/entries/logic-linear/
   10. Generalizing Hindley-Milner Type Inference Algorithms
@@ -908,7 +908,7 @@
        определению [A]ρ ∈ [σ], но [σ] насыщена как тип, и по 1 пункту
        леммы о насыщенности [σ] ∈ SN. Тогда с помощью ρ = id: A = [A]ρ
        ∈ [σ] ∈ SN.
-* Ticket 6   Functions' representativity in λ→ (extended polynoms)
+* Ticket 6   Functions' representativity in λ→ (extended polynomials)
   Обозначим n~ как n-тый черчевский нумерал.
 
   h(x) - сложность типа x == количество стрелочек.
@@ -1294,17 +1294,12 @@
    (λf.<f T, f 0>) id -- не типизируется в Х-М, потому что id имеет
    простой тип
 ** Пример неполноценности Х-M
-   Есть хорошая аналогия.
-
-   Есть лохи, Клини вот и Чёрч неправы, потому что не сошли с
-   ума. Потому что число нужно записывать в Пеано. Но числа нужно
-   записывать в двоичной системе, так же удобнее. Люди, которые делают
-   список из Пеано,
+   Есть хорошая аналогия. Записывать числа нужно в бинарном виде, а не
+   в пеано.
 
    Список -- это число, которое говорит, о своей длине. Если он
    говорит о ней как о количестве единичек, то это плохой
    список. Вместо этого мы будем говорить о честных бинарных списках.
-
    Нолик означает, что происходит удвоение следующего
    разряда. Единичка -- удвоение следующего разряда и еще что-то от
    нас.

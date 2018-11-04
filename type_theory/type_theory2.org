@@ -3,7 +3,10 @@
 
 * Martin-Lof type system
 ** Источники
-   http://www.cse.chalmers.se/~bengt/papers/hlcs.pdf1
+   Martin-Lof’s Type Theory
+   B. Nordstrom, K. Petersson and J. M. Smith
+
+   http://www.cse.chalmers.se/~bengt/papers/hlcs.pdf
 ** Вступление
    Напомним всем, чем отличается конструктивный интуиционизм от
    классического подхода. Наглядная иллюстрация: конструктивное
